@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>3D-Modell – Veneers · AIXSMILE</title>
+<link rel="icon" type="image/svg+xml" href="assets/tooth-mark.svg">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./js/vendor/three/three.module.js",
+    "three/addons/controls/OrbitControls.js": "./js/vendor/three/addons/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "./js/vendor/three/addons/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "./js/vendor/three/addons/exporters/GLTFExporter.js"
+  }
+}
+</script>
+<style>
+  html, body { margin: 0; height: 100%; background: #f6f3ec; font-family: 'Inter', system-ui, sans-serif; }
+  three-d-stage:not(:defined) { visibility: hidden; }
+  three-d-stage { display: block; width: 100vw; height: 100vh; }
+  .back {
+    position: absolute; top: 20px; left: 24px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; letter-spacing: .02em;
+    color: #0b1e2c; text-decoration: none; opacity: .8;
+  }
+  .back:hover { opacity: 1; }
+  .back svg { width: 14px; height: 14px; }
+
+  .langToggle {
+    position: absolute; top: 18px; right: 20px; z-index: 2;
+    display: inline-flex; align-items: center; border: 1px solid rgba(11, 30, 44, 0.18);
+    border-radius: 999px; padding: 3px; background: rgba(255, 255, 255, 0.75); cursor: pointer; font: inherit;
+  }
+  .langToggle span {
+    position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 22px; font-size: 11px; font-weight: 600; letter-spacing: .04em;
+    color: #4f6678; transition: color .3s ease;
+  }
+  .langToggle::before {
+    content: ''; position: absolute; top: 3px; left: 3px; width: 30px; height: 22px;
+    background: #0b1e2c; border-radius: 999px; transition: transform .3s cubic-bezier(.2,.7,.2,1);
+  }
+  .langToggle[data-active="en"]::before { transform: translateX(30px); }
+  .langToggle[data-active="de"] span[data-lang="de"],
+  .langToggle[data-active="en"] span[data-lang="en"] { color: #f6f3ec; }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  AIXSMILE · Veneers
+</a>
+<button type="button" class="langToggle" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language">
+  <span data-lang="de">DE</span><span data-lang="en">EN</span>
+</button>
+<three-d-stage name="aixsmile-veneers" background="#f6f3ec" autorotate></three-d-stage>
+<script src="js/three-d-stage.js"></script>
+<script type="module">
+import { buildVeneerModel } from './js/veneer-model.js';
+const stage = document.querySelector('three-d-stage');
+let lang = localStorage.getItem('aixsmileLang') === 'en' ? 'en' : 'de';
+stage.setAttribute('lang', lang);
+document.documentElement.lang = lang;
+const langToggle = document.getElementById('langToggle');
+langToggle.setAttribute('data-active', lang);
+langToggle.addEventListener('click', () => {
+  lang = lang === 'de' ? 'en' : 'de';
+  stage.setAttribute('lang', lang);
+  document.documentElement.lang = lang;
+  langToggle.setAttribute('data-active', lang);
+  localStorage.setItem('aixsmileLang', lang);
+});
+const { THREE } = await stage.ready;
+const { root, veneers } = buildVeneerModel(THREE);
+// one shell shown lifted off, so it reads as a thin facial veneer
+const lead = veneers.find(v => v.name === 'veneer_left_central_incisor');
+lead.position.z += 0.0042;
+lead.position.y -= 0.0012;
+lead.rotation.x = -0.10;
+stage.setObject(root);
+</script>
+</body>
+</html>
