@@ -138,8 +138,8 @@
 
   header.top {
     position: fixed; inset: 0 0 auto 0; z-index: 5;
-    display: flex; justify-content: flex-end; align-items: center; gap: 24px;
-    padding: 18px 32px; background: rgba(250, 248, 244, 0.78);
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 14px 32px; background: rgba(250, 248, 244, 0.78);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
@@ -843,6 +843,31 @@
     .band--buchen .inner { grid-template-columns: 1fr; gap: 20px; }
     .bkFields { grid-template-columns: 1fr; }
   }
+
+  /* Five real cases in the first screen: proof before a single paragraph is
+     read. A row of small squares, the full viewer one tap away. */
+  .heroCases { display: block; margin: 4px 0 18px; border-bottom: 0; color: inherit; }
+  .heroCasesRow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .heroCasesRow img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--paper-2); display: block;
+    transition: transform .25s cubic-bezier(.2,.7,.2,1); }
+  .heroCases:hover img { transform: translateY(-2px); }
+  .heroCasesCap { display: block; margin-top: 8px; font-size: 12.5px; color: var(--ink-soft); }
+  .heroCasesCap b { color: var(--ink); font-weight: 600; }
+  .heroCases:hover .heroCasesCap span { color: var(--accent); }
+  @media (max-width: 560px) { .heroCasesRow { gap: 5px; } .heroCasesRow img { border-radius: 8px; } .heroCasesCap { font-size: 12px; } }
+
+  /* The practice's real wordmark (same build as the main site's BrandWordmark):
+     "IT'S TIME TO" in the brand sky-blue, AIX in ink + SMILE in sky-blue, the
+     smile-swoosh underneath. Brand blue stays brand blue on every satellite;
+     it is the one thing this page must share with aixsmile.de. */
+  .brand { display: inline-flex; flex-direction: column; line-height: 1; font-size: 22px; color: #1e1916;
+    border-bottom: 0; text-decoration: none; }
+  .brandTag { align-self: flex-end; padding-right: .5em; font-size: .26em; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #00a3e8; }
+  .brandWord { position: relative; margin-bottom: .36em; font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: .015em; line-height: 1.02; color: #1e1916; }
+  .brandSky { color: #00a3e8; }
+  .brandSwoosh { position: absolute; left: 0; right: 0; top: calc(100% + .04em); width: 100%; height: auto; overflow: visible; color: #1e1916; }
+  @media (max-width: 560px) { .brand { font-size: 17px; } }
 </style>
 </head>
 <body>
@@ -860,6 +885,12 @@
   })();
 </script>
 <header class="top">
+  <a class="brand" href="#" aria-label="AIXSMILE – nach oben">
+    <span class="brandTag">It&#8217;s time to</span>
+    <span class="brandWord">AIX<span class="brandSky">SMILE</span>
+      <svg viewBox="0 0 360 34" aria-hidden="true" class="brandSwoosh"><path d="M2 22 C 92 33 202 30 292 12 C 316 7 336 -4 352 -20 C 340 -2 322 10 296 17 C 206 39 94 41 2 22 Z" fill="currentColor"/></svg>
+    </span>
+  </a>
   <div class="controls">
     <a class="btn btnSm" href="#buchen" data-cta="book" data-i18n="nav.book">Termin buchen</a>
     <a class="btn ghost btnIcon" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call">
@@ -875,8 +906,12 @@
   <main class="copy">
     <section class="block" data-anchor>
       <p class="eyebrow" data-i18n="hero.eyebrow">Veneers in Aachen · Zahnarztpraxis AIXSMILE</p>
-      <h1 data-i18n="hero.h1">Veneers in Aachen: eine Schale aus Keramik, <em>dünner</em> als ein Fingernagel.</h1>
+      <h1 data-i18n="hero.h1">Veneers in Aachen: <em>dünner</em> als ein Fingernagel.</h1>
       <p class="lead" data-i18n="hero.lead">Scrollen Sie – und sechs Schalen legen sich Zug um Zug auf die vorbereiteten Zähne: erst die Eckzähne, zuletzt die mittleren Schneidezähne. Dabei entsteht kein neuer Zahn, nur eine neue Oberfläche – Farbe, Kontur und Lichtspiel verändern sich, während die eigene Zahnsubstanz weitgehend erhalten bleibt.</p>
+      <a class="heroCases" href="#beforeAfter" id="heroCases" data-i18n-aria="hero.casesAria">
+        <span class="heroCasesRow"><img src="assets/before-after/thumbs/1.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img1Alt" alt="" data-case="0"><img src="assets/before-after/thumbs/2.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img2Alt" alt="" data-case="1"><img src="assets/before-after/thumbs/3.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img3Alt" alt="" data-case="2"><img src="assets/before-after/thumbs/4.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img4Alt" alt="" data-case="3"><img src="assets/before-after/thumbs/5.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img5Alt" alt="" data-case="4"></span>
+        <span class="heroCasesCap"><b data-i18n="hero.casesB">5 echte Fälle aus unserer Praxis</b> <span data-i18n="hero.casesS">Vorher und nachher ansehen →</span></span>
+      </a>
       <!-- The most characteristic fact about a veneer, made tangible: a
            cross-section of three thicknesses at 20x, with a TRUE-size tick.
            CSS mm are physical units (1mm = 3.78px), so 0.4mm at 1:1 is a
@@ -1282,7 +1317,8 @@ const I18N = {
     nav: { book: 'Termin buchen', call: 'Anrufen' },
     hero: {
       eyebrow: 'Veneers in Aachen · Zahnarztpraxis AIXSMILE',
-      h1: 'Veneers in Aachen: eine Schale aus Keramik, <em>dünner</em> als ein Fingernagel.',
+      casesB: '5 echte Fälle aus unserer Praxis', casesS: 'Vorher und nachher ansehen →', casesAria: 'Vorher-Nachher-Fälle ansehen',
+      h1: 'Veneers in Aachen: <em>dünner</em> als ein Fingernagel.',
       gaugeTitle: 'Wie d\u00fcnn ist d\u00fcnn?',
       gaugeMag: (n) => `${n}-fach vergr\u00f6\u00dfert`,
       gVeneer: 'ein Veneer',
@@ -1471,7 +1507,8 @@ const I18N = {
     nav: { book: 'Book appointment', call: 'Call' },
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE dental practice',
-      h1: 'Veneers in Aachen: a shell of ceramic, <em>thinner</em> than a fingernail.',
+      casesB: '5 real cases from our practice', casesS: 'See before and after →', casesAria: 'See before-and-after cases',
+      h1: 'Veneers in Aachen: <em>thinner</em> than a fingernail.',
       gaugeTitle: 'How thin is thin?',
       gaugeMag: (n) => `magnified ${n}\u00d7`,
       gVeneer: 'a veneer',
@@ -1804,6 +1841,9 @@ const stepFigureEl = document.getElementById('stepFigure');
 const stepImagesEl = document.getElementById('stepImages');
 const galleryStacks = window.matchMedia('(max-width: 900px)');
 function placeStepSlot() {
+  // The step-photo slot is gone (its photos were the main site's); the model
+  // stays on stage on every screen, so there is nothing to move any more.
+  if (!stepFigureEl || !stepImagesEl) return;
   const host = galleryStacks.matches ? stepFigureEl : stagewrapEl;
   if (stepImagesEl.parentElement !== host) host.appendChild(stepImagesEl);
 }
@@ -2061,6 +2101,10 @@ function baSet(i) {
 document.getElementById('baPrev').addEventListener('click', () => baSet(baIdx - 1));
 document.getElementById('baNext').addEventListener('click', () => baSet(baIdx + 1));
 baSet(0);
+// hero strip: a tapped thumbnail opens exactly that case
+document.querySelectorAll('#heroCases img').forEach((im) => {
+  im.addEventListener('click', () => { baSet(Number(im.dataset.case) || 0); });
+});
 
 resize(); readScroll(); setStep(0); frame();
 </script>
