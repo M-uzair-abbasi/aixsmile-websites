@@ -12,7 +12,7 @@
 <meta property="og:title" content="Veneers Aachen – Ablauf, Materialien &amp; Beratung | AIXSMILE">
 <meta property="og:description" content="Veneers in Aachen bei AIXSMILE: Keramik oder Composite, Ablauf in fünf Schritten, ehrliche Kostenaufklärung, echte Vorher-nachher-Fälle.">
 <meta property="og:url" content="https://veneers-aachen.de/">
-<meta property="og:image" content="https://veneers-aachen.de/assets/before-after/1.jpg">
+<meta property="og:image" content="https://veneers-aachen.de/assets/doctor.jpg">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" type="image/svg+xml" href="assets/tooth-mark.svg">
 <script type="application/ld+json">
@@ -88,31 +88,32 @@
   /* The canvas is alpha:true, so --paper shows straight through as the
      3D model's backdrop. */
   :root {
-    /* Values lifted verbatim from the main site's "Ink & Mint" light theme
-       (aixsmile/app/globals.css @theme) so the two sites read as one practice:
-       warm paper/greige surfaces, deep navy ink, confident blue accent.
-       Names on the right are the main site's own token names. */
-    --paper: #efece5;         /* --color-shell   — page + stage background */
-    --paper-2: #e7e2d8;       /* --color-shell-2 — ghost-button hover */
-    --card: #f6f3ec;          /* --color-card    — lifted surfaces */
-    --foam: #d8e8f8;          /* --color-foam    — soft blue chip fill */
-    --card-cool: color-mix(in srgb, #d8e8f8 26%, #f6f3ec); /* cards lean cool against warm paper */
-    --ink: #0b1e2c;           /* --color-deep    — headings, strong text */
-    --ink-soft: #4f6678;      /* --color-muted   — eyebrows, captions, secondary */
-    --line: rgba(11, 30, 44, 0.14);
-    --text: #4f6678;          /* --color-muted   — body copy, as on the main site */
-    --accent: #1d54c4;        /* --color-teal-deep — AA-safe blue for links/small text */
+    /* This page's OWN palette (2026-09-18): porcelain paper, warm near-black
+       ink, a terracotta accent — the colour of the kiln a ceramic veneer comes
+       out of. Deliberately not the main site's navy/blue, so the two read as
+       siblings of one practice, not as a copy. Comments on the right name the
+       main-site token each value replaces. */
+    --paper: #f3f1ec;         /* --color-shell   — page + stage background */
+    --paper-2: #e9e5de;       /* --color-shell-2 — ghost-button hover */
+    --card: #faf8f4;          /* --color-card    — lifted surfaces */
+    --foam: #f1dfd3;          /* --color-foam    — soft blue chip fill */
+    --card-cool: color-mix(in srgb, #f1dfd3 30%, #faf8f4); /* cards lean cool against warm paper */
+    --ink: #1e1916;           /* --color-deep    — headings, strong text */
+    --ink-soft: #6b5f57;      /* --color-muted   — eyebrows, captions, secondary */
+    --line: rgba(30, 25, 22, 0.14);
+    --text: #5d534c;          /* --color-muted   — body copy, as on the main site */
+    --accent: #9a4322;        /* --color-teal-deep — AA-safe blue for links/small text */
     /* On a light ground "brighter on hover" LOWERS contrast - the dark theme's
        instinct inverted. --color-teal as link hover measures 3.98:1 on shell,
        under AA, so link hover darkens instead (7.75:1). The CTA still fills
        with --color-teal, where white sits on it at 4.70:1. */
-    --accent-hover: #17429c;
-    --accent-underline: rgba(29, 84, 196, 0.42);
-    --cta-hover: #2f6fe0;
+    --accent-hover: #7d361b;
+    --accent-underline: rgba(154, 67, 34, 0.42);
+    --cta-hover: #b4522c;
     /* dark tokens survive for the footer only, exactly as on the main site */
-    --footer-bg: #071421;     /* --color-ink */
-    --footer-ink: #eef0ec;    /* --color-ice */
-    --footer-soft: #8fa9c4;   /* --color-mist */
+    --footer-bg: #1a1411;     /* --color-ink */
+    --footer-ink: #f3ece6;    /* --color-ice */
+    --footer-soft: #b9a598;   /* --color-mist */
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; overflow-x: clip; }
@@ -123,7 +124,7 @@
        longer one flat fill, it lifts and settles as you travel down it */
     background-color: var(--paper);
     background-image: linear-gradient(180deg,
-      #f6f3ec 0%, #f2efe8 14%, #efece5 34%, #ebe7de 58%, #eeeae2 80%, #f4f1ea 100%);
+      #faf8f4 0%, #f6f4ef 14%, #f3f1ec 34%, #eeebe5 58%, #f1eee9 80%, #f7f5f1 100%);
     font-family: 'Inter', system-ui, sans-serif; font-weight: 400;
     font-size: 17px; line-height: 1.62; -webkit-font-smoothing: antialiased;
   }
@@ -138,7 +139,7 @@
   header.top {
     position: fixed; inset: 0 0 auto 0; z-index: 5;
     display: flex; justify-content: flex-end; align-items: center; gap: 24px;
-    padding: 18px 32px; background: rgba(246, 243, 236, 0.78);
+    padding: 18px 32px; background: rgba(250, 248, 244, 0.78);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
@@ -174,9 +175,9 @@
   .block { position: relative; }
   .block::before { content: ''; position: absolute; pointer-events: none;
     top: 50%; left: -20%; width: 76vw; height: 74vh; transform: translateY(-50%);
-    background: radial-gradient(closest-side, rgba(47, 111, 224, .055), transparent 72%); }
+    background: radial-gradient(closest-side, rgba(154, 67, 34, .06), transparent 72%); }
   .block:nth-of-type(even)::before { left: auto; right: -24%;
-    background: radial-gradient(closest-side, rgba(47, 111, 224, .038), transparent 72%); }
+    background: radial-gradient(closest-side, rgba(154, 67, 34, .04), transparent 72%); }
   /* keep copy above the glow: positioned children paint after the pseudo-element */
   .block > * { position: relative; }
 
@@ -303,6 +304,9 @@
      = a photo of that veneer type with a caption. The hidden face is inert.
      Reduced motion keeps the flip and makes it instant. */
   .flip { perspective: 1200px; min-height: 13rem; }
+  .flipStill { min-height: 13rem; }
+  .flipStill .flipInner { height: 100%; }
+  .flipStill .flipFront .materialName { padding-right: 0; }
   .flipInner { position: relative; height: 100%; transition: transform .5s cubic-bezier(.2,.7,.2,1);
     transform-style: preserve-3d; }
   .flip.is-flipped .flipInner { transform: rotateY(180deg); }
@@ -326,7 +330,7 @@
   .flipHit:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 16px; }
   .flipCaption { position: absolute; inset: auto 0 0 0; z-index: 3; pointer-events: none;
     padding: 34px 16px 14px; color: #fff;
-    background: linear-gradient(to top, rgba(11, 30, 44, .82), rgba(11, 30, 44, .35) 55%, transparent); }
+    background: linear-gradient(to top, rgba(30, 25, 22, .82), rgba(30, 25, 22, .35) 55%, transparent); }
   .flipCaption b { display: block; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 14.5px; }
   .flipCaption span { display: block; margin-top: 2px; font-size: 12px; color: rgba(255,255,255,.78); }
   .flipFront .materialName { padding-right: 40px; }
@@ -337,9 +341,9 @@
      a lit edge); composite is opaque and matte */
   .swatch { display: inline-block; width: 20px; height: 20px; border-radius: 6px; vertical-align: -3px;
     margin-right: 10px; border: 1px solid var(--line); }
-  .swatch--ceramic { background: linear-gradient(135deg, #ffffff 0%, #f6f5f1 38%, #dfe5ec 100%);
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,.95), inset -2px -2px 5px rgba(143,169,196,.28), 0 1px 2px rgba(11,30,44,.08); }
-  .swatch--composite { background: #e9e5dc; box-shadow: inset 0 0 0 1px rgba(11,30,44,.04); }
+  .swatch--ceramic { background: linear-gradient(135deg, #ffffff 0%, #f6f5f1 38%, #e9e2dc 100%);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,.95), inset -2px -2px 5px rgba(180,160,145,.28), 0 1px 2px rgba(30,25,22,.08); }
+  .swatch--composite { background: #e9e5dc; box-shadow: inset 0 0 0 1px rgba(30,25,22,.04); }
   .materialLead { font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
     color: var(--accent); margin: 0 0 12px; }
   .materialNote { margin-top: 22px; padding: 16px 18px; border-left: 2px solid var(--accent);
@@ -446,13 +450,13 @@
   .stagewrap { position: sticky; top: 0; height: 100vh; --cx: 50%; --cy: 46%;
     background:
       linear-gradient(to top, rgba(214, 204, 184, .55) 0%, rgba(224, 216, 202, .26) 22%, transparent 40%),
-      linear-gradient(to bottom, #f8f6f0 0%, #efece5 42%, #e7e2d8 74%, #e4ded0 100%); }
+      linear-gradient(to bottom, #fbf9f6 0%, #f3f1ec 42%, #e9e5de 74%, #e3ddd3 100%); }
   .stagewrap::before { content: ''; position: absolute; inset: 0; pointer-events: none;
     background-image:
-      repeating-linear-gradient(to right,  rgba(11, 30, 44, .055) 0 1px, transparent 1px 48px),
-      repeating-linear-gradient(to bottom, rgba(11, 30, 44, .055) 0 1px, transparent 1px 48px),
-      repeating-linear-gradient(to right,  rgba(29, 84, 196, .085) 0 1px, transparent 1px 192px),
-      repeating-linear-gradient(to bottom, rgba(29, 84, 196, .085) 0 1px, transparent 1px 192px);
+      repeating-linear-gradient(to right,  rgba(30, 25, 22, .055) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(to bottom, rgba(30, 25, 22, .055) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(to right,  rgba(154, 67, 34, .07) 0 1px, transparent 1px 192px),
+      repeating-linear-gradient(to bottom, rgba(154, 67, 34, .07) 0 1px, transparent 1px 192px);
     -webkit-mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%);
             mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%); }
   /* contrast pocket sits between the grid and the canvas (the canvas is alpha) */
@@ -477,9 +481,9 @@
   @media (min-width: 901px) {
     .stagewrap > .stepImages { inset: auto 9% auto 9%; top: 50%; transform: translateY(-50%);
       aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden; border: 1px solid var(--line);
-      box-shadow: 0 30px 70px -36px rgba(11, 30, 44, .45); }
+      box-shadow: 0 30px 70px -36px rgba(30, 25, 22, .45); }
     .stagewrap > .stepImages::after { border-radius: 22px;
-      background: linear-gradient(to top, rgba(11, 30, 44, .10), transparent 38%); }
+      background: linear-gradient(to top, rgba(30, 25, 22, .10), transparent 38%); }
   }
   .stepImages img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     opacity: 0; transition: opacity .6s ease;
@@ -490,16 +494,16 @@
   /* scrim: dissolves the hard vertical seam where photo meets the paper field */
   .stepImages::after { content: ''; position: absolute; inset: 0; pointer-events: none;
     background:
-      linear-gradient(to right, var(--paper) 0%, rgba(239,236,229,.55) 6%, transparent 22%),
-      linear-gradient(to top, rgba(239,236,229,.6) 0%, transparent 34%),
-      radial-gradient(120% 90% at 60% 40%, transparent 45%, rgba(239,236,229,.4) 100%); }
+      linear-gradient(to right, var(--paper) 0%, rgba(243,241,236,.55) 6%, transparent 22%),
+      linear-gradient(to top, rgba(243,241,236,.6) 0%, transparent 34%),
+      radial-gradient(120% 90% at 60% 40%, transparent 45%, rgba(243,241,236,.4) 100%); }
   .stepImages img.active { opacity: 1; }
   /* caption over the image slot: "01 / 05 · Title", on a gradient like the
      main site's from-deep/80 via-deep/35 overlay */
   .stepCounter { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
     margin: 0; padding: 34px 18px 14px; pointer-events: none;
     font-size: 13.5px; font-weight: 600; color: #fff; font-variant-numeric: tabular-nums;
-    background: linear-gradient(to top, rgba(11, 30, 44, .82), rgba(11, 30, 44, .34) 46%, transparent); }
+    background: linear-gradient(to top, rgba(30, 25, 22, .82), rgba(30, 25, 22, .34) 46%, transparent); }
   .stagewrap.mode-images .stage3d, .stagewrap.veiled .stage3d { opacity: 0; pointer-events: none; }
   .stagewrap.mode-images .stepImages { opacity: 1; pointer-events: auto; }
 
@@ -524,13 +528,13 @@
     font-size: 13px; line-height: 1.65;
     color: var(--footer-soft);
     background:
-      radial-gradient(115% 80% at 50% 0%, rgba(47, 111, 224, .10), transparent 55%),
+      radial-gradient(115% 80% at 50% 0%, rgba(154, 67, 34, .10), transparent 55%),
       var(--footer-bg);
     --line: rgba(238, 240, 236, 0.14);
     --ink: var(--footer-ink);
     --ink-soft: var(--footer-soft);
-    --accent: #8fc4f5;
-    --accent-hover: #d8e8f8;
+    --accent: #e6a98b;
+    --accent-hover: #f3d3c2;
   }
   /* One block, ragged right, no columns. Measure is held near 78ch so it reads
      as a colophon rather than a wall. */
@@ -589,7 +593,7 @@
     .stagewrap::after { content: ''; position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(to top,
         var(--paper) 0%, var(--paper) 40%,
-        rgba(239, 236, 229, .62) 52%,
+        rgba(243, 241, 236, .62) 52%,
         transparent 62%); }
     .caption, .scalebar, .hint { display: none; }
 
@@ -732,7 +736,7 @@
   /* Behandler: the one portrait on the page, off-centre, text beside it. */
   .band--doctor .inner { display: grid; grid-template-columns: minmax(180px, 260px) 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
   .portrait { aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--paper-2);
-    box-shadow: 0 30px 60px -40px rgba(11, 30, 44, .5); }
+    box-shadow: 0 30px 60px -40px rgba(30, 25, 22, .5); }
   .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .band--doctor h2 { margin-bottom: 4px; }
   .doctorRole { margin: 0 0 18px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
@@ -901,22 +905,16 @@
       <h2 data-i18n="material.h2">Keramik oder Composite.</h2>
       <p data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab &ndash; wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
       <div class="materials">
-        <div class="flip">
+        <div class="flipStill">
           <div class="flipInner">
             <div class="flipFace flipFront">
-              <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
               <p class="materialName"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></p>
               <p class="materialLead" data-i18n="material.m1Lead">Fleckenresistent und lichtdurchl&auml;ssig</p>
               <p data-i18n="material.m1Body">Keramik-Veneers sind besonders fleckenresistent, lichtdurchl&auml;ssig und bei guter Pflege &uuml;ber viele Jahre stabil. Weil Licht wie bei echtem Schmelz in die Schale eindringt, wirkt das Ergebnis lebendig statt flach.</p>
             </div>
-            <div class="flipFace flipBack" aria-hidden="true">
-              <img src="assets/materials/keramik.jpg" decoding="async" data-i18n-alt="material.m1Alt" alt="">
-              <button type="button" class="flipHit" data-flip="hide" data-i18n-aria="material.back" tabindex="-1"></button>
-              <div class="flipCaption"><b data-i18n="material.m1Full">Keramik-Veneers</b><span data-i18n="material.m1Cap">Hauchd&uuml;nne Keramikschalen (Beispielbild)</span></div>
             </div>
-          </div>
         </div>
-        <div class="flip">
+<div class="flip">
           <div class="flipInner">
             <div class="flipFace flipFront">
               <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -937,7 +935,6 @@
 
     <section class="block" id="process">
       <h2 data-i18n="process.h2">Fünf Schritte, ein Ergebnis.</h2>
-      <div class="stepFigure" id="stepFigure"></div>
       <ol class="steps">
         <li class="active"><button type="button" class="stepBtn" aria-pressed="true"><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Am Anfang steht ein Gespräch: Was genau soll sich verändern? Passend dazu wählen wir den Farbton – anhand von Mustern, die wir direkt neben Ihre eigenen Zähne halten.</p></div></button></li>
         <li><button type="button" class="stepBtn" aria-pressed="false"><i>02</i><div data-i18n="process.step2"><h3>Formvorbereitung</h3><p>Für die Schale braucht der Zahn ein wenig Platz. Meist genügt eine hauchdünne Schicht des äußeren Schmelzes, bei sehr dünnen Veneers manchmal gar keine – betäubt spüren Sie davon nichts.</p></div></button></li>
@@ -988,11 +985,6 @@
       <div class="hint" id="hint" data-i18n="hint">Scrollen</div>
     </div>
     <div class="stepImages" id="stepImages">
-      <img src="assets/steps/1-farbabstimmung.jpg" class="active" data-i18n-alt="process.step1Alt" alt="">
-      <img src="assets/steps/2-vorbereitung.jpg" data-i18n-alt="process.step2Alt" alt="">
-      <img src="assets/steps/3-planung.jpg" data-i18n-alt="process.step3Alt" alt="">
-      <img src="assets/steps/4-befestigung.jpg" data-i18n-alt="process.step4Alt" alt="">
-      <img src="assets/steps/5-kontrolle.jpg" data-i18n-alt="process.step5Alt" alt="">
       <figcaption class="stepCounter" id="stepCounter"></figcaption>
     </div>
   </div>
@@ -1055,31 +1047,9 @@
   </div>
 </section>
 
-<section class="beforeAfter" id="beforeAfter">
-  <div class="inner">
-    <h2 data-i18n="ba.h2">Vorher und nachher.</h2>
-    <p class="lede" data-i18n="ba.p">Reale Fälle aus unserer Praxis in Aachen – veröffentlicht mit freundlicher Genehmigung unserer Patientinnen und Patienten.</p>
-    <!-- One case at a time, large, with the same arrows-and-dots control as
-         the step gallery. The five-thumbnail grid mixed aspect ratios and
-         left half the row empty; a single frame gives each case its due.
-         Below the fold, so the photos are lazy. -->
-    <div class="baViewer">
-      <div class="baStage" id="baStage">
-        <img src="assets/before-after/1.jpg" class="active" loading="lazy" decoding="async" data-i18n-alt="ba.img1Alt" alt="">
-        <img src="assets/before-after/2.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img2Alt" alt="">
-        <img src="assets/before-after/3.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img3Alt" alt="">
-        <img src="assets/before-after/4.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img4Alt" alt="">
-        <img src="assets/before-after/5.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img5Alt" alt="">
-      </div>
-      <div class="stepNav baNav">
-        <button type="button" class="stepArrow" id="baPrev" data-i18n-aria="ba.prev">&#8249;</button>
-        <div class="stepDots" id="baDots"></div>
-        <button type="button" class="stepArrow" id="baNext" data-i18n-aria="ba.next">&#8250;</button>
-        <span class="baCount" id="baCount" aria-live="polite"></span>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- Vorher/Nachher: bewusst entfernt (2026-09-18). Die fünf Fälle waren dieselben
+     Dateien wie auf aixsmile.de. Der Abschnitt kommt zurück, sobald die Praxis
+     Fälle liefert, die NICHT auf der Hauptseite stehen. -->
 
 <section class="band band--kosten" id="kosten">
   <div class="inner">
@@ -1455,6 +1425,7 @@ const I18N = {
       errConsent: 'Bitte stimmen Sie der Verarbeitung Ihrer Daten zu.',
       errTaken: 'Dieser Termin wurde gerade vergeben. Bitte wählen Sie einen anderen.',
       errRate: 'Zu viele Versuche. Bitte warten Sie eine Minute.',
+      errLimit: 'Für diese Kontaktdaten sind bereits mehrere Termine gebucht. Bitte rufen Sie uns an, wenn Sie einen weiteren benötigen.',
       errGeneric: 'Die Buchung hat nicht geklappt. Bitte versuchen Sie es erneut oder buchen Sie auf aixsmile.de.',
       weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
       months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
@@ -1643,6 +1614,7 @@ const I18N = {
       errConsent: 'Please agree to the processing of your data.',
       errTaken: 'That slot has just been taken. Please choose another one.',
       errRate: 'Too many attempts. Please wait a minute.',
+      errLimit: 'Several appointments are already booked for these contact details. Please call us if you need another one.',
       errGeneric: 'The booking did not go through. Please try again or book on aixsmile.de.',
       weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -1854,10 +1826,12 @@ function updateSteps() {
   // process section is on screen. Phone: the photos are inline in the section,
   // so the model is only veiled while the step photo or a flipped material
   // card is actually passing over its band.
-  stagewrapEl.classList.toggle('mode-images', inView && !journeyLift.matches);
+  // The step photos were the main site's photos; this page keeps the model
+  // on stage during the process section instead (no shared imagery).
+  stagewrapEl.classList.remove('mode-images'); void inView;
   if (journeyLift.matches) {
     const bandTop = vpH * 0.06, bandBottom = vpH * 0.47;
-    const crossing = [stepFigureEl, ...document.querySelectorAll('.flip.is-flipped')]
+    const crossing = [stepFigureEl, ...document.querySelectorAll('.flip.is-flipped')].filter(Boolean)
       .some((el) => { const r = el.getBoundingClientRect(); return r.bottom > bandTop && r.top < bandBottom; });
     stagewrapEl.classList.toggle('veiled', crossing);
   } else {
@@ -2042,27 +2016,6 @@ document.querySelectorAll('.flip').forEach((card) => {
   card.querySelector('.flipHit').addEventListener('click', () => set(false));
 });
 
-// Before/after viewer - the step gallery's control, with its own index.
-const baImgs = Array.from(document.querySelectorAll('#baStage img'));
-const baDotsEl = document.getElementById('baDots');
-const baCountEl = document.getElementById('baCount');
-let baIdx = 0;
-const baDots = baImgs.map((_, i) => {
-  const d = document.createElement('button');
-  d.type = 'button'; d.className = 'stepDot';
-  d.addEventListener('click', () => baSet(i));
-  baDotsEl.appendChild(d);
-  return d;
-});
-function baSet(i) {
-  baIdx = (i + baImgs.length) % baImgs.length;
-  baImgs.forEach((im, k) => im.classList.toggle('active', k === baIdx));
-  baDots.forEach((d, k) => { d.classList.toggle('on', k === baIdx); d.setAttribute('aria-pressed', String(k === baIdx)); });
-  baCountEl.textContent = `${baIdx + 1} / ${baImgs.length}`;
-}
-document.getElementById('baPrev').addEventListener('click', () => baSet(baIdx - 1));
-document.getElementById('baNext').addEventListener('click', () => baSet(baIdx + 1));
-baSet(0);
 
 resize(); readScroll(); setStep(0); frame();
 </script>
@@ -2192,6 +2145,7 @@ resize(); readScroll(); setStep(0); frame();
         var err = res.body && res.body.error;
         if (err === 'taken' || err === 'past' || err === 'invalid_slot' || err === 'invalid_service') { showError(t.errTaken); time = ''; load(); }
         else if (err === 'rate_limited') showError(t.errRate);
+        else if (err === 'limit') showError(t.errLimit);
         else if (err === 'validation') showError(t.errRequired);
         else showError(t.errGeneric);
       })
