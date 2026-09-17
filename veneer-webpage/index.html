@@ -12,7 +12,7 @@
 <meta property="og:title" content="Veneers Aachen – Ablauf, Materialien &amp; Beratung | AIXSMILE">
 <meta property="og:description" content="Veneers in Aachen bei AIXSMILE: Keramik oder Composite, Ablauf in fünf Schritten, ehrliche Kostenaufklärung, echte Vorher-nachher-Fälle.">
 <meta property="og:url" content="https://veneers-aachen.de/">
-<meta property="og:image" content="https://veneers-aachen.de/assets/doctor.jpg">
+<meta property="og:image" content="https://veneers-aachen.de/assets/before-after/1.jpg">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" type="image/svg+xml" href="assets/tooth-mark.svg">
 <script type="application/ld+json">
@@ -990,6 +990,32 @@
   </div>
 </div>
 
+<section class="beforeAfter" id="beforeAfter">
+  <div class="inner">
+    <h2 data-i18n="ba.h2">Vorher und nachher.</h2>
+    <p class="lede" data-i18n="ba.p">Reale Fälle aus unserer Praxis in Aachen – veröffentlicht mit freundlicher Genehmigung unserer Patientinnen und Patienten.</p>
+    <!-- One case at a time, large, with the same arrows-and-dots control as
+         the step gallery. The five-thumbnail grid mixed aspect ratios and
+         left half the row empty; a single frame gives each case its due.
+         Below the fold, so the photos are lazy. -->
+    <div class="baViewer">
+      <div class="baStage" id="baStage">
+        <img src="assets/before-after/1.jpg" class="active" loading="lazy" decoding="async" data-i18n-alt="ba.img1Alt" alt="">
+        <img src="assets/before-after/2.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img2Alt" alt="">
+        <img src="assets/before-after/3.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img3Alt" alt="">
+        <img src="assets/before-after/4.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img4Alt" alt="">
+        <img src="assets/before-after/5.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img5Alt" alt="">
+      </div>
+      <div class="stepNav baNav">
+        <button type="button" class="stepArrow" id="baPrev" data-i18n-aria="ba.prev">&#8249;</button>
+        <div class="stepDots" id="baDots"></div>
+        <button type="button" class="stepArrow" id="baNext" data-i18n-aria="ba.next">&#8250;</button>
+        <span class="baCount" id="baCount" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="band band--buchen" id="buchen">
   <div class="inner">
     <div class="intro">
@@ -1047,9 +1073,6 @@
   </div>
 </section>
 
-<!-- Vorher/Nachher: bewusst entfernt (2026-09-18). Die fünf Fälle waren dieselben
-     Dateien wie auf aixsmile.de. Der Abschnitt kommt zurück, sobald die Praxis
-     Fälle liefert, die NICHT auf der Hauptseite stehen. -->
 
 <section class="band band--kosten" id="kosten">
   <div class="inner">
@@ -2016,6 +2039,28 @@ document.querySelectorAll('.flip').forEach((card) => {
   card.querySelector('.flipHit').addEventListener('click', () => set(false));
 });
 
+
+// Before/after viewer - the step gallery's control, with its own index.
+const baImgs = Array.from(document.querySelectorAll('#baStage img'));
+const baDotsEl = document.getElementById('baDots');
+const baCountEl = document.getElementById('baCount');
+let baIdx = 0;
+const baDots = baImgs.map((_, i) => {
+  const d = document.createElement('button');
+  d.type = 'button'; d.className = 'stepDot';
+  d.addEventListener('click', () => baSet(i));
+  baDotsEl.appendChild(d);
+  return d;
+});
+function baSet(i) {
+  baIdx = (i + baImgs.length) % baImgs.length;
+  baImgs.forEach((im, k) => im.classList.toggle('active', k === baIdx));
+  baDots.forEach((d, k) => { d.classList.toggle('on', k === baIdx); d.setAttribute('aria-pressed', String(k === baIdx)); });
+  baCountEl.textContent = `${baIdx + 1} / ${baImgs.length}`;
+}
+document.getElementById('baPrev').addEventListener('click', () => baSet(baIdx - 1));
+document.getElementById('baNext').addEventListener('click', () => baSet(baIdx + 1));
+baSet(0);
 
 resize(); readScroll(); setStep(0); frame();
 </script>
