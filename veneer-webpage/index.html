@@ -304,9 +304,6 @@
      = a photo of that veneer type with a caption. The hidden face is inert.
      Reduced motion keeps the flip and makes it instant. */
   .flip { perspective: 1200px; min-height: 13rem; }
-  .flipStill { min-height: 13rem; }
-  .flipStill .flipInner { height: 100%; }
-  .flipStill .flipFront .materialName { padding-right: 0; }
   .flipInner { position: relative; height: 100%; transition: transform .5s cubic-bezier(.2,.7,.2,1);
     transform-style: preserve-3d; }
   .flip.is-flipped .flipInner { transform: rotateY(180deg); }
@@ -560,23 +557,21 @@
        around it, instead of sitting in a band at the top that the page scrolls
        past. z-order: stage 1, copy 2, header 5. */
     .stagewrap { position: sticky; top: 0; height: 100svh; order: -1;
-      --cx: 50%; --cy: 20%; z-index: 1; }
+      --cx: 50%; --cy: 27%; z-index: 1; }
     .copy { margin-top: -100svh; position: relative; z-index: 2; }
-    /* Copy sits low so the model reads above it - the main site does the same
-       on phones (the act carries pt-[14svh] pb-24, the poster is nudged down
-       by 4svh). */
-    .block { min-height: 100svh; justify-content: flex-end;
-      padding: 34svh 0 6svh; max-width: none; }
-    /* the material act is a close-up: the model is taller there, so its copy starts lower */
-    #material { padding-top: 40svh; }
-    /* the material act is a close-up: the model is taller there, so its copy starts lower */
-    #material { padding-top: 40svh; }
+    /* The model owns the band between the header and the middle of the
+       screen; every section's copy starts at 50svh, on solid paper, and grows
+       DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
+       over the teeth instead, which is what made the copy unreadable and the
+       model half-hidden. Short sections still fill one screen (min-height). */
+    .block { min-height: 100svh; justify-content: flex-start;
+      padding: 50svh 0 8svh; max-width: none; }
     /* Phone: the gallery stacks - image above, steps below - which is the same
        relationship as the laptop's left/right, folded. The slot scrolls with
        the section; pinned in the stage it sat still while the steps ran under
        it. The process section starts from the top for the same reason it is
        taller than one screen. */
-    #process { justify-content: flex-start; padding-top: 16svh; padding-bottom: 8svh; }
+    #process { padding-bottom: 8svh; }
     .stepFigure { position: relative; width: 100%; aspect-ratio: 4 / 3;
       margin: 4px 0 6px; border-radius: 16px; overflow: hidden;
       border: 1px solid var(--line); background: var(--paper-2); }
@@ -596,9 +591,9 @@
        section scrolls up; the copy simply passes over the model's base. */
     .stagewrap::after { content: ''; position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(to top,
-        var(--paper) 0%, var(--paper) 58%,
-        rgba(243, 241, 236, .7) 65%,
-        transparent 72%); }
+        var(--paper) 0%, var(--paper) 49%,
+        rgba(243, 241, 236, .7) 53%,
+        transparent 58%); }
     .caption, .scalebar, .hint { display: none; }
 
     /* Steps, in the main site's format (components/home/FirstVisit.tsx):
@@ -659,13 +654,13 @@
     .gaugeTitle { margin-bottom: 9px; font-size: 13px; }
     .gaugeNote { margin-top: 8px; font-size: 12px; }
     /* the hero carries the gauge; it can spend a little of the model's room */
-    .block:first-child { padding-top: 33svh; }
+    .block:first-child { padding-top: 50svh; }
     .materials { gap: 12px; margin: 12px 0 0; }
     .materialName { font-size: 19px; margin: 0 0 5px; }
     .materialLead { font-size: 10px; margin: 0 0 6px; }
     .materialNote { margin-top: 10px; padding: 9px 11px; font-size: 12.5px; }
 
-    .block { padding: 33svh 0 6svh; }
+    .block { padding: 50svh 0 6svh; }
   }
 
   /* Narrow phones (<=400px): the Material section carries the most words of
@@ -674,7 +669,7 @@
      section still reads in full on one screen like it does on a laptop. */
   @media (max-width: 400px) {
     .block { padding-bottom: 5svh; }
-    .block:first-child { padding-top: 32svh; }
+    .block:first-child { padding-top: 50svh; }
     .block:first-child p.lead { font-size: 14.5px; line-height: 1.46; }
     h1 { font-size: 32px; }
     .gauge { --mag: 11mm; margin-top: 6px; padding-top: 10px; }
@@ -692,7 +687,7 @@
      <=400px width tier and wins where the two overlap. */
   @media (max-width: 560px) and (max-height: 720px) {
     /* Short phones give the model less room before the copy needs it. */
-    .block { padding: 30svh 0 5svh; }
+    .block { padding: 50svh 0 5svh; }
     .gauge { --mag: 9mm; }
     body { font-size: 14.5px; line-height: 1.46; }
     h1 { font-size: 27px; margin: 0 0 11px; }
@@ -1024,16 +1019,22 @@
       <h2 data-i18n="material.h2">Keramik oder Composite.</h2>
       <p data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
       <div class="materials">
-        <div class="flipStill">
+        <div class="flip">
           <div class="flipInner">
             <div class="flipFace flipFront">
+              <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
               <p class="materialName"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></p>
               <p class="materialLead" data-i18n="material.m1Lead">Fleckenresistent und lichtdurchl&auml;ssig</p>
               <p data-i18n="material.m1Body">Keramik-Veneers sind besonders fleckenresistent, lichtdurchl&auml;ssig und bei guter Pflege &uuml;ber viele Jahre stabil. Weil Licht wie bei echtem Schmelz in die Schale eindringt, wirkt das Ergebnis lebendig statt flach.</p>
             </div>
+            <div class="flipFace flipBack" aria-hidden="true">
+              <img src="assets/materials/keramik.jpg" decoding="async" data-i18n-alt="material.m1Alt" alt="">
+              <button type="button" class="flipHit" data-flip="hide" data-i18n-aria="material.back" tabindex="-1"></button>
+              <div class="flipCaption"><b data-i18n="material.m1Full">Keramik-Veneers</b><span data-i18n="material.m1Cap">Hauchd&uuml;nne Keramikschalen (Beispielbild)</span></div>
             </div>
+          </div>
         </div>
-<div class="flip">
+        <div class="flip">
           <div class="flipInner">
             <div class="flipFace flipFront">
               <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -1439,8 +1440,8 @@ scene.add(shadowPlane);
 const ANCHOR_KEYS = [
   { az:  -6, el: 12, dist: 0.156, seat: 0.00 }, // hero — hovering, unseated
   { az: -20, el: 14, dist: 0.140, seat: 1.00 }, // what it is — fully bonded
-  { az: -38, el: 20, dist: 0.116, seat: 1.00 }, // material — in close on the shells, reads the surface
-  { az:   4, el: 78, dist: 0.132, seat: 1.00 }, // veneer vs crown — occlusal, in on the anterior six
+  { az: -38, el: 20, dist: 0.116, phoneDist: 0.150, seat: 1.00 }, // material — in close on the shells; on a phone the close-up cropped the arch
+  { az:   4, el: 78, dist: 0.132, phoneDist: 0.180, seat: 1.00 }, // veneer vs crown — occlusal; from above the arch is tall, so a phone pulls back
   { az:  -6, el: 18, dist: 0.150, seat: 1.00 }, // suitability
   { az:   0, el: 14, dist: 0.152, seat: 1.00 }, // consult
 ];
@@ -2073,7 +2074,8 @@ function readScroll() {
   const a = ANCHOR_KEYS[i], b = ANCHOR_KEYS[i + 1];
   target.az = lerp(a.az, b.az, e);
   target.el = lerp(a.el, b.el, e);
-  target.dist = lerp(a.dist, b.dist, e);
+  const phone = journeyLift.matches;
+  target.dist = lerp(phone && a.phoneDist || a.dist, phone && b.phoneDist || b.dist, e);
   target.seat = lerp(a.seat, b.seat, e);
 
   const near = f < 0.5 ? i : i + 1;
@@ -2133,7 +2135,7 @@ let coverFrac = 0, distMul = 1;
    constant, not measured against the copy - a moving target read as the model
    vanishing at random. 0 on a laptop, where the copy is a separate column. */
 const journeyLift = window.matchMedia('(max-width: 900px)');
-const PHONE_MODEL_CENTRE = 0.20;   // fraction of the screen from the top (mobile review 2026-09-18: was .27 — headlines ran across the teeth)
+const PHONE_MODEL_CENTRE = 0.27;   // fraction of the screen from the top: the middle of the band between the header and the copy's 50svh start
 function liftFraction() { return journeyLift.matches ? 2 * (0.5 - PHONE_MODEL_CENTRE) : 0; }
 
 function updateFraming() {
@@ -2214,13 +2216,19 @@ function frame(ts) {
     d * Math.sin(el),
     d * Math.cos(el) * Math.cos(az)
   );
-  // + aims below centre (pushes the arch down, clearing the header);
-  // - aims above centre (lifts it clear of the copy on a phone).
-  camera.lookAt(0, (coverFrac - liftFraction()) * d * HALF_FOV_TAN - floatY, 0);
+  // Aim at the model, then slide the camera along its own up axis: + moves
+  // the arch down the screen (clear of the header), - moves it up (into the
+  // phone's band above the copy). Done in camera space so it works at every
+  // elevation - as a world-space aim offset it did nothing for the top-down
+  // crown view, which stayed centred and half under the copy.
+  camera.lookAt(0, 0, 0);
+  camera.translateY((coverFrac - liftFraction()) * d * HALF_FOV_TAN - floatY);
   const breathe = sway * (1 - state.seat) * 0.03 * Math.sin(idle * 2.4);
   const seat = Math.max(0, Math.min(1, state.seat + breathe));
   setSeating(seat);
-  if (Math.abs(seat - shadowSeat) > 0.003) { shadowSeat = seat; renderer.shadowMap.needsUpdate = true; }
+  // any shell movement, however small: a stale map slides across the moving
+  // shells and snaps back on refresh, which reads as the veneers flickering
+  if (seat !== shadowSeat) { shadowSeat = seat; renderer.shadowMap.needsUpdate = true; }
   renderer.render(scene, camera);
   if (fpsTick) fpsTick(ts);
   requestAnimationFrame(frame);
