@@ -566,6 +566,14 @@
        model half-hidden. Short sections still fill one screen (min-height). */
     .block { min-height: 100svh; justify-content: flex-start;
       padding: 50svh 0 8svh; max-width: none; }
+    /* Paper travels with the copy: a panel from 40px above the copy's start to
+       the section's end, fading in over those 40px, so text crossing the model
+       band on its way out is always on paper. The model shows only through
+       each section's empty top band. Tied to the scroll, not to a measurement. */
+    .block::after { content: ''; position: absolute; z-index: -1; pointer-events: none;
+      top: calc(50svh - 40px); bottom: 0; left: calc(50% - 50vw); right: calc(50% - 50vw);
+      width: auto; height: auto; border-radius: 0; filter: none;
+      background: linear-gradient(to bottom, rgba(243, 241, 236, 0) 0, var(--paper) 40px); }
     /* Phone: the gallery stacks - image above, steps below - which is the same
        relationship as the laptop's left/right, folded. The slot scrolls with
        the section; pinned in the stage it sat still while the steps ran under
