@@ -566,14 +566,13 @@
        model half-hidden. Short sections still fill one screen (min-height). */
     .block { min-height: 100svh; justify-content: flex-start;
       padding: 50svh 0 8svh; max-width: none; }
-    /* Paper travels with the copy: a panel from 40px above the copy's start to
-       the section's end, fading in over those 40px, so text crossing the model
-       band on its way out is always on paper. The model shows only through
-       each section's empty top band. Tied to the scroll, not to a measurement. */
-    .block::after { content: ''; position: absolute; z-index: -1; pointer-events: none;
-      top: calc(50svh - 40px); bottom: 0; left: calc(50% - 50vw); right: calc(50% - 50vw);
-      width: auto; height: auto; border-radius: 0; filter: none;
-      background: linear-gradient(to bottom, rgba(243, 241, 236, 0) 0, var(--paper) 40px); }
+    /* The model is never covered or faded on the phone - it runs continuously
+       behind the copy. Legibility comes from the text itself: every glyph
+       carries a paper-coloured halo, so copy crossing the teeth on its way out
+       stays readable, and body copy uses full ink instead of the muted tone. */
+    .block > :is(h1, h2, p, ul, ol, .eyebrow, .lead) {
+      text-shadow: 0 0 1px var(--paper), 0 0 5px var(--paper), 0 0 12px var(--paper), 0 0 22px var(--paper); }
+    .block > p, .block > ul, .block > ol { color: var(--ink); }
     /* Phone: the gallery stacks - image above, steps below - which is the same
        relationship as the laptop's left/right, folded. The slot scrolls with
        the section; pinned in the stage it sat still while the steps ran under
@@ -2061,14 +2060,9 @@ function updateSteps() {
   // The step photos were the main site's photos; this page keeps the model
   // on stage during the process section instead (no shared imagery).
   stagewrapEl.classList.remove('mode-images'); void inView;
-  if (journeyLift.matches) {
-    const bandTop = vpH * 0.06, bandBottom = vpH * 0.47;
-    const crossing = [stepFigureEl, ...document.querySelectorAll('.flip.is-flipped')].filter(Boolean)
-      .some((el) => { const r = el.getBoundingClientRect(); return r.bottom > bandTop && r.top < bandBottom; });
-    stagewrapEl.classList.toggle('veiled', crossing);
-  } else {
-    stagewrapEl.classList.remove('veiled');
-  }
+  // No veiling on the phone either: the model runs continuously behind the
+  // copy, and a flipped card's photo is opaque, so there is nothing to hide.
+  stagewrapEl.classList.remove('veiled');
 }
 
 function readScroll() {
