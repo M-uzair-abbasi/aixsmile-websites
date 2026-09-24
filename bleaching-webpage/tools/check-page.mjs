@@ -120,7 +120,6 @@ try {
     await page.evaluate(() => document.getElementById('buchen').scrollIntoView({ behavior: 'instant' }));
     await page.click('#bkDays .day');
     await page.click('#bkAm .time');
-    await page.click('#bkGender button');
     await page.fill('#bkFirst', 'Test'); await page.fill('#bkLast', 'Satellit');
     await page.fill('#bkPhone', '0241 0000000'); await page.fill('#bkEmail', 'test@example.org');
     await page.check('#bkConsent');

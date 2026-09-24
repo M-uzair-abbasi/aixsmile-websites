@@ -35,8 +35,7 @@ if (form) {
   let date = '';
   let time = '';
   let len = 30;
-  let gender = '';
-  let existing = '';
+  let month = ''; // 'YYYY-M' shown in the calendar
   let step = 1;
   let busy = false;
 
@@ -66,41 +65,76 @@ if (form) {
     if (n > 1) form.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
 
-  // ---- step 1: day and time ----
-  function renderDays() {
-    const t = T(), box = $('bkDays');
-    box.innerHTML = '';
-    $('bkNoDays').hidden = days.length > 0;
-    box.hidden = days.length === 0;
-    if (!days.length) { $('bkMonth').textContent = ''; return; }
-    const seen = {};
-    days.forEach((d) => {
-      const p = parts(d.date), n = slotsFor(d).length;
-      const b = el('button', 'day');
-      b.type = 'button';
-      b.setAttribute('aria-pressed', d.date === date ? 'true' : 'false');
-      b.setAttribute('aria-label', `${longDate(d.date)}, ${t.nTimes(n)}`);
-      b.appendChild(el('small', null, t.weekdays[p.dow]));
-      b.appendChild(el('b', null, String(p.d)));
-      b.appendChild(el('span', null, t.months[p.m - 1]));
-      b.addEventListener('click', () => {
-        date = d.date; time = '';
-        $('bkTaken').hidden = true;
-        renderDays(); renderTimes();
-        const sel = $('bkDays').querySelector('[aria-pressed="true"]');
-        if (sel) sel.scrollIntoView({ inline: 'nearest', block: 'nearest' });
-      });
-      box.appendChild(b);
-      const mk = `${p.y}-${p.m}`;
-      if (!seen[mk]) seen[mk] = `${t.monthsLong[p.m - 1]} ${p.y}`;
+  // ---- step 1: quick picks + a month calendar ----
+  const monthKey = (key) => { const p = parts(key); return `${p.y}-${p.m}`; };
+  const months = () => { const out = []; days.forEach((d) => { const k = monthKey(d.date); if (out.indexOf(k) === -1) out.push(k); }); return out; };
+  const pick = (d, s) => { date = d.date; time = s.time; len = s.len || 30; month = monthKey(d.date); renderDays(); renderTimes(); goStep2(); };
+  function renderQuick() {
+    const t = T(), box = $('bkQuick'), row = $('bkQuickRow');
+    if (!box) return;
+    row.innerHTML = '';
+    const firstOf = (test) => { for (const d of days) { const s = slotsFor(d).filter(test)[0]; if (s) return [d, s]; } return null; };
+    const picks = [[t.quickNext, firstOf(() => true)], [t.quickAm, firstOf((s) => +s.time.slice(0, 2) < 12)], [t.quickPm, firstOf((s) => +s.time.slice(0, 2) >= 12)]];
+    const seen = new Set();
+    picks.forEach(([label, hit]) => {
+      if (!hit) return;
+      const key = `${hit[0].date} ${hit[1].time}`;
+      if (seen.has(key)) return; // the earliest slot is also the earliest morning: show it once
+      seen.add(key);
+      const btn = el('button', 'quickBtn');
+      btn.type = 'button';
+      btn.appendChild(el('small', null, label));
+      btn.appendChild(el('b', null, t.when(shortDate(hit[0].date), hit[1].time)));
+      btn.addEventListener('click', () => pick(hit[0], hit[1]));
+      row.appendChild(btn);
     });
-    $('bkMonth').textContent = Object.keys(seen).map((k) => seen[k]).join(' · ');
+    box.hidden = row.children.length === 0;
   }
+  function renderDays() {
+    const t = T(), grid = $('bkDays'), cal = $('bkCal');
+    $('bkNoDays').hidden = days.length > 0;
+    cal.hidden = days.length === 0;
+    renderQuick();
+    if (!days.length) return;
+    const ms = months();
+    if (ms.indexOf(month) === -1) month = ms[0];
+    const [y, mo] = month.split('-').map(Number);
+    $('bkMonth').textContent = `${t.monthsLong[mo - 1]} ${y}`;
+    $('bkPrev').disabled = ms.indexOf(month) === 0;
+    $('bkNext').disabled = ms.indexOf(month) === ms.length - 1;
+    const week = $('bkWeek');
+    week.innerHTML = '';
+    [1, 2, 3, 4, 5, 6, 0].forEach((dow) => week.appendChild(el('span', null, t.weekdays[dow])));
+    grid.innerHTML = '';
+    const open = {};
+    days.forEach((d) => { open[d.date] = slotsFor(d).length; });
+    const first = new Date(Date.UTC(y, mo - 1, 1));
+    const lead = (first.getUTCDay() + 6) % 7; // Monday first
+    for (let i = 0; i < lead; i++) grid.appendChild(el('span', 'off', ''));
+    const dim = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+    const todayKey = new Date().toISOString().slice(0, 10);
+    for (let d = 1; d <= dim; d++) {
+      const key = `${y}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      if (open[key]) {
+        const btn = el('button', 'day' + (key === todayKey ? ' today' : ''), String(d));
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', key === date ? 'true' : 'false');
+        btn.setAttribute('aria-label', `${longDate(key)}, ${t.nTimes(open[key])}`);
+        btn.addEventListener('click', () => { date = key; time = ''; $('bkTaken').hidden = true; renderDays(); renderTimes(); $('bkTimesWrap').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+        grid.appendChild(btn);
+      } else {
+        grid.appendChild(el('span', 'off' + (key === todayKey ? ' today' : ''), String(d)));
+      }
+    }
+  }
+  $('bkPrev').addEventListener('click', () => { const ms = months(); const i = ms.indexOf(month); if (i > 0) { month = ms[i - 1]; renderDays(); } });
+  $('bkNext').addEventListener('click', () => { const ms = months(); const i = ms.indexOf(month); if (i < ms.length - 1) { month = ms[i + 1]; renderDays(); } });
 
   function renderTimes() {
     const day = days.filter((d) => d.date === date)[0];
     $('bkTimesWrap').hidden = !day;
     if (!day) return;
+    $('bkTimesFor').textContent = T().timesFor(longDate(date));
     const am = $('bkAm'), pm = $('bkPm');
     am.querySelector('.timeGrid').innerHTML = '';
     pm.querySelector('.timeGrid').innerHTML = '';
@@ -127,24 +161,10 @@ if (form) {
     $('bkTaken').hidden = true; // a new time is picked: the old notice no longer applies
     renderPick();
     setStep(2);
-    setTimeout(() => { const g = $('bkGender').querySelector('button'); if (g && !gender) g.focus({ preventScroll: true }); }, 380);
-  }
-  function renderSeg(id, opts, current, set) {
-    const box = $(id);
-    box.innerHTML = '';
-    opts.forEach((o) => {
-      const b = el('button', null, o[1]);
-      b.type = 'button';
-      b.setAttribute('role', 'radio');
-      b.setAttribute('aria-checked', current === o[0] ? 'true' : 'false');
-      b.addEventListener('click', () => { set(o[0]); renderStatic(); });
-      box.appendChild(b);
-    });
+    setTimeout(() => { if (!$('bkFirst').value) $('bkFirst').focus({ preventScroll: true }); }, 380);
   }
   function renderStatic() {
     const t = T();
-    renderSeg('bkGender', t.genders, gender, (v) => { gender = v; });
-    renderSeg('bkExisting', t.existingOpts, existing, (v) => { existing = v; });
     if (data && data.consent && data.consent.text) {
       $('bkConsentText').textContent = data.consent.text[getLang()] || data.consent.text.de;
     }
@@ -219,7 +239,7 @@ if (form) {
     const first = $('bkFirst').value.trim(), last = $('bkLast').value.trim();
     const phone = $('bkPhone').value.trim(), email = $('bkEmail').value.trim();
     mark('bkFirst', !first); mark('bkLast', !last); mark('bkPhone', !phone); mark('bkEmail', !email);
-    if (!date || !time || !first || !last || !phone || !email || !gender) return showError(t.errRequired);
+    if (!date || !time || !first || !last || !phone || !email) return showError(t.errRequired);
     const collapse = (v) => v.replace(/\s+/g, ' ');
     const badFirst = !NAME_RE.test(collapse(first)), badLast = !NAME_RE.test(collapse(last));
     if (badFirst || badLast) { mark('bkFirst', badFirst); mark('bkLast', badLast); return showError(t.errName); }
@@ -234,7 +254,7 @@ if (form) {
       method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         date, time, firstName: first, lastName: last, phone, email,
-        gender, existingPatient: existing, service: SERVICE, note: $('bkNote').value,
+        service: SERVICE, note: $('bkNote').value,
         consent: true, consentVersion: data && data.consent ? data.consent.version : null, locale: getLang(),
         via: VIA, website: form.elements.website.value,
       }),
@@ -275,10 +295,7 @@ if (form) {
       slotsFor(d).slice(0, 6).forEach((s) => {
         const btn = el('button', null, s.time);
         btn.type = 'button';
-        btn.addEventListener('click', () => {
-          date = d.date; time = s.time; len = s.len || 30;
-          renderDays(); renderTimes(); goStep2();
-        });
+        btn.addEventListener('click', () => pick(d, s));
         row.appendChild(btn);
       });
       box.appendChild(row);
