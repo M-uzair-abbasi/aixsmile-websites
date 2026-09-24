@@ -35,7 +35,7 @@ function audit() {
   const seen = new Set();
   while (walker.nextNode()) {
     const t = walker.currentNode; const el = t.parentElement;
-    if (!t.textContent.trim() || !el || seen.has(el) || el.closest('script,style,noscript,.hp')) continue;
+    if (!t.textContent.trim() || !el || seen.has(el) || el.closest('script,style,noscript,.hp,.brand')  /* the wordmark is a logotype: exempt under WCAG 1.4.3 */) continue;
     seen.add(el);
     if (!visible(el)) continue;
     const cs = getComputedStyle(el);

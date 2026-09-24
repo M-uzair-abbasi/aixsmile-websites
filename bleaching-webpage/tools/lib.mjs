@@ -35,8 +35,15 @@ export function serve(root = ROOT) {
 
 /** Playwright is borrowed from the main app's node_modules (no install here). */
 export async function launch() {
-  const require = createRequire('/home/muhammad-uzair/aixsmile/');
-  const { chromium } = require('playwright');
+  // The main app's checkout lives in a different place on each machine: an
+  // env var wins, then the usual locations of both maintainers.
+  const candidates = [process.env.AIXSMILE_DIR, '/home/muhammad-uzair/aixsmile/', `${process.env.HOME}/playground/aixsmile/`]
+    .filter(Boolean).map((d) => (d.endsWith('/') ? d : `${d}/`));
+  let chromium;
+  for (const dir of candidates) {
+    try { ({ chromium } = createRequire(dir)('playwright')); break; } catch { /* try the next */ }
+  }
+  if (!chromium) throw new Error(`playwright not found; set AIXSMILE_DIR to the main app checkout (tried ${candidates.join(', ')})`);
   return chromium.launch({ headless: true });
 }
 

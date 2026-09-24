@@ -9,7 +9,10 @@ AIXSMILE named openly, one booking system. Design spec:
 
 **The idea:** colour has a number. The hero asks "Welche Nummer hat Ihr
 Weiß?"; the page explains that the shade is measured with a shade guide before
-and after. The layout is image-led and calm (redesign of 2026-09-24): the
+and after. Redesign 2026-09-24 (second pass): light porcelain page with ice-blue
+bands and one mineral-teal accent, a single navy band for the real before/after
+photos, Source Serif 4 headings with Figtree text, no AI imagery, no
+scroll-driven animation. The first pass had been (kept here for the record): the
 headline on the left with one framed image beside it, then sections
 alternating dark and warm cream, and no scroll-driven animation.
 
@@ -20,9 +23,9 @@ alternating dark and warm cream, and no scroll-driven animation.
 | `index.html` | The page: markup, inline CSS, JSON-LD, all German copy |
 | `js/i18n.js` | English strings, runtime strings in both languages, the DE/EN switch, `PRICE_FROM` |
 | `js/booking.js` | The embedded booking widget; `API_BASE`, `SERVICE`, `VIA` at the top |
-| `assets/fonts/` | Fraunces + Inter, self-hosted (no request to Google) |
+| `assets/fonts/` | Source Serif 4 + Figtree, self-hosted (no request to Google) |
 | `assets/photos/` | Shade-guide photo, two consented cases, the dentist's portrait |
-| `assets/photos/ai/` | The five AI images as WebP (placeholders until the real ones arrive); originals go in `incoming/` |
+| `assets/photos/ai/` | Removed 2026-09-24: the page shows no AI images any more. Real practice photos (shade guide in the dentist's hand, lamp, trays, team) are still wanted; drop them into `assets/photos/` |
 | `robots.txt`, `sitemap.xml` | For the real domain |
 | `vercel.json` | Headers; **noindex while on the Vercel preview URL** |
 | `tools/` | Checks and screenshots (not deployed) |
@@ -54,7 +57,9 @@ vercel --prod
 
 `.vercelignore` keeps `tools/` and this README out of the upload.
 
-## The AI images
+## The AI images (no longer on the page)
+
+> Since 2026-09-24 the page carries no AI imagery. The section below documents the earlier setup in case real photos are ever replaced by illustrations again.
 
 The page needs five AI images; the brief with ready prompts is
 `../docs/superpowers/specs/2026-09-24-bleaching-image-brief.md`. Until they
@@ -133,3 +138,11 @@ npx html-validate@9 index.html # markup
 `tools/book-local.mjs <dev-server-url>` makes one real booking against a local
 dev server of the main app (its local SQLite database, no mail, no push) and is
 refused for any non-localhost URL.
+
+## Image rule (2026-09-24)
+
+`case-1.jpg`, `case-1-pair.webp` and `case-2.jpg` are the same two cases that
+aixsmile.de shows on its bleaching page. That is a known duplicate-image
+signal, accepted for now for the conversion value; swap them for cases that
+are NOT on the main site as soon as the practice supplies any. The former
+shade-guide photo was the main site's own `farbbestimmung.jpg` and was removed.

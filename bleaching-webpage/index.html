@@ -14,14 +14,13 @@
 <meta property="og:title" content="Bleaching Aachen – Ablauf, Farbbestimmung &amp; Beratung | AIXSMILE">
 <meta property="og:description" content="Welche Nummer hat Ihr Weiß? Zahnfarbe messen, ein realistisches Ziel festlegen, nachher wieder messen. Bleaching bei AIXSMILE in Aachen.">
 <meta property="og:url" content="https://bleaching-aachen.de/">
-<meta property="og:image" content="https://bleaching-aachen.de/assets/photos/ai/hero.webp">
-<meta property="og:image:width" content="940">
-<meta property="og:image:height" content="522">
+<meta property="og:image" content="https://bleaching-aachen.de/assets/photos/case-2.jpg">
+<meta property="og:image:width" content="1000">
+<meta property="og:image:height" content="1000">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" type="image/svg+xml" href="assets/tooth-mark.svg">
-<link rel="preload" href="assets/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/photos/ai/hero.webp" fetchpriority="high">
+<link rel="preload" href="assets/fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/figtree-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <script type="application/ld+json">
 {
@@ -86,400 +85,300 @@
 }
 </script>
 <style>
-  /* ===== Tokens =====
-     A dark studio with warm cream daylight between (redesign 2026-09-24).
-     Dark sections: charcoal, light text, champagne labels. Light sections:
-     warm cream, ink text, a bronze accent that keeps AA contrast. Every
-     section declares its tone; components read the same token names, so
-     one component works on either. The wordmark blue is the one colour
-     shared with the main site. Matte throughout; nothing moves on scroll. */
+  /* Porcelain white, ice-blue surfaces, one mineral-teal accent; a single
+     navy band for the real before/after photos so the whites read white.
+     Source Serif 4 for headings, Figtree for everything else. Nothing moves
+     on scroll (redesign 2026-09-24). */
   :root {
-    --charcoal: #17151a; --deep: #100f12; --cream: #f4efe7;
-    --card: #f7f3ec; --ink: #1f1c22;
-    --champagne: #cdb894; --champagne-hover: #e2d2b1; --bronze: #74602f;
+    --paper: #fbfbf9; --paper-2: #f3f6f6; --ice: #e6f0f2; --ice-2: #d5e6ea;
+    --ink: #10202a; --text: #33434b; --soft: #5d6e76;
+    --teal: #0f6b78; --teal-hover: #0a5561; --teal-tint: #dcebee;
+    --navy: #0e1b26; --navy-2: #13242f;
+    --line: rgba(16, 32, 42, .13); --line-strong: rgba(16, 32, 42, .3);
     --wordmark: #00a3e8;
+    --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --sans: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --hdr: 64px; --gutter: clamp(20px, 5vw, 88px); --ease: cubic-bezier(.2, .7, .2, 1);
+    --bg: var(--paper); --heading: var(--ink); --accent: var(--teal); --accent-hover: var(--teal-hover);
+    --btn-bg: var(--teal); --btn-fg: #fff; --btn-hover: var(--teal-hover);
   }
-  :root, .tone-dark {
-    --bg: var(--charcoal); --heading: #f7f3ec; --text: #d8d0c4; --soft: #b3aa9e;
-    --accent: var(--champagne); --accent-hover: var(--champagne-hover);
-    --line: rgba(247, 243, 236, .12); --line-strong: rgba(247, 243, 236, .28);
-    --btn-bg: #f7f3ec; --btn-fg: var(--ink); --btn-hover: var(--champagne-hover);
-  }
-  .tone-light {
-    --bg: var(--cream); --heading: var(--ink); --text: #3b352f; --soft: #5b544c;
-    --accent: var(--bronze); --accent-hover: #5c4b23;
-    --line: rgba(31, 28, 34, .14); --line-strong: rgba(31, 28, 34, .32);
-    --btn-bg: var(--ink); --btn-fg: #f7f3ec; --btn-hover: #3a3440;
-  }
-  .tone-dark, .tone-light { background: var(--bg); color: var(--text); }
+  .tone-ice { --bg: var(--ice); }
+  .tone-navy { --bg: var(--navy); --heading: #f4f7f8; --text: #cfd9de; --soft: #9fb1ba;
+    --accent: #7fd0dc; --accent-hover: #a9e2ea; --line: rgba(244, 247, 248, .14); --line-strong: rgba(244, 247, 248, .32);
+    --btn-bg: #f4f7f8; --btn-fg: var(--ink); --btn-hover: #ffffff; }
+  .tone-ice, .tone-navy { background: var(--bg); color: var(--text); }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; overflow-x: clip; -webkit-text-size-adjust: 100%; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body { margin: 0; overflow-x: clip; background: var(--charcoal); color: var(--text);
-    font-family: 'Inter', system-ui, sans-serif; font-size: 18px; line-height: 1.6;
+  body { margin: 0; overflow-x: clip; background: var(--paper); color: var(--text);
+    font-family: var(--sans); font-size: 17.5px; line-height: 1.6;
     -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   img { display: block; max-width: 100%; height: auto; }
-  /* fine film grain over the whole page: breaks up the flat fields, reads matte */
-  body::after { content: ''; position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E"); background-size: 180px 180px; }
   [hidden] { display: none !important; }
-  a { color: var(--accent); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  a { color: var(--accent); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
     text-underline-offset: 3px; text-decoration-thickness: 1px; }
   a:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   section[id] { scroll-margin-top: var(--hdr); }
-
   .skip { position: absolute; left: 16px; top: -60px; z-index: 50; padding: 10px 16px; border-radius: 10px;
-    background: var(--card); color: var(--ink); font-weight: 600; text-decoration: none; }
-  .skip:focus { top: 12px; }
-  .skip:hover { color: var(--ink); }
+    background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; }
+  .skip:focus { top: 12px; color: #fff; }
 
   /* ===== Type ===== */
-  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; font-variation-settings: 'SOFT' 50;
-    color: var(--heading); text-wrap: balance; }
-  h1 { font-weight: 560; margin: 0 0 26px; }
-  /* accent words: the italic cut, in the section's accent colour */
-  h1 em, h2 em { font-style: italic; font-weight: 460; font-variation-settings: normal; letter-spacing: -.01em; color: var(--accent); }
-  h2 { font-weight: 520; font-size: clamp(32px, 3.4vw, 50px); line-height: 1.06; letter-spacing: -.018em; margin: 0 0 24px; }
-  h3 { font-weight: 540; line-height: 1.2; letter-spacing: -.01em; }
-  p { margin: 0 0 18px; text-wrap: pretty; }
-  /* section kicker: a short rule and plain words, not letter-spaced capitals */
-  .eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; font-size: 14.5px; font-weight: 500; letter-spacing: .01em; color: var(--accent); }
-  .eyebrow::before { content: ''; flex: 0 0 28px; height: 1px; background: currentColor; opacity: .75; }
-  .lead { line-height: 1.55; color: var(--heading); }
-  .lede { max-width: 40rem; font-size: 19px; }
+  h1, h2, h3 { font-family: var(--serif); font-optical-sizing: auto; color: var(--heading); text-wrap: balance; margin: 0; }
+  h1 { font-weight: 500; font-size: clamp(42px, 5vw, 68px); line-height: 1.02; letter-spacing: -.02em; }
+  h2 { font-weight: 500; font-size: clamp(30px, 3.2vw, 46px); line-height: 1.08; letter-spacing: -.015em; margin-bottom: 20px; }
+  h3 { font-weight: 600; font-size: 22px; line-height: 1.25; letter-spacing: -.005em; }
+  p { margin: 0 0 16px; text-wrap: pretty; }
+  .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; font-size: 14px; font-weight: 600; color: var(--accent); }
+  .eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .lede { max-width: 38rem; font-size: 19px; line-height: 1.5; color: var(--text); }
+  .sectionHead { max-width: 44rem; margin: 0 0 clamp(32px, 4vw, 52px); }
+  .sectionHead > :last-child { margin-bottom: 0; }
 
   /* ===== Buttons ===== */
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 0 26px;
-    border-radius: 999px; border: 1px solid transparent; font: inherit; font-size: 15.5px; font-weight: 600; line-height: 1.2;
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 50px; padding: 0 26px;
+    border-radius: 12px; border: 1px solid transparent; font: inherit; font-size: 16px; font-weight: 600; line-height: 1.2;
     text-decoration: none; background: var(--btn-bg); color: var(--btn-fg); cursor: pointer;
     transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .15s ease; }
   .btn:hover { background: var(--btn-hover); color: var(--btn-fg); }
-  .btn:active { transform: translateY(1px) scale(.99); }
-  /* every booking button points onward */
+  .btn:active { transform: translateY(1px); }
   .btn[data-cta="book"]::after { content: '→'; display: inline-block; transition: transform .25s var(--ease); }
   .btn[data-cta="book"]:hover::after { transform: translateX(3px); }
   .btn.ghost { background: transparent; color: var(--heading); border-color: var(--line-strong); }
-  .btn.ghost:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); border-color: var(--accent); color: var(--heading); }
+  .btn.ghost:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); border-color: var(--accent); color: var(--heading); }
   .btn svg { width: 17px; height: 17px; flex: 0 0 auto; }
-  .btnSm { min-height: 40px; padding: 0 18px; font-size: 14px; white-space: nowrap; }
+  .btnSm { min-height: 40px; padding: 0 16px; font-size: 14.5px; white-space: nowrap; border-radius: 10px; }
   .btnIcon { width: 44px; min-height: 44px; padding: 0; }
   .btnSm.btnIcon { width: 40px; min-height: 40px; }
-  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
   /* ===== Header ===== */
   header.top { position: fixed; inset: 0 0 auto 0; z-index: 20; height: var(--hdr);
     display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 var(--gutter);
-    background: rgba(23, 21, 26, .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    background: rgba(251, 251, 249, .9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line); }
-  .navLinks { display: flex; gap: 28px; margin-left: auto; margin-right: 8px; }
+  .navLinks { display: flex; gap: 26px; margin-left: auto; margin-right: 8px; }
   .navLinks a { color: var(--text); text-decoration: none; font-size: 14.5px; font-weight: 500; }
   .navLinks a:hover { color: var(--heading); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
   .controls { display: flex; align-items: center; gap: 10px; }
   .langToggle { position: relative; display: inline-flex; align-items: center; padding: 3px; border: 1px solid var(--line-strong);
     border-radius: 999px; background: transparent; cursor: pointer; font: inherit; }
   .langToggle span { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 26px; font-size: 11.5px; font-weight: 600; letter-spacing: .04em; color: var(--soft); transition: color .3s ease; }
+    width: 32px; height: 26px; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; color: var(--text); transition: color .3s ease; }
   .langToggle::before { content: ''; position: absolute; top: 3px; left: 3px; width: 32px; height: 26px; border-radius: 999px;
-    background: var(--card); transition: transform .3s var(--ease); }
+    background: var(--ink); transition: transform .3s var(--ease); }
   .langToggle[data-active="en"]::before { transform: translateX(32px); }
-  .langToggle[data-active="de"] span[data-lang="de"], .langToggle[data-active="en"] span[data-lang="en"] { color: var(--ink); }
+  .langToggle[data-active="de"] span[data-lang="de"], .langToggle[data-active="en"] span[data-lang="en"] { color: #fff; }
 
-  /* The practice's wordmark, built as on the main site: "IT'S TIME TO" and
-     SMILE in brand blue, the smile-swoosh underneath. On dark, AIX and the
-     swoosh take the light heading colour. */
   .brand { display: inline-flex; flex-direction: column; line-height: 1; font-size: 22px; color: var(--heading); text-decoration: none; }
-  .brandTag { align-self: flex-end; padding-right: .5em; font-size: .26em; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--wordmark); }
-  /* the tagline is part of the logo artwork, not reading text: drawn as decoration (the link carries the name) */
+  .brandTag { align-self: flex-end; padding-right: .5em; font-size: .26em; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--wordmark); }
   .brandTag::before { content: 'It\2019s time to'; }
-  .brandWord { position: relative; margin-bottom: .36em; font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: .015em; line-height: 1.02; color: var(--heading); }
+  .brandWord { position: relative; margin-bottom: .36em; font-family: var(--sans); font-weight: 700; letter-spacing: .01em; line-height: 1.02; color: var(--heading); }
   .brandSky { color: var(--wordmark); }
   .brandSwoosh { position: absolute; left: 0; right: 0; top: calc(100% + .04em); width: 100%; height: auto; overflow: visible; color: var(--heading); }
 
-  /* ===== Hero: the headline left, one framed image right =====
-     The first version's composition (text column beside a pinned stage),
-     with a still image where the card used to be. Nothing moves on scroll. */
-  .hero { position: relative; overflow: hidden; display: flex; align-items: center; min-height: max(640px, 100svh); }
-  .hero::before { content: ''; position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(55% 70% at 80% 45%, rgba(205, 184, 148, .12), transparent 70%),
-      radial-gradient(40% 50% at 0% 100%, rgba(205, 184, 148, .05), transparent 70%); }
-  .heroInner { position: relative; width: 100%; max-width: 76rem; margin: 0 auto; padding: calc(var(--hdr) + 40px) var(--gutter) 64px;
-    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
-  .heroCopy { max-width: 36rem; }
-  .hero h1 { font-size: clamp(44px, 5.3vw, 72px); line-height: .98; letter-spacing: -.025em; margin-bottom: 28px; }
-  .lead { font-size: 20px; }
-  .heroSub { font-size: 16px; color: var(--soft); }
-  /* the image never grows taller than the screen allows */
-  .heroFigure { position: relative; margin: 0 18px 0 0; justify-self: end; width: min(100%, 30rem, calc((100svh - var(--hdr) - 150px) * .8)); }
-  /* The image sits in an arch; a thin champagne arch echoes it, offset behind.
-     A round close-up from the practice's real shade-guide photo overlaps the
-     arch's upper edge, the real before/after card its lower edge. */
-  .heroFigure .frame { z-index: 1; aspect-ratio: 4 / 5; border-radius: 999px 999px 18px 18px;
-    box-shadow: 0 50px 90px -50px rgba(0, 0, 0, .9); }
-  .heroEcho { position: absolute; inset: -18px -18px 18px 18px; z-index: 0; pointer-events: none;
-    border: 1px solid rgba(205, 184, 148, .42); border-radius: 999px 999px 24px 24px; }
-  .heroDot { position: absolute; z-index: 2; top: 18%; left: -52px; width: 136px; height: 136px; margin: 0;
-    border-radius: 50%; overflow: hidden; border: 6px solid var(--charcoal); background: var(--charcoal);
-    box-shadow: 0 24px 44px -22px rgba(0, 0, 0, .85); }
-  .heroDot img { width: 100%; height: 100%; object-fit: cover; }
-  .heroTrust { list-style: none; margin: 30px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line);
-    display: flex; flex-wrap: wrap; gap: 10px 26px; }
-  .heroTrust li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--soft); }
-  .heroTrust li::before { content: ''; flex: 0 0 auto; width: 12px; height: 6px; margin-top: -3px;
-    border-left: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); transform: rotate(-45deg); }
-  /* real proof above the fold: one of the practice's own cases, laid over the image */
-  .heroCase { position: absolute; left: -56px; bottom: 40px; z-index: 3; width: 272px; display: grid; gap: 10px;
-    padding: 10px 10px 12px; border-radius: 14px; background: #2a2630; color: var(--text); text-decoration: none;
-    box-shadow: 0 24px 48px -24px rgba(0, 0, 0, .9);
-    transition: transform .25s var(--ease), background-color .25s ease; }
-  .heroCase:hover { transform: translateY(-2px); background: #332e3a; color: var(--text); }
-  .heroCase img { width: 100%; border-radius: 8px; }
-  .heroCaseText { display: grid; gap: 2px; padding: 0 4px; font-size: 13.5px; line-height: 1.4; }
-  .heroCaseText b { color: var(--heading); font-weight: 600; }
-  .heroCaseText span { color: var(--accent); }
-  .heroCaseText span::after { content: ' →'; }
-  /* The one entrance on the page: the hero copy settles in once, on load.
-     Visible by default; the animation only layers on top. */
-  @media (prefers-reduced-motion: no-preference) {
-    .heroCopy > * { animation: riseIn .9s var(--ease) backwards; }
-    .heroCopy > :nth-child(2) { animation-delay: .08s; }
-    .heroCopy > :nth-child(3) { animation-delay: .16s; }
-    .heroCopy > :nth-child(n+4) { animation-delay: .24s; }
-    .heroFigure { animation: riseIn 1s var(--ease) .2s backwards; }
-    .heroDot { animation: riseIn 1s var(--ease) .45s backwards; }
-  }
-  @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-
-  /* the disclosure on every AI-generated image */
-  .aiTag { position: absolute; z-index: 2; right: 12px; bottom: 12px; padding: 6px 11px; border-radius: 999px;
-    background: rgba(16, 15, 18, .66); color: #efe9df; font-size: 11px; font-weight: 600; letter-spacing: .02em; line-height: 1.3; }
-
-  /* ===== Sections ===== */
-  .section { padding: clamp(88px, 12vh, 144px) 0; }
+  /* ===== Layout ===== */
   .wrap { width: 100%; max-width: 74rem; margin: 0 auto; padding: 0 var(--gutter); }
-  .sectionHead { max-width: 46rem; margin: 0 0 clamp(40px, 5vw, 64px); }
-  .sectionHead > :last-child { margin-bottom: 0; }
-
-  /* image beside text */
-  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(40px, 6vw, 104px); align-items: center; }
-  .split--mediaWide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-  .split--flip > .media { order: 2; }
+  .section { padding: clamp(64px, 9vh, 112px) 0; }
+  .section--tight { padding: clamp(48px, 7vh, 80px) 0; }
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
   .copy > :last-child { margin-bottom: 0; }
-  .media { position: relative; margin: 0; }
-  .frame { position: relative; overflow: hidden; border-radius: 12px; background: color-mix(in srgb, var(--heading) 7%, transparent); }
-  .frame img { width: 100%; height: 100%; object-fit: cover; }
-  .frame--tall { aspect-ratio: 4 / 5; }
-  .frame--wide { aspect-ratio: 940 / 522; }
-  .media figcaption { margin-top: 14px; font-size: 14.5px; line-height: 1.5; color: var(--soft); }
-  .media--offset::before { content: ''; position: absolute; inset: 24px -24px -24px 24px; border: 1px solid var(--line-strong);
-    border-radius: 16px; pointer-events: none; }
-  .split--flip .media--offset::before { inset: 24px 24px -24px -24px; }
-  .media--offset .frame { z-index: 1; }
 
-  /* the labelled AI comparison: one smile at three shade steps, full width */
-  .stepStrip { margin: clamp(56px, 7vw, 96px) 0 0; }
-  .stepStripH { margin: 0 0 18px; font-family: 'Fraunces', Georgia, serif; font-size: clamp(22px, 2vw, 28px); font-weight: 540; color: var(--heading); }
-  .frame--strip { aspect-ratio: 1500 / 625; }
-  .stepStripLabels { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 12px; text-align: center;
-    font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 600; color: var(--heading); }
-  .stepStripNote { max-width: 46rem; margin: 14px 0 0; font-size: 15px; line-height: 1.55; color: var(--soft); }
-  .stepStripNote b { color: var(--heading); font-weight: 600; }
+  /* ===== Hero: the promise on the left, the practice's own shade card on the right ===== */
+  .hero { position: relative; display: flex; align-items: center; min-height: max(600px, 92svh);
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
+  .heroInner { width: 100%; max-width: 76rem; margin: 0 auto; padding: calc(var(--hdr) + 48px) var(--gutter) 64px;
+    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
+  .heroCopy { max-width: 35rem; }
+  .hero h1 { margin-bottom: 22px; }
+  .lead { font-size: 20px; line-height: 1.5; color: var(--text); }
+  .heroSub { font-size: 16px; color: var(--soft); }
+  .heroTrust { list-style: none; margin: 28px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 18px; }
+  .heroTrust li { font-size: 14.5px; line-height: 1.4; color: var(--soft); padding-left: 18px; position: relative; }
+  .heroTrust li::before { content: ''; position: absolute; left: 0; top: .5em; width: 10px; height: 5px;
+    border-left: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); transform: rotate(-45deg); }
 
-  /* the shade scale, drawn: dark natural shades on the left, bleach shades on the right */
-  .scale { margin: 34px 0 0; }
+  .shadeCard { position: relative; padding: 28px 28px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -40px rgba(16, 32, 42, .35); }
+  .shadeCard h2 { font-size: 22px; font-weight: 600; margin: 0 0 6px; }
+  .shadeCard .scaleIntro { margin: 0 0 22px; font-size: 15px; color: var(--soft); }
   .scaleTabs { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; align-items: end; }
   .tab { display: grid; justify-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--soft); }
-  .tab i { width: 100%; max-width: 46px; aspect-ratio: 3 / 4.2; border-radius: 10px 10px 16px 16px; background: var(--c);
-    box-shadow: inset 0 -8px 14px rgba(31, 28, 34, .07), inset 0 0 0 1px rgba(31, 28, 34, .13), 0 10px 18px -12px rgba(31, 28, 34, .45); }
+  .tab i { width: 100%; max-width: 46px; aspect-ratio: 3 / 4.4; border-radius: 10px 10px 16px 16px; background: var(--c);
+    box-shadow: inset 0 -8px 14px rgba(16, 32, 42, .07), inset 0 0 0 1px rgba(16, 32, 42, .12), 0 10px 18px -12px rgba(16, 32, 42, .45); }
   .tab--a3 { --c: #d7be8e; } .tab--a2 { --c: #dfca9f; } .tab--a1 { --c: #e8d9b6; } .tab--b1 { --c: #efe5cb; }
   .tab--bl4 { --c: #f2ebd9; } .tab--bl3 { --c: #f5f0e4; } .tab--bl2 { --c: #f8f5ed; } .tab--bl1 { --c: #fbfaf5; }
-  .scaleAxis { display: flex; justify-content: space-between; margin: 14px 0 0; font-size: 13.5px; color: var(--soft); }
-  .scaleNote { margin: 10px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--soft); }
+  .scaleAxis { display: flex; justify-content: space-between; margin: 12px 0 0; font-size: 13px; color: var(--soft); }
+  .scaleNote { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--soft); }
+  .heroCase { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 14px; align-items: center; margin: 22px -12px -8px;
+    padding: 12px; border-radius: 14px; background: var(--paper-2); color: var(--text); text-decoration: none; border: 1px solid transparent;
+    transition: border-color .2s ease, background-color .2s ease; }
+  .heroCase:hover { border-color: var(--accent); background: var(--teal-tint); color: var(--text); }
+  .heroCase img { width: 100%; height: 56px; object-fit: cover; border-radius: 8px; }
+  .heroCaseText { display: grid; gap: 2px; font-size: 14px; line-height: 1.4; }
+  .heroCaseText b { color: var(--heading); font-weight: 600; }
+  .heroCaseText span { color: var(--accent); font-weight: 600; }
+  .heroCaseText span::after { content: ' →'; }
+  @media (prefers-reduced-motion: no-preference) {
+    .heroCopy > * { animation: riseIn .8s var(--ease) backwards; }
+    .heroCopy > :nth-child(2) { animation-delay: .06s; }
+    .heroCopy > :nth-child(3) { animation-delay: .12s; }
+    .heroCopy > :nth-child(n+4) { animation-delay: .18s; }
+    .shadeCard { animation: riseIn .9s var(--ease) .15s backwards; }
+  }
+  @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-  .facts { list-style: none; margin: 32px 0 0; padding: 0; counter-reset: fact; border-top: 1px solid var(--line); }
-  .facts li { counter-increment: fact; display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 8px; padding: 14px 0;
-    border-bottom: 1px solid var(--line); font-size: 16.5px; color: var(--heading); }
-  .facts li::before { content: counter(fact, decimal-leading-zero); font-family: 'Fraunces', Georgia, serif; font-weight: 600; color: var(--accent); }
-
-  /* "Wann Bleaching hilft": a slightly deeper cream so it reads as its own
-     band after the cream intro; two groups of three illustrated causes */
-  .band--when { --bg: #ede6da; border-top: 1px solid var(--line); }
-  .whenGroup + .whenGroup { margin-top: clamp(48px, 6vw, 80px); }
-  .verdict { display: flex; align-items: center; gap: 12px; margin: 0 0 22px; font-family: 'Inter', system-ui, sans-serif;
-    font-size: 15px; font-weight: 600; letter-spacing: .01em; color: var(--heading); }
-  .verdict::before { content: ''; width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
-  .verdict--good::before { background: var(--accent); }
-  .verdict--limit::before { border: 1.5px solid var(--accent); }
-  .whenGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
-  .whenCard .frame--card { aspect-ratio: 4 / 3; }
-  .whenCard h4 { margin: 18px 0 8px; font-family: 'Fraunces', Georgia, serif; font-size: 21px; font-weight: 540; line-height: 1.25; color: var(--heading); }
-  .whenCard p { margin: 0; font-size: 16px; }
-
-  /* the four steps: a quiet ruled grid, no motion */
-  .steps4 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
-  .steps4 li { display: grid; grid-template-columns: 64px minmax(0, 1fr); padding: 40px 48px 44px 0; border-bottom: 1px solid var(--line); }
-  .steps4 li:nth-child(odd) { border-right: 1px solid var(--line); }
-  .steps4 li:nth-child(even) { padding: 40px 12px 44px 48px; }
-  /* the steps heading shares its row with a wide image */
-  .stepsHead { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .95fr); gap: clamp(32px, 5vw, 80px);
-    align-items: end; margin-bottom: clamp(44px, 5vw, 72px); }
-  .stepsHead .sectionHead { margin-bottom: 0; }
-  .frame--land { aspect-ratio: 3 / 2; }
-  .band--steps { background: radial-gradient(70% 60% at 100% 0%, rgba(205, 184, 148, .08), transparent 65%), var(--bg); }
-  .steps4 li { position: relative; }
-  .steps4 li::before { content: ''; position: absolute; top: -1px; left: 0; width: 56px; height: 2px; background: var(--accent); }
-  .steps4 li:nth-child(even)::before { left: 48px; }
-  .stepNum { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 40px; font-weight: 460; line-height: .9; color: var(--accent); font-variant-numeric: lining-nums; }
-  .steps4 h3 { margin: 2px 0 12px; font-size: 24px; }
-  .steps4 p { margin: 0; font-size: 16.5px; }
-
-  /* two routes, side by side */
-  .routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 64px); }
-  .route .frame { aspect-ratio: 4 / 5; }
-  .route .frame img { transition: transform .7s var(--ease); }
-  .route:hover .frame img { transform: scale(1.03); }
-  .routeMeta { margin: 24px 0 8px; font-size: 14.5px; font-weight: 500; color: var(--accent); }
-  .route h3 { margin: 0 0 10px; font-size: 28px; }
-  .route p:last-child { margin: 0; max-width: 32rem; font-size: 17px; }
-
-  /* Vorher / Nachher: both real cases, each as photographed */
-  .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); margin-top: 40px; align-items: start; }
-  .case { margin: 0; }
-  .caseFrame { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: var(--deep); }
+  /* ===== Cases: the one dark band, so the whitened teeth read white ===== */
+  .band--cases .sectionHead { margin-bottom: clamp(28px, 4vw, 44px); }
+  .cases { display: grid; gap: clamp(28px, 4vw, 48px); }
+  .case { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(20px, 4vw, 56px); align-items: center; margin: 0; }
+  .case:nth-child(even) .caseFrame { order: 2; }
+  .caseFrame { position: relative; overflow: hidden; border-radius: 14px; border: 1px solid var(--line); background: var(--navy-2); }
   .caseFrame img { width: 100%; }
-  .caseTag { position: absolute; left: 12px; padding: 6px 11px; border-radius: 999px; background: rgba(16, 15, 18, .8);
-    font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #f7f3ec; }
-  .caseTag--before { top: 12px; }
-  .caseTag--after { top: calc(var(--split) + 12px); }
-  /* where the lower (after) photo starts inside each stacked image */
+  .caseTag { position: absolute; left: 14px; padding: 6px 11px; border-radius: 8px; background: rgba(14, 27, 38, .82);
+    font-size: 12.5px; font-weight: 700; color: #f4f7f8; }
+  .caseTag--before { top: 14px; }
+  .caseTag--after { top: calc(var(--split) + 14px); }
   .case--1 { --split: 54.08%; }
   .case--2 { --split: 50%; }
-  .case figcaption { margin-top: 12px; font-size: 15px; color: var(--soft); }
-  .case figcaption b { color: var(--heading); font-weight: 600; margin-right: 6px; }
+  .case figcaption { font-size: 16.5px; line-height: 1.55; color: var(--text); }
+  .case figcaption b { display: block; margin-bottom: 6px; font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--heading); }
+  .caseNote { margin-top: 14px; font-size: 14px; color: var(--soft); }
 
-  /* Kosten */
+  /* ===== Kosten ===== */
   .band--kosten .inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); column-gap: clamp(28px, 5vw, 72px); align-items: start; }
   .band--kosten .inner > .eyebrow, .band--kosten .inner > h2 { grid-column: 1 / -1; }
-  .band--kosten h2 { max-width: 20ch; }
-  .factors { list-style: none; margin: 20px 0 0; padding: 0; }
-  .factors li { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 16.5px; }
+  .band--kosten h2 { max-width: 22ch; }
+  .factors { list-style: none; margin: 18px 0 0; padding: 0; }
+  .factors li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 16.5px; }
   .factors li:last-child { border-bottom: 1px solid var(--line); }
   .factors b { color: var(--heading); font-weight: 600; }
-  .priceFrom { margin-top: 22px; padding: 14px 16px; border-left: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); color: var(--heading); }
-  .promise { padding: 24px 26px 10px; border: 1px solid var(--line); border-radius: 18px; background: rgba(247, 243, 236, .035); }
-  .promise h3 { margin: 0 0 12px; font-size: 21px; }
+  .priceFrom { margin-top: 20px; padding: 14px 16px; border-radius: 10px; background: var(--teal-tint); color: var(--heading); }
+  .promise { padding: 26px 28px 12px; border-radius: 18px; background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -44px rgba(16, 32, 42, .35); }
+  .promise h3 { margin: 0 0 12px; font-size: 22px; }
   .promise ol { list-style: none; margin: 0; padding: 0; counter-reset: pr; }
-  .promise li { counter-increment: pr; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 2px 12px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 16px; }
-  .promise li::before { content: counter(pr, decimal-leading-zero); padding-top: 2px; font-family: 'Fraunces', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--accent); }
+  .promise li { counter-increment: pr; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 2px 12px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 16px; }
+  .promise li::before { content: counter(pr); display: grid; place-items: center; width: 24px; height: 24px; margin-top: 1px; border-radius: 50%;
+    background: var(--teal-tint); color: var(--accent); font-size: 12.5px; font-weight: 700; }
   .promise li b { grid-column: 2; display: block; margin-bottom: 2px; color: var(--heading); font-weight: 600; }
   .promise li span { grid-column: 2; }
   .promise .cta { margin: 14px 0 16px; }
-  /* on the dark costs band the promise is a light card: the one thing to take away */
-  .promise.tone-light { background: var(--cream); border-color: transparent; box-shadow: 0 50px 90px -50px rgba(0, 0, 0, .9); }
 
-  /* Behandler: the real portrait on a light band */
-  .band--doctor .inner { display: grid; grid-template-columns: minmax(170px, 260px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  /* ===== Two routes, four steps, when it helps: text, no card grids ===== */
+  .routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 64px); }
+  .route { padding-top: 22px; border-top: 2px solid var(--accent); }
+  .routeMeta { margin: 0 0 8px; font-size: 14px; font-weight: 600; color: var(--accent); }
+  .route h3 { margin: 0 0 10px; font-size: 26px; }
+  .route p:last-child { margin: 0; max-width: 34rem; }
+
+  .steps4 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(28px, 5vw, 72px); }
+  .steps4 li { display: grid; grid-template-columns: 52px minmax(0, 1fr); padding: 28px 0 30px; border-top: 1px solid var(--line); }
+  .stepNum { font-family: var(--serif); font-size: 30px; font-weight: 500; line-height: 1; color: var(--accent); font-variant-numeric: lining-nums; }
+  .steps4 h3 { margin: 0 0 10px; font-size: 22px; }
+  .steps4 p { margin: 0; font-size: 16.5px; }
+
+  .whenCols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 72px); }
+  .verdict { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-size: 15px; font-weight: 700; color: var(--heading); }
+  .verdict::before { content: ''; width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+  .verdict--good::before { background: var(--accent); }
+  .verdict--limit::before { border: 2px solid var(--accent); }
+  .whenList { list-style: none; margin: 0; padding: 0; }
+  .whenList li { padding: 16px 0; border-top: 1px solid var(--line); }
+  .whenList h4 { margin: 0 0 4px; font-family: var(--serif); font-size: 20px; font-weight: 600; line-height: 1.3; color: var(--heading); }
+  .whenList p { margin: 0; font-size: 16px; }
+
+  /* ===== Behandler ===== */
+  .band--doctor .inner { display: grid; grid-template-columns: minmax(170px, 240px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
   .portrait { overflow: hidden; aspect-ratio: 1; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }
-  .band--doctor h2 { margin-bottom: 6px; }
-  .doctorRole { margin: 0 0 20px; font-size: 15.5px; font-weight: 600; color: var(--accent); }
+  .band--doctor h2 { margin-bottom: 4px; }
+  .doctorRole { margin: 0 0 18px; font-size: 15.5px; font-weight: 600; color: var(--accent); }
   .band--doctor .inner > div > p { max-width: 40rem; }
 
-  /* FAQ */
-  .band--faq .inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
-  .band--faq h2 { max-width: 14ch; }
+  /* ===== FAQ ===== */
+  .band--faq .inner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
+  .band--faq h2 { max-width: 16ch; }
   .faqAside { max-width: 26rem; font-size: 17px; color: var(--soft); }
-  .faq { margin-top: 6px; padding-top: 4px; border-top: 1px solid var(--line); }
+  .faq { border-top: 1px solid var(--line); }
   .faq details { border-bottom: 1px solid var(--line); }
-  .faq summary { display: grid; grid-template-columns: minmax(0, 1fr) 36px; gap: 16px; align-items: center; padding: 20px 0; cursor: pointer; list-style: none;
-    font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'SOFT' 50; font-size: 20px; font-weight: 540; line-height: 1.3; color: var(--heading); }
+  .faq summary { display: grid; grid-template-columns: minmax(0, 1fr) 34px; gap: 16px; align-items: center; padding: 18px 0; cursor: pointer; list-style: none;
+    font-family: var(--serif); font-size: 20px; font-weight: 600; line-height: 1.3; color: var(--heading); }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: ''; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong);
+  .faq summary::after { content: ''; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line-strong);
     background: linear-gradient(var(--accent), var(--accent)) center / 11px 1.5px no-repeat,
                 linear-gradient(var(--accent), var(--accent)) center / 1.5px 11px no-repeat;
     transition: transform .3s var(--ease); }
   .faq details[open] summary::after { transform: rotate(45deg); }
   .faq summary:hover { color: var(--accent-hover); }
-  .faq details p { max-width: 62ch; margin: -4px 0 22px; font-size: 17px; }
+  .faq details p { max-width: 62ch; margin: -2px 0 20px; font-size: 16.5px; }
 
-  /* Praxis */
+  /* ===== Praxis ===== */
   .band--praxis .inner { display: grid; grid-template-columns: 1.15fr 1fr 1fr; column-gap: clamp(24px, 4vw, 56px); row-gap: 18px; }
   .band--praxis .inner > .eyebrow, .band--praxis .inner > h2 { grid-column: 1 / -1; }
   .band--praxis h2 { max-width: 24ch; margin-bottom: 8px; }
-  .praxisCol { position: relative; padding-top: 22px; border-top: 1px solid var(--line); }
-  .praxisCol::before { content: ''; position: absolute; top: -1px; left: 0; width: 40px; height: 2px; background: var(--accent); }
-  .praxisCol h3 { margin: 0 0 10px; font-family: 'Inter', system-ui, sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .praxisCol { padding-top: 20px; border-top: 2px solid var(--accent); }
+  .praxisCol h3 { margin: 0 0 10px; font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--heading); }
   .praxisCol p { margin: 0 0 14px; font-size: 16.5px; }
   .praxisCol b { color: var(--heading); font-weight: 600; }
   .reviewNote { margin-top: 14px; font-size: 14px; color: var(--soft); }
 
-  /* ===== Booking (Option B) =====
-
-     The widget sits on a light card, like the shade card: a small, quiet tool
-     inside the page. Its tokens are scoped to the card. It talks to the
-     practice's booking API and stores nothing itself. */
+  /* ===== Booking ===== */
   .band--buchen .inner { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
-  .band--buchen h2 { max-width: 16ch; }
+  .band--buchen h2 { max-width: 18ch; }
   .introFacts { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 8px; }
   .introFacts li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 8px; font-size: 16px; }
   .introFacts li::before { content: ''; width: 6px; height: 6px; margin-top: 10px; border-radius: 50%; background: var(--accent); }
   .fallback { margin-top: 22px; font-size: 15px; color: var(--soft); }
   .fallback .sep { margin: 0 6px; opacity: .6; }
 
-  .bk { --paper: #fffdf8; --paper-2: #ebe5d9; --line: rgba(31, 28, 34, .16); --ink-soft: #57504a; --text: #3b352f;
-    --accent: #74602f; --accent-hover: #5c4b23; --foam: #efe5cf;
+  .bk { --paper: #ffffff; --paper-2: #eef3f4; --line: rgba(16, 32, 42, .16); --ink-soft: #4b5c64; --text: #33434b;
+    --accent: #0f6b78; --accent-hover: #0a5561; --foam: #dcebee;
     min-width: 0; scroll-margin-top: calc(var(--hdr) + 16px); padding: 18px 20px 20px; border-radius: 18px;
-    background: #fffdf8; color: var(--ink); border: 1px solid rgba(31, 28, 34, .12);
-    box-shadow: 0 40px 70px -50px rgba(31, 28, 34, .45); }
-  .bk a { color: var(--accent); text-decoration-color: rgba(116, 96, 47, .5); }
+    background: #fff; color: var(--ink); border: 1px solid rgba(16, 32, 42, .12);
+    box-shadow: 0 40px 70px -50px rgba(16, 32, 42, .4); }
+  .bk a { color: var(--accent); text-decoration-color: rgba(15, 107, 120, .45); }
   .bk a:hover { color: var(--accent-hover); }
   .bk :focus-visible { outline-color: var(--accent); }
-  .bk .btn { background: var(--ink); color: var(--card); }
-  .bk .btn:hover { background: #3a3440; color: var(--card); }
+  .bk .btn { background: var(--accent); color: #fff; }
+  .bk .btn:hover { background: var(--accent-hover); color: #fff; }
   .bk .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
   .bk .btn.ghost:hover { background: var(--paper-2); color: var(--ink); }
-
   .bkSteps { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .bkSteps li { position: relative; padding-bottom: 8px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .bkSteps li { position: relative; padding-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
   .bkSteps li::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--line); }
   .bkSteps li.on { color: var(--ink); }
   .bkSteps li.on::after, .bkSteps li.done::after { background: var(--accent); }
-
   .pane { animation: paneIn .3s var(--ease) both; }
   @keyframes paneIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .pane { animation: none; } }
-
   .bkHead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
   .bkLabel { margin: 0 0 8px; font-size: 14px; font-weight: 600; color: var(--ink); }
   .bkMonth { margin: 0 0 8px; font-size: 13px; color: var(--ink-soft); }
   .bkHint { font-size: 15px; color: var(--ink-soft); }
   .bkNotice p { margin: 0; font-size: 15px; color: var(--ink); }
   .bkInfo { margin: 0 0 12px; padding: 10px 12px; border-radius: 9px; font-size: 14px; color: var(--ink); background: var(--foam); }
-
   .dayStrip { min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 8px; margin: 0 -2px 4px;
     -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .dayStrip::-webkit-scrollbar { display: none; }
   .day { flex: 0 0 auto; scroll-snap-align: start; width: 54px; min-height: 60px; display: grid; justify-items: center; align-content: center;
     padding: 6px 2px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); cursor: pointer; font: inherit; color: var(--ink);
     transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
-  .day small { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
-  .day b { font-family: 'Fraunces', Georgia, serif; font-size: 18px; font-weight: 600; line-height: 1.15; }
+  .day small { font-size: 11px; font-weight: 600; color: var(--ink-soft); }
+  .day b { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.15; }
   .day span { font-size: 11px; color: var(--ink-soft); }
-  .day:hover { border-color: rgba(116, 96, 47, .5); }
-  .day[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--card); }
-  .day[aria-pressed="true"] small, .day[aria-pressed="true"] span { color: rgba(247, 243, 236, .82); }
-
+  .day:hover { border-color: rgba(15, 107, 120, .5); }
+  .day[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .day[aria-pressed="true"] small, .day[aria-pressed="true"] span { color: rgba(255, 255, 255, .8); }
   .timeGroup { margin-top: 4px; }
-  .timeHead { margin: 6px 0; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .timeHead { margin: 6px 0; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
   .timeGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px; }
   .time { min-height: 44px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); font: inherit; font-size: 15px; font-weight: 600;
     color: var(--ink); cursor: pointer; font-variant-numeric: tabular-nums; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
-  .time:hover { border-color: rgba(116, 96, 47, .55); }
+  .time:hover { border-color: rgba(15, 107, 120, .55); }
   .time[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-
   .pick { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 14px; padding: 10px 0 12px; border-bottom: 1px solid var(--line); }
   .pick b { display: block; font-size: 15px; font-weight: 600; color: var(--ink); }
   .pick span { display: block; margin-top: 1px; font-size: 13px; color: var(--ink-soft); }
@@ -487,27 +386,24 @@
   .linkBtn { min-height: 44px; padding: 4px 0; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--accent);
     cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .linkBtn:hover { color: var(--accent-hover); }
-
   .bkFields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
   .bkFields .full { grid-column: 1 / -1; }
   .fLabel { display: block; margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
-  .bkFields input, .bkFields textarea { width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid rgba(31, 28, 34, .28); border-radius: 9px;
+  .bkFields input, .bkFields textarea { width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid rgba(16, 32, 42, .28); border-radius: 9px;
     background: var(--paper); font: inherit; font-size: 16px; color: var(--ink); transition: border-color .15s ease, box-shadow .15s ease; }
-  .bkFields input:focus-visible, .bkFields textarea:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(116, 96, 47, .2); }
+  .bkFields input:focus-visible, .bkFields textarea:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(15, 107, 120, .18); }
   .bkFields input.bad { border-color: #a4231b; }
   .bkFields textarea { min-height: 76px; resize: vertical; }
   .seg { display: flex; flex-wrap: wrap; gap: 6px; }
   .seg button { min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font: inherit; font-size: 15px;
     font-weight: 600; color: var(--ink); cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
-  .seg button[aria-checked="true"] { background: var(--ink); border-color: var(--ink); color: var(--card); }
-
+  .seg button[aria-checked="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
   .bkConsent { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; margin: 14px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-soft); cursor: pointer; }
   .bkConsent input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--accent); }
   .btnWide { display: flex; width: 100%; margin-top: 14px; }
   .btnWide:disabled { opacity: .55; cursor: default; }
   .bkErr { margin: 12px 0 0; padding: 10px 12px; border: 1px solid #efc3bd; border-radius: 9px; background: #fbe9e6; font-size: 14px; color: #7a1f17; }
   .bkNote { margin: 10px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
-
   .bkSkel { display: grid; gap: 12px; }
   .skelRow { display: flex; gap: 6px; }
   .skelRow i { flex: 0 0 54px; height: 60px; border-radius: 10px; background: var(--paper-2); animation: shimmer 1.2s ease-in-out infinite; }
@@ -516,13 +412,12 @@
   .skelLine.w60 { width: 60%; }
   @keyframes shimmer { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .skelRow i, .skelLine { animation: none; } }
-
   .doneMark { width: 44px; height: 44px; margin: 2px 0 10px; color: var(--accent); }
   .doneMark svg { width: 100%; height: 100%; }
   .doneMark .tick { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tick .6s .2s var(--ease) forwards; }
   @keyframes tick { to { stroke-dashoffset: 0; } }
   @media (prefers-reduced-motion: reduce) { .doneMark .tick { animation: none; stroke-dashoffset: 0; } }
-  .doneH { margin: 0 0 10px; font-family: 'Fraunces', Georgia, serif; font-size: 23px; font-weight: 560; color: var(--ink); }
+  .doneH { margin: 0 0 10px; font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--ink); }
   .doneNext { margin: 0 0 16px; padding: 0; list-style: none; counter-reset: dn; display: grid; gap: 8px; }
   .doneNext li { counter-increment: dn; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; font-size: 14.5px; color: var(--text); }
   .doneNext li::before { content: counter(dn); display: grid; place-items: center; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%;
@@ -531,24 +426,20 @@
   .doneActions .btn { min-height: 44px; padding: 0 18px; font-size: 14.5px; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
-  /* ===== Footer: one colophon block ===== */
-  footer { padding: 76px var(--gutter) 64px; background: var(--deep); border-top: 1px solid var(--line); font-size: 14px; line-height: 1.7; color: var(--soft); }
+  /* ===== Footer ===== */
+  footer { padding: 64px var(--gutter) 56px; font-size: 14px; line-height: 1.7; }
   .colophon { max-width: 78ch; }
-  .brandFooter { font-size: 40px; margin: 0 0 34px; }
-  .colophonLead { margin: 0 0 24px; font-family: 'Fraunces', Georgia, serif; font-size: clamp(22px, 2vw, 28px); font-weight: 540; color: var(--heading); }
+  .brandFooter { font-size: 36px; margin: 0 0 30px; }
   .colophonBlock { margin: 0 0 10px; }
   .colophonBlock b { color: var(--heading); font-weight: 600; }
   .colophonMeta { margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13.5px; }
   .colophon .sep { margin: 0 4px; opacity: .55; }
   .colophon .nw { white-space: nowrap; }
-  footer a { color: var(--soft); text-decoration-color: rgba(179, 170, 158, .4); }
+  footer a { color: var(--soft); text-decoration-color: rgba(159, 177, 186, .4); }
   footer a:hover { color: var(--heading); }
 
-  /* Sticky call-to-action bar: phones only (see below) */
   .mbar { display: none; }
-
   @media (max-width: 1099px) { .navLinks { display: none; } }
-  @media (min-width: 901px) and (max-width: 1099px) { .whenGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
   /* ===== Phones and small tablets ===== */
   @media (max-width: 900px) {
@@ -557,82 +448,57 @@
     header.top { padding: 0 16px; }
     .brand { font-size: 18px; }
     .hdrBook, .hdrCall { display: none; }
-    h2 { font-size: clamp(28px, 7.6vw, 36px); margin-bottom: 18px; }
+    h2 { font-size: clamp(28px, 7.4vw, 36px); margin-bottom: 16px; }
     .lede { font-size: 17px; }
-
-    /* hero: the text first, the image below it */
     .hero { display: block; min-height: 0; }
-    .heroInner { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: calc(var(--hdr) + 32px) var(--gutter) 52px; }
-    .hero h1 { font-size: clamp(36px, 9.6vw, 46px); margin-bottom: 18px; }
+    .heroInner { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: calc(var(--hdr) + 28px) var(--gutter) 44px; }
+    .hero h1 { font-size: clamp(36px, 9.4vw, 46px); margin-bottom: 16px; }
     .lead { font-size: 18px; }
-    .heroFigure { justify-self: center; width: min(100% - 36px, 26rem); margin: 18px 0 0 18px; }
-    .heroEcho { inset: -12px -12px 12px 12px; }
-    .heroDot { width: 96px; height: 96px; left: -18px; top: 14%; border-width: 5px; }
-    /* below the image on phones: overlapping, it would cover the image's KI-generiert label */
-    .heroCase { position: relative; left: auto; bottom: auto; z-index: 3; width: 100%; margin: 30px 0 0 -18px;
-      grid-template-columns: 132px minmax(0, 1fr); align-items: center; }
-    .heroCase img { height: 58px; object-fit: cover; }
-    .heroTrust { gap: 8px 18px; margin-top: 26px; padding-top: 18px; }
-    .heroTrust li { font-size: 14px; }
-    .media--offset::before { inset: 14px -12px -14px 12px; }
-    .split--flip .media--offset::before { inset: 14px -12px -14px 12px; }
+    .heroTrust { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 22px; padding-top: 16px; }
+    .shadeCard { padding: 22px 18px 18px; }
     .scaleTabs { gap: 6px; }
-    .band--faq .inner { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-    .brandFooter { font-size: 30px; }
-
-    .section { padding: 64px 0; }
-    .split, .split--mediaWide { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-    .split--flip > .media { order: 0; }
-    .sectionHead { margin-bottom: 32px; }
-    .stepsHead { grid-template-columns: minmax(0, 1fr); gap: 28px; margin-bottom: 36px; }
-    /* on a phone each group becomes a row to swipe through */
-    .whenGrid { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 80%; gap: 14px;
-      overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 6px;
-      scroll-padding: 0 var(--gutter); scrollbar-width: none; }
-    .whenGrid::-webkit-scrollbar { display: none; }
-    .whenCard { scroll-snap-align: start; }
-    .whenCard h4 { font-size: 19px; }
-    .steps4 { grid-template-columns: minmax(0, 1fr); }
-    .steps4 li, .steps4 li:nth-child(even) { grid-template-columns: 48px minmax(0, 1fr); padding: 26px 8px 28px 0; }
-    .steps4 li:nth-child(odd) { border-right: 0; }
-    .steps4 li:nth-child(even)::before { left: 0; }
-    .stepNum { font-size: 32px; }
-    .steps4 h3 { font-size: 21px; }
-    .routes { grid-template-columns: minmax(0, 1fr); gap: 44px; }
-    .route .frame { aspect-ratio: 1; }
-    .route h3 { font-size: 24px; }
-
-    .cases { grid-template-columns: minmax(0, 1fr); gap: 30px; margin-top: 28px; }
-    .band--kosten .inner, .band--doctor .inner, .band--praxis .inner, .band--buchen .inner { grid-template-columns: minmax(0, 1fr); }
+    .heroCase { grid-template-columns: 120px minmax(0, 1fr); margin: 18px -6px -4px; }
+    .section { padding: 56px 0; }
+    .section--tight { padding: 44px 0; }
+    .split { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .sectionHead { margin-bottom: 28px; }
+    .case, .case:nth-child(even) .caseFrame { grid-template-columns: minmax(0, 1fr); order: 0; }
+    .case { gap: 14px; }
+    .case figcaption b { font-size: 22px; }
+    .routes, .whenCols, .steps4 { grid-template-columns: minmax(0, 1fr); }
+    .routes { gap: 28px; }
+    .steps4 li { grid-template-columns: 44px minmax(0, 1fr); padding: 22px 0 24px; }
+    .stepNum { font-size: 26px; }
+    .steps4 h3 { font-size: 20px; }
+    .band--kosten .inner, .band--doctor .inner, .band--praxis .inner, .band--buchen .inner, .band--faq .inner { grid-template-columns: minmax(0, 1fr); }
     .band--buchen .inner { gap: 22px; }
-    .promise { margin-top: 28px; padding: 20px 18px 6px; }
+    .band--faq .inner { gap: 18px; }
+    .promise { margin-top: 24px; padding: 20px 18px 6px; }
     .factors li { grid-template-columns: minmax(0, 1fr); gap: 2px; font-size: 16px; }
-    .band--doctor .inner { gap: 24px; }
+    .band--doctor .inner { gap: 22px; }
     .portrait { max-width: 180px; }
-    .faq summary { font-size: 18px; padding: 16px 0; }
+    .faq summary { font-size: 18px; padding: 15px 0; }
     .faq details p { font-size: 16px; }
     .bk { padding: 14px 14px 16px; border-radius: 16px; }
     .timeGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .introFacts li { font-size: 15.5px; }
-    footer { padding: 56px var(--gutter) 40px; }
-
+    footer { padding: 48px var(--gutter) 36px; }
+    .brandFooter { font-size: 28px; }
     .mbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; gap: 10px;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(16, 15, 18, .95);
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(251, 251, 249, .96);
       backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line);
       transition: transform .3s var(--ease); }
     .mbar .btn:first-child { flex: 1 1 auto; }
     .mbar.is-away { transform: translateY(110%); }
   }
-  @media (max-width: 380px) {
-    .bkFields { grid-template-columns: minmax(0, 1fr); }
-  }
+  @media (max-width: 380px) { .bkFields { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
 <script>document.documentElement.classList.add('js');</script>
 <a class="skip" href="#inhalt" data-i18n="skip">Zum Inhalt springen</a>
 
-<header class="top tone-dark" id="top">
+<header class="top" id="top">
   <a class="brand" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE – nach oben">
     <span class="brandTag" aria-hidden="true"></span>
     <span class="brandWord">AIX<span class="brandSky">SMILE</span>
@@ -640,14 +506,14 @@
     </span>
   </a>
   <nav class="navLinks" data-i18n-aria="nav.sections" aria-label="Seitenbereiche">
-    <a href="#wann" data-i18n="nav.wann">Wann es hilft</a>
-    <a href="#ablauf" data-i18n="nav.ablauf">Ablauf</a>
     <a href="#faelle" data-i18n="nav.faelle">Vorher/Nachher</a>
     <a href="#kosten" data-i18n="nav.kosten">Kosten</a>
+    <a href="#ablauf" data-i18n="nav.ablauf">Ablauf</a>
+    <a href="#wann" data-i18n="nav.wann">Wann es hilft</a>
     <a href="#faq" data-i18n="nav.faq">Fragen</a>
   </nav>
   <div class="controls">
-    <a class="btn btnSm hdrBook" href="#buchen" data-cta="book" data-i18n="nav.book">Farbbestimmung buchen</a>
+    <a class="btn btnSm hdrBook" href="#buchen" data-cta="book" data-i18n="nav.book">Beratungstermin buchen</a>
     <a class="btn ghost btnSm btnIcon hdrCall" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
     </a>
@@ -659,241 +525,46 @@
 
 <main id="inhalt">
 
-<section class="hero tone-dark" aria-labelledby="heroH">
+<section class="hero" aria-labelledby="heroH">
   <div class="heroInner">
     <div class="heroCopy">
       <p class="eyebrow" data-i18n="hero.eyebrow">Bleaching in Aachen · AIXSMILE</p>
-      <h1 id="heroH" data-i18n="hero.h1">Welche Nummer hat Ihr <em>Weiß</em>?</h1>
-      <p class="lead" data-i18n="hero.lead">Zahnfarbe lässt sich messen. Wir bestimmen sie vor dem Bleaching mit einer Farbskala und danach noch einmal. So steht auf dem Papier, was sich verändert hat, und nicht nur im Spiegel.</p>
-      <p class="heroSub" data-i18n="hero.sub">Von AIXSMILE, Ihrer Zahnarztpraxis in der Großkölnstraße. Die Farbbestimmung gehört zum ersten Beratungstermin.</p>
+      <h1 id="heroH" data-i18n="hero.h1">Zahnfarbe messen, dann aufhellen.</h1>
+      <p class="lead" data-i18n="hero.lead">Wir bestimmen Ihre Zahnfarbe vor dem Bleaching mit einer Farbskala und danach noch einmal. So sehen Sie schwarz auf weiß, was sich verändert hat, und nicht nur im Spiegel.</p>
+      <p class="heroSub" data-i18n="hero.sub">Zahnarztpraxis AIXSMILE, Großkölnstraße, Aachen. Der erste Termin ist eine Untersuchung mit Farbbestimmung und geht über Ihre Krankenkasse.</p>
       <div class="cta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="hero.book">Farbbestimmung buchen</a>
-        <a class="btn ghost" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241&nbsp;31202</span></a>
+        <a class="btn" href="#buchen" data-cta="book" data-i18n="hero.book">Beratungstermin buchen</a>
+        <a class="btn ghost" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241 31202</span></a>
       </div>
       <ul class="heroTrust">
-        <li data-i18n="hero.t1">Online buchen, Bestätigung sofort per E-Mail</li>
+        <li data-i18n="hero.t1">Erster Termin ohne Zusatzkosten</li>
         <li data-i18n="hero.t2">Schriftlicher Kostenplan vor der Behandlung</li>
-        <li data-i18n="hero.t3">Fünf Sprachen in der Praxis</li>
+        <li data-i18n="hero.t3">Beratung in fünf Sprachen</li>
       </ul>
     </div>
-    <figure class="heroFigure">
-      <span class="heroEcho" aria-hidden="true"></span>
-      <div class="frame">
-        <img src="assets/photos/ai/hero.webp" width="1000" height="1250" decoding="async" fetchpriority="high" data-i18n-alt="hero.alt" alt="Eine behandschuhte Hand hält einen Musterzahn der Farbskala neben die Frontzähne (KI-generiertes Bild)">
-        <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
+    <div class="shadeCard" role="group" data-i18n-aria="hero.cardAria" aria-label="Die Farbskala, mit der wir messen">
+      <h2 data-i18n="hero.cardH">So messen wir Ihr Weiß</h2>
+      <p class="scaleIntro" data-i18n="hero.cardP">Neben Ihre Zähne halten wir Musterzähne mit Kürzeln wie A2 oder BL3. Der Buchstabe steht für die Farbrichtung, die Zahl für die Abstufung. Vorher ein Wert, nachher ein Wert.</p>
+      <div class="scaleTabs" role="img" data-i18n-aria="hero.scaleAria" aria-label="Vereinfachte Farbskala mit acht Musterzähnen, von A3 bis BL1">
+        <span class="tab tab--a3"><i></i>A3</span><span class="tab tab--a2"><i></i>A2</span><span class="tab tab--a1"><i></i>A1</span><span class="tab tab--b1"><i></i>B1</span><span class="tab tab--bl4"><i></i>BL4</span><span class="tab tab--bl3"><i></i>BL3</span><span class="tab tab--bl2"><i></i>BL2</span><span class="tab tab--bl1"><i></i>BL1</span>
       </div>
+      <p class="scaleAxis" aria-hidden="true"><span data-i18n="hero.darker">← dunkler</span><span data-i18n="hero.lighter">heller →</span></p>
+      <p class="scaleNote" data-i18n="hero.scaleNote">Vereinfacht. Die echte Skala hat mehr Stufen; gemessen wird im Mund, bei Tageslicht.</p>
       <a class="heroCase" href="#faelle">
-        <img src="assets/photos/case-1-pair.webp" width="726" height="192" decoding="async" data-i18n-alt="hero.caseAlt" alt="Fall 1 aus unserer Praxis: links vorher, rechts nachher">
+        <img src="assets/photos/case-1-pair.webp" width="726" height="192" decoding="async" fetchpriority="high" data-i18n-alt="hero.caseAlt" alt="Fall 1 aus unserer Praxis: links vorher, rechts nachher">
         <span class="heroCaseText"><b data-i18n="hero.caseB">Echter Fall aus unserer Praxis</b><span data-i18n="hero.caseS">Vorher und nachher ansehen</span></span>
       </a>
-    </figure>
-  </div>
-</section>
-
-<section class="section tone-light" id="bleaching" aria-labelledby="momentH">
-  <div class="wrap split">
-    <figure class="media media--offset">
-      <div class="frame frame--tall">
-        <img src="assets/photos/ai/smile.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="moment.alt" alt="Eine lachende Frau mit natürlich hellen Zähnen (KI-generiertes Bild)">
-        <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
-      </div>
-    </figure>
-    <div class="copy">
-      <p class="eyebrow" data-i18n="moment.eyebrow">Warum Bleaching</p>
-      <h2 id="momentH" data-i18n="moment.h2">Lachen, ohne dabei an die <em>Zahnfarbe</em> zu denken.</h2>
-      <p data-i18n="moment.p1">Viele merken es zuerst auf Fotos: Die Zähne wirken dunkler als früher, das Lachen wird vorsichtiger, die Hand wandert vor den Mund. Das ist nichts Ungewöhnliches. Zahnfarbe verändert sich mit den Jahren und mit dem, was wir jeden Tag trinken.</p>
-      <p data-i18n="moment.p2">Ein Bleaching in der Praxis hellt Ihre eigenen Zähne auf, unter zahnärztlicher Aufsicht und mit einem Ergebnis, das wir messen.</p>
-      <ol class="facts">
-        <li data-i18n="moment.f1">Erst Untersuchung und Zahnreinigung, dann das Gel</li>
-        <li data-i18n="moment.f2">Die Farbe wird gemessen, nicht geschätzt</li>
-        <li data-i18n="moment.f3">Schriftlicher Kostenplan, bevor behandelt wird</li>
-      </ol>
     </div>
   </div>
 </section>
 
-<section class="section tone-light band--when" id="wann" aria-labelledby="whenH">
+<section class="section tone-navy band--cases" id="faelle" aria-labelledby="baH">
   <div class="wrap">
     <div class="sectionHead">
-      <p class="eyebrow" data-i18n="when.eyebrow">Wann Bleaching hilft</p>
-      <h2 id="whenH" data-i18n="when.h2">Nicht jede Verfärbung ist <em>gleich</em>.</h2>
-      <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt. Die Bilder sind Symbolbilder; welche Ursache bei Ihnen vorliegt, klären wir bei der Untersuchung.</p>
+      <p class="eyebrow" data-i18n="ba.eyebrow">Vorher und nachher</p>
+      <h2 id="baH" data-i18n="ba.h2">Zwei Fälle aus unserer Praxis.</h2>
+      <p class="lede" data-i18n="ba.lede">Veröffentlicht mit Einwilligung der Patientinnen und Patienten. Die Fotos entstanden im Praxisalltag; Licht und Kamera waren vorher und nachher nicht identisch. Farbe zeigt ein Foto deshalb nie so genau wie die Skala.</p>
     </div>
-    <div class="whenGroup">
-      <h3 class="verdict verdict--good" data-i18n="when.goodH">Spricht gut an</h3>
-      <div class="whenGrid">
-        <article class="whenCard">
-          <div class="frame frame--card">
-            <img src="assets/photos/ai/stain-coffee.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)">
-            <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-          </div>
-          <h4 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h4>
-          <p data-i18n="when.p1">Die häufigste Verfärbung und die, die am besten anspricht. Die Farbstoffe sitzen im Zahn und lassen sich aufhellen.</p>
-        </article>
-        <article class="whenCard">
-          <div class="frame frame--card">
-            <img src="assets/photos/ai/stain-age.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a2" alt="Nahaufnahme von Zähnen, die mit dem Alter nachgedunkelt sind (KI-generiertes Symbolbild)">
-            <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-          </div>
-          <h4 data-i18n="when.t2">Mit den Jahren nachgedunkelt</h4>
-          <p data-i18n="when.p2">Zähne werden mit dem Alter dunkler und gelblicher. Auch diese Einlagerungen hellt ein Bleaching in der Regel gut auf.</p>
-        </article>
-        <article class="whenCard">
-          <div class="frame frame--card">
-            <img src="assets/photos/ai/stain-smoking.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)">
-            <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-          </div>
-          <h4 data-i18n="when.t3">Verfärbungen durch Rauchen</h4>
-          <p data-i18n="when.p3">Beläge entfernt die Zahnreinigung, was im Zahn eingelagert ist, das Bleaching. Beides zusammen wirkt am besten.</p>
-        </article>
-      </div>
-    </div>
-    <div class="whenGroup">
-      <h3 class="verdict verdict--limit" data-i18n="when.limitH">Stößt an Grenzen</h3>
-      <div class="whenGrid">
-        <article class="whenCard">
-          <div class="frame frame--card">
-            <img src="assets/photos/ai/stain-grey.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)">
-            <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-          </div>
-          <h4 data-i18n="when.t4">Grau, oft durch Medikamente</h4>
-          <p data-i18n="when.p4">Graue oder streifige Verfärbungen, etwa nach bestimmten Antibiotika in der Kindheit, hellen zurückhaltender und ungleichmäßiger auf.</p>
-        </article>
-        <article class="whenCard">
-          <div class="frame frame--card">
-            <img src="assets/photos/ai/stain-single.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a5" alt="Nahaufnahme, ein Frontzahn ist deutlich dunkler als die übrigen (KI-generiertes Symbolbild)">
-            <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-          </div>
-          <h4 data-i18n="when.t5">Ein einzelner dunkler Zahn</h4>
-          <p data-i18n="when.p5">Oft nach einer Wurzelbehandlung. Von außen hilft Bleaching hier wenig; welches Vorgehen passt, besprechen wir mit Ihnen.</p>
-        </article>
-        <article class="whenCard">
-          <div class="frame frame--card">
-            <img src="assets/photos/ai/stain-restorations.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a6" alt="Nahaufnahme, eine Krone hat einen anderen Farbton als die Nachbarzähne (KI-generiertes Symbolbild)">
-            <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-          </div>
-          <h4 data-i18n="when.t6">Füllungen, Kronen und Veneers</h4>
-          <p data-i18n="when.p6">Sie behalten ihre Farbe. Liegen sie vorn, planen wir von Anfang an, ob sie nach dem Bleaching angepasst werden.</p>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section tone-dark" id="was-passiert" aria-labelledby="s1H">
-  <div class="wrap split split--flip">
-    <figure class="media media--offset">
-      <div class="frame frame--tall">
-        <img src="assets/photos/ai/gel.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="s1.alt" alt="Aufhellungsgel wird auf die Frontzähne aufgetragen, das Zahnfleisch ist abgedeckt (KI-generiertes Bild)">
-        <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
-      </div>
-    </figure>
-    <div class="copy">
-      <p class="eyebrow" data-i18n="s1.eyebrow">Was passiert</p>
-      <h2 id="s1H" data-i18n="s1.h2">Aufgehellt wird der Zahn <em>selbst</em>, nicht seine Oberfläche.</h2>
-      <p data-i18n="s1.p1">Kaffee, Tee, Rotwein, Tabak und die Jahre lagern Farbstoffe im Zahn ein, im Schmelz und im Dentin darunter. Eine Zahnreinigung erreicht nur, was außen haftet. Das Aufhellungsgel dringt ein und spaltet die eingelagerten Farbstoffe, bis der Zahn heller wirkt.</p>
-      <p data-i18n="s1.p2">Auf den Zahn kommt dabei nichts, abgetragen wird nichts. Form und Oberfläche bleiben, wie sie sind. Von allen Wegen zu helleren Zähnen verändert Bleaching am wenigsten.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section tone-light" id="messen" aria-labelledby="s2H">
-  <div class="wrap split split--mediaWide">
-    <figure class="media">
-      <div class="frame frame--wide">
-        <img src="assets/photos/ai/shade-fan.webp" width="1200" height="800" loading="lazy" decoding="async" data-i18n-alt="s2.figAlt" alt="Fächer einer zahnärztlichen Farbskala mit Musterzähnen von dunkel bis hell (KI-generiertes Symbolbild)">
-        <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-      </div>
-      <figcaption data-i18n="s2.figCap">Symbolbild einer Farbskala. Bei uns wird im Mund gemessen, bei Tageslicht; Farben am Bildschirm sind nicht verbindlich.</figcaption>
-    </figure>
-    <div class="copy">
-      <p class="eyebrow" data-i18n="s2.eyebrow">Messen</p>
-      <h2 id="s2H" data-i18n="s2.h2">Eine Farbskala statt eines <em>Eindrucks</em>.</h2>
-      <p data-i18n="s2.p1">Neben Ihre Zähne halten wir eine Reihe von Musterzähnen. Jeder trägt ein Kürzel wie A2, B1 oder BL3: Der Buchstabe steht für die Farbrichtung, die Zahl für die Abstufung. Die BL-Muster sind heller als die üblichen Naturtöne und für aufgehellte Zähne gedacht.</p>
-      <p data-i18n="s2.p2">Wir messen bei Tageslicht und bevor irgendetwas passiert. Der Wert wird notiert, und an ihm muss sich später jedes Ergebnis messen lassen.</p>
-      <div class="scale">
-        <div class="scaleTabs" role="img" data-i18n-aria="s2.scaleAria" aria-label="Vereinfachte Farbskala mit acht Musterzähnen, von A3 bis BL1">
-          <span class="tab tab--a3"><i></i>A3</span><span class="tab tab--a2"><i></i>A2</span><span class="tab tab--a1"><i></i>A1</span><span class="tab tab--b1"><i></i>B1</span><span class="tab tab--bl4"><i></i>BL4</span><span class="tab tab--bl3"><i></i>BL3</span><span class="tab tab--bl2"><i></i>BL2</span><span class="tab tab--bl1"><i></i>BL1</span>
-        </div>
-        <p class="scaleAxis" aria-hidden="true"><span data-i18n="s2.darker">← dunkler</span><span data-i18n="s2.lighter">heller →</span></p>
-        <p class="scaleNote" data-i18n="s2.scaleNote">Vereinfachte Darstellung. Die echte Skala hat mehr Stufen, und die Farben am Bildschirm sind nicht verbindlich.</p>
-      </div>
-    </div>
-  </div>
-  <div class="wrap">
-    <figure class="stepStrip">
-      <h3 class="stepStripH" data-i18n="s2.stripH">Was eine Stufe auf der Skala bedeutet</h3>
-      <div class="frame frame--strip">
-        <img src="assets/photos/ai/shade-steps.webp" width="1500" height="625" loading="lazy" decoding="async" data-i18n-alt="s2.stripAlt" alt="Dasselbe Lächeln dreimal nebeneinander, nur der Zahnfarbton ändert sich von A3 über A1 zu BL3 (KI-generiertes Symbolbild)">
-        <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
-      </div>
-      <div class="stepStripLabels" aria-hidden="true"><span>A3</span><span>A1</span><span>BL3</span></div>
-      <figcaption class="stepStripNote" data-i18n="s2.stripNote"><b>Symbolbild, kein Behandlungsergebnis.</b> Es zeigt, wie sich drei Stufen der Skala ungefähr unterscheiden. Wie viele Stufen bei Ihren Zähnen möglich sind, zeigt erst die Untersuchung.</figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="section tone-dark band--steps" id="ablauf" aria-labelledby="stepsH">
-  <div class="wrap">
-    <div class="stepsHead">
-      <div class="sectionHead">
-        <p class="eyebrow" data-i18n="steps.eyebrow">Ablauf</p>
-        <h2 id="stepsH" data-i18n="steps.h2">Vier Schritte, und am Ende eine <em>neue Nummer</em>.</h2>
-      </div>
-      <figure class="media stepsFig">
-        <div class="frame frame--land">
-          <img src="assets/photos/ai/shade-fan.webp" width="1200" height="800" loading="lazy" decoding="async" data-i18n-alt="steps.alt" alt="Farbskala aus Musterzähnen auf einem Metallhalter, von Elfenbein bis Weiß (KI-generiertes Bild)">
-          <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
-        </div>
-      </figure>
-    </div>
-    <ol class="steps4">
-      <li><span class="stepNum" aria-hidden="true">01</span><div><h3 data-i18n="steps.t1">Erst prüfen, dann bleichen</h3><p data-i18n="steps.p1">Vor dem Gel kommt die Untersuchung, und davor immer eine professionelle Zahnreinigung. Karies, undichte Füllungen oder freiliegende Zahnhälse behandeln wir zuerst. Füllungen, Kronen und Veneers hellen nicht mit auf; liegen sie im sichtbaren Bereich, planen wir sie von Anfang an mit ein.</p></div></li>
-      <li><span class="stepNum" aria-hidden="true">02</span><div><h3 data-i18n="steps.t2">Ein ehrliches Ziel</h3><p data-i18n="steps.p2">Wie hell ein Zahn werden kann, entscheidet der Zahn: Ausgangsfarbe, Schmelzdicke, Art der Verfärbung. Gelbliche Töne sprechen meist gut an, graue deutlich zurückhaltender. Ein Versprechen in Stufen geben wir nicht, aber Sie erfahren vorher, was realistisch ist.</p></div></li>
-      <li><span class="stepNum" aria-hidden="true">03</span><div><h3 data-i18n="steps.t3">Kontrolliert aufhellen</h3><p data-i18n="steps.p3">Eine Schutzschicht deckt das Zahnfleisch ab, dann kommt das Gel auf die Zähne und wirkt kontrolliert ein, oft in mehreren Durchgängen. Konzentration und Einwirkzeit legt die Praxis fest, nicht eine Packungsbeilage. Weh tun sollte das nicht; eine kurze Kälteempfindlichkeit geht meist nach wenigen Tagen vorbei.</p></div></li>
-      <li><span class="stepNum" aria-hidden="true">04</span><div><h3 data-i18n="steps.t4">Wieder messen</h3><p data-i18n="steps.p4">Dieselbe Skala, dieselben Zähne, eine neue Nummer. Direkt danach wirken Zähne oft etwas heller, als sie bleiben; nach ein bis zwei Wochen hat sich die Farbe gesetzt. Wie lange sie hält, liegt vor allem an Kaffee, Tee, Rotwein und Rauchen, meist sind es ein bis drei Jahre.</p></div></li>
-    </ol>
-    <div class="cta">
-      <a class="btn" href="#buchen" data-cta="book" data-i18n="steps.book">Farbbestimmung buchen</a>
-    </div>
-  </div>
-</section>
-
-<section class="section tone-light" id="zwei-wege" aria-labelledby="routesH">
-  <div class="wrap">
-    <div class="sectionHead">
-      <p class="eyebrow" data-i18n="routes.eyebrow">Zwei Wege</p>
-      <h2 id="routesH" data-i18n="routes.h2">In der Praxis oder <em>zu Hause</em>.</h2>
-      <p class="lede" data-i18n="routes.lede">Beide Wege hellen auf; sie unterscheiden sich in Tempo und Dosierung. Welcher zu Ihnen passt, klären wir in der Beratung.</p>
-    </div>
-    <div class="routes">
-      <article class="route">
-        <div class="frame">
-          <img src="assets/photos/ai/in-office.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="routes.alt1" alt="Eine Person im Behandlungsstuhl mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)">
-          <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
-        </div>
-        <p class="routeMeta" data-i18n="routes.m1">Ein Termin · unter Aufsicht</p>
-        <h3 data-i18n="routes.t1">In der Praxis</h3>
-        <p data-i18n="routes.p1">Ein stärker dosiertes Gel, aufgetragen und überwacht von uns. Für alle, die das Ergebnis am selben Tag sehen möchten.</p>
-      </article>
-      <article class="route">
-        <div class="frame">
-          <img src="assets/photos/ai/at-home.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="routes.alt2" alt="Eine Hand hält durchsichtige Bleaching-Schienen und eine kleine Gelspritze (KI-generiertes Bild)">
-          <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
-        </div>
-        <p class="routeMeta" data-i18n="routes.m2">Mehrere Tage · zu Hause</p>
-        <h3 data-i18n="routes.t2">Zu Hause, mit Schienen</h3>
-        <p data-i18n="routes.p2">Nach einem Abdruck fertigen wir dünne Schienen für Ihre Zähne. Darin tragen Sie über mehrere Tage ein milderes Gel. Das dauert länger und ist oft angenehmer für empfindliche Zähne.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section tone-dark band--cases" id="faelle" aria-labelledby="baH">
-  <div class="wrap inner">
-    <p class="eyebrow" data-i18n="ba.eyebrow">Vorher und nachher</p>
-    <h2 id="baH" data-i18n="ba.h2">Zwei Fälle aus <em>unserer Praxis</em>.</h2>
-    <p class="lede" data-i18n="ba.lede">Veröffentlicht mit Einwilligung der Patientinnen und Patienten. Die Fotos entstanden im Praxisalltag; Licht und Kamera waren vorher und nachher nicht identisch. Farbe zeigt ein Foto deshalb nie so genau wie die Skala.</p>
     <div class="cases">
       <figure class="case case--1">
         <div class="caseFrame">
@@ -901,7 +572,7 @@
           <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
           <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
         </div>
-        <figcaption><b data-i18n="ba.case1">Fall 1</b><span data-i18n="ba.cap">Behandelt in unserer Praxis in Aachen</span></figcaption>
+        <figcaption><b data-i18n="ba.case1">Fall 1</b><span data-i18n="ba.cap1">Gelbliche Verfärbung, in der Praxis aufgehellt. Oben vor der Behandlung, unten danach.</span></figcaption>
       </figure>
       <figure class="case case--2">
         <div class="caseFrame">
@@ -909,17 +580,45 @@
           <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
           <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
         </div>
-        <figcaption><b data-i18n="ba.case2">Fall 2</b><span data-i18n="ba.cap">Behandelt in unserer Praxis in Aachen</span></figcaption>
+        <figcaption><b data-i18n="ba.case2">Fall 2</b><span data-i18n="ba.cap2">Nachgedunkelte Frontzähne, in der Praxis aufgehellt. Oben vor der Behandlung, unten danach.</span></figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<section class="section tone-light band--buchen" id="buchen" aria-labelledby="bkH">
+<section class="section tone-ice band--kosten" id="kosten" aria-labelledby="kostenH">
+  <div class="wrap inner">
+    <p class="eyebrow" data-i18n="kosten.eyebrow">Kosten</p>
+    <h2 id="kostenH" data-i18n="kosten.h2">Was ein Bleaching kostet, und wovon das abhängt.</h2>
+    <div class="prose">
+      <p data-i18n="kosten.p1">Der erste Termin kostet Sie nichts extra: Untersuchung und Farbbestimmung laufen bei gesetzlich Versicherten als Kontrolluntersuchung über die Krankenkasse; Privatversicherte reichen sie wie gewohnt ein. Bezahlt wird erst die Aufhellung selbst, als Privatleistung nach der GOZ.</p>
+      <p data-i18n="kosten.p2">Einen Betrag nennen wir Ihnen, sobald feststeht, welcher Weg zu Ihren Zähnen passt. Diese drei Punkte entscheiden:</p>
+      <ul class="factors">
+        <li><b data-i18n="kosten.f1k">Verfahren</b><span data-i18n="kosten.f1v">In der Praxis in einer Sitzung oder zu Hause mit individuell angefertigten Schienen.</span></li>
+        <li><b data-i18n="kosten.f2k">Vorbereitung</b><span data-i18n="kosten.f2v">Die professionelle Zahnreinigung vorab, und ob zusätzlich eine kleine Behandlung nötig ist.</span></li>
+        <li><b data-i18n="kosten.f3k">Ausgangslage</b><span data-i18n="kosten.f3v">Wie ausgeprägt die Verfärbung ist und wie viele Zähne im sichtbaren Bereich dazugehören.</span></li>
+      </ul>
+      <p class="priceFrom" id="priceFrom" hidden></p>
+    </div>
+    <div class="promise">
+      <h3 data-i18n="kosten.promiseH">Der Weg zu Ihrem Preis</h3>
+      <ol>
+        <li><b data-i18n="kosten.s1k">Untersuchung und Farbbestimmung</b><span data-i18n="kosten.s1v">Wir sehen uns Ihre Zähne an und messen die Ausgangsfarbe. Dieser Termin geht über Ihre Krankenkasse.</span></li>
+        <li><b data-i18n="kosten.s2k">Schriftlicher Kostenplan</b><span data-i18n="kosten.s2v">Mit allen Positionen, bevor irgendetwas behandelt wird.</span></li>
+        <li><b data-i18n="kosten.s3k">Ihre Entscheidung</b><span data-i18n="kosten.s3v">Sie nehmen den Plan mit und entscheiden ohne Zeitdruck.</span></li>
+      </ol>
+      <div class="cta">
+        <a class="btn" href="#buchen" data-cta="book" data-i18n="kosten.btn">Beratungstermin buchen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section band--buchen" id="buchen" aria-labelledby="bkH">
   <div class="wrap inner">
     <div class="intro">
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
-      <h2 id="bkH" data-i18n="bk.h2">Farbbestimmung und Beratung, <em>gleich hier</em> buchen.</h2>
+      <h2 id="bkH" data-i18n="bk.h2">Beratungstermin mit Farbbestimmung, gleich hier buchen.</h2>
       <p data-i18n="bk.p">Unten stehen die Zeiten, die in der Praxis gerade wirklich frei sind. Sie suchen sich eine aus, hinterlassen Name und Telefonnummer, und der Termin steht.</p>
       <ul class="introFacts">
         <li data-i18n="bk.fact1">Erster Termin über die Krankenkasse, ohne Zusatzkosten</li>
@@ -1015,35 +714,75 @@
   </div>
 </section>
 
-<section class="section tone-dark band--kosten" id="kosten" aria-labelledby="kostenH">
-  <div class="wrap inner">
-    <p class="eyebrow" data-i18n="kosten.eyebrow">Kosten</p>
-    <h2 id="kostenH" data-i18n="kosten.h2">Was ein Bleaching kostet, und <em>wovon das abhängt</em>.</h2>
-    <div class="prose">
-      <p data-i18n="kosten.p1">Der erste Termin kostet Sie nichts extra: Untersuchung und Farbbestimmung laufen bei gesetzlich Versicherten als Kontrolluntersuchung über die Krankenkasse; Privatversicherte reichen sie wie gewohnt ein. Bezahlt wird erst die Aufhellung selbst, als Privatleistung nach der GOZ.</p>
-      <p data-i18n="kosten.p2">Einen Betrag nennen wir Ihnen, sobald feststeht, welcher Weg zu Ihren Zähnen passt. Diese drei Punkte entscheiden:</p>
-      <ul class="factors">
-        <li><b data-i18n="kosten.f1k">Verfahren</b><span data-i18n="kosten.f1v">In der Praxis in einer Sitzung oder zu Hause mit individuell angefertigten Schienen.</span></li>
-        <li><b data-i18n="kosten.f2k">Vorbereitung</b><span data-i18n="kosten.f2v">Die professionelle Zahnreinigung vorab, und ob zusätzlich eine kleine Behandlung nötig ist.</span></li>
-        <li><b data-i18n="kosten.f3k">Ausgangslage</b><span data-i18n="kosten.f3v">Wie ausgeprägt die Verfärbung ist und wie viele Zähne im sichtbaren Bereich dazugehören.</span></li>
-      </ul>
-      <p class="priceFrom" id="priceFrom" hidden></p>
+<section class="section section--tight" id="zwei-wege" aria-labelledby="routesH">
+  <div class="wrap">
+    <div class="sectionHead">
+      <p class="eyebrow" data-i18n="routes.eyebrow">Zwei Wege</p>
+      <h2 id="routesH" data-i18n="routes.h2">In der Praxis oder zu Hause.</h2>
+      <p class="lede" data-i18n="routes.lede">Beide Wege hellen auf; sie unterscheiden sich in Tempo und Dosierung. Welcher zu Ihnen passt, klären wir in der Beratung.</p>
     </div>
-    <div class="promise tone-light">
-      <h3 data-i18n="kosten.promiseH">Der Weg zu Ihrem Preis</h3>
-      <ol>
-        <li><b data-i18n="kosten.s1k">Untersuchung und Farbbestimmung</b><span data-i18n="kosten.s1v">Wir sehen uns Ihre Zähne an und messen die Ausgangsfarbe. Dieser Termin geht über Ihre Krankenkasse.</span></li>
-        <li><b data-i18n="kosten.s2k">Schriftlicher Kostenplan</b><span data-i18n="kosten.s2v">Mit allen Positionen, bevor irgendetwas behandelt wird.</span></li>
-        <li><b data-i18n="kosten.s3k">Ihre Entscheidung</b><span data-i18n="kosten.s3v">Sie nehmen den Plan mit und entscheiden ohne Zeitdruck.</span></li>
-      </ol>
-      <div class="cta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="kosten.btn">Beratung buchen</a>
+    <div class="routes">
+      <article class="route">
+        <p class="routeMeta" data-i18n="routes.m1">Ein Termin · unter Aufsicht</p>
+        <h3 data-i18n="routes.t1">In der Praxis</h3>
+        <p data-i18n="routes.p1">Ein stärker dosiertes Gel, aufgetragen und überwacht von uns. Für alle, die das Ergebnis am selben Tag sehen möchten.</p>
+      </article>
+      <article class="route">
+        <p class="routeMeta" data-i18n="routes.m2">Mehrere Tage · zu Hause</p>
+        <h3 data-i18n="routes.t2">Zu Hause, mit Schienen</h3>
+        <p data-i18n="routes.p2">Nach einem Abdruck fertigen wir dünne Schienen für Ihre Zähne. Darin tragen Sie über mehrere Tage ein milderes Gel. Das dauert länger und ist oft angenehmer für empfindliche Zähne.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section tone-ice" id="ablauf" aria-labelledby="stepsH">
+  <div class="wrap">
+    <div class="sectionHead">
+      <p class="eyebrow" data-i18n="steps.eyebrow">Ablauf</p>
+      <h2 id="stepsH" data-i18n="steps.h2">Vier Schritte, und am Ende eine neue Nummer.</h2>
+    </div>
+    <ol class="steps4">
+            <li><span class="stepNum" aria-hidden="true">1</span><div><h3 data-i18n="steps.t1">Erst prüfen, dann bleichen</h3><p data-i18n="steps.p1">Vor dem Gel kommt die Untersuchung, und davor immer eine professionelle Zahnreinigung. Karies, undichte Füllungen oder freiliegende Zahnhälse behandeln wir zuerst. Füllungen, Kronen und Veneers hellen nicht mit auf; liegen sie im sichtbaren Bereich, planen wir sie von Anfang an mit ein.</p></div></li>
+      <li><span class="stepNum" aria-hidden="true">2</span><div><h3 data-i18n="steps.t2">Ein ehrliches Ziel</h3><p data-i18n="steps.p2">Wie hell ein Zahn werden kann, entscheidet der Zahn: Ausgangsfarbe, Schmelzdicke, Art der Verfärbung. Gelbliche Töne sprechen meist gut an, graue deutlich zurückhaltender. Ein Versprechen in Stufen geben wir nicht, aber Sie erfahren vorher, was realistisch ist.</p></div></li>
+      <li><span class="stepNum" aria-hidden="true">3</span><div><h3 data-i18n="steps.t3">Kontrolliert aufhellen</h3><p data-i18n="steps.p3">Eine Schutzschicht deckt das Zahnfleisch ab, dann kommt das Gel auf die Zähne und wirkt kontrolliert ein, oft in mehreren Durchgängen. Konzentration und Einwirkzeit legt die Praxis fest, nicht eine Packungsbeilage. Weh tun sollte das nicht; eine kurze Kälteempfindlichkeit geht meist nach wenigen Tagen vorbei.</p></div></li>
+      <li><span class="stepNum" aria-hidden="true">4</span><div><h3 data-i18n="steps.t4">Wieder messen</h3><p data-i18n="steps.p4">Dieselbe Skala, dieselben Zähne, eine neue Nummer. Direkt danach wirken Zähne oft etwas heller, als sie bleiben; nach ein bis zwei Wochen hat sich die Farbe gesetzt. Wie lange sie hält, liegt vor allem an Kaffee, Tee, Rotwein und Rauchen, meist sind es ein bis drei Jahre.</p></div></li>
+    </ol>
+    <div class="cta">
+      <a class="btn" href="#buchen" data-cta="book" data-i18n="steps.book">Beratungstermin buchen</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" id="wann" aria-labelledby="whenH">
+  <div class="wrap">
+    <div class="sectionHead">
+      <p class="eyebrow" data-i18n="when.eyebrow">Wann Bleaching hilft</p>
+      <h2 id="whenH" data-i18n="when.h2">Nicht jede Verfärbung ist gleich.</h2>
+      <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt. Welche Ursache bei Ihnen vorliegt, klären wir bei der Untersuchung.</p>
+    </div>
+    <div class="whenCols">
+      <div>
+        <h3 class="verdict verdict--good" data-i18n="when.goodH">Spricht gut an</h3>
+        <ul class="whenList">
+        <li><h4 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h4><p data-i18n="when.p1">Die häufigste Verfärbung und die, die am besten anspricht. Die Farbstoffe sitzen im Zahn und lassen sich aufhellen.</p></li>
+        <li><h4 data-i18n="when.t2">Mit den Jahren nachgedunkelt</h4><p data-i18n="when.p2">Zähne werden mit dem Alter dunkler und gelblicher. Auch diese Einlagerungen hellt ein Bleaching in der Regel gut auf.</p></li>
+        <li><h4 data-i18n="when.t3">Verfärbungen durch Rauchen</h4><p data-i18n="when.p3">Beläge entfernt die Zahnreinigung, was im Zahn eingelagert ist, das Bleaching. Beides zusammen wirkt am besten.</p></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="verdict verdict--limit" data-i18n="when.limitH">Stößt an Grenzen</h3>
+        <ul class="whenList">
+        <li><h4 data-i18n="when.t4">Grau, oft durch Medikamente</h4><p data-i18n="when.p4">Graue oder streifige Verfärbungen, etwa nach bestimmten Antibiotika in der Kindheit, hellen zurückhaltender und ungleichmäßiger auf.</p></li>
+        <li><h4 data-i18n="when.t5">Ein einzelner dunkler Zahn</h4><p data-i18n="when.p5">Oft nach einer Wurzelbehandlung. Von außen hilft Bleaching hier wenig; welches Vorgehen passt, besprechen wir mit Ihnen.</p></li>
+        <li><h4 data-i18n="when.t6">Füllungen, Kronen und Veneers</h4><p data-i18n="when.p6">Sie behalten ihre Farbe. Liegen sie vorn, planen wir von Anfang an, ob sie nach dem Bleaching angepasst werden.</p></li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section tone-light band--doctor" id="behandler" aria-labelledby="docH">
+<section class="section band--doctor" id="behandler" aria-labelledby="docH">
   <div class="wrap inner">
     <div class="portrait">
       <img src="assets/photos/doctor.jpg" width="274" height="274" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt der Zahnarztpraxis AIXSMILE in Aachen">
@@ -1062,11 +801,11 @@
   </div>
 </section>
 
-<section class="section tone-dark band--faq" id="faq" aria-labelledby="faqH">
+<section class="section tone-ice band--faq" id="faq" aria-labelledby="faqH">
   <div class="wrap inner">
     <div class="faqIntro">
       <p class="eyebrow" data-i18n="faq.eyebrow">Häufige Fragen</p>
-      <h2 id="faqH" data-i18n="faq.h2">Was vor einem Bleaching <em>oft gefragt</em> wird.</h2>
+      <h2 id="faqH" data-i18n="faq.h2">Was vor einem Bleaching oft gefragt wird.</h2>
       <p class="faqAside" data-i18n="faq.aside">Ihre Frage ist nicht dabei? Wir beantworten sie gern am Telefon oder im Beratungstermin.</p>
       <div class="cta"><a class="btn ghost" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241&nbsp;31202</span></a></div>
     </div>
@@ -1085,10 +824,10 @@
   </div>
 </section>
 
-<section class="section tone-light band--praxis" id="praxis" aria-labelledby="praxisH">
+<section class="section band--praxis" id="praxis" aria-labelledby="praxisH">
   <div class="wrap inner">
     <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
-    <h2 id="praxisH" data-i18n="praxis.h2">In der Großkölnstraße, mitten in der <em>Aachener Innenstadt</em>.</h2>
+    <h2 id="praxisH" data-i18n="praxis.h2">In der Großkölnstraße, mitten in der Aachener Innenstadt.</h2>
     <div class="praxisCol">
       <h3 data-i18n="praxis.addrH">Anschrift</h3>
       <p><b>Zahnarztpraxis AIXSMILE</b><br>Großkölnstraße 22–28<br>52062 Aachen</p>
@@ -1107,9 +846,10 @@
     </div>
   </div>
 </section>
+
 </main>
 
-<footer class="tone-dark">
+<footer class="tone-navy">
   <div class="colophon">
     <a class="brand brandFooter" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE – nach oben">
       <span class="brandTag" aria-hidden="true"></span>
@@ -1130,7 +870,7 @@
 </footer>
 
 <nav class="mbar" id="mbar" data-i18n-aria="mbar.aria" aria-label="Schnellzugriff">
-  <a class="btn" href="#buchen" data-cta="book" data-i18n="mbar.book">Farbbestimmung buchen</a>
+  <a class="btn" href="#buchen" data-cta="book" data-i18n="mbar.book">Beratungstermin buchen</a>
   <a class="btn ghost btnIcon" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
   </a>

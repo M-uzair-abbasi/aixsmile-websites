@@ -38,7 +38,7 @@ try {
       + performance.getEntriesByType('resource').reduce((sum, e) => sum + e.decodedBodySize, 0)) / 1024));
     ok('full page after scrolling to the end (every image loaded)', true, `${kb} KB uncompressed`);
     ok('no requests to third parties', outside.length === 0, outside.join(', ') || 'none');
-    ok('the only outside host is the practice booking API', api.every((h) => h === 'aixsmile-delta.vercel.app'), [...new Set(api)].join(', '));
+    ok('the only outside host is the practice booking API', api.every((h) => h === 'aixsmile.de'), [...new Set(api)].join(', '));
     ok('no console or page errors', errors.length === 0, errors.join(' | ') || 'none');
     await ctx.close();
   }
@@ -63,7 +63,7 @@ try {
     const before = await page.evaluate(() => ({ h1: document.querySelector('h1').innerHTML, title: document.title }));
     await page.click('#langToggle');
     const en = await page.evaluate(() => ({ h1: document.querySelector('h1').textContent, title: document.title, lang: document.documentElement.lang}));
-    ok('English applies to headline, title and html lang', /shade of white/.test(en.h1) && /whitening/i.test(en.title) && en.lang === 'en', `${en.h1} | ${en.lang}`);
+    ok('English applies to headline, title and html lang', /Measure the shade/.test(en.h1) && /whitening/i.test(en.title) && en.lang === 'en', `${en.h1} | ${en.lang}`);
     await page.reload({ waitUntil: 'load' });
     const kept = await page.evaluate(() => document.documentElement.lang);
     ok('the language choice survives a reload', kept === 'en', kept);
@@ -98,7 +98,7 @@ try {
       sections: document.querySelectorAll('main section').length,
       noscript: !!document.querySelector('noscript'),
     }));
-    ok('without JavaScript the page is complete and readable', s.h1 === '1' && s.sections >= 11 && s.noscript, JSON.stringify(s));
+    ok('without JavaScript the page is complete and readable', s.h1 === '1' && s.sections >= 10 && s.noscript, JSON.stringify(s));
     await ctx.close();
   }
 
