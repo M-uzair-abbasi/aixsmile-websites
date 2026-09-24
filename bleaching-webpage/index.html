@@ -355,7 +355,13 @@
   .praxisCol b { color: var(--heading); font-weight: 600; }
   .praxisSoft { font-size: 14.5px; color: var(--soft); }
   /* the small calendar under "Freie Termine ansehen": next days, their times */
-  #miniToggle { white-space: normal; text-align: left; max-width: 100%; }
+  /* quiet actions in the practice band: a teal text link with an arrow, 44 px tall to tap */
+  .textLink { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 15px; font-weight: 600;
+    color: var(--accent); text-decoration: none; cursor: pointer; text-align: left; }
+  .textLink::after { content: '→'; transition: transform .25s var(--ease); }
+  .textLink:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 4px; }
+  .textLink:hover::after { transform: translateX(3px); }
+  .textLink[aria-expanded="true"]::after { content: '↑'; }
   .miniSlots { margin-top: 14px; display: grid; gap: 10px; }
   .miniDay { padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--line); }
   .miniDay b { display: block; margin-bottom: 8px; font-size: 13.5px; color: var(--heading); font-weight: 600; }
@@ -986,13 +992,13 @@
       <div class="praxisCol">
         <h3 data-i18n="praxis.hoursH">Sprechzeiten</h3>
         <p><b data-i18n="praxis.hoursDays">Mo · Di · Do</b><br><span data-i18n="praxis.hoursTime">9:00 – 16:00 Uhr</span><br><span data-i18n="praxis.hoursNote">Nur mit Termin.</span></p>
-        <button type="button" class="btn ghost btnSm" id="miniToggle" aria-expanded="false" aria-controls="miniSlots" data-i18n="praxis.slotsBtn">Freie Termine ansehen</button>
+        <button type="button" class="textLink" id="miniToggle" aria-expanded="false" aria-controls="miniSlots" data-i18n="praxis.slotsBtn">Freie Termine ansehen</button>
         <div class="miniSlots" id="miniSlots" hidden></div>
       </div>
       <div class="praxisCol">
         <h3 data-i18n="praxis.reviewsH">Bewertungen</h3>
         <p data-i18n="praxis.reviewsP">Was Patientinnen und Patienten über uns schreiben, steht bei Google: vollständig, ungekürzt und nicht von uns ausgewählt.</p>
-        <a class="btn ghost btnSm" href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Zu den Google-Bewertungen</a>
+        <a class="textLink" href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Zu den Google-Bewertungen</a>
       </div>
     </div>
   </div>
