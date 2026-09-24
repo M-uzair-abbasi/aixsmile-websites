@@ -126,6 +126,8 @@ if (form) {
         grid.appendChild(el('span', 'off' + (key === todayKey ? ' today' : ''), String(d)));
       }
     }
+    // always six rows, so flipping months never changes the height
+    while (grid.children.length < 42) grid.appendChild(el('span', 'off', ''));
   }
   $('bkPrev').addEventListener('click', () => { const ms = months(); const i = ms.indexOf(month); if (i > 0) { month = ms[i - 1]; renderDays(); } });
   $('bkNext').addEventListener('click', () => { const ms = months(); const i = ms.indexOf(month); if (i < ms.length - 1) { month = ms[i + 1]; renderDays(); } });
