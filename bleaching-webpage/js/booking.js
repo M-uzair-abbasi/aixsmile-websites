@@ -9,7 +9,7 @@ import { dyn, getLang, onLangChange } from './i18n.js';
 
 // Until the aixsmile.de cutover the app lives on its Vercel URL. After the
 // cutover this becomes 'https://aixsmile.de'. One line to change.
-let API_BASE = 'https://aixsmile-delta.vercel.app';
+let API_BASE = 'https://aixsmile.de';
 // Local development only: ?api=http://localhost:3000 points the widget at a
 // dev server of the main app (whose local database is not the live one).
 if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
