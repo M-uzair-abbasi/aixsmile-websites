@@ -31,7 +31,7 @@ const canonical = mine.html.match(/<link rel="canonical" href="([^"]+)"/)[1];
 if (canonical !== page.url) problems.push(`canonical ${canonical} is not WebPage.url`);
 
 const text = (s) => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-const visible = [...mine.html.matchAll(/<details><summary data-i18n="faq\.q\d">([\s\S]*?)<\/summary><p data-i18n="faq\.a\d">([\s\S]*?)<\/p><\/details>/g)].map((m) => [text(m[1]), text(m[2])]);
+const visible = [...mine.html.matchAll(/<details><summary data-i18n="faq\.q\d+">([\s\S]*?)<\/summary><p data-i18n="faq\.a\d+">([\s\S]*?)<\/p><\/details>/g)].map((m) => [text(m[1]), text(m[2])]);
 const marked = byType(mine.data, 'FAQPage').mainEntity.map((q) => [q.name, q.acceptedAnswer.text]);
 if (visible.length !== marked.length) problems.push(`${visible.length} visible questions but ${marked.length} in the markup`);
 visible.forEach(([q, ans], i) => {
