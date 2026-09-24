@@ -186,20 +186,25 @@
   .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
   .copy > :last-child { margin-bottom: 0; }
 
-  /* ===== Hero: the promise on the left, the practice's own shade card on the right ===== */
-  .hero { position: relative; display: flex; align-items: center; min-height: max(600px, 92svh);
-    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
-  .heroInner { width: 100%; max-width: 76rem; margin: 0 auto; padding: calc(var(--hdr) + 48px) var(--gutter) 64px;
-    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
-  .heroCopy { max-width: 35rem; }
-  .hero h1 { margin-bottom: 22px; }
-  .lead { font-size: 20px; line-height: 1.5; color: var(--text); }
-  .heroSub { font-size: 16px; color: var(--soft); }
-  .heroTrust { list-style: none; margin: 28px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line);
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 18px; }
-  .heroTrust li { font-size: 14.5px; line-height: 1.4; color: var(--soft); padding-left: 18px; position: relative; }
-  .heroTrust li::before { content: ''; position: absolute; left: 0; top: .5em; width: 10px; height: 5px;
-    border-left: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); transform: rotate(-45deg); }
+  /* ===== Hero: one sentence on the left, the photo running to the right edge ===== */
+  .hero { position: relative; display: flex; align-items: stretch; min-height: max(560px, 88svh); background: var(--paper); overflow: hidden; }
+  .heroInner { width: 100%; padding: var(--hdr) 0 0 max(var(--gutter), calc((100vw - 74rem) / 2 + var(--gutter)));
+    display: grid; grid-template-columns: minmax(0, 46%) minmax(0, 54%); gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .heroCopy { max-width: 32rem; padding: 48px 0 56px; }
+  .hero h1 { margin-bottom: 22px; font-size: clamp(44px, 5.4vw, 76px); }
+  .lead { font-size: 20px; line-height: 1.5; color: var(--text); max-width: 30rem; }
+  .heroFigure { position: relative; margin: 0; align-self: stretch; min-height: 100%; }
+  .frame--hero { position: absolute; inset: 0; border-radius: 28px 0 0 28px; box-shadow: none; }
+  .heroCase { position: absolute; left: -28px; bottom: 40px; z-index: 3; width: min(340px, 80%); margin: 0;
+    background: rgba(255, 255, 255, .94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--line); box-shadow: 0 24px 50px -30px rgba(16, 32, 42, .45); }
+  @media (prefers-reduced-motion: no-preference) {
+    .heroCopy > * { animation: riseIn .8s var(--ease) backwards; }
+    .heroCopy > :nth-child(2) { animation-delay: .06s; }
+    .heroCopy > :nth-child(3) { animation-delay: .12s; }
+    .heroFigure { animation: riseIn .9s var(--ease) .15s backwards; }
+  }
+  @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
   .shadeCard { position: relative; padding: 28px 28px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--line);
     box-shadow: 0 30px 60px -40px rgba(16, 32, 42, .35); }
@@ -451,10 +456,15 @@
     h2 { font-size: clamp(28px, 7.4vw, 36px); margin-bottom: 16px; }
     .lede { font-size: 17px; }
     .hero { display: block; min-height: 0; }
-    .heroInner { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: calc(var(--hdr) + 28px) var(--gutter) 44px; }
-    .hero h1 { font-size: clamp(36px, 9.4vw, 46px); margin-bottom: 16px; }
-    .lead { font-size: 18px; }
-    .heroTrust { margin-top: 22px; padding-top: 16px; }
+    .heroInner { grid-template-columns: minmax(0, 1fr); gap: 0; padding: var(--hdr) 0 0; }
+    .heroCopy { padding: 28px var(--gutter) 26px; max-width: none; }
+    .hero h1 { font-size: clamp(38px, 10vw, 48px); margin-bottom: 14px; }
+    .lead { font-size: 17.5px; }
+    .heroFigure { min-height: 0; height: min(78vw, 480px); margin: 0 0 0 var(--gutter); }
+    .frame--hero { border-radius: 22px 0 0 22px; }
+    .heroCase { left: 12px; right: 12px; bottom: 12px; width: auto; grid-template-columns: 110px minmax(0, 1fr); padding: 10px; }
+    .heroCase img { height: 48px; }
+    .heroCaseText { font-size: 13px; }
     .shadeCard { padding: 22px 18px 18px; }
     .scaleTabs { gap: 6px; }
     .heroCase { grid-template-columns: 120px minmax(0, 1fr); margin: 18px -6px -4px; }
@@ -488,8 +498,6 @@
     .band--praxis .inner { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
     .band--praxis .praxisCol:last-child { grid-column: 1 / -1; }
     .praxisCol p { font-size: 15px; }
-    .heroTrust { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 10px; }
-    .heroTrust li { font-size: 13px; }
     .band--kosten .inner, .band--buchen .inner, .band--faq .inner { grid-template-columns: minmax(0, 1fr); }
     .band--buchen .inner { gap: 22px; }
     .band--faq .inner { gap: 18px; }
@@ -519,15 +527,12 @@
     .langToggle::before { height: 30px; width: 36px; }
     .langToggle[data-active="en"]::before { transform: translateX(36px); }
   }
-  @media (max-width: 380px) { .bkFields { grid-template-columns: minmax(0, 1fr); } .heroTrust { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 380px) { .bkFields { grid-template-columns: minmax(0, 1fr); } }
   /* ===== restored imagery (2026-09-24, second pass) ===== */
   .frame { position: relative; overflow: hidden; border-radius: 14px; background: var(--ice); }
   .frame img { width: 100%; height: 100%; object-fit: cover; }
   .aiTag { position: absolute; z-index: 2; right: 10px; bottom: 10px; padding: 5px 10px; border-radius: 8px;
     background: rgba(16, 32, 42, .7); color: #f4f7f8; font-size: 11px; font-weight: 600; line-height: 1.3; }
-  .heroFigure { position: relative; margin: 0; justify-self: end; width: min(100%, 30rem, calc((100svh - var(--hdr) - 150px) * .8)); }
-  .frame--hero { aspect-ratio: 4 / 5; border-radius: 22px; box-shadow: 0 40px 70px -46px rgba(16, 32, 42, .5); }
-  .heroFigure .heroCase { margin: 16px 0 0; background: #fff; border-color: var(--line); }
   .measure { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
   .stepStrip { margin: 0; }
   .frame--strip { aspect-ratio: 1500 / 625; }
@@ -545,8 +550,6 @@
   .whenList li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: start; }
   .frame--thumb { aspect-ratio: 4 / 3; border-radius: 10px; }
   @media (max-width: 900px) {
-    .heroFigure { justify-self: stretch; width: 100%; }
-    .frame--hero { aspect-ratio: 5 / 4; }
     .measure { grid-template-columns: minmax(0, 1fr); gap: 24px; }
     .stepsHead { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-bottom: 24px; }
     .frame--route { aspect-ratio: 1; margin-bottom: 12px; border-radius: 12px; }
@@ -595,12 +598,6 @@
       <p class="eyebrow" data-i18n="hero.eyebrow">Bleaching in Aachen · AIXSMILE</p>
       <h1 id="heroH" data-i18n="hero.h1">Zahnfarbe messen, dann aufhellen.</h1>
       <p class="lead" data-i18n="hero.lead">Wir bestimmen Ihre Zahnfarbe vor dem Bleaching mit einer Farbskala und danach noch einmal. So sehen Sie schwarz auf weiß, was sich verändert hat, und nicht nur im Spiegel.</p>
-      <p class="heroSub" data-i18n="hero.sub">Zahnarztpraxis AIXSMILE, Großkölnstraße, Aachen. Der erste Termin ist eine Untersuchung mit Farbbestimmung und geht über Ihre Krankenkasse.</p>
-      <ul class="heroTrust">
-        <li data-i18n="hero.t1">Erster Termin ohne Zusatzkosten</li>
-        <li data-i18n="hero.t2">Schriftlicher Kostenplan vor der Behandlung</li>
-        <li data-i18n="hero.t3">Beratung in fünf Sprachen</li>
-      </ul>
     </div>
     <figure class="heroFigure">
       <div class="frame frame--hero">
