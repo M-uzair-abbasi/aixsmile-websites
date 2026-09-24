@@ -116,7 +116,6 @@ export const EN = {
     fact1: 'First visit billed to your health insurance, no extra cost',
     fact2: 'Written cost plan before any treatment',
     fact3: 'If something comes up, one click in the appointment email is enough',
-    fallbackText: 'Or just give us a quick call:', fallbackLink: 'Book on aixsmile.de',
     unavailable: 'The free slots cannot be loaded right now.', unavailableLink: 'Book on aixsmile.de instead.',
     step1: 'Slot', step2: 'Your details', step3: 'Booked',
     taken: 'Someone booked this time in the meantime. Please pick another one.',
