@@ -23,12 +23,13 @@ export const EN = {
   ai: { tag: 'AI-generated', symbol: 'AI-generated · illustration' },
   hero: {
     eyebrow: 'Teeth whitening in Aachen · AIXSMILE',
-    alt: 'A gloved hand holds a shade-guide sample tooth next to the front teeth (AI-generated image)',
     h1: 'Measure the shade, then whiten.',
     lead: 'We read your tooth shade against a shade guide before the whitening and once more afterwards. So you see in black and white what changed, not just in the mirror.',
-    caseB: 'A real case from our practice',
-    caseS: 'See before and after',
-    caseAlt: 'Case 1 from our practice: before on the left, after on the right',
+    stageAria: 'Case 1 from our practice, before and after: to the cases',
+    stageAlt1: 'Case 1 before whitening: yellowish front teeth',
+    stageAlt2: 'Case 1 after whitening in our practice',
+    stageCap: 'Case 1 from our practice, published with consent. Light and camera were not identical before and after.',
+    stageLink: 'See both cases',
   },
   when: {
     eyebrow: 'When whitening helps',
@@ -58,6 +59,7 @@ export const EN = {
   s2: {
     eyebrow: 'Measuring',
     h2: 'A shade guide instead of an impression.',
+    photoAlt: 'A gloved hand holds a shade-guide sample tooth next to the front teeth (AI-generated image)',
     cardAria: 'The shade guide we measure with',
     cardH: 'How we measure your white',
     cardP: 'We hold sample teeth with codes such as A2 or BL3 next to yours. The letter stands for the hue, the number for the gradation. One value before, one value after.',

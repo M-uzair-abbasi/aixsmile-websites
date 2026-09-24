@@ -186,23 +186,32 @@
   .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
   .copy > :last-child { margin-bottom: 0; }
 
-  /* ===== Hero: one sentence on the left, the photo running to the right edge ===== */
-  .hero { position: relative; display: flex; align-items: stretch; min-height: max(560px, 88svh); background: var(--paper); overflow: hidden; }
-  .heroInner { width: 100%; padding: var(--hdr) 0 0 max(var(--gutter), calc((100vw - 74rem) / 2 + var(--gutter)));
-    display: grid; grid-template-columns: minmax(0, 46%) minmax(0, 54%); gap: clamp(32px, 5vw, 72px); align-items: center; }
-  .heroCopy { max-width: 32rem; padding: 48px 0 56px; }
-  .hero h1 { margin-bottom: 22px; font-size: clamp(44px, 5.4vw, 76px); }
-  .lead { font-size: 20px; line-height: 1.5; color: var(--text); max-width: 30rem; }
-  .heroFigure { position: relative; margin: 0; align-self: stretch; min-height: 100%; }
-  .frame--hero { position: absolute; inset: 0; border-radius: 28px 0 0 28px; box-shadow: none; }
-  .heroCase { position: absolute; left: -28px; bottom: 40px; z-index: 3; width: min(340px, 80%); margin: 0;
-    background: rgba(255, 255, 255, .94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--line); box-shadow: 0 24px 50px -30px rgba(16, 32, 42, .45); }
+  /* ===== Hero: the promise, then the practice's own result as one wide split ===== */
+  .hero { position: relative; padding: calc(var(--hdr) + clamp(48px, 8vh, 96px)) 0 clamp(40px, 6vh, 72px);
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
+  .heroCopy { max-width: 44rem; margin: 0 auto clamp(36px, 5vh, 56px); text-align: center; }
+  .eyebrow--center { justify-content: center; }
+  .hero h1 { margin-bottom: 20px; font-size: clamp(42px, 5.6vw, 76px); }
+  .lead { font-size: 20px; line-height: 1.5; color: var(--text); max-width: 36rem; margin: 0 auto; }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px; border-radius: 26px; background: #fff;
+    border: 1px solid var(--line); box-shadow: 0 40px 80px -50px rgba(16, 32, 42, .45); text-decoration: none; }
+  /* case-1.jpg stacks before (top 54%) over after (bottom 46%). Each half shows
+     its own part at the photo's natural scale (1070 px source), never blown up. */
+  .stageHalf { position: relative; display: block; overflow: hidden; aspect-ratio: 1070 / 405; background: var(--ice); }
+  .stageHalf--before { border-radius: 20px 4px 4px 20px; }
+  .stageHalf--after { border-radius: 4px 20px 20px 4px; }
+  .stageHalf img { position: absolute; left: 0; width: 100%; height: auto; }
+  .stageHalf--before img { top: 0; }
+  .stageHalf--after img { bottom: 0; }
+  .stage .caseTag { left: 14px; top: 14px; position: absolute; }
+  .stage:hover { border-color: var(--accent); }
+  .stageCap { max-width: 44rem; margin: 16px auto 0; text-align: center; font-size: 14px; line-height: 1.5; color: var(--soft); }
   @media (prefers-reduced-motion: no-preference) {
     .heroCopy > * { animation: riseIn .8s var(--ease) backwards; }
     .heroCopy > :nth-child(2) { animation-delay: .06s; }
     .heroCopy > :nth-child(3) { animation-delay: .12s; }
-    .heroFigure { animation: riseIn .9s var(--ease) .15s backwards; }
+    .stage { animation: riseIn .9s var(--ease) .18s backwards; }
+    .stageCap { animation: riseIn .9s var(--ease) .3s backwards; }
   }
   @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
@@ -455,16 +464,18 @@
     .hdrBook, .hdrCall { display: none; }
     h2 { font-size: clamp(28px, 7.4vw, 36px); margin-bottom: 16px; }
     .lede { font-size: 17px; }
-    .hero { display: block; min-height: 0; }
-    .heroInner { grid-template-columns: minmax(0, 1fr); gap: 0; padding: var(--hdr) 0 0; }
-    .heroCopy { padding: 28px var(--gutter) 26px; max-width: none; }
-    .hero h1 { font-size: clamp(38px, 10vw, 48px); margin-bottom: 14px; }
-    .lead { font-size: 17.5px; }
-    .heroFigure { min-height: 0; height: min(78vw, 480px); margin: 0 0 0 var(--gutter); }
-    .frame--hero { border-radius: 22px 0 0 22px; }
-    .heroCase { left: 12px; right: 12px; bottom: 12px; width: auto; grid-template-columns: 110px minmax(0, 1fr); padding: 10px; }
-    .heroCase img { height: 48px; }
-    .heroCaseText { font-size: 13px; }
+    .hero { padding: calc(var(--hdr) + 28px) 0 32px; }
+    .heroCopy { margin-bottom: 24px; text-align: left; }
+    .eyebrow--center { justify-content: flex-start; }
+    .hero h1 { font-size: clamp(36px, 9.6vw, 46px); margin-bottom: 12px; }
+    .lead { font-size: 17.5px; margin: 0; }
+    .stage { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 4px; border-radius: 18px; }
+    .stageHalf--before { border-radius: 14px 14px 3px 3px; }
+    .stageHalf--after { border-radius: 3px 3px 14px 14px; }
+    .stage .caseTag { left: 10px; top: 10px; padding: 4px 8px; font-size: 11.5px; }
+    .stageCap { text-align: left; font-size: 13px; }
+    .measurePhoto { max-width: none; }
+    .frame--tall { aspect-ratio: 5 / 4; }
     .shadeCard { padding: 22px 18px 18px; }
     .scaleTabs { gap: 6px; }
     .heroCase { grid-template-columns: 120px minmax(0, 1fr); margin: 18px -6px -4px; }
@@ -533,8 +544,10 @@
   .frame img { width: 100%; height: 100%; object-fit: cover; }
   .aiTag { position: absolute; z-index: 2; right: 10px; bottom: 10px; padding: 5px 10px; border-radius: 8px;
     background: rgba(16, 32, 42, .7); color: #f4f7f8; font-size: 11px; font-weight: 600; line-height: 1.3; }
-  .measure { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
-  .stepStrip { margin: 0; }
+  .measure { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .frame--tall { aspect-ratio: 4 / 5; }
+  .measurePhoto { max-width: 26rem; }
+  .stepStrip { margin-top: clamp(32px, 5vw, 56px); }
   .frame--strip { aspect-ratio: 1500 / 625; }
   .stepStripLabels { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 10px; text-align: center;
     font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--heading); }
@@ -593,22 +606,23 @@
 <main id="inhalt">
 
 <section class="hero" aria-labelledby="heroH">
-  <div class="heroInner">
+  <div class="wrap heroInner">
     <div class="heroCopy">
-      <p class="eyebrow" data-i18n="hero.eyebrow">Bleaching in Aachen · AIXSMILE</p>
+      <p class="eyebrow eyebrow--center" data-i18n="hero.eyebrow">Bleaching in Aachen · AIXSMILE</p>
       <h1 id="heroH" data-i18n="hero.h1">Zahnfarbe messen, dann aufhellen.</h1>
       <p class="lead" data-i18n="hero.lead">Wir bestimmen Ihre Zahnfarbe vor dem Bleaching mit einer Farbskala und danach noch einmal. So sehen Sie schwarz auf weiß, was sich verändert hat, und nicht nur im Spiegel.</p>
     </div>
-    <figure class="heroFigure">
-      <div class="frame frame--hero">
-        <img src="assets/photos/ai/hero.webp" width="1000" height="1250" decoding="async" data-i18n-alt="hero.alt" alt="Eine behandschuhte Hand hält einen Musterzahn der Farbskala neben die Frontzähne (KI-generiertes Bild)">
-        <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
-      </div>
-      <a class="heroCase" href="#faelle">
-        <img src="assets/photos/case-1-pair.webp" width="726" height="192" decoding="async" data-i18n-alt="hero.caseAlt" alt="Fall 1 aus unserer Praxis: links vorher, rechts nachher">
-        <span class="heroCaseText"><b data-i18n="hero.caseB">Echter Fall aus unserer Praxis</b><span data-i18n="hero.caseS">Vorher und nachher ansehen</span></span>
-      </a>
-    </figure>
+    <a class="stage" href="#faelle" data-i18n-aria="hero.stageAria" aria-label="Fall 1 aus unserer Praxis, vorher und nachher: zu den Fällen">
+      <span class="stageHalf stageHalf--before">
+        <img src="assets/photos/case-1.jpg" width="1070" height="882" decoding="async" fetchpriority="high" data-i18n-alt="hero.stageAlt1" alt="Fall 1 vor dem Bleaching: gelblich verfärbte Frontzähne">
+        <span class="caseTag" data-i18n="ba.before" aria-hidden="true">Vorher</span>
+      </span>
+      <span class="stageHalf stageHalf--after">
+        <img src="assets/photos/case-1.jpg" width="1070" height="882" decoding="async" fetchpriority="high" data-i18n-alt="hero.stageAlt2" alt="Fall 1 nach dem Bleaching in unserer Praxis">
+        <span class="caseTag" data-i18n="ba.after" aria-hidden="true">Nachher</span>
+      </span>
+    </a>
+    <p class="stageCap"><span data-i18n="hero.stageCap">Fall 1 aus unserer Praxis, mit Einwilligung veröffentlicht. Licht und Kamera waren vorher und nachher nicht identisch.</span> <a href="#faelle" data-i18n="hero.stageLink">Beide Fälle ansehen</a></p>
   </div>
 </section>
 
@@ -647,6 +661,12 @@
       <h2 id="s2H" data-i18n="s2.h2">Eine Farbskala statt eines Eindrucks.</h2>
     </div>
     <div class="measure">
+      <figure class="media measurePhoto">
+        <div class="frame frame--tall">
+          <img src="assets/photos/ai/hero.webp" width="1000" height="1250" loading="lazy" decoding="async" data-i18n-alt="s2.photoAlt" alt="Eine behandschuhte Hand hält einen Musterzahn der Farbskala neben die Frontzähne (KI-generiertes Bild)">
+          <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
+        </div>
+      </figure>
       <div class="shadeCard" role="group" data-i18n-aria="s2.cardAria" aria-label="Die Farbskala, mit der wir messen">
         <h2 data-i18n="s2.cardH">So messen wir Ihr Weiß</h2>
         <p class="scaleIntro" data-i18n="s2.cardP">Neben Ihre Zähne halten wir Musterzähne mit Kürzeln wie A2 oder BL3. Der Buchstabe steht für die Farbrichtung, die Zahl für die Abstufung. Vorher ein Wert, nachher ein Wert.</p>
@@ -656,7 +676,8 @@
         <p class="scaleAxis" aria-hidden="true"><span data-i18n="s2.darker">← dunkler</span><span data-i18n="s2.lighter">heller →</span></p>
         <p class="scaleNote" data-i18n="s2.scaleNote">Vereinfacht. Die echte Skala hat mehr Stufen; gemessen wird im Mund, bei Tageslicht.</p>
           </div>
-      <figure class="stepStrip">
+    </div>
+    <figure class="stepStrip">
         <div class="frame frame--strip">
           <img src="assets/photos/ai/shade-steps.webp" width="1500" height="625" loading="lazy" decoding="async" data-i18n-alt="s2.stripAlt" alt="Dasselbe Lächeln dreimal nebeneinander, nur der Zahnfarbton ändert sich von A3 über A1 zu BL3 (KI-generiertes Symbolbild)">
           <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
@@ -664,7 +685,6 @@
         <div class="stepStripLabels" aria-hidden="true"><span>A3</span><span>A1</span><span>BL3</span></div>
         <figcaption class="stepStripNote" data-i18n="s2.stripNote"><b>Symbolbild, kein Behandlungsergebnis.</b> Es zeigt, wie sich drei Stufen der Skala ungefähr unterscheiden. Wie viele Stufen bei Ihren Zähnen möglich sind, zeigt erst die Untersuchung.</figcaption>
       </figure>
-    </div>
   </div>
 </section>
 
