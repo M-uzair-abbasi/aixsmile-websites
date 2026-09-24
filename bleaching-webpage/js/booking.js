@@ -200,10 +200,12 @@ if (form) {
         $('bkLoading').hidden = true;
         $('bkUnavailable').hidden = true;
         renderStatic();
+        renderMini();
         if (step === 1) $('bkPane1').hidden = false;
       })
       .catch((e) => {
         console.warn('[booking] slots unavailable, showing the aixsmile.de link instead', e);
+        data = { days: [] }; days = []; renderMini();
         $('bkLoading').hidden = true;
         $('bkUnavailable').hidden = false;
       });
@@ -257,9 +259,53 @@ if (form) {
       .then(() => { busy = false; btn.disabled = false; btn.textContent = T().submit; });
   });
 
+  // ---- the small calendar in the practice band: next days and their times,
+  // a tap lands on step 2 of the widget with that slot picked ----
+  const miniBox = $('miniSlots'), miniBtn = $('miniToggle');
+  function renderMini() {
+    if (!miniBox || miniBox.hidden) return;
+    const t = T(), m = dyn().mini;
+    miniBox.innerHTML = '';
+    if (!data) { miniBox.appendChild(el('p', 'miniMore', m.loading)); return; }
+    if (!days.length) { miniBox.appendChild(el('p', 'miniMore', m.none)); return; }
+    days.slice(0, 3).forEach((d) => {
+      const box = el('div', 'miniDay');
+      box.appendChild(el('b', null, longDate(d.date)));
+      const row = el('div', 'miniTimes');
+      slotsFor(d).slice(0, 6).forEach((s) => {
+        const btn = el('button', null, s.time);
+        btn.type = 'button';
+        btn.addEventListener('click', () => {
+          date = d.date; time = s.time; len = s.len || 30;
+          renderDays(); renderTimes(); goStep2();
+        });
+        row.appendChild(btn);
+      });
+      box.appendChild(row);
+      miniBox.appendChild(box);
+    });
+    const more = el('p', 'miniMore');
+    const link = el('a', null, m.more);
+    link.href = '#buchen';
+    more.appendChild(link);
+    miniBox.appendChild(more);
+  }
+  if (miniBtn && miniBox) {
+    const label = () => { const open = !miniBox.hidden; miniBtn.textContent = open ? dyn().mini.hide : (getLang() === 'en' ? 'See open appointments' : 'Freie Termine ansehen'); miniBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); };
+    miniBtn.addEventListener('click', () => { miniBox.hidden = !miniBox.hidden; renderMini(); label(); });
+    onLangChange(() => { renderMini(); label(); });
+  }
+
   onLangChange(renderStatic);
   load();
 
   // exposed for the check tools only
   window.__booking = { get apiBase() { return API_BASE; }, SERVICE, VIA };
+}
+
+// The map tile opens the visitor's own maps app: Apple Maps on Apple devices,
+// Google Maps everywhere else. Plain link either way, nothing is loaded here.
+const mapTile = document.getElementById('mapTile');
+if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
+  mapTile.href = 'https://maps.apple.com/?q=Zahnarztpraxis%20AIXSMILE&address=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe%2022-28%2C%2052062%20Aachen&ll=50.7768518,6.085097';
 }

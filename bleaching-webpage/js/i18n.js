@@ -184,12 +184,15 @@ export const EN = {
   praxis: {
     eyebrow: 'The practice',
     h2: 'On Großkölnstraße, right in the centre of Aachen.',
-    addrH: 'Address', route: 'Way to the practice',
+    mapAria: 'Map: Großkölnstraße 22–28, 52062 Aachen. Opens the route in your maps app',
+    mapGo: 'Open route →',
+    addrH: 'Address',
+    addrP: 'Right in the city centre, a few minutes from the bus station and the market square. The Großkölnstraße car park is directly opposite.',
     hoursH: 'Consultation hours', hoursDays: 'Mon · Tue · Thu', hoursTime: '9:00 – 16:00', hoursNote: 'Appointment only.',
+    slotsBtn: 'See open appointments',
     reviewsH: 'Reviews',
-    reviewsP: 'How other patients experienced us is on Google.',
+    reviewsP: 'What patients write about us is on Google: complete, unabridged and not selected by us.',
     reviewsBtn: 'To the Google reviews',
-    reviewsNote: 'We do not cherry-pick anything here. Read on Google what went down well and what did not.',
   },
   footer: {
     fax: 'Fax 0241 4018150',
@@ -211,6 +214,7 @@ export const DYN = {
       description: 'Bleaching in Aachen bei AIXSMILE: Zahnfarbe vorher und nachher mit der Farbskala gemessen, Ziel gemeinsam festgelegt. Ablauf, Kosten, echte Fälle, Termin online buchen.',
     },
     kosten: { priceFrom: (n) => `Bleaching in der Praxis ab ${n} €. Der genaue Betrag steht in Ihrem Kostenplan.` },
+    mini: { hide: 'Freie Termine ausblenden', none: 'Online ist gerade nichts frei. Rufen Sie uns an: 0241 31202', more: 'Alle Termine und Uhrzeiten', loading: 'Termine werden geladen …' },
     bk: {
       submit: 'Termin verbindlich buchen', submitting: 'Wird gebucht …',
       service: 'Bleaching-Beratung mit Farbbestimmung',
@@ -241,6 +245,7 @@ export const DYN = {
       description: 'Teeth whitening in Aachen at AIXSMILE: tooth shade measured with a shade guide before and after, target agreed together. Process, costs, real cases, book online.',
     },
     kosten: { priceFrom: (n) => `In-practice whitening from €${n}. The exact amount is in your cost plan.` },
+    mini: { hide: 'Hide open appointments', none: 'Nothing is open online right now. Call us: 0241 31202', more: 'All days and times', loading: 'Loading appointments …' },
     bk: {
       submit: 'Book appointment', submitting: 'Booking …',
       service: 'Whitening consultation with shade check',

@@ -214,8 +214,19 @@
     .heroCopy > :nth-child(3) { animation-delay: .12s; }
     .heroCopy > :nth-child(4) { animation-delay: .18s; }
     .heroFigure { animation: riseIn .9s var(--ease) .15s backwards; }
+    /* the bleaching moment: the photo comes in warm and dim and clears to clean white,
+       a single soft light sweep crosses it, then the real case settles in */
+    .frame--hero img { animation: bleach 1.8s var(--ease) .35s both; }
+    .frame--hero::after { content: ''; position: absolute; inset: -20% -40%; z-index: 1; pointer-events: none;
+      background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .55) 50%, transparent 60%);
+      transform: translateX(-70%) skewX(-8deg); animation: sweep 1.4s var(--ease) 1s both; }
+    .heroCase { animation: riseIn .8s var(--ease) 1.5s backwards; }
+    .blob { animation: blobIn 1.4s var(--ease) .1s backwards; }
   }
   @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes bleach { from { filter: sepia(.55) saturate(.85) brightness(.84) contrast(.96); } to { filter: none; } }
+  @keyframes sweep { from { transform: translateX(-70%) skewX(-8deg); opacity: 0; } 15% { opacity: 1; } to { transform: translateX(70%) skewX(-8deg); opacity: 0; } }
+  @keyframes blobIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
 
   .shadeCard { position: relative; padding: 28px 28px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--line);
     box-shadow: 0 30px 60px -40px rgba(16, 32, 42, .35); }
@@ -229,15 +240,6 @@
   .tab--bl4 { --c: #f2ebd9; } .tab--bl3 { --c: #f5f0e4; } .tab--bl2 { --c: #f8f5ed; } .tab--bl1 { --c: #fbfaf5; }
   .scaleAxis { display: flex; justify-content: space-between; margin: 12px 0 0; font-size: 13px; color: var(--soft); }
   .scaleNote { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--soft); }
-  @media (prefers-reduced-motion: no-preference) {
-    .heroCopy > * { animation: riseIn .8s var(--ease) backwards; }
-    .heroCopy > :nth-child(2) { animation-delay: .06s; }
-    .heroCopy > :nth-child(3) { animation-delay: .12s; }
-    .heroCopy > :nth-child(n+4) { animation-delay: .18s; }
-    .heroFigure { animation: riseIn .9s var(--ease) .15s backwards; }
-  }
-  @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-
   /* ===== Cases: the one dark band, so the whitened teeth read white ===== */
   .band--cases .sectionHead { margin-bottom: clamp(28px, 4vw, 44px); }
   .cases { display: grid; gap: clamp(28px, 4vw, 48px); }
@@ -322,15 +324,45 @@
   .faq summary:hover { color: var(--accent-hover); }
   .faq details p { max-width: 62ch; margin: -2px 0 20px; font-size: 16.5px; }
 
-  /* ===== Praxis ===== */
-  .band--praxis .inner { display: grid; grid-template-columns: 1.15fr 1fr 1fr; column-gap: clamp(24px, 4vw, 56px); row-gap: 18px; }
+  /* ===== Praxis: a map tile beside address, hours and reviews ===== */
+  .band--praxis .inner { display: grid; grid-template-columns: minmax(260px, 380px) minmax(0, 1fr); column-gap: clamp(28px, 5vw, 64px); row-gap: 18px; align-items: start; }
   .band--praxis .inner > .eyebrow, .band--praxis .inner > h2 { grid-column: 1 / -1; }
-  .band--praxis h2 { max-width: 24ch; margin-bottom: 8px; }
+  .band--praxis h2 { max-width: 24ch; margin-bottom: 10px; }
+  .mapTile { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 22px; border: 1px solid var(--line);
+    background: var(--ice); text-decoration: none; color: var(--heading); box-shadow: 0 30px 60px -44px rgba(16, 32, 42, .4);
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .2s ease; }
+  .mapTile:hover { transform: translateY(-3px); box-shadow: 0 36px 70px -44px rgba(16, 32, 42, .5); border-color: var(--accent); color: var(--heading); }
+  .mapTile img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; filter: saturate(.85) contrast(.98); }
+  .mapPin { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+  .mapPin i { position: absolute; inset: 0; border-radius: 50%; background: var(--teal); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(16, 32, 42, .35); }
+  .mapPin::before, .mapPin::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--teal); opacity: 0; }
+  .mapLabel { position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 12px; background: rgba(255, 255, 255, .94); font-size: 14px; line-height: 1.3; box-shadow: 0 10px 24px -14px rgba(16, 32, 42, .4); }
+  .mapLabel b { color: var(--heading); font-weight: 600; }
+  .mapLabel span { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .mapCredit { position: absolute; right: 8px; top: 8px; padding: 2px 6px; border-radius: 6px; background: rgba(255, 255, 255, .8); font-size: 10px; color: var(--soft); }
+  @media (prefers-reduced-motion: no-preference) {
+    .mapTile img { animation: mapDrift 26s ease-in-out infinite alternate; }
+    .mapPin::before { animation: ping 2.4s var(--ease) infinite; }
+    .mapPin::after { animation: ping 2.4s var(--ease) 1.2s infinite; }
+  }
+  @keyframes mapDrift { from { transform: scale(1.04) translate(1.5%, -1%); } to { transform: scale(1.12) translate(-1.5%, 1.5%); } }
+  @keyframes ping { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(3.2); opacity: 0; } }
+  .praxisCols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
   .praxisCol { padding-top: 20px; border-top: 2px solid var(--accent); }
   .praxisCol h3 { margin: 0 0 10px; font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--heading); }
   .praxisCol p { margin: 0 0 14px; font-size: 16.5px; }
   .praxisCol b { color: var(--heading); font-weight: 600; }
-  .reviewNote { margin-top: 14px; font-size: 14px; color: var(--soft); }
+  .praxisSoft { font-size: 14.5px; color: var(--soft); }
+  /* the small calendar under "Freie Termine ansehen": next days, their times */
+  .miniSlots { margin-top: 14px; display: grid; gap: 10px; }
+  .miniDay { padding: 10px 12px; border-radius: 12px; background: #fff; border: 1px solid var(--line); }
+  .miniDay b { display: block; margin-bottom: 8px; font-size: 13.5px; color: var(--heading); font-weight: 600; }
+  .miniTimes { display: flex; flex-wrap: wrap; gap: 6px; }
+  .miniTimes button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper-2); font: inherit; font-size: 14px; font-weight: 600; color: var(--heading); cursor: pointer; font-variant-numeric: tabular-nums; }
+  .miniTimes button:hover { border-color: var(--accent); color: var(--accent); }
+  .miniMore { font-size: 13.5px; color: var(--soft); }
+  .miniMore a { font-weight: 600; }
 
   /* ===== Booking ===== */
   .band--buchen .inner { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
@@ -498,8 +530,10 @@
     .band--doctor .inner { grid-template-columns: 112px minmax(0, 1fr); gap: 16px; align-items: start; }
     .band--doctor h2 { font-size: 26px; }
     .band--doctor .inner > div > p { font-size: 15.5px; }
-    .band--praxis .inner { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
-    .band--praxis .praxisCol:last-child { grid-column: 1 / -1; }
+    .band--praxis .inner { grid-template-columns: minmax(0, 1fr); }
+    .mapTile { max-width: 100%; aspect-ratio: 4 / 3; }
+    .praxisCols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .praxisCols .praxisCol:last-child { grid-column: 1 / -1; }
     .praxisCol p { font-size: 15px; }
     .band--kosten .inner, .band--buchen .inner, .band--faq .inner { grid-template-columns: minmax(0, 1fr); }
     .band--buchen .inner { gap: 22px; }
@@ -936,21 +970,29 @@
   <div class="wrap inner">
     <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
     <h2 id="praxisH" data-i18n="praxis.h2">In der Großkölnstraße, mitten in der Aachener Innenstadt.</h2>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.addrH">Anschrift</h3>
-      <p><b>Zahnarztpraxis AIXSMILE</b><br>Großkölnstraße 22–28<br>52062 Aachen</p>
-      <a class="btn ghost btnSm" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n="praxis.route">Weg zur Praxis</a>
-    </div>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.hoursH">Sprechzeiten</h3>
-      <p><b data-i18n="praxis.hoursDays">Mo · Di · Do</b><br><span data-i18n="praxis.hoursTime">9:00 – 16:00 Uhr</span><br><span data-i18n="praxis.hoursNote">Nur mit Termin.</span></p>
-      <a class="btn ghost btnSm" href="tel:+4924131202" data-cta="call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241&nbsp;31202</span></a>
-    </div>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.reviewsH">Bewertungen</h3>
-      <p data-i18n="praxis.reviewsP">Wie andere Patientinnen und Patienten uns erlebt haben, steht bei Google.</p>
-      <a class="btn ghost btnSm" href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Zu den Google-Bewertungen</a>
-      <p class="reviewNote" data-i18n="praxis.reviewsNote">Wir suchen hier nichts heraus. Lesen Sie bei Google, was gut ankam und was nicht.</p>
+    <a class="mapTile" id="mapTile" href="https://www.google.com/maps/search/?api=1&amp;query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n-aria="praxis.mapAria" aria-label="Karte: Großkölnstraße 22–28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App">
+      <img src="assets/photos/map-aachen.webp" width="640" height="640" loading="lazy" decoding="async" alt="">
+      <span class="mapPin" aria-hidden="true"><i></i></span>
+      <span class="mapLabel"><b>Großkölnstraße 22–28</b><span data-i18n="praxis.mapGo">Route öffnen →</span></span>
+      <span class="mapCredit" aria-hidden="true">© OpenStreetMap</span>
+    </a>
+    <div class="praxisCols">
+      <div class="praxisCol">
+        <h3 data-i18n="praxis.addrH">Anschrift</h3>
+        <p><b>Zahnarztpraxis AIXSMILE</b><br>Großkölnstraße 22–28<br>52062 Aachen</p>
+        <p class="praxisSoft" data-i18n="praxis.addrP">Mitten in der Innenstadt, wenige Minuten vom Bushof und vom Markt. Parkhaus Großkölnstraße direkt gegenüber.</p>
+      </div>
+      <div class="praxisCol">
+        <h3 data-i18n="praxis.hoursH">Sprechzeiten</h3>
+        <p><b data-i18n="praxis.hoursDays">Mo · Di · Do</b><br><span data-i18n="praxis.hoursTime">9:00 – 16:00 Uhr</span><br><span data-i18n="praxis.hoursNote">Nur mit Termin.</span></p>
+        <button type="button" class="btn ghost btnSm" id="miniToggle" aria-expanded="false" aria-controls="miniSlots" data-i18n="praxis.slotsBtn">Freie Termine ansehen</button>
+        <div class="miniSlots" id="miniSlots" hidden></div>
+      </div>
+      <div class="praxisCol">
+        <h3 data-i18n="praxis.reviewsH">Bewertungen</h3>
+        <p data-i18n="praxis.reviewsP">Was Patientinnen und Patienten über uns schreiben, steht bei Google: vollständig, ungekürzt und nicht von uns ausgewählt.</p>
+        <a class="btn ghost btnSm" href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Zu den Google-Bewertungen</a>
+      </div>
     </div>
   </div>
 </section>
