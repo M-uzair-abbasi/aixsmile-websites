@@ -214,7 +214,7 @@ export const DYN = {
       description: 'Bleaching in Aachen bei AIXSMILE: Zahnfarbe vorher und nachher mit der Farbskala gemessen, Ziel gemeinsam festgelegt. Ablauf, Kosten, echte Fälle, Termin online buchen.',
     },
     kosten: { priceFrom: (n) => `Bleaching in der Praxis ab ${n} €. Der genaue Betrag steht in Ihrem Kostenplan.` },
-    mini: { hide: 'Freie Termine ausblenden', none: 'Online ist gerade nichts frei. Rufen Sie uns an: 0241 31202', more: 'Alle Termine und Uhrzeiten', loading: 'Termine werden geladen …' },
+    mini: { hide: 'Ausblenden', none: 'Online ist gerade nichts frei. Rufen Sie uns an: 0241 31202', more: 'Alle Termine und Uhrzeiten', loading: 'Termine werden geladen …' },
     bk: {
       submit: 'Termin verbindlich buchen', submitting: 'Wird gebucht …',
       service: 'Bleaching-Beratung mit Farbbestimmung',
@@ -245,7 +245,7 @@ export const DYN = {
       description: 'Teeth whitening in Aachen at AIXSMILE: tooth shade measured with a shade guide before and after, target agreed together. Process, costs, real cases, book online.',
     },
     kosten: { priceFrom: (n) => `In-practice whitening from €${n}. The exact amount is in your cost plan.` },
-    mini: { hide: 'Hide open appointments', none: 'Nothing is open online right now. Call us: 0241 31202', more: 'All days and times', loading: 'Loading appointments …' },
+    mini: { hide: 'Hide', none: 'Nothing is open online right now. Call us: 0241 31202', more: 'All days and times', loading: 'Loading appointments …' },
     bk: {
       submit: 'Book appointment', submitting: 'Booking …',
       service: 'Whitening consultation with shade check',
