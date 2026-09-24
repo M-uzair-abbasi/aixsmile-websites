@@ -27,7 +27,6 @@ export const EN = {
     h1: 'Measure the shade, then whiten.',
     lead: 'We read your tooth shade against a shade guide before the whitening and once more afterwards. So you see in black and white what changed, not just in the mirror.',
     sub: 'AIXSMILE dental practice, Großkölnstraße, Aachen. The first visit is an examination with a shade check and is billed to your health insurance.',
-    book: 'Book a consultation',
     t1: 'First visit at no extra cost',
     t2: 'Written cost plan before any treatment',
     t3: 'Consultations in five languages',
