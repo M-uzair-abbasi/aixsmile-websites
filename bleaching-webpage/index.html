@@ -186,32 +186,34 @@
   .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
   .copy > :last-child { margin-bottom: 0; }
 
-  /* ===== Hero: the promise, then the practice's own result as one wide split ===== */
-  .hero { position: relative; padding: calc(var(--hdr) + clamp(48px, 8vh, 96px)) 0 clamp(40px, 6vh, 72px);
-    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); }
-  .heroCopy { max-width: 44rem; margin: 0 auto clamp(36px, 5vh, 56px); text-align: center; }
-  .eyebrow--center { justify-content: center; }
-  .hero h1 { margin-bottom: 20px; font-size: clamp(42px, 5.6vw, 76px); }
-  .lead { font-size: 20px; line-height: 1.5; color: var(--text); max-width: 36rem; margin: 0 auto; }
-  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px; border-radius: 26px; background: #fff;
-    border: 1px solid var(--line); box-shadow: 0 40px 80px -50px rgba(16, 32, 42, .45); text-decoration: none; }
-  /* case-1.jpg stacks before (top 54%) over after (bottom 46%). Each half shows
-     its own part at the photo's natural scale (1070 px source), never blown up. */
-  .stageHalf { position: relative; display: block; overflow: hidden; aspect-ratio: 1070 / 405; background: var(--ice); }
-  .stageHalf--before { border-radius: 20px 4px 4px 20px; }
-  .stageHalf--after { border-radius: 4px 20px 20px 4px; }
-  .stageHalf img { position: absolute; left: 0; width: 100%; height: auto; }
-  .stageHalf--before img { top: 0; }
-  .stageHalf--after img { bottom: 0; }
-  .stage .caseTag { left: 14px; top: 14px; position: absolute; }
-  .stage:hover { border-color: var(--accent); }
-  .stageCap { max-width: 44rem; margin: 16px auto 0; text-align: center; font-size: 14px; line-height: 1.5; color: var(--soft); }
+  /* ===== Hero: the promise beside a calm treatment-room photo ===== */
+  .hero { display: flex; align-items: center; min-height: max(560px, 86svh); background: var(--paper); }
+  .heroInner { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 6vw, 88px); align-items: center;
+    padding-top: calc(var(--hdr) + 40px); padding-bottom: 56px; }
+  .heroCopy { max-width: 34rem; }
+  .hero h1 { margin-bottom: 20px; font-size: clamp(42px, 5.4vw, 74px); }
+  .lead { font-size: 20px; line-height: 1.5; color: var(--text); }
+  .trustRow { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 26px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--soft); }
+  .trustRow li { position: relative; padding-left: 18px; }
+  .trustRow li::before { content: ''; position: absolute; left: 0; top: .55em; width: 10px; height: 5px; border-left: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); transform: rotate(-45deg); }
+  .heroFigure { position: relative; margin: 0; justify-self: end; width: min(100%, 27rem); }
+  .blob { position: absolute; inset: -8% -14% 10% -18%; z-index: 0; border-radius: 48% 52% 46% 54% / 55% 45% 55% 45%; background: var(--ice); }
+  .frame--hero { position: relative; z-index: 1; aspect-ratio: 4 / 5; border-radius: 26px; }
+  .heroCase { position: absolute; z-index: 2; left: -40px; bottom: 36px; width: 300px; margin: 0; padding: 10px; display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: center;
+    border-radius: 14px; background: #fff; border: 1px solid var(--line); color: var(--text); text-decoration: none; box-shadow: 0 24px 50px -30px rgba(16, 32, 42, .45);
+    transition: border-color .2s ease, transform .25s var(--ease); }
+  .heroCase:hover { border-color: var(--accent); transform: translateY(-2px); color: var(--text); }
+  .heroCase img { width: 100%; height: 48px; object-fit: cover; border-radius: 8px; }
+  .heroCaseText { display: grid; gap: 2px; font-size: 13.5px; line-height: 1.4; }
+  .heroCaseText b { color: var(--heading); font-weight: 600; }
+  .heroCaseText span { color: var(--accent); font-weight: 600; }
+  .heroCaseText span::after { content: ' →'; }
   @media (prefers-reduced-motion: no-preference) {
     .heroCopy > * { animation: riseIn .8s var(--ease) backwards; }
     .heroCopy > :nth-child(2) { animation-delay: .06s; }
     .heroCopy > :nth-child(3) { animation-delay: .12s; }
-    .stage { animation: riseIn .9s var(--ease) .18s backwards; }
-    .stageCap { animation: riseIn .9s var(--ease) .3s backwards; }
+    .heroCopy > :nth-child(4) { animation-delay: .18s; }
+    .heroFigure { animation: riseIn .9s var(--ease) .15s backwards; }
   }
   @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
@@ -227,15 +229,6 @@
   .tab--bl4 { --c: #f2ebd9; } .tab--bl3 { --c: #f5f0e4; } .tab--bl2 { --c: #f8f5ed; } .tab--bl1 { --c: #fbfaf5; }
   .scaleAxis { display: flex; justify-content: space-between; margin: 12px 0 0; font-size: 13px; color: var(--soft); }
   .scaleNote { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--soft); }
-  .heroCase { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 14px; align-items: center; margin: 22px -12px -8px;
-    padding: 12px; border-radius: 14px; background: var(--paper-2); color: var(--text); text-decoration: none; border: 1px solid transparent;
-    transition: border-color .2s ease, background-color .2s ease; }
-  .heroCase:hover { border-color: var(--accent); background: var(--teal-tint); color: var(--text); }
-  .heroCase img { width: 100%; height: 56px; object-fit: cover; border-radius: 8px; }
-  .heroCaseText { display: grid; gap: 2px; font-size: 14px; line-height: 1.4; }
-  .heroCaseText b { color: var(--heading); font-weight: 600; }
-  .heroCaseText span { color: var(--accent); font-weight: 600; }
-  .heroCaseText span::after { content: ' →'; }
   @media (prefers-reduced-motion: no-preference) {
     .heroCopy > * { animation: riseIn .8s var(--ease) backwards; }
     .heroCopy > :nth-child(2) { animation-delay: .06s; }
@@ -464,16 +457,15 @@
     .hdrBook, .hdrCall { display: none; }
     h2 { font-size: clamp(28px, 7.4vw, 36px); margin-bottom: 16px; }
     .lede { font-size: 17px; }
-    .hero { padding: calc(var(--hdr) + 28px) 0 32px; }
-    .heroCopy { margin-bottom: 24px; text-align: left; }
-    .eyebrow--center { justify-content: flex-start; }
+    .hero { min-height: 0; }
+    .heroInner { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-top: calc(var(--hdr) + 26px); padding-bottom: 36px; }
+    .heroCopy { max-width: none; }
     .hero h1 { font-size: clamp(36px, 9.6vw, 46px); margin-bottom: 12px; }
-    .lead { font-size: 17.5px; margin: 0; }
-    .stage { grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 4px; border-radius: 18px; }
-    .stageHalf--before { border-radius: 14px 14px 3px 3px; }
-    .stageHalf--after { border-radius: 3px 3px 14px 14px; }
-    .stage .caseTag { left: 10px; top: 10px; padding: 4px 8px; font-size: 11.5px; }
-    .stageCap { text-align: left; font-size: 13px; }
+    .lead { font-size: 17.5px; }
+    .trustRow { gap: 6px 14px; font-size: 13px; margin-top: 20px; padding-top: 16px; }
+    .heroFigure { width: 100%; justify-self: stretch; }
+    .frame--hero { aspect-ratio: 5 / 4; }
+    .heroCase { position: relative; left: 0; bottom: 0; width: 100%; margin-top: 12px; }
     .measurePhoto { max-width: none; }
     .frame--tall { aspect-ratio: 5 / 4; }
     .shadeCard { padding: 22px 18px 18px; }
@@ -608,21 +600,25 @@
 <section class="hero" aria-labelledby="heroH">
   <div class="wrap heroInner">
     <div class="heroCopy">
-      <p class="eyebrow eyebrow--center" data-i18n="hero.eyebrow">Bleaching in Aachen · AIXSMILE</p>
+      <p class="eyebrow" data-i18n="hero.eyebrow">Bleaching in Aachen · AIXSMILE</p>
       <h1 id="heroH" data-i18n="hero.h1">Zahnfarbe messen, dann aufhellen.</h1>
       <p class="lead" data-i18n="hero.lead">Wir bestimmen Ihre Zahnfarbe vor dem Bleaching mit einer Farbskala und danach noch einmal. So sehen Sie schwarz auf weiß, was sich verändert hat, und nicht nur im Spiegel.</p>
+      <ul class="trustRow" data-i18n-aria="hero.trustAria" aria-label="Kurz und knapp">
+        <li data-i18n="hero.t1">Erster Termin über die Krankenkasse</li>
+        <li data-i18n="hero.t2">Schriftlicher Kostenplan</li>
+        <li data-i18n="hero.t3">Deutsch · English · فارسی · Türkçe · العربية</li>
+      </ul>
     </div>
-    <a class="stage" href="#faelle" data-i18n-aria="hero.stageAria" aria-label="Fall 1 aus unserer Praxis, vorher und nachher: zu den Fällen">
-      <span class="stageHalf stageHalf--before">
-        <img src="assets/photos/case-1.jpg" width="1070" height="882" decoding="async" fetchpriority="high" data-i18n-alt="hero.stageAlt1" alt="Fall 1 vor dem Bleaching: gelblich verfärbte Frontzähne">
-        <span class="caseTag" data-i18n="ba.before" aria-hidden="true">Vorher</span>
-      </span>
-      <span class="stageHalf stageHalf--after">
-        <img src="assets/photos/case-1.jpg" width="1070" height="882" decoding="async" fetchpriority="high" data-i18n-alt="hero.stageAlt2" alt="Fall 1 nach dem Bleaching in unserer Praxis">
-        <span class="caseTag" data-i18n="ba.after" aria-hidden="true">Nachher</span>
-      </span>
-    </a>
-    <p class="stageCap"><span data-i18n="hero.stageCap">Fall 1 aus unserer Praxis, mit Einwilligung veröffentlicht. Licht und Kamera waren vorher und nachher nicht identisch.</span> <a href="#faelle" data-i18n="hero.stageLink">Beide Fälle ansehen</a></p>
+    <figure class="heroFigure">
+      <span class="blob" aria-hidden="true"></span>
+      <div class="frame frame--hero">
+        <img src="assets/photos/ai/in-office.webp" width="900" height="1125" decoding="async" fetchpriority="high" data-i18n-alt="hero.alt" alt="Behandlungsraum: Patientin mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)">
+      </div>
+      <a class="heroCase" href="#faelle">
+        <img src="assets/photos/case-1-pair.webp" width="726" height="192" decoding="async" data-i18n-alt="hero.caseAlt" alt="Fall 1 aus unserer Praxis: links vorher, rechts nachher">
+        <span class="heroCaseText"><b data-i18n="hero.caseB">Echter Fall aus unserer Praxis</b><span data-i18n="hero.caseS">Vorher und nachher ansehen</span></span>
+      </a>
+    </figure>
   </div>
 </section>
 
