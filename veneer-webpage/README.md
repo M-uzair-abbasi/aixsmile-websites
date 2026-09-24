@@ -34,10 +34,22 @@ No build step. Serve the folder over http (ES modules do not load from
 python3 -m http.server 8080
 ```
 
+## English page
+
+`index.html` is the only source. `node build-en.mjs` writes `en/index.html`:
+the same page with the English dictionary applied to the markup, an English
+`<head>` (title, description, canonical `/en/`, Open Graph) and English
+structured data. Vercel runs it at deploy time (`package.json` "build"), so
+`en/` is not committed. Both pages carry `hreflang` for each other; the DE/EN
+toggle navigates between `/` and `/en/`.
+
 ## Deploying
 
-The site is deployed with the Vercel CLI (`vercel --prod`). `.vercelignore`
-keeps local tool folders and this README out of the upload.
+The site is deployed with the Vercel CLI (`vercel deploy --prod` from this
+folder, scope `aix4`). `.vercelignore` keeps the developer viewer and this
+README out of the upload. `vercel.json` redirects `www.` to the bare domain
+and sets long cache headers on `/assets/`. `robots.txt` and `sitemap.xml`
+list both language URLs.
 
 ## Before going live
 
