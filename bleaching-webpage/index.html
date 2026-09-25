@@ -123,6 +123,36 @@
   a:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   section[id] { scroll-margin-top: var(--hdr); }
+  /* ===== First-load splash ===== */
+  .splash { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+    background: var(--paper); transition: opacity .45s ease; }
+  .splash.is-leaving { opacity: 0; pointer-events: none; }
+  html:not(.js) .splash { display: none; }
+  .splashTooth { width: 84px; height: 98px; }
+  .splashText { margin: 0; font-size: 11.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--soft); }
+  .splashText [data-l="en"] { display: none; }
+  html[lang="en"] .splashText [data-l="de"] { display: none; }
+  html[lang="en"] .splashText [data-l="en"] { display: inline; }
+  /* the loop: outline draws, the white rises through the yellow from the gum line up,
+     a shine and a sparkle land, hold, fade, and it starts again */
+  .splashOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3s ease-in-out infinite; }
+  .splashWhite { transform-box: fill-box; transform-origin: bottom center; animation: spRise 3s ease-in-out infinite; }
+  .splashYellow { animation: spYellow 3s ease-in-out infinite; }
+  .splashShine { animation: spShine 3s ease-in-out infinite; }
+  .splashSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3s ease-in-out infinite; }
+  .splashSpark--2 { animation-delay: .15s; }
+  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 5% { opacity: 1; } 30% { stroke-dashoffset: 0; } 82% { stroke-dashoffset: 0; opacity: 1; } 92%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes spYellow { 0%, 12% { opacity: 0; } 22% { opacity: 1; } 82% { opacity: 1; } 92%, 100% { opacity: 0; } }
+  @keyframes spRise { 0%, 24% { transform: scaleY(0); } 60% { transform: scaleY(1); } 82% { transform: scaleY(1); } 92%, 100% { transform: scaleY(1); opacity: 0; } }
+  @keyframes spShine { 0%, 58% { opacity: 0; } 66% { opacity: .95; } 82% { opacity: .95; } 92%, 100% { opacity: 0; } }
+  @keyframes spSpark { 0%, 60% { opacity: 0; transform: scale(.2) rotate(-25deg); } 68% { opacity: 1; transform: scale(1.15) rotate(0); } 74% { transform: scale(.92) rotate(6deg); } 82% { opacity: 1; transform: scale(1) rotate(0); } 92%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .splashOutline, .splashWhite, .splashYellow, .splashShine, .splashSpark { animation: none; }
+    .splashOutline { stroke-dashoffset: 0; } .splashYellow { opacity: 0; } .splashShine { opacity: .95; } .splashSpark { opacity: 1; }
+  }
+  /* the hero's own entrance waits until the splash has lifted */
+  html.js:not(.is-revealed) .heroCopy > *, html.js:not(.is-revealed) .heroFigure { animation-play-state: paused; }
+
   .skip { position: absolute; left: 16px; top: -60px; z-index: 50; padding: 10px 16px; border-radius: 10px;
     background: var(--ink); color: #fff; font-weight: 600; text-decoration: none; }
   .skip:focus { top: 12px; color: #fff; }
@@ -810,6 +840,27 @@
 </head>
 <body>
 <script>document.documentElement.classList.add('js');</script>
+<!-- First-load splash: a tooth whitens from the gum line up, a sparkle lands on
+     it, then the page is revealed. Held until the page has loaded (min 700 ms,
+     failsafe 4 s). Without JavaScript it is never shown. -->
+<div class="splash" id="splash" aria-hidden="true">
+  <svg viewBox="0 0 120 140" class="splashTooth" fill="none">
+    <defs>
+      <clipPath id="toothClip"><path d="M60 8c-16 0-30 10-34 28-4 20 2 40 8 60 3 10 6 26 12 34 4 6 10 4 12-4 2-8 1-20 2-28 1 8 0 20 2 28 2 8 8 10 12 4 6-8 9-24 12-34 6-20 12-40 8-60C90 18 76 8 60 8Z"/></clipPath>
+      <linearGradient id="enamel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbf9"/><stop offset="1" stop-color="#eef3f4"/></linearGradient>
+    </defs>
+    <g clip-path="url(#toothClip)">
+      <rect class="splashYellow" x="0" y="0" width="120" height="140" fill="#dcc08a"/>
+      <rect class="splashWhite" x="0" y="0" width="120" height="140" fill="url(#enamel)"/>
+    </g>
+    <path class="splashOutline" pathLength="1" stroke="#0f6b78" stroke-width="2.5" stroke-linejoin="round" d="M60 8c-16 0-30 10-34 28-4 20 2 40 8 60 3 10 6 26 12 34 4 6 10 4 12-4 2-8 1-20 2-28 1 8 0 20 2 28 2 8 8 10 12 4 6-8 9-24 12-34 6-20 12-40 8-60C90 18 76 8 60 8Z"/>
+    <path class="splashShine" stroke="#ffffff" stroke-width="3" stroke-linecap="round" d="M44 30c-6 6-8 14-8 22" opacity="0"/>
+    <g class="splashSpark" transform="translate(92 24)"><path fill="#0f6b78" d="M0-9C1.6-2.4 2.4-1.6 9 0 2.4 1.6 1.6 2.4 0 9-1.6 2.4-2.4 1.6-9 0-2.4-1.6-1.6-2.4 0-9Z"/></g>
+    <g class="splashSpark splashSpark--2" transform="translate(104 44)"><path fill="#7fd0dc" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+  </svg>
+  <p class="splashText"><span data-l="de">Wird geladen …</span><span data-l="en">Loading …</span></p>
+</div>
+<noscript><style>.splash { display: none !important; }</style></noscript>
 <a class="skip" href="#inhalt" data-i18n="skip">Zum Inhalt springen</a>
 
 <header class="top" id="top">
@@ -1252,6 +1303,25 @@
   </a>
 </nav>
 
+<script>
+  // Splash release: page loaded and at least 700 ms shown; 4 s failsafe.
+  (function () {
+    var el = document.getElementById('splash'); if (!el) return;
+    var t0 = performance.now(), done = false;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function leave() {
+      if (done) return; done = true;
+      var wait = Math.max(0, (reduce ? 200 : 700) - (performance.now() - t0));
+      setTimeout(function () {
+        el.classList.add('is-leaving');
+        document.documentElement.classList.add('is-revealed');
+        setTimeout(function () { el.remove(); }, 500);
+      }, wait);
+    }
+    if (document.readyState === 'complete') leave(); else window.addEventListener('load', leave, { once: true });
+    setTimeout(leave, 4000);
+  })();
+</script>
 <script type="module">
   // i18n evaluates first (the other two import it), captures the German text
   // from this document and applies the stored language before anything else.
