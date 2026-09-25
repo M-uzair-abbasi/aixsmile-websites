@@ -34,7 +34,7 @@
       "name": "Zahnarztpraxis AIXSMILE",
       "url": "https://aixsmile.de/",
       "telephone": "+49 241 31202",
-      "email": "praxis@aixsmile.de",
+      "email": "info@aixsmile.de",
       "image": "https://bleaching-aachen.de/assets/photos/doctor.jpg",
       "address": {
         "@type": "PostalAddress",
@@ -128,28 +128,32 @@
     background: var(--paper); transition: opacity .45s ease; }
   .splash.is-leaving { opacity: 0; pointer-events: none; }
   html:not(.js) .splash { display: none; }
-  .splashTooth { width: 190px; height: 119px; }
+  .splashTooth { width: 96px; height: 112px; overflow: visible; }
   .splashText { margin: 0; font-size: 11.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--soft); }
   .splashText [data-l="en"] { display: none; }
   html[lang="en"] .splashText [data-l="de"] { display: none; }
   html[lang="en"] .splashText [data-l="en"] { display: inline; }
-  /* the loop (3.2 s): the lip line draws itself, the mouth's inside fades in,
-     the teeth whiten one pair at a time from the centre outwards, a glint and
-     two sparkles land, hold, everything fades and it starts again */
-  .splashOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3.2s ease-in-out infinite; }
-  .splashInner { animation: spInner 3.2s ease-in-out infinite; }
-  .spW { opacity: 0; animation: spWhite 3.2s ease-in-out infinite; }
-  .splashShine { animation: spShine 3.2s ease-in-out infinite; }
-  .splashSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3.2s ease-in-out infinite; }
-  .splashSpark--2 { animation-delay: .15s; }
-  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 4% { opacity: 1; } 28% { stroke-dashoffset: 0; } 84% { stroke-dashoffset: 0; opacity: 1; } 93%, 100% { stroke-dashoffset: 0; opacity: 0; } }
-  @keyframes spInner { 0%, 10% { opacity: 0; } 24% { opacity: 1; } 84% { opacity: 1; } 93%, 100% { opacity: 0; } }
-  @keyframes spWhite { 0%, 36% { opacity: 0; } 46% { opacity: 1; } 100% { opacity: 1; } }
-  @keyframes spShine { 0%, 62% { opacity: 0; } 70% { opacity: .95; } 84% { opacity: .95; } 93%, 100% { opacity: 0; } }
-  @keyframes spSpark { 0%, 64% { opacity: 0; transform: scale(.2) rotate(-25deg); } 72% { opacity: 1; transform: scale(1.15) rotate(0); } 78% { transform: scale(.92) rotate(6deg); } 84% { opacity: 1; transform: scale(1) rotate(0); } 93%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
+  /* the loop (3.4 s): the outline draws itself around a yellow tooth, the white rises
+     from the root to the crown, a light sweep crosses the enamel, the halo breathes,
+     sparkles land, it holds, fades, and begins again */
+  .splashBody { animation: spBody 3.4s ease-in-out infinite; }
+  @keyframes spBody { 0%, 6% { opacity: 0; } 22% { opacity: 1; } 86% { opacity: 1; } 94%, 100% { opacity: 0; } }
+  .splashOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .splashWhite { transform-box: fill-box; transform-origin: bottom center; transform: scaleY(0); animation: spRise 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .splashSweep { animation: spSweep 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .splashGloss { opacity: 0; animation: spGloss 3.4s ease-in-out infinite; }
+  .splashHalo { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spHalo 3.4s ease-in-out infinite; }
+  .splashSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3.4s ease-in-out infinite; }
+  .splashSpark--2 { animation-delay: .12s; } .splashSpark--3 { animation-delay: .22s; }
+  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 4% { opacity: 1; } 26% { stroke-dashoffset: 0; } 86% { stroke-dashoffset: 0; opacity: 1; } 94%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes spRise { 0%, 26% { transform: scaleY(0); } 58% { transform: scaleY(1); } 86% { transform: scaleY(1); opacity: 1; } 94%, 100% { transform: scaleY(1); opacity: 0; } }
+  @keyframes spSweep { 0%, 56% { transform: skewX(-14deg) translateX(-20px); opacity: 0; } 60% { opacity: 1; } 76% { transform: skewX(-14deg) translateX(180px); opacity: 1; } 78%, 100% { transform: skewX(-14deg) translateX(180px); opacity: 0; } }
+  @keyframes spGloss { 0%, 60% { opacity: 0; } 70% { opacity: 1; } 86% { opacity: 1; } 94%, 100% { opacity: 0; } }
+  @keyframes spHalo { 0%, 50% { opacity: 0; transform: scale(.8); } 70% { opacity: 1; transform: scale(1); } 86% { opacity: 1; transform: scale(1.06); } 94%, 100% { opacity: 0; transform: scale(1.1); } }
+  @keyframes spSpark { 0%, 64% { opacity: 0; transform: scale(.2) rotate(-25deg); } 72% { opacity: 1; transform: scale(1.15) rotate(0); } 78% { transform: scale(.92) rotate(6deg); } 86% { opacity: 1; transform: scale(1) rotate(0); } 94%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
   @media (prefers-reduced-motion: reduce) {
-    .splashOutline, .splashInner, .spW, .splashShine, .splashSpark { animation: none; }
-    .splashOutline { stroke-dashoffset: 0; } .spW { opacity: 1; } .splashShine { opacity: .95; } .splashSpark { opacity: 1; }
+    .splashOutline, .splashWhite, .splashSweep, .splashGloss, .splashHalo, .splashSpark, .splashBody { animation: none; }
+    .splashOutline { stroke-dashoffset: 0; } .splashWhite { transform: none; } .splashSweep { opacity: 0; } .splashGloss, .splashHalo, .splashSpark { opacity: 1; }
   }
   /* the hero's own entrance waits until the splash has lifted */
   html.js:not(.is-revealed) .heroCopy > *, html.js:not(.is-revealed) .heroFigure { animation-play-state: paused; }
@@ -845,23 +849,25 @@
      it, then the page is revealed. Held until the page has loaded (min 700 ms,
      failsafe 4 s). Without JavaScript it is never shown. -->
 <div class="splash" id="splash" aria-hidden="true">
-  <svg viewBox="0 0 240 150" class="splashTooth" fill="none">
+  <svg viewBox="0 0 120 140" class="splashTooth" fill="none">
     <defs>
-      <clipPath id="mouthClip"><path d="M30 62Q120 40 210 62Q120 132 30 62Z"/></clipPath>
-      <clipPath id="teethClip"><path d="M102 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M120 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M84 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M139 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M68 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M157 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M54 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/><path d="M173 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/></clipPath>
-      <linearGradient id="enamel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eef3f4"/></linearGradient>
+      <clipPath id="toothClip"><path d="M60 10c-15 0-27 8-31 22-3 12-1 24 2 36 2 8 3 16 6 24 3 9 6 20 10 28 3 6 8 6 10 0 2-7 1-16 3-24 1 8 0 17 3 24 2 6 7 6 10 0 4-8 7-19 10-28 3-8 4-16 6-24 3-12 5-24 2-36C87 18 75 10 60 10Z"/></clipPath>
+      <linearGradient id="enamelY" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8d2a2"/><stop offset="1" stop-color="#c9a86a"/></linearGradient>
+      <linearGradient id="enamelW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#f3f7f8"/><stop offset="1" stop-color="#dde8eb"/></linearGradient>
+      <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <radialGradient id="halo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#7fd0dc" stop-opacity=".35"/><stop offset="1" stop-color="#7fd0dc" stop-opacity="0"/></radialGradient>
     </defs>
-    <g clip-path="url(#mouthClip)" class="splashInner">
-      <rect x="0" y="0" width="240" height="150" fill="#7a1f2b"/>
-      <path d="M30 40h180v22Q120 78 30 62Z" fill="#e9a7a3"/>
-      <g clip-path="url(#teethClip)"><rect x="0" y="0" width="240" height="150" fill="#dcc08a"/></g>
-      <g fill="url(#enamel)"><path class="spW" style="animation-delay:0.22s" d="M102 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path class="spW" style="animation-delay:0.22s" d="M120 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path class="spW" style="animation-delay:0.34s" d="M84 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path class="spW" style="animation-delay:0.34s" d="M139 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path class="spW" style="animation-delay:0.46s" d="M68 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path class="spW" style="animation-delay:0.46s" d="M157 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path class="spW" style="animation-delay:0.58s" d="M54 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/><path class="spW" style="animation-delay:0.58s" d="M173 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/></g>
-      <g stroke="#0f6b78" stroke-width="1.2" stroke-opacity=".55" stroke-linejoin="round"><path d="M102 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M120 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M84 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M139 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M68 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M157 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M54 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/><path d="M173 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/></g>
-      <path class="splashShine" d="M106 64c-1 6-1 12 0 18M124 64c-1 6-1 12 0 18" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0"/>
+    <circle class="splashHalo" cx="60" cy="66" r="58" fill="url(#halo)"/>
+    <g clip-path="url(#toothClip)" class="splashBody">
+      <rect x="0" y="0" width="120" height="140" fill="url(#enamelY)"/>
+      <rect class="splashWhite" x="0" y="0" width="120" height="140" fill="url(#enamelW)"/>
+      <rect class="splashSweep" x="-60" y="0" width="60" height="140" fill="url(#sweep)" transform="skewX(-14)"/>
+      <path d="M40 24c-6 8-8 20-7 32" stroke="#fff" stroke-opacity=".7" stroke-width="4" stroke-linecap="round" class="splashGloss"/>
     </g>
-    <path class="splashOutline" pathLength="1" stroke="#0f6b78" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M30 62Q120 40 210 62Q120 132 30 62Z"/>
-    <g class="splashSpark" transform="translate(212 40)"><path fill="#0f6b78" d="M0-9C1.6-2.4 2.4-1.6 9 0 2.4 1.6 1.6 2.4 0 9-1.6 2.4-2.4 1.6-9 0-2.4-1.6-1.6-2.4 0-9Z"/></g>
-    <g class="splashSpark splashSpark--2" transform="translate(226 26)"><path fill="#7fd0dc" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+    <path class="splashOutline" pathLength="1" stroke="#0f6b78" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M60 10c-15 0-27 8-31 22-3 12-1 24 2 36 2 8 3 16 6 24 3 9 6 20 10 28 3 6 8 6 10 0 2-7 1-16 3-24 1 8 0 17 3 24 2 6 7 6 10 0 4-8 7-19 10-28 3-8 4-16 6-24 3-12 5-24 2-36C87 18 75 10 60 10Z"/>
+    <g class="splashSpark" transform="translate(94 22)"><path fill="#0f6b78" d="M0-10C1.8-2.7 2.7-1.8 10 0 2.7 1.8 1.8 2.7 0 10-1.8 2.7-2.7 1.8-10 0-2.7-1.8-1.8-2.7 0-10Z"/></g>
+    <g class="splashSpark splashSpark--2" transform="translate(108 42)"><path fill="#7fd0dc" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+    <g class="splashSpark splashSpark--3" transform="translate(24 30)"><path fill="#7fd0dc" d="M0-4C.7-1.1 1.1-.7 4 0 1.1.7.7 1.1 0 4-.7 1.1-1.1.7-4 0-1.1-.7-.7-1.1 0-4Z"/></g>
   </svg>
   <p class="splashText"><span data-l="de">Wird geladen …</span><span data-l="en">Loading …</span></p>
 </div>
@@ -1290,7 +1296,7 @@
       </span>
     </a>
     <p class="colophonBlock">
-      <b>Zahnarztpraxis AIXSMILE</b><span class="sep">·</span><span class="nw">Großkölnstraße 22–28,</span> <span class="nw">52062 Aachen</span><span class="sep">·</span><a class="nw" href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a><span class="sep">·</span><span class="nw" data-i18n="footer.fax">Fax 0241 4018150</span><span class="sep">·</span><a class="nw" href="mailto:praxis@aixsmile.de">praxis@aixsmile.de</a>
+      <b>Zahnarztpraxis AIXSMILE</b><span class="sep">·</span><span class="nw">Großkölnstraße 22–28,</span> <span class="nw">52062 Aachen</span><span class="sep">·</span><a class="nw" href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a><span class="sep">·</span><a class="nw" href="mailto:info@aixsmile.de">info@aixsmile.de</a>
     </p>
     <p class="colophonBlock">
       <span data-i18n="footer.hours">Mo · Di · Do, 9:00 – 16:00 Uhr</span><span class="sep">·</span><span data-i18n="footer.hoursNote">nur mit Termin</span><span class="sep">·</span><span data-i18n="footer.langs">Deutsch, Englisch, Farsi, Türkisch, Arabisch</span>

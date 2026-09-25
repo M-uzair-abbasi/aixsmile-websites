@@ -199,7 +199,6 @@ export const EN = {
     reviewsBtn: 'To the Google reviews',
   },
   footer: {
-    fax: 'Fax 0241 4018150',
     hours: 'Mon · Tue · Thu, 9:00 – 16:00',
     hoursNote: 'appointment only',
     langs: 'German, English, Farsi, Turkish, Arabic',
