@@ -1020,6 +1020,25 @@
   html.js:not(.is-revealed) #curtain, html.js:not(.is-revealed) .stage3d, html.js:not(.is-revealed) .stagewrap::before,
   html.js:not(.is-revealed) .block:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
   html.js:not(.is-revealed) .gaugeNote i, html.js:not(.is-revealed) .hint { animation-play-state: paused; }
+
+  /* the no-cookies chip: bottom left, five seconds, then it slides away */
+  .cookieChip { position: fixed; left: 16px; bottom: 16px; z-index: 35; display: flex; align-items: center; gap: 10px; max-width: min(92vw, 420px);
+    padding: 10px 10px 10px 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); color: var(--text);
+    box-shadow: 0 20px 40px -24px rgba(30, 25, 22, .45); font-size: 13.5px; line-height: 1.4; }
+  .cookieChip > svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); }
+  .cookieChip a { font-weight: 600; color: var(--accent); }
+  .chipClose { flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 9px; background: var(--paper-2); color: var(--ink); cursor: pointer; }
+  .chipClose svg { width: 16px; height: 16px; }
+  .cookieChip::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 0; height: 2px; border-radius: 2px; background: var(--accent); transform-origin: left; opacity: .55; }
+  .cookieChip.is-out { opacity: 0; transform: translateY(12px); transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cookieChip:not([hidden]) { animation: chipIn .5s cubic-bezier(.2,.7,.2,1) both; }
+    .cookieChip:not([hidden])::after { animation: chipTimer 5s linear .5s both; }
+    .cookieChip:hover::after { animation-play-state: paused; }
+  }
+  @keyframes chipIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes chipTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @media (max-width: 900px) { .cookieChip { left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; font-size: 13px; } }
 </style>
 </head>
 <body>
@@ -1474,6 +1493,11 @@
   </div>
 </section>
 
+<div class="cookieChip" id="cookieChip" hidden role="status">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  <span data-i18n="cookie.text">Diese Seite setzt keine Cookies und kein Tracking. <a href="https://aixsmile.de/datenschutz/">Datenschutz</a></span>
+  <button type="button" class="chipClose" id="cookieClose" data-i18n-aria="cookie.close" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
 <footer>
   <!-- Ft4 dense colophon. Was Ft3 "index columns": four link columns, a social
        icon row and a small copyright tail - the single most-recognised footer
@@ -1786,6 +1810,7 @@ const I18N = {
       months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
       monthsLong: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
     },
+    cookie: { text: 'Diese Seite setzt keine Cookies und kein Tracking. <a href="https://aixsmile.de/datenschutz/">Datenschutz</a>', close: 'Hinweis schließen' },
     footer: {
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, T\u00fcrkisch und Arabisch.',
       hoursDays: 'Mo \u00b7 Di \u00b7 Do',
@@ -1988,6 +2013,7 @@ const I18N = {
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       monthsLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     },
+    cookie: { text: 'This page sets no cookies and runs no tracking. <a href="https://aixsmile.de/datenschutz/">Privacy</a>', close: 'Dismiss' },
     footer: {
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
       hoursDays: 'Mon \u00b7 Tue \u00b7 Thu',
@@ -2599,6 +2625,21 @@ resize(); readScroll(); frame();
 
   load();
 })();
+</script>
+<script>
+  // The no-cookies chip: shown after the splash, five seconds, or the cross.
+  (function () {
+    var chip = document.getElementById('cookieChip'); if (!chip) return;
+    var seen = false; try { seen = localStorage.getItem('aixsmileNoCookiesSeen') === '1'; } catch (e) {}
+    if (seen) return;
+    var timer = 0;
+    function dismiss() { clearTimeout(timer); chip.classList.add('is-out'); setTimeout(function () { chip.hidden = true; }, 450); try { localStorage.setItem('aixsmileNoCookiesSeen', '1'); } catch (e) {} }
+    function show() { chip.hidden = false; timer = setTimeout(dismiss, 5000); }
+    if (document.documentElement.classList.contains('is-revealed')) setTimeout(show, 800);
+    else addEventListener('aixsmile:revealed', function () { setTimeout(show, 800); }, { once: true });
+    document.getElementById('cookieClose').addEventListener('click', dismiss);
+    chip.addEventListener('mouseenter', function () { clearTimeout(timer); });
+  })();
 </script>
 </body>
 </html>
