@@ -334,3 +334,41 @@ const mapTile = document.getElementById('mapTile');
 if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
   mapTile.href = 'https://maps.apple.com/?q=Zahnarztpraxis%20AIXSMILE&address=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe%2022-28%2C%2052062%20Aachen&ll=50.7768518,6.085097';
 }
+
+// Case photos: tap the expand button (or the photo) to see it large.
+const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+if (lb && lbImg) {
+  let last = null;
+  const open = (src, alt, from) => { lbImg.src = src; lbImg.alt = alt || ''; lb.hidden = false; document.body.style.overflow = 'hidden'; last = from; document.getElementById('lbClose').focus(); };
+  const close = () => { lb.hidden = true; lbImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; document.body.style.overflow = ''; if (last) last.focus(); };
+  document.querySelectorAll('.caseFrame').forEach((f) => {
+    const btn = f.querySelector('.expand'), img = f.querySelector('img');
+    const go = (e) => { e.preventDefault(); open(btn.dataset.expand, img.alt, btn); };
+    btn.addEventListener('click', go);
+    img.addEventListener('click', go);
+  });
+  lb.addEventListener('click', (e) => { if (e.target !== lbImg) close(); });
+  document.getElementById('lbClose').addEventListener('click', close);
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lb.hidden) close(); });
+}
+
+// The no-cookies chip: shown once the splash has lifted, until it is dismissed.
+const chip = document.getElementById('cookieChip');
+if (chip) {
+  let seen = false;
+  try { seen = localStorage.getItem('aixsmileNoCookiesSeen') === '1'; } catch { /* fine */ }
+  if (!seen) {
+    let timer = 0;
+    const dismiss = () => {
+      clearTimeout(timer);
+      chip.classList.add('is-out');
+      setTimeout(() => { chip.hidden = true; }, 450);
+      try { localStorage.setItem('aixsmileNoCookiesSeen', '1'); } catch { /* fine */ }
+    };
+    const show = () => { chip.hidden = false; timer = setTimeout(dismiss, 5000); }; // five seconds, then it slides away by itself
+    if (document.documentElement.classList.contains('is-revealed')) setTimeout(show, 800);
+    else addEventListener('aixsmile:revealed', () => setTimeout(show, 800), { once: true });
+    document.getElementById('cookieClose').addEventListener('click', dismiss);
+    chip.addEventListener('mouseenter', () => clearTimeout(timer)); // reading it? it stays
+  }
+}

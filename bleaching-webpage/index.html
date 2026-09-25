@@ -335,6 +335,40 @@
   .case figcaption b { display: block; margin-bottom: 6px; font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--heading); }
   .caseNote { margin-top: 14px; font-size: 14px; color: var(--soft); }
 
+  /* expand button on each case, and the lightbox it opens */
+  .caseFrame .expand { position: absolute; right: 12px; bottom: 12px; z-index: 2; width: 38px; height: 38px; display: grid; place-items: center; border: 0; border-radius: 10px;
+    background: rgba(255, 255, 255, .92); color: var(--ink); cursor: pointer; box-shadow: 0 8px 20px -10px rgba(16, 32, 42, .5); transition: transform .2s var(--ease), background-color .2s ease; }
+  .caseFrame .expand svg { width: 18px; height: 18px; }
+  .caseFrame .expand:hover { transform: scale(1.06); background: #fff; }
+  .caseFrame img { cursor: zoom-in; }
+  .lightbox { position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px;
+    background: rgba(14, 27, 38, .94); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: zoom-out; }
+  .lightbox img { max-width: min(100%, 1100px); max-height: calc(100svh - 96px); width: auto; height: auto; border-radius: 12px; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .8); cursor: default; }
+  .lbClose { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .14); color: #fff; cursor: pointer; }
+  .lbClose svg { width: 20px; height: 20px; }
+  .lbClose:hover { background: rgba(255, 255, 255, .26); }
+  .lbHint { margin: 0; font-size: 13px; color: rgba(255, 255, 255, .7); }
+  @media (prefers-reduced-motion: no-preference) { .lightbox:not([hidden]) img { animation: riseIn .3s var(--ease); } }
+
+  /* the no-cookies chip: bottom left, above the phone bar */
+  .cookieChip { position: fixed; left: 16px; bottom: 16px; z-index: 35; display: flex; align-items: center; gap: 10px; max-width: min(92vw, 420px);
+    padding: 10px 10px 10px 14px; border-radius: 14px; background: #fff; border: 1px solid var(--line); color: var(--text);
+    box-shadow: 0 20px 40px -24px rgba(16, 32, 42, .45); font-size: 13.5px; line-height: 1.4; }
+  .cookieChip > svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); }
+  .cookieChip a { font-weight: 600; }
+  .chipClose { flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 9px; background: var(--paper-2); color: var(--ink); cursor: pointer; }
+  .chipClose svg { width: 16px; height: 16px; }
+  .chipClose:hover { background: var(--ice-2); }
+  .cookieChip::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 0; height: 2px; border-radius: 2px; background: var(--accent); transform-origin: left; opacity: .55; }
+  .cookieChip.is-out { opacity: 0; transform: translateY(12px); transition: opacity .4s ease, transform .4s var(--ease); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cookieChip:not([hidden]) { animation: riseIn .5s var(--ease) both; }
+    .cookieChip:not([hidden])::after { animation: chipTimer 5s linear .5s both; }
+    .cookieChip:hover::after { animation-play-state: paused; }
+  }
+  @keyframes chipTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @media (max-width: 900px) { .cookieChip { left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; font-size: 13px; } }
+
   /* ===== Kosten ===== */
   .band--kosten .inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); column-gap: clamp(28px, 5vw, 72px); align-items: start; }
   .band--kosten .inner > .eyebrow, .band--kosten .inner > h2 { grid-column: 1 / -1; }
@@ -791,7 +825,8 @@
     .caseNote { margin-top: 8px; font-size: 12.5px; }
     /* measuring */
     .measure { gap: 14px; }
-    .measurePhoto .frame--tall { aspect-ratio: 16 / 9; }
+    .measurePhoto .frame--tall { aspect-ratio: 4 / 3; }
+    .measurePhoto img { object-position: 50% 18%; }
     .shadeCard { padding: 16px 14px 14px; }
     .shadeCard h2 { font-size: 18px; }
     .shadeCard .scaleIntro { margin-bottom: 12px; font-size: 14px; }
@@ -803,10 +838,18 @@
     /* costs */
     .band--kosten .inner { row-gap: 0; }
     .band--kosten p { font-size: 15.5px; }
-    .factors li { padding: 9px 0; font-size: 14.5px; }
-    .promise { margin-top: 16px; padding: 16px 14px 4px; }
-    .promise h3 { font-size: 18px; margin-bottom: 6px; }
-    .promise li { padding: 9px 0; font-size: 14.5px; }
+    .band--kosten p { font-size: 15px; margin-bottom: 10px; }
+    .factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    .factors li { display: block; padding: 10px 0 0; border-top: 2px solid var(--accent); border-bottom: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .factors li:last-child { border-bottom: 0; }
+    .factors b { display: block; margin-bottom: 3px; font-size: 13.5px; }
+    .promise { margin-top: 14px; padding: 14px 14px 12px; }
+    .promise h3 { font-size: 17px; margin-bottom: 8px; }
+    .promise ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .promise li { display: block; padding: 0; border-top: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .promise li::before { margin: 0 0 6px; }
+    .promise li b { display: block; font-size: 13.5px; margin-bottom: 3px; }
+    .promise li span { display: block; }
     /* booking */
     .band--buchen .inner { gap: 14px; }
     .band--buchen .intro p { font-size: 15.5px; margin-bottom: 8px; }
@@ -954,6 +997,7 @@
           <img src="assets/photos/case-1.jpg" width="1070" height="882" loading="lazy" decoding="async" data-i18n-alt="ba.alt1" alt="Fall 1: oben die Zähne vor dem Bleaching, unten danach">
           <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
           <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
+          <button type="button" class="expand" data-expand="assets/photos/case-1.jpg" data-i18n-aria="ba.expand" aria-label="Fall 1 groß ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
         </div>
         <figcaption><b data-i18n="ba.case1">Fall 1</b><span data-i18n="ba.cap1">Gelbliche Verfärbung, in der Praxis aufgehellt. Oben vor der Behandlung, unten danach.</span></figcaption>
       </figure>
@@ -962,6 +1006,7 @@
           <img src="assets/photos/case-2.jpg" width="1000" height="1000" loading="lazy" decoding="async" data-i18n-alt="ba.alt2" alt="Fall 2: oben die Zähne vor dem Bleaching, unten danach">
           <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
           <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
+          <button type="button" class="expand" data-expand="assets/photos/case-2.jpg" data-i18n-aria="ba.expand" aria-label="Fall 2 groß ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
         </div>
         <figcaption><b data-i18n="ba.case2">Fall 2</b><span data-i18n="ba.cap2">Nachgedunkelte Frontzähne, in der Praxis aufgehellt. Oben vor der Behandlung, unten danach.</span></figcaption>
       </figure>
@@ -978,7 +1023,7 @@
     <div class="measure">
       <figure class="media measurePhoto">
         <div class="frame frame--tall">
-          <img src="assets/photos/ai/hero.webp" width="1000" height="1250" loading="lazy" decoding="async" data-i18n-alt="s2.photoAlt" alt="Eine behandschuhte Hand hält einen Musterzahn der Farbskala neben die Frontzähne (KI-generiertes Bild)">
+          <img src="assets/photos/ai/hero.webp" width="1000" height="1250" loading="eager" decoding="async" data-i18n-alt="s2.photoAlt" alt="Eine behandschuhte Hand hält einen Musterzahn der Farbskala neben die Frontzähne (KI-generiertes Bild)">
           <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
         </div>
       </figure>
@@ -1171,7 +1216,6 @@
       <figure class="media">
         <div class="frame frame--land">
           <img src="assets/photos/ai/gel.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="steps.alt" alt="Aufhellungsgel wird auf die Frontzähne aufgetragen, das Zahnfleisch ist abgedeckt (KI-generiertes Bild)">
-          <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
         </div>
       </figure>
     </div>
@@ -1304,6 +1348,18 @@
   </div>
 </footer>
 
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" data-i18n-aria="ba.lightbox" aria-label="Vergrößerte Ansicht">
+  <button type="button" class="lbClose" id="lbClose" data-i18n-aria="ba.close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" decoding="async">
+  <p class="lbHint" data-i18n="ba.lbHint">Zum Schließen tippen</p>
+</div>
+<!-- No consent banner is needed: this page sets no cookies and runs no tracking.
+     A small chip says so once, and remembers that it was read. -->
+<div class="cookieChip" id="cookieChip" hidden role="status">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  <span data-i18n="cookie.text">Diese Seite setzt keine Cookies und kein Tracking. <a href="/datenschutz/">Datenschutz</a></span>
+  <button type="button" class="chipClose" id="cookieClose" data-i18n-aria="cookie.close" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
 <nav class="mbar" id="mbar" data-i18n-aria="mbar.aria" aria-label="Schnellzugriff">
   <a class="btn" href="#buchen" data-cta="book" data-i18n="mbar.book">Beratungstermin buchen</a>
   <a class="btn ghost btnIcon" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202">
@@ -1333,6 +1389,7 @@
       setTimeout(function () {
         el.classList.add('is-leaving');
         document.documentElement.classList.add('is-revealed');
+        window.dispatchEvent(new CustomEvent('aixsmile:revealed'));
         setTimeout(function () { el.remove(); }, 500);
       }, wait);
     }

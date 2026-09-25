@@ -109,6 +109,7 @@ export const EN = {
     alt1: 'Case 1: the teeth before whitening at the top, afterwards below',
     alt2: 'Case 2: the teeth before whitening at the top, afterwards below',
     before: 'Before', after: 'After', case1: 'Case 1', case2: 'Case 2',
+    expand: 'View case large', lightbox: 'Enlarged view', close: 'Close', lbHint: 'Tap to close',
     cap1: 'Yellowish discolouration, whitened in the practice. Top: before treatment, bottom: after.',
     cap2: 'Front teeth darkened over the years, whitened in the practice. Top: before treatment, bottom: after.',
   },
@@ -206,6 +207,7 @@ export const EN = {
     datenschutz: 'Privacy',
   },
   mbar: { aria: 'Quick access', book: 'Book a consultation' },
+  cookie: { text: 'This page sets no cookies and runs no tracking. <a href="/datenschutz/">Privacy</a>', close: 'Dismiss' },
 };
 
 export const DYN = {
