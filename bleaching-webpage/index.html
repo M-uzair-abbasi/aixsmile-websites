@@ -439,6 +439,8 @@
   .bkSteps li { position: relative; padding-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
   .bkSteps li::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--line); }
   .bkSteps li.on { color: var(--ink); }
+  .bkSteps li.done { cursor: pointer; color: var(--accent); }
+  .bkSteps li.done:hover::after { background: var(--accent-hover); }
   .bkSteps li.on::after, .bkSteps li.done::after { background: var(--accent); }
   .pane { animation: paneIn .3s var(--ease) both; }
   @keyframes paneIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -458,6 +460,15 @@
   .quickBtn small { font-size: 11.5px; font-weight: 600; color: var(--accent); }
   .quickBtn b { font-size: 13.5px; font-weight: 600; line-height: 1.25; }
   /* the month calendar */
+  /* constant height: the card never grows or shrinks between steps or when times appear */
+  .bk { min-height: 600px; display: flex; flex-direction: column; }
+  .bk .pane { flex: 1 1 auto; }
+  .calRow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px; align-items: stretch; }
+  .times { display: flex; flex-direction: column; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
+  .times .bkLabel { margin-bottom: 6px; }
+  .timesEmpty { margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+  .times .timeGroup { margin-top: 2px; }
+  .times .timeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; overflow-y: auto; max-height: 220px; }
   .cal { padding: 8px 8px 6px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
   .calHead { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
   .calMonth { margin: 0; font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--ink); }
@@ -467,7 +478,7 @@
   .calWeek, .calGrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
   .calGrid { grid-template-rows: repeat(6, 1fr); }
   .calWeek span { text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-soft); padding: 2px 0; }
-  .calGrid .day, .calGrid .off { height: 34px; display: grid; place-items: center; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 600;
+  .calGrid .day, .calGrid .off { height: 30px; display: grid; place-items: center; border-radius: 7px; font: inherit; font-size: 13.5px; font-weight: 600;
     font-variant-numeric: tabular-nums; border: 1px solid transparent; }
   .calGrid .off { color: var(--ink-soft); opacity: .45; background: none; }
   .calGrid .day { background: var(--foam); color: var(--ink); cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
@@ -475,7 +486,7 @@
   .calGrid .day[aria-pressed="true"] { background: var(--accent); color: #fff; }
   .calGrid .today { box-shadow: inset 0 0 0 1.5px var(--line); }
   .calHint { margin: 6px 2px 0; font-size: 12px; color: var(--ink-soft); }
-  #bkTimesWrap { margin-top: 12px; }
+
   .timeGroup { margin-top: 4px; }
   .timeHead { margin: 6px 0; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); }
   .timeGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px; }
@@ -611,7 +622,13 @@
     .timeGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .quickRow { grid-template-columns: minmax(0, 1fr); }
     .quickBtn { min-height: 44px; grid-template-columns: auto 1fr; align-items: center; gap: 10px; }
-    .calGrid .day, .calGrid .off { height: 40px; }
+    .calGrid .day, .calGrid .off { height: 36px; font-size: 14px; }
+    .calRow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .calMonth { font-size: 15px; }
+    .times { padding: 8px 10px; min-height: 96px; }
+    .times .timeGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-height: none; }
+    .time { min-height: 40px; font-size: 14px; }
+    .bk { min-height: 720px; }
     .introFacts li { font-size: 15.5px; }
     footer { padding: 48px var(--gutter) 36px; }
     .brandFooter { font-size: 28px; }
@@ -867,9 +884,9 @@
     </div>
 
     <form class="bk" id="bkForm" novalidate aria-live="polite">
-      <ol class="bkSteps" id="bkSteps" aria-hidden="true">
-        <li class="on" data-step="1" data-i18n="bk.step1">Termin</li>
-        <li data-step="2" data-i18n="bk.step2">Ihre Daten</li>
+      <ol class="bkSteps" id="bkSteps" aria-label="Schritte">
+        <li class="on" data-step="1" role="button" tabindex="0" data-i18n="bk.step1">Termin</li>
+        <li data-step="2" role="button" tabindex="0" data-i18n="bk.step2">Ihre Daten</li>
         <li data-step="3" data-i18n="bk.step3">Gebucht</li>
       </ol>
 
@@ -890,7 +907,8 @@
           <p class="bkLabel" data-i18n="bk.quickH">Am schnellsten</p>
           <div class="quickRow" id="bkQuickRow"></div>
         </div>
-        <div class="cal" id="bkCal" hidden>
+        <div class="calRow" id="bkCalRow" hidden>
+        <div class="cal" id="bkCal">
           <div class="calHead">
             <button type="button" class="calNav" id="bkPrev" data-i18n-aria="bk.calPrev" aria-label="Voriger Monat">‹</button>
             <p class="calMonth" id="bkMonth" aria-live="polite"></p>
@@ -900,10 +918,12 @@
           <div class="calGrid" id="bkDays" role="group" data-i18n-aria="bk.daysAria" aria-label="Tage"></div>
           <p class="calHint" data-i18n="bk.calHint">Markierte Tage haben freie Zeiten. Buchbar bis sechs Monate im Voraus.</p>
         </div>
-        <div id="bkTimesWrap" hidden>
-          <p class="bkLabel" id="bkTimesFor"></p>
+        <div class="times" id="bkTimesWrap">
+          <p class="bkLabel" id="bkTimesFor" data-i18n="bk.timesH">Uhrzeit</p>
+          <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Wählen Sie links einen Tag, dann stehen hier die freien Uhrzeiten.</p>
           <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
           <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+        </div>
         </div>
         <p class="bkHint" id="bkNoDays" hidden data-i18n="bk.noDays">Im Moment ist online kein Termin frei. Am Telefon finden wir meist noch einen.</p>
       </div>

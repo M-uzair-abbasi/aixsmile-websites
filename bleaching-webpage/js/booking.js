@@ -91,7 +91,7 @@ if (form) {
     box.hidden = row.children.length === 0;
   }
   function renderDays() {
-    const t = T(), grid = $('bkDays'), cal = $('bkCal');
+    const t = T(), grid = $('bkDays'), cal = $('bkCalRow');
     $('bkNoDays').hidden = days.length > 0;
     cal.hidden = days.length === 0;
     renderQuick();
@@ -120,7 +120,7 @@ if (form) {
         btn.type = 'button';
         btn.setAttribute('aria-pressed', key === date ? 'true' : 'false');
         btn.setAttribute('aria-label', `${longDate(key)}, ${t.nTimes(open[key])}`);
-        btn.addEventListener('click', () => { date = key; time = ''; $('bkTaken').hidden = true; renderDays(); renderTimes(); $('bkTimesWrap').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+        btn.addEventListener('click', () => { date = key; time = ''; $('bkTaken').hidden = true; renderDays(); renderTimes(); });
         grid.appendChild(btn);
       } else {
         grid.appendChild(el('span', 'off' + (key === todayKey ? ' today' : ''), String(d)));
@@ -134,9 +134,9 @@ if (form) {
 
   function renderTimes() {
     const day = days.filter((d) => d.date === date)[0];
-    $('bkTimesWrap').hidden = !day;
-    if (!day) return;
-    $('bkTimesFor').textContent = T().timesFor(longDate(date));
+    $('bkTimesEmpty').hidden = !!day;
+    if (!day) { $('bkAm').hidden = true; $('bkPm').hidden = true; $('bkTimesFor').textContent = getLang() === 'en' ? 'Time' : 'Uhrzeit'; return; }
+    $('bkTimesFor').textContent = T().timesFor(shortDate(date));
     const am = $('bkAm'), pm = $('bkPm');
     am.querySelector('.timeGrid').innerHTML = '';
     pm.querySelector('.timeGrid').innerHTML = '';
@@ -177,6 +177,12 @@ if (form) {
   }
 
   $('bkChange').addEventListener('click', () => { $('bkTaken').hidden = true; setStep(1); });
+  $('bkSteps').querySelectorAll('[data-step]').forEach((li) => {
+    const k = +li.dataset.step;
+    const back = () => { if (k < step && step < 3) { $('bkTaken').hidden = true; setStep(k); } };
+    li.addEventListener('click', back);
+    li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); back(); } });
+  });
   $('bkNoteToggle').addEventListener('click', () => {
     $('bkNoteWrap').hidden = false;
     $('bkNoteToggle').hidden = true;
