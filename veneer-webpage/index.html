@@ -527,16 +527,24 @@
        stays CENTRED and animating the whole way down while the copy travels
        around it, instead of sitting in a band at the top that the page scrolls
        past. z-order: stage 1, copy 2, header 5. */
-    .stagewrap { position: sticky; top: 0; height: 100svh; order: -1;
-      --cx: 50%; --cy: 27%; z-index: 1; }
-    .copy { margin-top: -100svh; position: relative; z-index: 2; }
+    .stagewrap { position: sticky; top: 0; height: 44svh; order: -1;
+      --cx: 50%; --cy: 50%; z-index: 1; }
+    .copy { margin-top: -44svh; position: relative; z-index: 2; } /* pulls the copy back over the 44svh stage */
     /* The model owns the band between the header and the middle of the
        screen; every section's copy starts at 50svh, on solid paper, and grows
        DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
        over the teeth instead, which is what made the copy unreadable and the
        model half-hidden. Short sections still fill one screen (min-height). */
-    .block { min-height: 100svh; justify-content: flex-start;
-      padding: 50svh 0 8svh; max-width: none; }
+    .block { min-height: 0; justify-content: flex-start;
+      padding: 46svh 0 4svh; max-width: none; }
+    .block + .block { padding-top: 46svh; }
+    .block h2 { font-size: clamp(22px, 6vw, 27px); margin-bottom: 8px; }
+    .block > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; }
+    .block .lead { font-size: 16px; }
+    .block:first-child h1 { font-size: clamp(30px, 8.4vw, 38px); }
+    .checks li { font-size: 14.5px; }
+    .heroCasesRow { gap: 5px; }
+    .gauge { margin-top: 12px; }
     /* The model is never covered or faded on the phone - it runs continuously
        behind the copy. Legibility comes from the text itself: every glyph
        carries a paper-coloured halo, so copy crossing the teeth on its way out
@@ -556,10 +564,7 @@
        longer follows the copy, so it cannot climb over the model as a tall
        section scrolls up; the copy simply passes over the model's base. */
     .stagewrap::after { content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to top,
-        var(--paper) 0%, var(--paper) 49%,
-        rgba(243, 241, 236, .7) 53%,
-        transparent 58%); }
+      background: linear-gradient(to top, var(--paper) 0%, var(--paper) 6%, transparent 20%); }
     .caption, .scalebar, .hint { display: none; }
 
     /* Steps, in the main site's format (components/home/FirstVisit.tsx):
@@ -774,14 +779,38 @@
   .reviewNote { font-size: 13px; color: var(--ink-soft); }
 
   @media (max-width: 900px) {
-    .band { padding: 64px clamp(20px, 5vw, 40px); }
+    .band { padding: 40px clamp(18px, 5vw, 40px); }
+    .band h2 { font-size: clamp(24px, 6.4vw, 30px); margin-bottom: 10px; }
+    .band .lede { font-size: 15px; margin-bottom: 14px; }
+    .beforeAfter { padding: 40px clamp(18px, 5vw, 40px) 36px; }
+    .band--ablauf ol.steps { margin-top: 16px; }
+    .band--ablauf ol.steps li { padding: 12px 0; }
+    .band--ablauf ol.steps h3 { font-size: 16px; }
+    .band--ablauf ol.steps p { font-size: 14px; line-height: 1.5; }
     .band--kosten .inner, .band--doctor .inner, .band--praxis .inner { grid-template-columns: 1fr; }
     .band--kosten .inner > .prose, .band--kosten .inner > .promise { grid-column: 1; }
-    .band--doctor .inner { gap: 22px; }
-    .portrait { max-width: 200px; }
-    .factors li { grid-template-columns: 7.5rem 1fr; font-size: 14.5px; }
-    .faq summary { font-size: 15.5px; padding: 15px 0; }
-    .faq details p { font-size: 14.5px; }
+    .band--kosten p { font-size: 15px; margin-bottom: 10px; }
+    .factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    .factors li { display: block; padding: 10px 0 0; border-top: 2px solid var(--accent); border-bottom: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .factors b { display: block; margin-bottom: 3px; font-size: 13.5px; }
+    .promise { margin-top: 14px; padding: 14px 14px 12px; }
+    .promise h3 { font-size: 17px; margin-bottom: 8px; }
+    .promise ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .promise li { display: block; padding: 0; border-top: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .promise li b { display: block; font-size: 13.5px; margin-bottom: 3px; }
+    .promise li span { display: block; }
+    .promise .cta { margin: 10px 0 0; }
+    .band--doctor .inner { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: start; }
+    .band--doctor h2 { font-size: 22px; }
+    .band--doctor p { font-size: 14.5px; margin-bottom: 8px; }
+    .portrait { max-width: 96px; }
+    .faq summary { font-size: 15px; padding: 12px 0; }
+    .faq details p { font-size: 14.5px; margin-bottom: 12px; }
+    .band--praxis .inner { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; row-gap: 10px; }
+    .band--praxis .inner > .eyebrow, .band--praxis .inner > h2, .band--praxis .inner > .praxisRegion, .band--praxis .praxisCol:last-child { grid-column: 1 / -1; }
+    .praxisRegion { font-size: 14px; }
+    .praxisCol { padding-top: 12px; }
+    .praxisCol p { font-size: 14.5px; margin-bottom: 8px; }
   }
 
   /* Bands reveal like the before/after band: once, on arrival. */
@@ -829,24 +858,40 @@
   .bkHint { font-size: 13.5px; color: var(--ink-soft); }
 
   /* day strip: horizontal, snapping, small */
-  .dayStrip { min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 8px; margin: 0 -2px 4px;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .dayStrip::-webkit-scrollbar { display: none; }
-  .day { flex: 0 0 auto; scroll-snap-align: start; width: 52px; min-height: 56px; display: grid; justify-items: center; align-content: center;
-    padding: 6px 2px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: inherit; color: var(--ink);
-    transition: background .15s ease, border-color .15s ease, color .15s ease; }
-  .day small { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
-  .day b { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; }
-  .day span { font-size: 9.5px; color: var(--ink-soft); }
-  .day i { display: none; }
-  .day:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
-  .day[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
-  .day[aria-selected="true"] small, .day[aria-selected="true"] span { color: rgba(255,255,255,.7); }
-  .day:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  /* times: small pills */
-  .timeGroup { margin-top: 4px; }
-  .timeHead { margin: 6px 0 6px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  /* fixed height so nothing jumps between steps */
+  .bk { min-height: 560px; display: flex; flex-direction: column; }
+  .bk .pane { flex: 1 1 auto; }
+  .bkSteps li.done { cursor: pointer; color: var(--accent); }
+  /* quick picks: the next three days as pills */
+  .quick { margin: 0 0 12px; }
+  .quickRow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .quickBtn { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 8px 14px; min-height: 48px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--paper); font: inherit; color: var(--ink); cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+  .quickBtn:hover { border-color: var(--accent); background: var(--foam); }
+  .quickBtn b { font-size: 13.5px; font-weight: 600; line-height: 1.25; }
+  .quickBtn span { font-size: 12px; color: var(--accent); font-weight: 600; }
+  /* the month calendar beside the times */
+  .calRow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px; align-items: stretch; }
+  .cal { padding: 8px 8px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+  .calHead { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .calMonth { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .calNav { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); font: inherit; font-size: 20px; line-height: 1; color: var(--ink); cursor: pointer; }
+  .calNav:hover { border-color: var(--accent); color: var(--accent); }
+  .calNav:disabled { opacity: .3; cursor: default; }
+  .calWeek, .calGrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+  .calGrid { grid-template-rows: repeat(6, 1fr); }
+  .calWeek span { text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-soft); padding: 2px 0; }
+  .calGrid .day, .calGrid .off { height: 32px; display: grid; place-items: center; border-radius: 50%; font: inherit; font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; border: 1px solid transparent; }
+  .calGrid .off { color: var(--ink-soft); opacity: .4; background: none; }
+  .calGrid .day { background: var(--foam); color: var(--ink); cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+  .calGrid .day:hover { border-color: var(--accent); }
+  .calGrid .day[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .calGrid .today { box-shadow: inset 0 0 0 1.5px var(--line); }
+  .calHint { margin: 6px 2px 0; font-size: 12px; color: var(--ink-soft); }
+  .times { display: flex; flex-direction: column; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+  .times .bkLabel { margin-bottom: 6px; }
+  .timesEmpty { margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+  .times .timeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; overflow-y: auto; max-height: 220px; }
   .timeGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
   .time { min-height: 40px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 600; font-size: 14px;
     color: var(--ink); cursor: pointer; font-variant-numeric: tabular-nums; transition: background .15s ease, border-color .15s ease, color .15s ease; }
@@ -915,7 +960,11 @@
     .bk { padding: 14px 14px 16px; border-radius: 14px; }
     .bkFields { grid-template-columns: 1fr 1fr; gap: 10px; }
     .bkFields > div:not(.half):not(.full) { grid-column: 1 / -1; }
-    .timeGrid { grid-template-columns: repeat(4, 1fr); }
+    .calRow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .times { min-height: 96px; }
+    .times .timeGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-height: none; }
+    .calGrid .day, .calGrid .off { height: 36px; }
+    .bk { min-height: 0; }
     .introFacts { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 10px; }
     .introFacts li { display: inline; font-size: 13px; }
     .introFacts li::before { content: '·'; display: inline; width: auto; height: auto; margin: 0 6px 0 0; background: none; color: var(--accent); font-weight: 700; }
@@ -1311,13 +1360,12 @@
         <li data-i18n="bk.fact2">Schriftlicher Kostenplan, Entscheidung danach in Ruhe</li>
         <li data-i18n="bk.fact3">Absagen jederzeit über den Link in der Bestätigung</li>
       </ul>
-      <p class="fallback"><span data-i18n="bk.fallbackText">Lieber telefonisch?</span> <a href="tel:+4924131202" data-cta="call">0241 31202</a> <span class="sep">&middot;</span> <a href="https://aixsmile.de/termin/?service=veneers&amp;via=veneers-aachen" data-cta="book" data-i18n="bk.fallbackLink">Auf aixsmile.de buchen</a></p>
     </div>
 
     <form class="bk" id="bkForm" novalidate aria-live="polite">
       <ol class="bkSteps" id="bkSteps" aria-label="Schritte">
-        <li class="on" data-step="1"><i>1</i><span data-i18n="bk.step1">Termin</span></li>
-        <li data-step="2"><i>2</i><span data-i18n="bk.step2">Ihre Daten</span></li>
+        <li class="on" data-step="1" role="button" tabindex="0"><i>1</i><span data-i18n="bk.step1">Termin</span></li>
+        <li data-step="2" role="button" tabindex="0"><i>2</i><span data-i18n="bk.step2">Ihre Daten</span></li>
         <li data-step="3"><i>3</i><span data-i18n="bk.step3">Bestätigt</span></li>
       </ol>
 
@@ -1327,20 +1375,33 @@
         <div class="skelRow"><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i></div>
       </div>
       <div id="bkUnavailable" class="bkNotice" hidden>
-        <p><span data-i18n="bk.unavailable">Die Terminübersicht ist gerade nicht erreichbar.</span> <a href="https://aixsmile.de/termin/?service=veneers&amp;via=veneers-aachen" data-cta="book" data-i18n="bk.unavailableLink">Bitte buchen Sie direkt auf aixsmile.de.</a></p>
+        <p><span data-i18n="bk.unavailable">Die Terminübersicht ist gerade nicht erreichbar.</span> <a href="tel:+4924131202" data-cta="call" data-i18n="bk.unavailableLink">Rufen Sie uns an: 0241 31202</a></p>
       </div>
 
       <!-- Step 1: pick the slot -->
       <div class="pane" id="bkPane1" hidden>
-        <div class="bkHead">
-          <p class="bkLabel" data-i18n="bk.pickDay">Tag wählen</p>
-          <p class="bkMonth" id="bkMonth"></p>
+        <p class="bkInfo" id="bkTaken" hidden data-i18n="bk.taken">Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.</p>
+        <div class="quick" id="bkQuick" hidden>
+          <p class="bkLabel" data-i18n="bk.quickH">Nächste freie Termine</p>
+          <div class="quickRow" id="bkQuickRow"></div>
         </div>
-        <div class="dayStrip" id="bkDays" role="listbox" aria-label="Tage"></div>
-        <div id="bkTimesWrap" hidden>
-          <p class="bkLabel" data-i18n="bk.pickTime">Uhrzeit wählen</p>
-          <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
-          <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+        <div class="calRow" id="bkCalRow" hidden>
+          <div class="cal" id="bkCal">
+            <div class="calHead">
+              <button type="button" class="calNav" id="bkPrev" data-i18n-aria="bk.calPrev" aria-label="Voriger Monat">‹</button>
+              <p class="calMonth" id="bkMonth" aria-live="polite"></p>
+              <button type="button" class="calNav" id="bkNext" data-i18n-aria="bk.calNext" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="calWeek" id="bkWeek" aria-hidden="true"></div>
+            <div class="calGrid" id="bkDays" role="group" aria-label="Tage"></div>
+            <p class="calHint" data-i18n="bk.calHint">Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.</p>
+          </div>
+          <div class="times" id="bkTimesWrap">
+            <p class="bkLabel" id="bkTimesFor">Uhrzeit</p>
+            <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Tag wählen, dann erscheinen hier die freien Uhrzeiten.</p>
+            <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
+            <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+          </div>
         </div>
         <p class="bkHint" id="bkNoDays" hidden data-i18n="bk.noDays">Aktuell sind keine freien Beratungstermine online. Rufen Sie uns gern an.</p>
       </div>
@@ -1356,18 +1417,10 @@
         </div>
 
         <div class="bkFields">
-          <div class="full">
-            <span class="fLabel" data-i18n="bk.gender">Anrede *</span>
-            <div class="seg" id="bkGender" role="radiogroup"></div>
-          </div>
           <div class="half"><label class="fLabel" for="bkFirst" data-i18n="bk.first">Vorname *</label><input id="bkFirst" name="firstName" autocomplete="given-name" required maxlength="80"></div>
           <div class="half"><label class="fLabel" for="bkLast" data-i18n="bk.last">Nachname *</label><input id="bkLast" name="lastName" autocomplete="family-name" required maxlength="80"></div>
           <div><label class="fLabel" for="bkPhone" data-i18n="bk.phone">Telefon *</label><input id="bkPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="40"></div>
           <div><label class="fLabel" for="bkEmail" data-i18n="bk.email">E-Mail *</label><input id="bkEmail" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254"></div>
-          <div class="full">
-            <span class="fLabel" data-i18n="bk.existing">Waren Sie schon einmal bei uns?</span>
-            <div class="seg" id="bkExisting" role="radiogroup"></div>
-          </div>
           <div class="full">
             <button type="button" class="linkBtn" id="bkNoteToggle" data-i18n="bk.addNote">+ Anmerkung hinzufügen</button>
             <div id="bkNoteWrap" hidden><label class="fLabel" for="bkNote" data-i18n="bk.note">Anmerkung (optional)</label><textarea id="bkNote" name="note" maxlength="1000" rows="3"></textarea></div>
@@ -1443,9 +1496,6 @@
       <p data-i18n="doctor.p1">Bei uns beginnt jedes Veneer am Bildschirm. Wir planen die Schalen auf Basis eines digitalen Scans, bevor am Zahn etwas passiert. Sie sehen das Ergebnis also vorher, und wir schleifen nur so viel wie nötig.</p>
       <p data-i18n="doctor.p2">Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.</p>
       <p data-i18n="doctor.langs">Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.</p>
-      <div class="cta">
-        <a class="btn ghost" href="https://aixsmile.de/praxis/" data-i18n="doctor.btn">Mehr über die Praxis auf aixsmile.de</a>
-      </div>
     </div>
   </div>
 </section>
@@ -1495,7 +1545,7 @@
 
 <div class="cookieChip" id="cookieChip" hidden role="status">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-  <span data-i18n="cookie.text">Diese Seite setzt keine Cookies und kein Tracking. <a href="https://aixsmile.de/datenschutz/">Datenschutz</a></span>
+  <span data-i18n="cookie.text">Diese Seite setzt keine Cookies und kein Tracking. <a href="/datenschutz/">Datenschutz</a></span>
   <button type="button" class="chipClose" id="cookieClose" data-i18n-aria="cookie.close" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 </div>
 <footer>
@@ -1532,12 +1582,11 @@
       <a href="https://www.instagram.com/zahnarztpraxis_aixsmile" target="_blank" rel="noopener">Instagram</a>
       <span class="sep">&middot;</span>
       <a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener">Google</a>
+      
       <span class="sep">&middot;</span>
-      <a href="https://aixsmile.de/leistungen/zahnaesthetik/veneers/" data-i18n="footer.linkMain">Veneers auf aixsmile.de</a>
+      <a href="/impressum/" data-i18n="footer.impressum">Impressum</a>
       <span class="sep">&middot;</span>
-      <a href="https://aixsmile.de/impressum" data-i18n="footer.impressum">Impressum</a>
-      <span class="sep">&middot;</span>
-      <a href="https://aixsmile.de/datenschutz" data-i18n="footer.datenschutz">Datenschutz</a>
+      <a href="/datenschutz/" data-i18n="footer.datenschutz">Datenschutz</a>
       <span class="sep">&middot;</span>
       &copy;&nbsp;<span id="footYear">2026</span> Zahnarztpraxis Aixsmile
     </p>
@@ -1732,8 +1781,7 @@ const I18N = {
       p1: 'Bei uns beginnt jedes Veneer am Bildschirm. Wir planen die Schalen auf Basis eines digitalen Scans, bevor am Zahn etwas passiert. Sie sehen das Ergebnis also vorher, und wir schleifen nur so viel wie nötig.',
       p2: 'Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.',
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.',
-      btn: 'Mehr über die Praxis auf aixsmile.de',
-    },
+      },
     faq: {
       eyebrow: 'Häufige Fragen',
       h2: 'Was Patientinnen und Patienten vor Veneers wissen wollen.',
@@ -1770,14 +1818,14 @@ const I18N = {
       reviewsNote: 'Wir zeigen hier keine ausgewählten Zitate. Alle Bewertungen stammen von Google und werden dort unverändert veröffentlicht.',
     },
     bk: {
+      quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
       eyebrow: 'Termin',
       h2: 'Beratungstermin direkt hier buchen.',
       p: 'Freie Termine in Echtzeit. Tag und Uhrzeit wählen, Kontaktdaten eintragen, fertig. Die Bestätigung kommt sofort per E-Mail.',
       fact1: 'Beratung mit digitalem Scan, es wird nichts geschliffen',
       fact2: 'Schriftlicher Kostenplan, Entscheidung danach in Ruhe',
       fact3: 'Absagen jederzeit über den Link in der Bestätigung',
-      fallbackText: 'Lieber telefonisch?', fallbackLink: 'Auf aixsmile.de buchen',
-      unavailable: 'Die Terminübersicht ist gerade nicht erreichbar.', unavailableLink: 'Bitte buchen Sie direkt auf aixsmile.de.',
+      unavailable: 'Die Terminübersicht ist gerade nicht erreichbar.', unavailableLink: 'Rufen Sie uns an: 0241 31202',
       step1: 'Termin', step2: 'Ihre Daten', step3: 'Bestätigt',
       pickDay: 'Tag wählen', pickTime: 'Uhrzeit wählen', morning: 'Vormittag', afternoon: 'Nachmittag',
       nTimes: (n) => n === 1 ? '1 Zeit' : `${n} Zeiten`,
@@ -1804,21 +1852,20 @@ const I18N = {
       errTaken: 'Dieser Termin wurde gerade vergeben. Bitte wählen Sie einen anderen.',
       errRate: 'Zu viele Versuche. Bitte warten Sie eine Minute.',
       errLimit: 'Für diese Kontaktdaten sind bereits mehrere Termine gebucht. Bitte rufen Sie uns an, wenn Sie einen weiteren benötigen.',
-      errGeneric: 'Die Buchung hat nicht geklappt. Bitte versuchen Sie es erneut oder buchen Sie auf aixsmile.de.',
+      errGeneric: 'Die Buchung hat nicht geklappt. Bitte versuchen Sie es erneut oder rufen Sie uns an: 0241 31202.',
       weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
       weekdaysLong: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
       months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
       monthsLong: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
     },
-    cookie: { text: 'Diese Seite setzt keine Cookies und kein Tracking. <a href="https://aixsmile.de/datenschutz/">Datenschutz</a>', close: 'Hinweis schließen' },
+    cookie: { text: 'Diese Seite setzt keine Cookies und kein Tracking. <a href="/datenschutz/">Datenschutz</a>', close: 'Hinweis schließen' },
     footer: {
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, T\u00fcrkisch und Arabisch.',
       hoursDays: 'Mo \u00b7 Di \u00b7 Do',
       hoursTime: '9:00 \u2013 16:00 Uhr',
       hoursNote: 'Termine nach Vereinbarung.',
       linkBook: 'Termin buchen',
-      linkMain: 'Veneers auf aixsmile.de',
-      impressum: 'Impressum',
+        impressum: 'Impressum',
       datenschutz: 'Datenschutz',
     },
   },
@@ -1935,8 +1982,7 @@ const I18N = {
       p1: 'With us, every veneer starts on a screen. We plan the shells from a digital scan before anything happens to the tooth. You see the result first, and we prepare only as much as needed.',
       p2: 'In the consultation we tell you plainly what we recommend. If whitening, Composhaping or braces would get you there better, we say so, even if it is the cheaper treatment.',
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
-      btn: 'More about the practice on aixsmile.de',
-    },
+      },
     faq: {
       eyebrow: 'Common questions',
       h2: 'What patients want to know before veneers.',
@@ -1973,14 +2019,14 @@ const I18N = {
       reviewsNote: 'We show no hand-picked quotes here. All reviews come from Google and are published there unedited.',
     },
     bk: {
+      quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Pick a day and the open times appear here.', taken: 'Someone booked this time in the meantime. Please pick another one.',
       eyebrow: 'Appointment',
       h2: 'Book your consultation right here.',
       p: 'Free slots in real time. Pick a day and a time, enter your details, done. The confirmation arrives straight away by email.',
       fact1: 'Consultation with a digital scan, nothing is prepared',
       fact2: 'Written cost plan, decide afterwards at your own pace',
       fact3: 'Cancel any time via the link in the confirmation',
-      fallbackText: 'Prefer to call?', fallbackLink: 'Book on aixsmile.de',
-      unavailable: 'The slot overview is not reachable right now.', unavailableLink: 'Please book directly on aixsmile.de.',
+      unavailable: 'The slot overview is not reachable right now.', unavailableLink: 'Call us: 0241 31202',
       step1: 'Slot', step2: 'Your details', step3: 'Confirmed',
       pickDay: 'Choose a day', pickTime: 'Choose a time', morning: 'Morning', afternoon: 'Afternoon',
       nTimes: (n) => n === 1 ? '1 time' : `${n} times`,
@@ -2007,21 +2053,20 @@ const I18N = {
       errTaken: 'That slot has just been taken. Please choose another one.',
       errRate: 'Too many attempts. Please wait a minute.',
       errLimit: 'Several appointments are already booked for these contact details. Please call us if you need another one.',
-      errGeneric: 'The booking did not go through. Please try again or book on aixsmile.de.',
+      errGeneric: 'The booking did not go through. Please try again or call us: 0241 31202.',
       weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       weekdaysLong: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       monthsLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     },
-    cookie: { text: 'This page sets no cookies and runs no tracking. <a href="https://aixsmile.de/datenschutz/">Privacy</a>', close: 'Dismiss' },
+    cookie: { text: 'This page sets no cookies and runs no tracking. <a href="/datenschutz/">Privacy</a>', close: 'Dismiss' },
     footer: {
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
       hoursDays: 'Mon \u00b7 Tue \u00b7 Thu',
       hoursTime: '9:00 \u2013 16:00',
       hoursNote: 'By appointment only.',
       linkBook: 'Book appointment',
-      linkMain: 'Veneers on aixsmile.de',
-      impressum: 'Imprint',
+        impressum: 'Imprint',
       datenschutz: 'Privacy policy',
     },
   },
@@ -2493,35 +2538,66 @@ resize(); readScroll(); frame();
   }
 
   // ---- step 1 ----
-  function renderDays() {
-    var t = T(), box = $('bkDays'); box.innerHTML = '';
-    $('bkNoDays').hidden = days.length > 0; box.hidden = days.length === 0;
-    if (!days.length) { $('bkMonth').textContent = ''; return; }
-    var seen = {};
-    days.forEach(function (d) {
-      var p = parts(d.date), n = slotsFor(d).length;
-      var b = el('button', 'day'); b.type = 'button'; b.setAttribute('role', 'option');
-      b.setAttribute('aria-selected', d.date === date ? 'true' : 'false');
-      b.appendChild(el('small', null, t.weekdays[p.dow]));
-      b.appendChild(el('b', null, String(p.d)));
-      b.appendChild(el('span', null, t.months[p.m - 1]));
-      b.appendChild(el('i', null, t.nTimes(n)));
-      b.addEventListener('click', function () { date = d.date; time = ''; renderDays(); renderTimes(); b.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' }); });
-      box.appendChild(b);
-      var mk = p.y + '-' + p.m; if (!seen[mk]) seen[mk] = t.monthsLong[p.m - 1] + ' ' + p.y;
-    });
-    $('bkMonth').textContent = Object.keys(seen).map(function (k) { return seen[k]; }).join(' · ');
+  var month = '';
+  function monthKey(key) { var p = parts(key); return p.y + '-' + p.m; }
+  function months() { var out = []; days.forEach(function (d) { var k = monthKey(d.date); if (out.indexOf(k) === -1) out.push(k); }); return out; }
+  function pick(d, slot) { date = d.date; time = slot.time; len = slot.len || 30; month = monthKey(d.date); renderDays(); renderTimes(); goStep2(); }
+  function renderQuick() {
+    var t = T(), box = $('bkQuick'), row = $('bkQuickRow'); if (!box) return;
+    row.innerHTML = '';
+    var seen = {}, count = 0;
+    for (var i = 0; i < days.length && count < 3; i++) {
+      var d = days[i], slots = slotsFor(d); if (!slots.length) continue;
+      var k = d.date; if (seen[k]) continue; seen[k] = 1; count++;
+      var b = el('button', 'quickBtn'); b.type = 'button';
+      b.appendChild(el('b', null, shortDate(d.date)));
+      b.appendChild(el('span', null, slots[0].time + (slots.length > 1 ? ' · ' + t.nTimes(slots.length) : '')));
+      (function (dd, ss) { b.addEventListener('click', function () { pick(dd, ss); }); })(d, slots[0]);
+      row.appendChild(b);
+    }
+    box.hidden = row.children.length === 0;
   }
+  function renderDays() {
+    var t = T(), grid = $('bkDays'), cal = $('bkCalRow');
+    $('bkNoDays').hidden = days.length > 0; cal.hidden = days.length === 0;
+    renderQuick();
+    if (!days.length) return;
+    var ms = months(); if (ms.indexOf(month) === -1) month = ms[0];
+    var y = +month.split('-')[0], mo = +month.split('-')[1];
+    $('bkMonth').textContent = t.monthsLong[mo - 1] + ' ' + y;
+    $('bkPrev').disabled = ms.indexOf(month) === 0; $('bkNext').disabled = ms.indexOf(month) === ms.length - 1;
+    var week = $('bkWeek'); week.innerHTML = '';
+    [1, 2, 3, 4, 5, 6, 0].forEach(function (dow) { week.appendChild(el('span', null, t.weekdays[dow])); });
+    grid.innerHTML = '';
+    var open = {}; days.forEach(function (d) { open[d.date] = slotsFor(d).length; });
+    var lead = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7;
+    for (var i = 0; i < lead; i++) grid.appendChild(el('span', 'off', ''));
+    var dim = new Date(Date.UTC(y, mo, 0)).getUTCDate(), todayKey = new Date().toISOString().slice(0, 10);
+    for (var d = 1; d <= dim; d++) {
+      var key = y + '-' + (mo < 10 ? '0' : '') + mo + '-' + (d < 10 ? '0' : '') + d;
+      if (open[key]) {
+        var b = el('button', 'day' + (key === todayKey ? ' today' : ''), String(d)); b.type = 'button';
+        b.setAttribute('aria-pressed', key === date ? 'true' : 'false');
+        b.setAttribute('aria-label', longDate(key) + ', ' + t.nTimes(open[key]));
+        (function (kk) { b.addEventListener('click', function () { date = kk; time = ''; $('bkTaken').hidden = true; renderDays(); renderTimes(); }); })(key);
+        grid.appendChild(b);
+      } else grid.appendChild(el('span', 'off' + (key === todayKey ? ' today' : ''), String(d)));
+    }
+    while (grid.children.length < 42) grid.appendChild(el('span', 'off', ''));
+  }
+  $('bkPrev').addEventListener('click', function () { var ms = months(), i = ms.indexOf(month); if (i > 0) { month = ms[i - 1]; renderDays(); } });
+  $('bkNext').addEventListener('click', function () { var ms = months(), i = ms.indexOf(month); if (i < ms.length - 1) { month = ms[i + 1]; renderDays(); } });
   function renderTimes() {
     var day = days.filter(function (d) { return d.date === date; })[0];
-    $('bkTimesWrap').hidden = !day;
-    if (!day) return;
+    $('bkTimesEmpty').hidden = !!day;
+    if (!day) { $('bkAm').hidden = true; $('bkPm').hidden = true; $('bkTimesFor').textContent = currentLang === 'en' ? 'Time' : 'Uhrzeit'; return; }
+    $('bkTimesFor').textContent = shortDate(date);
     var am = $('bkAm'), pm = $('bkPm'); am.querySelector('.timeGrid').innerHTML = ''; pm.querySelector('.timeGrid').innerHTML = '';
     var nAm = 0, nPm = 0;
-    slotsFor(day).forEach(function (s) {
-      var b = el('button', 'time', s.time); b.type = 'button'; b.setAttribute('aria-pressed', s.time === time ? 'true' : 'false');
-      b.addEventListener('click', function () { time = s.time; len = s.len || 30; renderTimes(); goStep2(); });
-      if (+s.time.slice(0, 2) < 12) { am.querySelector('.timeGrid').appendChild(b); nAm++; } else { pm.querySelector('.timeGrid').appendChild(b); nPm++; }
+    slotsFor(day).forEach(function (sl) {
+      var b = el('button', 'time', sl.time); b.type = 'button'; b.setAttribute('aria-pressed', sl.time === time ? 'true' : 'false');
+      b.addEventListener('click', function () { pick(day, sl); });
+      if (+sl.time.slice(0, 2) < 12) { am.querySelector('.timeGrid').appendChild(b); nAm++; } else { pm.querySelector('.timeGrid').appendChild(b); nPm++; }
     });
     am.hidden = !nAm; pm.hidden = !nPm;
   }
@@ -2532,7 +2608,13 @@ resize(); readScroll(); frame();
     $('bkPickWhen').textContent = t.when(shortDate(date), time);
     $('bkPickWhat').textContent = t.service + ' · ' + t.mins(len);
   }
-  function goStep2() { renderPick(); setStep(2); setTimeout(function () { var g = $('bkGender').querySelector('button'); if (g && !gender) g.focus(); }, 380); }
+  function goStep2() { $('bkTaken').hidden = true; renderPick(); setStep(2); setTimeout(function () { if (!$('bkFirst').value) $('bkFirst').focus({ preventScroll: true }); }, 380); }
+  $('bkSteps').querySelectorAll('[data-step]').forEach(function (li) {
+    var k = +li.getAttribute('data-step');
+    var back = function () { if (k < step && step < 3) { $('bkTaken').hidden = true; setStep(k); } };
+    li.addEventListener('click', back);
+    li.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); back(); } });
+  });
   function renderSeg(id, opts, current, set) {
     var box = $(id); box.innerHTML = '';
     opts.forEach(function (o) {
@@ -2543,8 +2625,6 @@ resize(); readScroll(); frame();
   }
   function renderStatic() {
     var t = T();
-    renderSeg('bkGender', t.genders, gender, function (v) { gender = v; });
-    renderSeg('bkExisting', t.existingOpts, existing, function (v) { existing = v; });
     if (data) { var lang = (window.currentLang || 'de'); $('bkConsentText').textContent = data.consent.text[lang] || data.consent.text.de; }
     $('bkSubmit').textContent = t.submit;
     renderDays(); renderTimes();
@@ -2596,7 +2676,7 @@ resize(); readScroll(); frame();
     var t = T();
     var first = $('bkFirst').value.trim(), last = $('bkLast').value.trim(), phone = $('bkPhone').value.trim(), email = $('bkEmail').value.trim();
     mark('bkFirst', !first); mark('bkLast', !last); mark('bkPhone', !phone); mark('bkEmail', !email);
-    if (!date || !time || !first || !last || !phone || !email || !gender) return showError(t.errRequired);
+    if (!date || !time || !first || !last || !phone || !email ) return showError(t.errRequired);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mark('bkEmail', true); return showError(t.errEmail); }
     if (!$('bkConsent').checked) return showError(t.errConsent);
     var btn = $('bkSubmit'); btn.disabled = true; btn.textContent = t.submitting;
@@ -2604,7 +2684,7 @@ resize(); readScroll(); frame();
       method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         date: date, time: time, firstName: first, lastName: last, phone: phone, email: email,
-        gender: gender, existingPatient: existing, service: SERVICE, note: $('bkNote').value,
+        service: SERVICE, note: $('bkNote').value,
         consent: true, consentVersion: data.consent.version, locale: window.currentLang || 'de',
         via: VIA, website: form.elements.website.value
       })

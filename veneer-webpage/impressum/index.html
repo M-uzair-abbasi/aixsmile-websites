@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impressum | Veneers Aachen · AIXSMILE</title>
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://veneers-aachen.de/impressum/">
+<link rel="icon" type="image/svg+xml" href="/assets/tooth-mark.svg">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<style>
+  /* The canvas is alpha:true, so --paper shows straight through as the
+     3D model's backdrop. */
+  :root {
+    /* This page's OWN palette (2026-09-18): porcelain paper, warm near-black
+       ink, a terracotta accent — the colour of the kiln a ceramic veneer comes
+       out of. Deliberately not the main site's navy/blue, so the two read as
+       siblings of one practice, not as a copy. Comments on the right name the
+       main-site token each value replaces. */
+    --paper: #f3f1ec;         /* --color-shell   — page + stage background */
+    --paper-2: #e9e5de;       /* --color-shell-2 — ghost-button hover */
+    --card: #faf8f4;          /* --color-card    — lifted surfaces */
+    --foam: #f1dfd3;          /* --color-foam    — soft blue chip fill */
+    --card-cool: color-mix(in srgb, #f1dfd3 30%, #faf8f4); /* cards lean cool against warm paper */
+    --ink: #1e1916;           /* --color-deep    — headings, strong text */
+    --ink-soft: #6b5f57;      /* --color-muted   — eyebrows, captions, secondary */
+    --line: rgba(30, 25, 22, 0.14);
+    --text: #5d534c;          /* --color-muted   — body copy, as on the main site */
+    --accent: #9a4322;        /* --color-teal-deep — AA-safe blue for links/small text */
+    /* On a light ground "brighter on hover" LOWERS contrast - the dark theme's
+       instinct inverted. --color-teal as link hover measures 3.98:1 on shell,
+       under AA, so link hover darkens instead (7.75:1). The CTA still fills
+       with --color-teal, where white sits on it at 4.70:1. */
+    --accent-hover: #7d361b;
+    --accent-underline: rgba(154, 67, 34, 0.42);
+    --cta-hover: #b4522c;
+    /* dark tokens survive for the footer only, exactly as on the main site */
+    --footer-bg: #1a1411;     /* --color-ink */
+    --footer-ink: #f3ece6;    /* --color-ice */
+    --footer-soft: #b9a598;   /* --color-mist */
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body { overflow-x: clip; }
+  body {
+    margin: 0; color: var(--ink);
+    /* a slow vertical tonal shift across the whole document — the page is no
+       longer one flat fill, it lifts and settles as you travel down it */
+    background-color: var(--paper);
+    background-image: linear-gradient(180deg,
+      #faf8f4 0%, #f6f4ef 14%, #f3f1ec 34%, #eeebe5 58%, #f1eee9 80%, #f7f5f1 100%);
+    font-family: 'Inter', system-ui, sans-serif; font-weight: 400;
+    font-size: 17px; line-height: 1.62; -webkit-font-smoothing: antialiased;
+  }
+  /* fine film grain — keeps a large flat paper field from looking like plastic */
+  body::after { content: ''; position: fixed; inset: 0; z-index: 6; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    background-size: 160px 160px; opacity: .028; mix-blend-mode: multiply; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-underline); }
+  a:hover { color: var(--accent-hover); border-bottom-color: var(--accent-hover); }
+
+  header.top {
+    position: fixed; inset: 0 0 auto 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 14px 32px; background: rgba(250, 248, 244, 0.78);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .controls { display: flex; align-items: center; gap: 12px; }
+  /* compact header variant of .btn — section CTAs keep their larger size */
+
+  .langToggle {
+    position: relative; display: inline-flex; align-items: center; border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px; background: transparent; cursor: pointer; font: inherit;
+  }
+  .langToggle span {
+    position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 22px; font-size: 11px; font-weight: 600; letter-spacing: .04em;
+    color: var(--ink-soft); transition: color .3s ease;
+  }
+  .langToggle::before {
+    content: ''; position: absolute; top: 3px; left: 3px; width: 30px; height: 22px;
+    background: var(--ink); border-radius: 999px; transition: transform .3s cubic-bezier(.2,.7,.2,1);
+  }
+  .langToggle[data-active="en"]::before { transform: translateX(30px); }
+  .langToggle[data-active="de"] span[data-lang="de"],
+  .langToggle[data-active="en"] span[data-lang="en"] { color: var(--paper); }
+
+  /* The .block::before ambient pools bleed past the column edges by design;
+     clip keeps that bleed from widening the document on narrow screens.
+     `clip` (not `hidden`) so no scroll container forms and .stagewrap
+     keeps sticking to the viewport. */
+  .shell { display: grid; grid-template-columns: 1fr 1fr; align-items: start; overflow-x: clip; }
+
+  /* left: scrolling copy */
+  .copy { padding: 0 clamp(28px, 5vw, 88px); }
+  /* ambient pools of warm light, alternating left/right down the page */
+  .block { position: relative; }
+  .block::before { content: ''; position: absolute; pointer-events: none;
+    top: 50%; left: -20%; width: 76vw; height: 74vh; transform: translateY(-50%);
+    background: radial-gradient(closest-side, rgba(154, 67, 34, .06), transparent 72%); }
+  .block:nth-of-type(even)::before { left: auto; right: -24%;
+    background: radial-gradient(closest-side, rgba(154, 67, 34, .04), transparent 72%); }
+  /* keep copy above the glow: positioned children paint after the pseudo-element */
+  .block > * { position: relative; }
+
+  /* Sections deliberately do NOT share one vertical rhythm - a page where every
+     section is exactly one viewport tall metronomes, and that regularity is
+     what reads as generated. The dense ones breathe, the short ones sit closer. */
+  .block { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 96px 0; max-width: 30rem; }
+  /* One orchestrated entrance, on the hero, once. Every other section is
+     simply there when you arrive at it.
+     Fading every child of every section on intersection is the tell: the page
+     never settles, and it made the copy depend on JS to become visible at all -
+     a failed script left a blank page. Content is now visible by default. */
+  /* Visible is the DEFAULT state; the entrance is layered on top only where
+     motion is welcome. Written the other way round (opacity:0 by default,
+     revealed by animation) the hero disappears entirely if the animation never
+     runs - the same failure mode as revealing copy with JS. */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Landing. A paper curtain lifts off the page first; everything else is
+       cued behind it. The stage lifts in, the camera dollies and settles (JS),
+       the eyebrow slides in, the headline rises word by word out of a mask
+       (spans built by splitWords), the paragraph sharpens in from a blur, then
+       the gauge draws its own thickness. fill-mode backwards throughout: an
+       animation's final keyframe outranks ordinary rules, so holding a value
+       would override later state. */
+    #curtain { position: fixed; inset: 0; z-index: 8; pointer-events: none; background: var(--paper);
+      animation: curtainUp 1.05s cubic-bezier(.76, 0, .18, 1) .12s forwards; }
+    #curtain::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); opacity: .6; }
+    .stage3d { animation: stageIn 1.4s cubic-bezier(.2,.7,.2,1) .45s backwards; }
+    .stagewrap::before { animation: fadeIn 1.6s ease .7s backwards; }
+    .block:first-child > * { opacity: 0; transform: translateY(22px);
+      animation: riseIn .9s cubic-bezier(.2,.7,.2,1) .7s forwards; }
+    .block:first-child > :nth-child(2) { animation-delay: .8s; }
+    .block:first-child > :nth-child(3) { animation-delay: 1.15s; }
+    .block:first-child > :nth-child(4) { animation-delay: 1.3s; }
+    .block:first-child .w > span { animation-delay: calc(.85s + var(--i) * 60ms); }
+    .slab i { transform-origin: left center; animation: slabGrow .9s cubic-bezier(.2,.7,.2,1) both; }
+    .slab:nth-child(1) i { animation-delay: 1.75s; }
+    .slab:nth-child(2) i { animation-delay: 1.9s; }
+    .slab:nth-child(3) i { animation-delay: 2.05s; }
+    .gaugeNote i { transform-origin: left center; animation: slabGrow .6s cubic-bezier(.2,.7,.2,1) 2.25s both; }
+    .hint { animation: hintPulse 2.6s ease-in-out 2.4s infinite; }
+  }
+  @keyframes curtainUp { to { clip-path: inset(0 0 100% 0); } }
+  @keyframes riseIn { to { opacity: 1; transform: none; } }
+  @keyframes wordUp { from { transform: translateY(112%); } to { transform: none; } }
+  @keyframes hintPulse { 0%, 100% { opacity: .45; transform: translateX(-50%) translateY(0); } 50% { opacity: 1; transform: translateX(-50%) translateY(4px); } }
+  @media (prefers-reduced-motion: reduce) { #curtain { display: none; } }
+
+  /* word masks: each word of a headline rises from behind its own line */
+  .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+  .w > span { display: inline-block; transform: translateY(112%); }
+  .block:first-child .w > span, .in .w > span { animation: wordUp .75s cubic-bezier(.2,.7,.2,1) both; }
+  .in .w > span { animation-delay: calc(var(--i) * 45ms); }
+  html:not(.js) .w > span { transform: none; }
+  @media (prefers-reduced-motion: reduce) { .w > span { transform: none; animation: none !important; } }
+  @keyframes stageIn { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slabGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  /* ---------- B. section reveal, once, on arrival ----------
+     Gated on html.js so a page without JavaScript shows everything at once.
+     Each section's children rise in a short stagger the first time it enters
+     the viewport, then stay. The hero has its own landing sequence above. */
+  .js .block:not(:first-child):not(.in) > *,
+  .js .beforeAfter:not(.in) .inner > * { opacity: 0; transform: translateY(30px); }
+  .block:not(:first-child) > *, .beforeAfter .inner > * {
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .block.in > :nth-child(2), .beforeAfter.in .inner > :nth-child(2) { transition-delay: .12s; }
+  .block.in > :nth-child(3), .beforeAfter.in .inner > :nth-child(3) { transition-delay: .24s; }
+  .block.in > :nth-child(4), .beforeAfter.in .inner > :nth-child(4) { transition-delay: .36s; }
+  .block.in > :nth-child(n+5) { transition-delay: .45s; }
+  @media (prefers-reduced-motion: reduce) {
+    .js .block:not(:first-child):not(.in) > *, .js .beforeAfter:not(.in) .inner > * { transform: none; }
+    .block:not(:first-child) > *, .beforeAfter .inner > * { transition-duration: .15s; transition-delay: 0s !important; }
+  }
+
+  /* Cadence. Sections deliberately do NOT all stand exactly one viewport tall:
+     the densest gets extra air, the short ones sit closer than their neighbours.
+     Uniform section height is what makes a page metronome, and that regularity
+     is a large part of what reads as generated. Desktop only - the phone tiers
+     below still give each section its own screen. */
+  @media (min-width: 901px) {
+    /* One section breaks the page's composition on purpose.
+       Every other section is heading-then-prose in the left column beside the
+       stage - six repetitions of one shape, which is the structural fingerprint
+       of a template no matter how good the type is. The veneer-vs-crown section
+       is the natural one to break: it is the page's only genuinely comparative
+       passage, and the camera is overhead here. It bleeds to the left edge on a
+       tinted card and sets its two paragraphs side by side. Not a word of the
+       clinical copy changes - only where it sits. */
+    /* Prose stays ONE column. Split across the copy column's 480px it gave
+       ~165px measures - three words a line, and German compounds make that
+       worse. The break comes from the card bleeding off the left edge, not
+       from columns the width cannot carry. */
+    #crown { background: var(--card-cool); border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      margin-left: calc(-1 * clamp(28px, 5vw, 88px));
+      padding: clamp(44px, 6vh, 76px) clamp(30px, 3vw, 52px)
+               clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px); }
+    #crown h2 { max-width: 18ch; }
+    #crown p:last-of-type { margin-bottom: 0; }
+
+    #material { min-height: 112vh; }
+    #suitability { min-height: 86vh; }
+    #consult { min-height: 92vh; padding-bottom: 10vh; }
+  }
+
+  .eyebrow { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 22px; }
+  /* Space Grotesk bold for display + Inter for body: the main site's locked
+     pairing (aixsmile/app/layout.tsx). Space Grotesk ships no true italic, so
+     the accent word is carried by colour rather than a synthesised slant. */
+  h1 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: clamp(34px, 4.5vw, 62px);
+    line-height: 1.06; letter-spacing: -.03em; margin: 0 0 24px; color: var(--ink); }
+  h1 em { font-style: normal; color: var(--accent); }
+  h2 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: clamp(23px, 2.3vw, 31px);
+    line-height: 1.16; letter-spacing: -.02em; margin: 0 0 18px; text-wrap: pretty; color: var(--ink); }
+  p { margin: 0 0 18px; color: var(--text); text-wrap: pretty; }
+  p.lead { font-size: 19px; color: var(--ink); }
+  .materials { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 26px 0 4px; align-items: stretch; }
+  /* Flip cards, the main site's MaterialFlipCard ported: FRONT = name + text
+     with an arrow in the top-right; click flips the card (rotateY) to the BACK
+     = a photo of that veneer type with a caption. The hidden face is inert.
+     Reduced motion keeps the flip and makes it instant. */
+  .flip { perspective: 1200px; min-height: 13rem; }
+  .flipInner { position: relative; height: 100%; transition: transform .5s cubic-bezier(.2,.7,.2,1);
+    transform-style: preserve-3d; }
+  .flip.is-flipped .flipInner { transform: rotateY(180deg); }
+  @media (prefers-reduced-motion: reduce) { .flipInner { transition: none; } }
+  .flipFace { backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px;
+    border: 1px solid var(--line); }
+  .flipFront { position: relative; padding: 18px; background: var(--card-cool); }
+  .flip.is-flipped .flipFront { pointer-events: none; }
+  .flipBack { position: absolute; inset: 0; overflow: hidden; background: var(--paper-2);
+    transform: rotateY(180deg); pointer-events: none; }
+  .flip.is-flipped .flipBack { pointer-events: auto; }
+  .flipBack img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .flipBtn { position: absolute; right: 12px; top: 12px; z-index: 2; display: grid; place-items: center;
+    width: 36px; height: 36px; border-radius: 50%; padding: 0; cursor: pointer; font: inherit;
+    background: var(--card); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    transition: background .2s ease, border-color .2s ease; }
+  .flipBtn svg { width: 16px; height: 16px; }
+  .flipBtn:hover { background: var(--foam); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+  .flipBtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .flipHit { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
+  .flipHit:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 16px; }
+  .flipCaption { position: absolute; inset: auto 0 0 0; z-index: 3; pointer-events: none;
+    padding: 34px 16px 14px; color: #fff;
+    background: linear-gradient(to top, rgba(30, 25, 22, .82), rgba(30, 25, 22, .35) 55%, transparent); }
+  .flipCaption b { display: block; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 14.5px; }
+  .flipCaption span { display: block; margin-top: 2px; font-size: 12px; color: rgba(255,255,255,.78); }
+  .flipFront .materialName { padding-right: 40px; }
+  .flipFront p:last-child { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+  .materialName { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 24px; line-height: 1.1;
+    color: var(--ink); margin: 0 0 8px; }
+  /* the physical difference in a glance: light enters ceramic (translucent,
+     a lit edge); composite is opaque and matte */
+  .swatch { display: inline-block; width: 20px; height: 20px; border-radius: 6px; vertical-align: -3px;
+    margin-right: 10px; border: 1px solid var(--line); }
+  .swatch--ceramic { background: linear-gradient(135deg, #ffffff 0%, #f6f5f1 38%, #e9e2dc 100%);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,.95), inset -2px -2px 5px rgba(180,160,145,.28), 0 1px 2px rgba(30,25,22,.08); }
+  .swatch--composite { background: #e9e5dc; box-shadow: inset 0 0 0 1px rgba(30,25,22,.04); }
+  .materialLead { font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 12px; }
+  .materialNote { margin-top: 22px; padding: 16px 18px; border-left: 2px solid var(--accent);
+    background: var(--card-cool); font-size: 14.5px; color: var(--text); }
+  .materialNote b { color: var(--ink); font-weight: 600; }
+
+  /* the gauge: three slabs on edge, WIDTH is thickness at --mag */
+  .gauge { --mag: 20mm; margin-top: 14px; padding-top: 18px; border-top: 1px solid var(--line); }
+  @media (min-width: 901px) and (max-height: 820px) { .gauge { --mag: 14mm; } }
+  .gaugeTitle { margin: 0 0 14px; font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .gaugeMag { margin-left: 8px; font-weight: 400; color: var(--ink-soft); }
+  .gaugeSlabs { display: flex; align-items: flex-end; gap: 26px; }
+  .slab { display: grid; justify-items: start; gap: 7px; }
+  .slab i { display: block; height: 58px; width: calc(var(--mm) * var(--mag)); border-radius: 2px;
+    background: color-mix(in srgb, var(--ink-soft) 40%, transparent); }
+  .slab.is-veneer i { background: var(--accent); }
+  .slab b { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 18px; font-weight: 700;
+    font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ink); line-height: 1; }
+  .slab.is-veneer b { color: var(--accent); }
+  .slab span { font-size: 12.5px; color: var(--ink-soft); line-height: 1.2; }
+  .gaugeNote { display: flex; align-items: center; gap: 9px; margin: 14px 0 0; font-size: 12.5px; color: var(--ink-soft); }
+  .gaugeNote i { display: inline-block; width: 30px; height: calc(var(--mm) * 1mm); min-height: 1px; background: var(--accent); }
+
+  /* generous vertical rhythm: as you scroll through the list, the pinned 3D
+     model advances one step at a time (see readScroll/ANCHOR_KEYS) — the
+     large gap gives each step room to be "current" for a moment. */
+  /* Step rail styles live with the bands below (.band--ablauf). The
+     arrows-and-dots control that follows is shared by the before/after
+     viewer. */
+  /* arrows + dots: either moves the image, and the step list follows */
+  .stepNav { display: flex; align-items: center; gap: 14px; margin-top: 10px; padding-left: 14px; }
+  .stepArrow { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 auto;
+    border-radius: 50%; border: 1px solid var(--line); background: transparent;
+    color: var(--ink); font: inherit; font-size: 17px; line-height: 1; cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, color .2s ease; }
+  .stepArrow:hover { background: var(--card); border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: var(--accent); }
+  .stepArrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .stepDots { display: flex; align-items: center; gap: 7px; }
+  .stepDot { height: 8px; width: 8px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+    background: color-mix(in srgb, var(--ink) 22%, transparent);
+    transition: width .25s ease, background .25s ease; }
+  .stepDot:hover { background: color-mix(in srgb, var(--ink) 42%, transparent); }
+  .stepDot.on { width: 22px; background: var(--accent); }
+  .stepDot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  ul.checks { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 12px; }
+  ul.checks li { display: grid; grid-template-columns: 18px 1fr; gap: 12px; font-size: 16px; color: var(--text); }
+  ul.checks li::before { content: ''; width: 7px; height: 7px; margin-top: 10px; border-radius: 50%; background: var(--accent); }
+
+  .cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-block; border: 0; font: inherit; font-size: 15px; font-weight: 600;
+    letter-spacing: 0; border-radius: 999px;
+    padding: 15px 30px; background: var(--accent); color: #fff; cursor: pointer; }
+  /* white on --color-teal-deep measures ~6.7:1 on the main site, so the CTA
+     stays AA at this size and on every surface the page uses */
+  .btn:hover { background: var(--cta-hover); color: #fff; border-bottom: 0; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .btn.ghost:hover { background: var(--paper-2); color: var(--ink); }
+  .btnSm { font-size: 13.5px; padding: 10px 20px; white-space: nowrap; }
+  /* icon-only call button — square, label lives in aria-label (set per language) */
+  .btnIcon { padding: 0; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+    box-sizing: border-box; flex: 0 0 auto; min-width: 0; font-size: 0; border-radius: 999px; }
+  .btnIcon svg { width: 17px; height: 17px; display: block; }
+  /* icon + visible label — used where there is room for the number */
+  .btnWithIcon { display: inline-flex; align-items: center; gap: 9px; }
+  .btnWithIcon svg { width: 16px; height: 16px; flex: 0 0 auto; }
+
+  /* right: pinned stage - the 3D model, on every section. */
+  /* The stage is a PLACE, not a paper field. Ported from the main site's
+     "Precision Studio" backdrop (app/page.tsx): a matte cyclorama in the shell
+     ramp, a faint dental-CAD planning grid masked to the model zone, a floor,
+     and a cool mist pocket behind the model so pale porcelain reads against
+     real contrast instead of washing into warm paper. Values are the main
+     site's own; --cx/--cy track where the model sits per breakpoint. */
+  .stagewrap { position: sticky; top: 0; height: 100vh; --cx: 50%; --cy: 46%;
+    background:
+      linear-gradient(to top, rgba(214, 204, 184, .55) 0%, rgba(224, 216, 202, .26) 22%, transparent 40%),
+      linear-gradient(to bottom, #fbf9f6 0%, #f3f1ec 42%, #e9e5de 74%, #e3ddd3 100%); }
+  .stagewrap::before { content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      repeating-linear-gradient(to right,  rgba(30, 25, 22, .055) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(to bottom, rgba(30, 25, 22, .055) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(to right,  rgba(154, 67, 34, .07) 0 1px, transparent 1px 192px),
+      repeating-linear-gradient(to bottom, rgba(154, 67, 34, .07) 0 1px, transparent 1px 192px);
+    -webkit-mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%);
+            mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%); }
+  /* contrast pocket sits between the grid and the canvas (the canvas is alpha) */
+  .stage3d { background: radial-gradient(36% 46% at var(--cx) var(--cy),
+      rgba(143, 169, 196, .30), rgba(180, 199, 219, .16) 52%, transparent 78%); }
+  .stage3d { position: absolute; inset: 0; transition: opacity .5s ease; }
+  canvas#scene { display: block; width: 100%; height: 100%; }
+  .caption { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center;
+    font-size: 13px; letter-spacing: 0; color: var(--ink-soft);
+    transition: opacity .45s ease; }
+  .scalebar { position: absolute; left: 50%; transform: translateX(-50%); bottom: 66px;
+    width: 116px; height: 1px; background: var(--line); }
+  .scalebar::before, .scalebar::after { content: ''; position: absolute; top: -4px; width: 1px; height: 9px; background: var(--line); }
+  .scalebar::before { left: 0; } .scalebar::after { right: 0; }
+  .hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: 120px;
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft);
+    transition: opacity .4s ease; }
+
+  .beforeAfter { border-top: 1px solid var(--line); padding: 104px clamp(28px, 5vw, 88px) 88px; }
+  .beforeAfter .inner { max-width: 64rem; margin: 0 auto; text-align: center; }
+  .beforeAfter .eyebrow { text-align: center; }
+  .beforeAfter h2 { text-align: center; }
+  .beforeAfter p.lede { max-width: 34rem; margin: 0 auto 8px; color: var(--ink-soft); font-size: 15.5px; }
+  .baViewer { margin: 40px auto 0; max-width: 560px; }
+  /* The frame takes the active photo's own proportions (set from its natural
+     size in baSet), so the square cases fill a square and the landscape ones
+     a landscape - no photo sits letterboxed on paper. */
+  .baStage { position: relative; aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden;
+    background: var(--paper-2); border: 1px solid var(--line);
+    transition: aspect-ratio .45s ease; }
+  .baStage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+    opacity: 0; transition: opacity .45s ease; }
+  .baStage img.active { opacity: 1; }
+  .baNav { justify-content: center; padding-left: 0; margin-top: 16px; }
+  .baCount { font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; margin-left: 4px; }
+
+  /* Mirrors the main site's .outro-footer: a faint teal wash falling from the
+     top edge over pure ink, ice-coloured text. The one dark band on a light
+     page, same as aixsmile.de. */
+  footer { padding: 76px clamp(28px, 5vw, 88px) 60px;
+    font-size: 13px; line-height: 1.65;
+    color: var(--footer-soft);
+    background:
+      radial-gradient(115% 80% at 50% 0%, rgba(154, 67, 34, .10), transparent 55%),
+      var(--footer-bg);
+    --line: rgba(238, 240, 236, 0.14);
+    --ink: var(--footer-ink);
+    --ink-soft: var(--footer-soft);
+    --accent: #e6a98b;
+    --accent-hover: #f3d3c2;
+  }
+  /* One block, ragged right, no columns. Measure is held near 78ch so it reads
+     as a colophon rather than a wall. */
+  .colophon { max-width: 78ch; }
+  .colophonLead { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700;
+    font-size: clamp(21px, 2vw, 27px); line-height: 1.2; letter-spacing: -.02em;
+    color: var(--footer-ink); margin: 0 0 26px; }
+  .colophonBlock { margin: 0 0 10px; text-wrap: pretty; }
+  .colophonBlock b { color: var(--footer-ink); font-weight: 600; }
+  .colophonMeta { margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 12.5px; text-wrap: pretty; }
+  /* the separator carries the rhythm the columns used to */
+  .colophon .sep { color: var(--footer-soft); opacity: .5; }
+  footer a { color: var(--ink-soft); border-bottom-color: var(--line); }
+  footer a:hover { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    /* The main site's journey model, exactly: a FULL-SCREEN sticky stage
+       (hero-stage sticky top-0 h-[100svh]) with the narrative pulled back over
+       it (-mt-[100svh] at z-10), each act one screen tall. The model therefore
+       stays CENTRED and animating the whole way down while the copy travels
+       around it, instead of sitting in a band at the top that the page scrolls
+       past. z-order: stage 1, copy 2, header 5. */
+    .stagewrap { position: sticky; top: 0; height: 100svh; order: -1;
+      --cx: 50%; --cy: 27%; z-index: 1; }
+    .copy { margin-top: -100svh; position: relative; z-index: 2; }
+    /* The model owns the band between the header and the middle of the
+       screen; every section's copy starts at 50svh, on solid paper, and grows
+       DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
+       over the teeth instead, which is what made the copy unreadable and the
+       model half-hidden. Short sections still fill one screen (min-height). */
+    .block { min-height: 100svh; justify-content: flex-start;
+      padding: 50svh 0 8svh; max-width: none; }
+    /* The model is never covered or faded on the phone - it runs continuously
+       behind the copy. Legibility comes from the text itself: every glyph
+       carries a paper-coloured halo, so copy crossing the teeth on its way out
+       stays readable, and body copy uses full ink instead of the muted tone. */
+    .block > :is(h1, h2, p, ul, ol, .eyebrow, .lead) {
+      text-shadow: 0 0 1px var(--paper), 0 0 5px var(--paper), 0 0 12px var(--paper), 0 0 22px var(--paper); }
+    .block > p, .block > ul, .block > ol { color: var(--ink); }
+    /* Paper rising from the bottom so copy over the stage keeps its contrast -
+       the main site's equivalent is the inset-x-0 bottom-0 h-[38%] paper
+       gradient layered over its stage. */
+    /* Solid paper up to the copy's top edge, fully clear by the model's BOTTOM
+       edge (centre --cy plus ~half its height), so the fade can never land on
+       the model. When a tall section leaves no gap the stops meet and the copy
+       simply overlaps the model's base with a hard edge. */
+    /* Fixed: solid paper across the lower part, clear by 62% from the bottom -
+       comfortably under the model, whose bottom edge sits near 63%. It no
+       longer follows the copy, so it cannot climb over the model as a tall
+       section scrolls up; the copy simply passes over the model's base. */
+    .stagewrap::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(to top,
+        var(--paper) 0%, var(--paper) 49%,
+        rgba(243, 241, 236, .7) 53%,
+        transparent 58%); }
+    .caption, .scalebar, .hint { display: none; }
+
+    /* Steps, in the main site's format (components/home/FirstVisit.tsx):
+       a compact card grid on phones - "MOBILE: 2x2 card grid (compact, fits
+       one screen)" - each card a rounded panel with a number chip, title and
+       text. Same concept as the desktop list, a format that survives a phone.
+       The photo takes over the full-screen stage as its step scrolls past, the
+       same swap the desktop stage already does; it no longer has to be inlined
+       into each <li>, which is what made this section 2,200px tall.
+       Steps stay lit here: at card size the dimmed-until-active treatment just
+       looks like broken text. */
+    .stepNav { margin-top: 12px; padding-left: 12px; }
+    .baViewer { margin-top: 26px; }
+    .materials { grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+    .flip { min-height: 0; }
+    .flipFront { padding: 11px 12px 12px; }
+    .flipFront p:last-child { font-size: 13.5px; line-height: 1.4; }
+    .flipFront .materialLead { margin-bottom: 5px; }
+    .flipFront .materialName { margin-bottom: 4px; }
+    #material > p { margin-bottom: 9px; }
+    .materialNote { margin-top: 8px; }
+    header.top { padding: 10px 18px; }
+    .controls { gap: 8px; }
+    .btnSm { font-size: 12px; padding: 11px 14px; letter-spacing: .04em; min-height: 40px; }
+    .btnIcon { width: 40px; height: 40px; }
+    .langToggle span { height: 26px; width: 32px; }
+    .langToggle::before { height: 26px; width: 32px; }
+    .langToggle[data-active="en"]::before { transform: translateX(32px); }
+    .stepArrow { width: 40px; height: 40px; }
+    .stepDot { min-width: 12px; height: 12px; }
+    .stepDot.on { width: 26px; }
+  }
+
+  @media (max-width: 560px) {
+    .btnSm { font-size: 11.5px; padding: 10px 12px; }
+    .btnIcon { width: 40px; height: 40px; }
+
+    /* Phone type scale. Two things squeeze a section here: a phone column is
+       ~30% narrower than the laptop copy column, so identical wording wraps
+       into far more lines, AND the pinned stage takes a fixed slice off every
+       screen. Nothing is removed - the wording is identical, only set tighter. */
+    body { font-size: 15.5px; line-height: 1.5; }
+    .eyebrow { font-size: 10.5px; margin: 0 0 12px; }
+    h1 { font-size: 31px; margin: 0 0 14px; }
+    h2 { font-size: 22px; margin: 0 0 12px; }
+    p { margin: 0 0 13px; }
+    p.lead { font-size: 16.5px; }
+    .gauge { --mag: 12mm; margin-top: 8px; padding-top: 12px; }
+    .gaugeSlabs { gap: 18px; } .slab i { height: 46px; } .slab b { font-size: 16px; }
+    .gaugeTitle { margin-bottom: 9px; font-size: 13px; }
+    .gaugeNote { margin-top: 8px; font-size: 12px; }
+    /* the hero carries the gauge; it can spend a little of the model's room */
+    .block:first-child { padding-top: 50svh; }
+    .materials { gap: 12px; margin: 12px 0 0; }
+    .materialName { font-size: 19px; margin: 0 0 5px; }
+    .materialLead { font-size: 10px; margin: 0 0 6px; }
+    .materialNote { margin-top: 10px; padding: 9px 11px; font-size: 12.5px; }
+
+    .block { padding: 50svh 0 6svh; }
+  }
+
+  /* Narrow phones (<=400px): the Material section carries the most words of
+     any single screen - an intro, two stacked materials and the no-prep note.
+     Everything below trims leading and spacing only; no wording is cut, so the
+     section still reads in full on one screen like it does on a laptop. */
+  @media (max-width: 400px) {
+    .block { padding-bottom: 5svh; }
+    .block:first-child { padding-top: 50svh; }
+    .block:first-child p.lead { font-size: 14.5px; line-height: 1.46; }
+    h1 { font-size: 32px; }
+    .gauge { --mag: 11mm; margin-top: 6px; padding-top: 10px; }
+    p { margin: 0 0 9px; }
+    #material h2 { font-size: 20px; margin: 0 0 8px; }
+    #material > p { margin: 0 0 9px; }
+    .materials { gap: 7px; margin: 8px 0 0; }
+    .materialName { font-size: 17px; margin: 0 0 3px; }
+    .materialLead { font-size: 9.5px; margin: 0 0 4px; }
+    .materialNote { margin-top: 6px; padding: 6px 9px; font-size: 11.5px; line-height: 1.42; }
+  }
+
+  /* Short phones (SE-class, <=720px tall) have the same words in far less
+     room. Height is the binding constraint there, so this tier comes after the
+     <=400px width tier and wins where the two overlap. */
+  @media (max-width: 560px) and (max-height: 720px) {
+    /* Short phones give the model less room before the copy needs it. */
+    .block { padding: 50svh 0 5svh; }
+    .gauge { --mag: 9mm; }
+    body { font-size: 14.5px; line-height: 1.46; }
+    h1 { font-size: 27px; margin: 0 0 11px; }
+    h2 { font-size: 20px; margin: 0 0 10px; }
+    p { margin: 0 0 10px; }
+    p.lead { font-size: 15px; }
+    .eyebrow { margin: 0 0 9px; }
+    #material h2 { font-size: 19px; margin: 0 0 9px; }
+    #material > p { margin: 0 0 9px; }
+    .materials { gap: 7px; margin: 8px 0 0; }
+    .materialName { font-size: 17px; margin: 0 0 3px; }
+    .materialLead { font-size: 9.5px; margin: 0 0 4px; }
+    .materialNote { margin-top: 6px; padding: 6px 9px; font-size: 11.5px; line-height: 1.4; }
+  }
+
+  /* ===== Full-width bands below the pinned stage =====
+     Kosten, Behandler, FAQ and Praxis are the "why us / what it costs" half
+     of the page. They share the before/after band's outer rhythm but sit
+     LEFT-aligned on a 64rem measure: this is reference material a patient
+     reads, not a gallery. Each band gets its own inner shape so the four do
+     not read as one repeated card. */
+  .band { border-top: 1px solid var(--line); padding: clamp(72px, 9vh, 112px) clamp(28px, 5vw, 88px); }
+  .band .inner { max-width: 64rem; margin: 0 auto; }
+  .band .eyebrow { margin-bottom: 14px; }
+  .band h2 { max-width: 22ch; }
+  .band p.lede { max-width: 38rem; font-size: 17px; color: var(--text); }
+
+  /* Kosten: prose left, the three-step promise right, set as a numbered list
+     on a cool tint. Numbers, not icons. */
+  .band--kosten .inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    column-gap: clamp(28px, 5vw, 72px); row-gap: 18px; align-items: start; }
+  .band--kosten .inner > .prose { grid-column: 1; }
+  .band--kosten .inner > .promise { grid-column: 2; }
+  .band--kosten .inner > .eyebrow, .band--kosten .inner > h2 { grid-column: 1 / -1; margin-bottom: 0; }
+  .band--kosten .inner > h2 { margin-bottom: 8px; }
+  .factors { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+  .factors li { display: grid; grid-template-columns: 9rem 1fr; gap: 14px; font-size: 15.5px; color: var(--text);
+    padding: 10px 0; border-top: 1px solid var(--line); }
+  .factors li:last-child { border-bottom: 1px solid var(--line); }
+  .factors b { color: var(--ink); font-weight: 600; }
+  .promise { background: var(--card-cool); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px 8px; }
+  .promise h3 { margin: 0 0 14px; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .promise ol { list-style: none; margin: 0; padding: 0; counter-reset: pr; }
+  .promise li { counter-increment: pr; display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--text); }
+  .promise li::before { content: counter(pr, decimal-leading-zero); font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 13px; color: var(--accent); padding-top: 3px; }
+  .promise li b { grid-column: 2; display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+  .promise li span { grid-column: 2; }
+  .promise .cta { margin: 14px 0 16px; }
+
+  /* Ablauf: one horizontal rail, five stations. On a laptop the stations sit
+     side by side so the whole journey reads in one glance, left to right, in
+     the order the appointments happen; the rail is the line the eye follows.
+     Numerals are the Kosten band's (Space Grotesk, leading zero, accent) so
+     the two bands are visibly kin without being the same shape. */
+  .band--ablauf h2 { max-width: 20ch; }
+  .band--ablauf p.lede { margin-bottom: 0; }
+  .band--ablauf ol.steps { list-style: none; margin: clamp(36px, 5vh, 56px) 0 0; padding: 0;
+    position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: clamp(18px, 2.4vw, 32px); }
+  .band--ablauf ol.steps::before { content: ''; position: absolute; left: 0; right: 0; top: 5px;
+    height: 1px; background: var(--line); }
+  .band--ablauf ol.steps li { position: relative; padding-top: 26px; }
+  /* station marker on the rail: a filled dot with a paper halo so the rail
+     visibly stops at it rather than running through */
+  .band--ablauf ol.steps li::before { content: ''; position: absolute; left: 0; top: 0;
+    width: 11px; height: 11px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 4px var(--paper); }
+  .band--ablauf ol.steps i { display: block; font-style: normal;
+    font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: .06em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .band--ablauf ol.steps h3 { margin: 10px 0 8px; font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 17.5px; font-weight: 700; letter-spacing: -.01em; line-height: 1.25; color: var(--ink); }
+  .band--ablauf ol.steps p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text); }
+  /* Narrower than a laptop the rail turns vertical, down the left, and the
+     stations stack: the same journey, read top to bottom. */
+  @media (max-width: 1000px) {
+    .band--ablauf ol.steps { grid-template-columns: 1fr; row-gap: 0; margin-top: 28px; }
+    .band--ablauf ol.steps::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
+    .band--ablauf ol.steps li { padding: 0 0 30px 32px; }
+    .band--ablauf ol.steps li:last-child { padding-bottom: 0; }
+    .band--ablauf ol.steps li::before { top: 5px; }
+    .band--ablauf ol.steps h3 { margin-top: 6px; }
+    .band--ablauf ol.steps li > div { max-width: 38rem; }
+  }
+  @media (max-width: 560px) {
+    .band--ablauf ol.steps li { padding-bottom: 24px; }
+    .band--ablauf ol.steps h3 { font-size: 16px; }
+    .band--ablauf ol.steps p { font-size: 14.5px; }
+  }
+
+  /* Behandler: the one portrait on the page, off-centre, text beside it. */
+  .band--doctor .inner { display: grid; grid-template-columns: minmax(180px, 260px) 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .portrait { aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: var(--paper-2);
+    box-shadow: 0 30px 60px -40px rgba(30, 25, 22, .5); }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .band--doctor h2 { margin-bottom: 4px; }
+  .doctorRole { margin: 0 0 18px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .band--doctor .cta { margin-top: 20px; }
+
+  /* FAQ: native details, one rule per question, no cards. */
+  .faq { margin: 26px 0 0; border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr 36px; gap: 16px; align-items: center;
+    padding: 18px 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -.01em; color: var(--ink); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: ''; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
+    background:
+      linear-gradient(var(--ink), var(--ink)) center / 11px 1.5px no-repeat,
+      linear-gradient(var(--ink), var(--ink)) center / 1.5px 11px no-repeat;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), background-color .2s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); background-color: var(--foam); }
+  .faq summary:hover { color: var(--accent); }
+  .faq summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .faq details p { margin: -6px 0 20px; max-width: 60ch; font-size: 15.5px; }
+
+  /* Praxis: address + hours + the Google link, three short columns. The map
+     is a link, not an embed: an iframe would phone Google before consent. */
+  .band--praxis .inner { display: grid; grid-template-columns: 1.2fr 1fr 1fr; column-gap: clamp(24px, 4vw, 56px); row-gap: 18px; }
+  .band--praxis .inner > .eyebrow, .band--praxis .inner > h2 { grid-column: 1 / -1; }
+  .band--praxis h2 { margin-bottom: 6px; }
+  .band--praxis .inner > .praxisRegion { grid-column: 1 / -1; max-width: 46rem; font-size: 15.5px; color: var(--ink-soft); margin: 0 0 8px; }
+  .praxisCol h3 { margin: 0 0 10px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .praxisCol p { font-size: 15.5px; margin: 0 0 10px; }
+  .praxisCol b { color: var(--ink); font-weight: 600; }
+  .praxisCol .btn { margin-top: 6px; min-height: 40px; }
+  .reviewNote { font-size: 13px; color: var(--ink-soft); }
+
+  @media (max-width: 900px) {
+    .band { padding: 64px clamp(20px, 5vw, 40px); }
+    .band--kosten .inner, .band--doctor .inner, .band--praxis .inner { grid-template-columns: 1fr; }
+    .band--kosten .inner > .prose, .band--kosten .inner > .promise { grid-column: 1; }
+    .band--doctor .inner { gap: 22px; }
+    .portrait { max-width: 200px; }
+    .factors li { grid-template-columns: 7.5rem 1fr; font-size: 14.5px; }
+    .faq summary { font-size: 15.5px; padding: 15px 0; }
+    .faq details p { font-size: 14.5px; }
+  }
+
+  /* Bands reveal like the before/after band: once, on arrival. */
+  .js .band:not(.in) .inner > * { opacity: 0; transform: translateY(30px); }
+  .band .inner > * { transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .band.in .inner > :nth-child(2) { transition-delay: .12s; }
+  .band.in .inner > :nth-child(3) { transition-delay: .24s; }
+  .band.in .inner > :nth-child(n+4) { transition-delay: .36s; }
+  @media (prefers-reduced-motion: reduce) {
+    .js .band:not(.in) .inner > * { transform: none; }
+    .band .inner > * { transition-duration: .15s; transition-delay: 0s !important; }
+  }
+
+  /* ===== Embedded booking (Option B) =====
+     A small, quiet tool inside a brand page. Compact controls, hairlines,
+     one accent, 44px touch targets. Two working steps (slot, details) and a
+     confirmation. Talks to the practice's booking API; stores nothing. */
+  .band--buchen { background: var(--card-cool); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .band--buchen .inner { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .band--buchen .eyebrow { margin-bottom: 12px; }
+  .band--buchen h2 { max-width: 16ch; }
+  .band--buchen .intro p { font-size: 15.5px; }
+  .introFacts { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 7px; }
+  .introFacts li { display: grid; grid-template-columns: 14px 1fr; gap: 8px; font-size: 14px; color: var(--text); }
+  .introFacts li::before { content: ''; width: 6px; height: 6px; margin-top: 8px; border-radius: 50%; background: var(--accent); }
+  .band--buchen .intro .fallback { font-size: 13.5px; color: var(--ink-soft); margin-top: 20px; }
+
+  .bk { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px 18px; }
+
+  /* progress: three tiny labels on a hairline */
+  .bkSteps { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .bkSteps li { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; padding-bottom: 8px; position: relative; }
+  .bkSteps li i { display: none; }
+  .bkSteps li::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--line); }
+  .bkSteps li.on { color: var(--ink); }
+  .bkSteps li.on::after, .bkSteps li.done::after { background: var(--accent); }
+
+  .pane { animation: paneIn .3s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes paneIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .pane { animation: none; } }
+
+  .bkHead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .bkLabel { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .bkMonth { margin: 0 0 8px; font-size: 12px; color: var(--ink-soft); }
+  .bkHint { font-size: 13.5px; color: var(--ink-soft); }
+
+  /* day strip: horizontal, snapping, small */
+  .dayStrip { min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 8px; margin: 0 -2px 4px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .dayStrip::-webkit-scrollbar { display: none; }
+  .day { flex: 0 0 auto; scroll-snap-align: start; width: 52px; min-height: 56px; display: grid; justify-items: center; align-content: center;
+    padding: 6px 2px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: inherit; color: var(--ink);
+    transition: background .15s ease, border-color .15s ease, color .15s ease; }
+  .day small { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+  .day b { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; }
+  .day span { font-size: 9.5px; color: var(--ink-soft); }
+  .day i { display: none; }
+  .day:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+  .day[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .day[aria-selected="true"] small, .day[aria-selected="true"] span { color: rgba(255,255,255,.7); }
+  .day:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* times: small pills */
+  .timeGroup { margin-top: 4px; }
+  .timeHead { margin: 6px 0 6px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .timeGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
+  .time { min-height: 40px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 600; font-size: 14px;
+    color: var(--ink); cursor: pointer; font-variant-numeric: tabular-nums; transition: background .15s ease, border-color .15s ease, color .15s ease; }
+  .time:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+  .time[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .time:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* the chosen slot: one line, pinned above the form */
+  .pick { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0 12px; margin: 0 0 14px; border-bottom: 1px solid var(--line); }
+  .pick b { display: block; font-size: 14.5px; color: var(--ink); font-weight: 600; }
+  .pick span { display: block; font-size: 12.5px; color: var(--ink-soft); margin-top: 1px; }
+  .pick--done { border-bottom: 0; padding: 12px 14px; margin-top: 4px; border-radius: 10px; background: var(--foam); }
+  .linkBtn { background: none; border: 0; padding: 4px 0; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--accent); cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px; min-height: 40px; }
+  .linkBtn:hover { color: var(--accent-hover); }
+
+  /* fields */
+  .bkFields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+  .bkFields .full { grid-column: 1 / -1; }
+  .fLabel { display: block; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin: 0 0 4px; }
+  .bkFields input, .bkFields textarea { width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: var(--paper);
+    border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; min-height: 44px; box-sizing: border-box; transition: border-color .15s ease, box-shadow .15s ease; }
+  .bkFields input:focus-visible, .bkFields textarea:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+  .bkFields input.bad { border-color: #b3261e; }
+  .bkFields textarea { min-height: 72px; resize: vertical; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg button { min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font: inherit; font-size: 14px; font-weight: 600;
+    color: var(--ink); cursor: pointer; transition: background .15s ease, border-color .15s ease, color .15s ease; }
+  .seg button[aria-checked="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .bkConsent { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; margin: 14px 0 0; font-size: 12px; color: var(--ink-soft); line-height: 1.45; cursor: pointer; }
+  .bkConsent input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--accent); }
+  .btnWide { display: block; width: 100%; margin-top: 14px; padding: 14px 18px; font-size: 15px; text-align: center; }
+  .btnWide:disabled { opacity: .55; cursor: default; }
+  .bkErr { margin: 12px 0 0; padding: 10px 12px; border-radius: 9px; font-size: 13.5px; color: #7a1f17; background: #fbe9e6; border: 1px solid #f1c7c1; }
+  .bkNote { margin: 10px 0 0; font-size: 11.5px; color: var(--ink-soft); }
+  .bkNotice p { margin: 0; font-size: 14px; color: var(--ink); }
+
+  /* skeleton while the slots load */
+  .bkSkel { display: grid; gap: 12px; }
+  .skelRow { display: flex; gap: 6px; }
+  .skelRow i { flex: 0 0 52px; height: 56px; border-radius: 10px; background: var(--paper-2); animation: shimmer 1.2s ease-in-out infinite; }
+  .skelRow i.sq { flex: 1 1 0; height: 40px; border-radius: 9px; }
+  .skelLine { height: 10px; border-radius: 5px; background: var(--paper-2); animation: shimmer 1.2s ease-in-out infinite; }
+  .skelLine.w60 { width: 60%; }
+  @keyframes shimmer { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+  /* confirmation */
+  .doneMark { width: 44px; height: 44px; color: var(--accent); margin: 2px 0 10px; }
+  .doneMark svg { width: 100%; height: 100%; }
+  .doneMark .tick { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tick .6s .2s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes tick { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .doneMark .tick { animation: none; stroke-dashoffset: 0; } }
+  .doneH { margin: 0 0 10px; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -.02em; color: var(--ink); }
+  .doneNext { margin: 0 0 16px; padding: 0; list-style: none; counter-reset: dn; display: grid; gap: 8px; }
+  .doneNext li { counter-increment: dn; display: grid; grid-template-columns: 20px 1fr; gap: 8px; font-size: 13.5px; color: var(--text); }
+  .doneNext li::before { content: counter(dn); display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--foam); color: var(--accent); font-size: 11px; font-weight: 700; margin-top: 1px; }
+  .doneActions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .doneActions .btn { padding: 11px 16px; font-size: 13.5px; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  [hidden] { display: none !important; }
+  @media (max-width: 900px) {
+    .band--buchen .inner { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .bk { padding: 14px 14px 16px; border-radius: 14px; }
+    .bkFields { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bkFields > div:not(.half):not(.full) { grid-column: 1 / -1; }
+    .timeGrid { grid-template-columns: repeat(4, 1fr); }
+    .introFacts { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 10px; }
+    .introFacts li { display: inline; font-size: 13px; }
+    .introFacts li::before { content: '·'; display: inline; width: auto; height: auto; margin: 0 6px 0 0; background: none; color: var(--accent); font-weight: 700; }
+  }
+
+  /* ===== Five real cases in the first screen: proof before a single paragraph is
+     read. One large case, four beside it, the full viewer one tap away. */
+  /* Each tile is a button that opens the case large (lightbox below); the
+     caption is the link to the full viewer. */
+  .heroCases { display: block; margin: 2px 0 16px; }
+  .heroCasesRow { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 8px; }
+  .heroCase { position: relative; display: block; padding: 0; border: 0; background: none; cursor: zoom-in;
+    border-radius: 10px; overflow: hidden; transition: transform .25s cubic-bezier(.2,.7,.2,1); }
+  .heroCase.lg { grid-column: 1 / 3; grid-row: 1 / 3; border-radius: 14px; }
+  .heroCase img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+    border-radius: inherit; border: 1px solid var(--line); background: var(--paper-2); }
+  .heroCase:hover { transform: translateY(-2px); }
+  .heroCase:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  /* magnifier badge, so the tiles read as openable and not just decorative */
+  .heroCase::after { content: ''; position: absolute; right: 6px; bottom: 6px; width: 22px; height: 22px;
+    border-radius: 50%; background: rgba(30, 25, 22, .55) center / 12px no-repeat
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round'><circle cx='11' cy='11' r='7'/><path d='M21 21l-4.3-4.3M11 8v6M8 11h6'/></svg>");
+    opacity: .85; transition: opacity .2s ease; pointer-events: none; }
+  .heroCase.lg::after { width: 30px; height: 30px; right: 10px; bottom: 10px; background-size: 16px; }
+  .heroCase:hover::after { opacity: 1; }
+  .heroCasesCap { display: block; margin-top: 8px; font-size: 12.5px; color: var(--ink-soft); border-bottom: 0; }
+  .heroCasesCap b { color: var(--ink); font-weight: 600; }
+  .heroCasesCap:hover span { color: var(--accent); }
+  @media (max-width: 560px) { .heroCasesRow { gap: 5px; } .heroCase { border-radius: 8px; } .heroCasesCap { font-size: 12px; }
+    .heroCase:not(.lg)::after { display: none; } }
+
+  /* ===== Lightbox: one case at a time, full screen, on the footer's dark
+     ground. Arrows and dots are the viewer's own controls in white. */
+  .lightbox { position: fixed; inset: 0; z-index: 50; display: none; flex-direction: column;
+    background: rgba(26, 20, 17, .96); color: var(--footer-ink); padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); }
+  .lightbox.open { display: flex; }
+  .lbTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 0 0 auto; }
+  .lbTitle { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: rgba(243, 236, 230, .7); }
+  .lbClose { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(243, 236, 230, .3);
+    background: transparent; color: inherit; font: inherit; font-size: 22px; line-height: 1; cursor: pointer; }
+  .lbClose:hover { background: rgba(243, 236, 230, .12); }
+  .lbStage { position: relative; flex: 1 1 auto; min-height: 0; display: grid; place-items: center; }
+  .lbStage img { max-width: min(100%, 1100px); max-height: 100%; width: auto; height: auto; object-fit: contain;
+    border-radius: 12px; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+  .lbArrow { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%;
+    border: 1px solid rgba(243, 236, 230, .3); background: rgba(26, 20, 17, .6); color: inherit;
+    font: inherit; font-size: 26px; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+  .lbArrow:hover { background: rgba(243, 236, 230, .15); }
+  .lbArrow.prev { left: 0; } .lbArrow.next { right: 0; }
+  .lbBottom { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 14px; padding-top: 14px; }
+  .lightbox .stepDot { background: rgba(243, 236, 230, .3); }
+  .lightbox .stepDot.on { background: var(--footer-ink); }
+  .lbCount { font-size: 13px; color: rgba(243, 236, 230, .7); font-variant-numeric: tabular-nums; }
+  .lbClose:focus-visible, .lbArrow:focus-visible, .lightbox .stepDot:focus-visible { outline: 2px solid var(--footer-ink); outline-offset: 2px; }
+  body.lb-open { overflow: hidden; }
+  @media (max-width: 560px) { .lbArrow { width: 40px; height: 40px; font-size: 22px; } .lightbox { padding-left: 10px; padding-right: 10px; } }
+  /* the viewer's photo opens the same lightbox */
+  .baStage img { cursor: zoom-in; }
+
+  /* ===== The practice's real wordmark (same build as the main site's BrandWordmark):
+     "IT'S TIME TO" in the brand sky-blue, AIX in ink + SMILE in sky-blue, the
+     smile-swoosh underneath. Brand blue stays brand blue on every satellite;
+     it is the one thing this page must share with aixsmile.de. */
+  .brand { display: inline-flex; flex-direction: column; line-height: 1; font-size: 22px; color: #1e1916;
+    border-bottom: 0; text-decoration: none; }
+  .brandTag { align-self: flex-end; padding-right: .5em; font-size: .26em; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #00a3e8; }
+  .brandWord { position: relative; margin-bottom: .36em; font-family: 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: .015em; line-height: 1.02; color: #1e1916; }
+  .brandSky { color: #00a3e8; }
+  .brandSwoosh { position: absolute; left: 0; right: 0; top: calc(100% + .04em); width: 100%; height: auto; overflow: visible; color: #1e1916; }
+  @media (max-width: 560px) { .brand { font-size: 17px; } }
+
+  /* ===== First-load splash (veneer: the shell slides onto the tooth) ===== */
+  .splash { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+    background: var(--paper); transition: opacity .45s ease; }
+  .splash.is-leaving { opacity: 0; pointer-events: none; }
+  html:not(.js) .splash { display: none; }
+  .splashTooth { width: 96px; height: 112px; overflow: visible; }
+  .splashText { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+  .splashText [data-l="en"] { display: none; }
+  html[lang="en"] .splashText [data-l="de"] { display: none; }
+  html[lang="en"] .splashText [data-l="en"] { display: inline; }
+  /* loop 3.4 s: outline draws around the prepared tooth, the ceramic shell slides
+     in from the left and seats itself, a shine crosses it, sparkles land, hold, fade */
+  .spOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .spBody { animation: spBody 3.4s ease-in-out infinite; }
+  .spShell, .spShellLine { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spShell 3.4s cubic-bezier(.2,.7,.2,1) infinite; }
+  .spSweepR { animation: spSweep 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .spHaloC { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spHalo 3.4s ease-in-out infinite; }
+  .spSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3.4s ease-in-out infinite; }
+  .spSpark--2 { animation-delay: .12s; }
+  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 4% { opacity: 1; } 26% { stroke-dashoffset: 0; } 86% { stroke-dashoffset: 0; opacity: 1; } 94%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes spBody { 0%, 6% { opacity: 0; } 22% { opacity: 1; } 86% { opacity: 1; } 94%, 100% { opacity: 0; } }
+  @keyframes spShell { 0%, 30% { opacity: 0; transform: translateX(-46px) rotate(-6deg); } 40% { opacity: 1; } 56% { transform: translateX(0) rotate(0); } 100% { opacity: 1; transform: none; } }
+  @keyframes spSweep { 0%, 58% { transform: skewX(-14deg) translateX(-20px); opacity: 0; } 62% { opacity: 1; } 78% { transform: skewX(-14deg) translateX(180px); opacity: 1; } 80%, 100% { transform: skewX(-14deg) translateX(180px); opacity: 0; } }
+  @keyframes spHalo { 0%, 52% { opacity: 0; transform: scale(.8); } 72% { opacity: 1; transform: scale(1); } 86% { opacity: 1; transform: scale(1.06); } 94%, 100% { opacity: 0; transform: scale(1.1); } }
+  @keyframes spSpark { 0%, 66% { opacity: 0; transform: scale(.2) rotate(-25deg); } 74% { opacity: 1; transform: scale(1.15) rotate(0); } 80% { transform: scale(.92) rotate(6deg); } 86% { opacity: 1; transform: scale(1) rotate(0); } 94%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .spOutline, .spBody, .spShell, .spShellLine, .spSweepR, .spHaloC, .spSpark { animation: none; }
+    .spOutline { stroke-dashoffset: 0; } .spShell, .spShellLine, .spHaloC, .spSpark { opacity: 1; } .spSweepR { opacity: 0; }
+  }
+  /* the landing choreography waits behind the splash */
+  html.js:not(.is-revealed) #curtain, html.js:not(.is-revealed) .stage3d, html.js:not(.is-revealed) .stagewrap::before,
+  html.js:not(.is-revealed) .block:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
+  html.js:not(.is-revealed) .gaugeNote i, html.js:not(.is-revealed) .hint { animation-play-state: paused; }
+
+  /* the no-cookies chip: bottom left, five seconds, then it slides away */
+  .cookieChip { position: fixed; left: 16px; bottom: 16px; z-index: 35; display: flex; align-items: center; gap: 10px; max-width: min(92vw, 420px);
+    padding: 10px 10px 10px 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); color: var(--text);
+    box-shadow: 0 20px 40px -24px rgba(30, 25, 22, .45); font-size: 13.5px; line-height: 1.4; }
+  .cookieChip > svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); }
+  .cookieChip a { font-weight: 600; color: var(--accent); }
+  .chipClose { flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 9px; background: var(--paper-2); color: var(--ink); cursor: pointer; }
+  .chipClose svg { width: 16px; height: 16px; }
+  .cookieChip::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 0; height: 2px; border-radius: 2px; background: var(--accent); transform-origin: left; opacity: .55; }
+  .cookieChip.is-out { opacity: 0; transform: translateY(12px); transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cookieChip:not([hidden]) { animation: chipIn .5s cubic-bezier(.2,.7,.2,1) both; }
+    .cookieChip:not([hidden])::after { animation: chipTimer 5s linear .5s both; }
+    .cookieChip:hover::after { animation-play-state: paused; }
+  }
+  @keyframes chipIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes chipTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @media (max-width: 900px) { .cookieChip { left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; font-size: 13px; } }
+</style>
+<style>
+  body { padding-bottom: 0; }
+  .legal { max-width: 44rem; margin: 0 auto; padding: 120px clamp(20px, 5vw, 40px) 72px; }
+  .legal h1 { font-size: clamp(32px, 4vw, 44px); margin: 0 0 8px; }
+  .legal .lede { margin-bottom: 36px; color: var(--ink-soft); }
+  .legal h2 { font-size: 21px; margin: 34px 0 10px; }
+  .legal p, .legal li { font-size: 16px; line-height: 1.6; }
+  .legal address { font-style: normal; }
+  .legal a { color: var(--accent); }
+  .legal .back { display: inline-block; margin-top: 40px; font-weight: 600; }
+  #curtain, .splash { display: none !important; }
+  .legalFoot { padding: 40px clamp(20px, 5vw, 40px); background: var(--footer-bg); color: var(--footer-ink); font-size: 13.5px; line-height: 1.7; }
+  .legalFoot a { color: inherit; }
+  .legalFoot .sep { margin: 0 6px; opacity: .5; }
+</style>
+</head>
+<body data-title-de="Impressum | Veneers Aachen · AIXSMILE" data-title-en="Legal notice | Veneers Aachen · AIXSMILE">
+<script>document.documentElement.classList.add('js', 'is-revealed');</script>
+<header class="top">
+  <a class="brand" href="/" aria-label="AIXSMILE – nach oben">
+    <span class="brandTag">It&#8217;s time to</span>
+    <span class="brandWord">AIX<span class="brandSky">SMILE</span>
+      <svg viewBox="0 0 360 34" aria-hidden="true" class="brandSwoosh"><path d="M2 22 C 92 33 202 30 292 12 C 316 7 336 -4 352 -20 C 340 -2 322 10 296 17 C 206 39 94 41 2 22 Z" fill="currentColor"/></svg>
+    </span>
+  </a>
+  <div class="controls">
+    <button type="button" class="langToggle" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language"><span data-lang="de">DE</span><span data-lang="en">EN</span></button>
+  </div>
+</header>
+<main class="legal">
+  <p class="eyebrow" data-en="Legal">Rechtliches</p>
+  <h1 data-en="Legal notice">Impressum</h1>
+  <p class="lede" data-en="Information pursuant to Section 5 of the German Digital Services Act (DDG).">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).</p>
+  <h2 data-en="Service provider">Diensteanbieter</h2>
+  <address><p>Novin Molaie, <span data-en="Dentist">Zahnarzt</span><br>Zahnarztpraxis AIXSMILE<br>Großkölnstraße 22–28<br>52062 Aachen</p></address>
+  <h2 data-en="Contact">Kontakt</h2>
+  <p><span data-en="Phone">Telefon</span>: <a href="tel:+4924131202">0241 31202</a><br><span data-en="Email">E-Mail</span>: <a href="mailto:info@aixsmile.de">info@aixsmile.de</a></p>
+  <h2 data-en="Responsible for content pursuant to Section 18 (2) MStV">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>Novin Molaie, Großkölnstraße 22–28, 52062 Aachen</p>
+  <h2 data-en="Professional title and regulations">Berufsbezeichnung und berufsrechtliche Angaben</h2>
+  <p data-en="&lt;b&gt;Professional title:&lt;/b&gt; Dentist (Zahnarzt), awarded in the Federal Republic of Germany."><b>Berufsbezeichnung:</b> Zahnarzt, verliehen in der Bundesrepublik Deutschland.</p>
+  <p data-en="&lt;b&gt;Competent chamber:&lt;/b&gt; Zahnärztekammer Nordrhein, Emanuel-Leutze-Str. 8, 40547 Düsseldorf."><b>Zuständige Kammer:</b> Zahnärztekammer Nordrhein, Emanuel-Leutze-Str. 8, 40547 Düsseldorf.</p>
+  <p data-en="&lt;b&gt;Association of statutory health insurance dentists:&lt;/b&gt; Kassenzahnärztliche Vereinigung Nordrhein, Lindemannstraße 34–42, 40237 Düsseldorf."><b>Kassenzahnärztliche Vereinigung:</b> Kassenzahnärztliche Vereinigung Nordrhein, Lindemannstraße 34–42, 40237 Düsseldorf.</p>
+  <p data-en="&lt;b&gt;Supervisory authority:&lt;/b&gt; Bezirksregierung Köln."><b>Aufsichtsbehörde:</b> Bezirksregierung Köln.</p>
+  <p data-en="&lt;b&gt;Professional regulations:&lt;/b&gt; In particular the Act on the Practice of Dentistry (ZHG) and the Code of Professional Conduct of the Zahnärztekammer Nordrhein apply; both can be viewed via the Zahnärztekammer Nordrhein."><b>Berufsrechtliche Regelungen:</b> Es gelten insbesondere das Gesetz über die Ausübung der Zahnheilkunde (ZHG) sowie die Berufsordnung der Zahnärztekammer Nordrhein, einsehbar über die Zahnärztekammer Nordrhein.</p>
+  <h2 data-en="This website">Diese Website</h2>
+  <p data-en="veneers-aachen.de is an information page of the AIXSMILE dental practice about veneers. It belongs to the same practice as aixsmile.de: one practice, one location, one appointment system.">veneers-aachen.de ist eine Informationsseite der Zahnarztpraxis AIXSMILE zu Veneers. Sie gehört zur selben Praxis wie aixsmile.de: eine Praxis, ein Standort, eine Terminvergabe.</p>
+  <h2 data-en="Dispute resolution">Streitschlichtung</h2>
+  <p data-en="The European Commission provides a platform for online dispute resolution: &lt;a href=&quot;https://ec.europa.eu/consumers/odr/&quot; rel=&quot;noopener&quot; target=&quot;_blank&quot;&gt;ec.europa.eu/consumers/odr&lt;/a&gt;. We are neither obliged nor, as a rule, willing to take part in dispute resolution proceedings before a consumer arbitration board.">Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit: <a href="https://ec.europa.eu/consumers/odr/" rel="noopener" target="_blank">ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und grundsätzlich nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+  <h2 data-en="Liability for content and links">Haftung für Inhalte und Links</h2>
+  <p data-en="The content of this page has been prepared with care. We accept no liability for its accuracy, completeness or timeliness. The respective provider is always responsible for the content of linked external pages; should we become aware of legal infringements, we will remove such links immediately.">Die Inhalte dieser Seite wurden mit Sorgfalt erstellt. Für Richtigkeit, Vollständigkeit und Aktualität übernehmen wir keine Gewähr. Für die Inhalte verlinkter externer Seiten ist stets der jeweilige Anbieter verantwortlich; bei Bekanntwerden von Rechtsverletzungen entfernen wir solche Links umgehend.</p>
+  <h2 data-en="Images and 3D model">Bilder und 3D-Modell</h2>
+  <p data-en="The before-and-after photos show patients of the practice and are published with their consent. The 3D model of the upper jaw is a schematic illustration, not a treatment result. The material photos are example images.">Die Vorher-Nachher-Fotos zeigen Patientinnen und Patienten der Praxis und werden mit deren Einwilligung veröffentlicht. Das 3D-Modell des Oberkiefers ist eine schematische Darstellung und kein Behandlungsergebnis. Die Materialfotos sind Beispielbilder.</p>
+  <a class="back" href="/" data-en="Back to the start page">Zurück zur Startseite</a>
+</main>
+<footer class="legalFoot">
+  <b>Zahnarztpraxis AIXSMILE</b><span class="sep">·</span>Großkölnstraße 22–28, 52062 Aachen<span class="sep">·</span><a href="tel:+4924131202">0241 31202</a><span class="sep">·</span><a href="mailto:info@aixsmile.de">info@aixsmile.de</a><br>
+  <a href="/" data-en="Start page">Startseite</a><span class="sep">·</span><a href="/impressum/" data-en="Imprint">Impressum</a><span class="sep">·</span><a href="/datenschutz/" data-en="Privacy">Datenschutz</a>
+</footer>
+<script type="module" src="/js/legal.js"></script>
+</body>
+</html>
