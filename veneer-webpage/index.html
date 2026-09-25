@@ -270,17 +270,15 @@
      Gated on html.js so a page without JavaScript shows everything at once.
      Each section's children rise in a short stagger the first time it enters
      the viewport, then stay. The hero has its own landing sequence above. */
-  .js .block:not(:first-child):not(.in) > *,
   .js .beforeAfter:not(.in) .inner > * { opacity: 0; transform: translateY(30px); }
-  .block:not(:first-child) > *, .beforeAfter .inner > * {
+  .beforeAfter .inner > * {
     transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
-  .block.in > :nth-child(2), .beforeAfter.in .inner > :nth-child(2) { transition-delay: .12s; }
-  .block.in > :nth-child(3), .beforeAfter.in .inner > :nth-child(3) { transition-delay: .24s; }
-  .block.in > :nth-child(4), .beforeAfter.in .inner > :nth-child(4) { transition-delay: .36s; }
-  .block.in > :nth-child(n+5) { transition-delay: .45s; }
+  .beforeAfter.in .inner > :nth-child(2) { transition-delay: .12s; }
+  .beforeAfter.in .inner > :nth-child(3) { transition-delay: .24s; }
+  .beforeAfter.in .inner > :nth-child(4) { transition-delay: .36s; }
   @media (prefers-reduced-motion: reduce) {
-    .js .block:not(:first-child):not(.in) > *, .js .beforeAfter:not(.in) .inner > * { transform: none; }
-    .block:not(:first-child) > *, .beforeAfter .inner > * { transition-duration: .15s; transition-delay: 0s !important; }
+    .js .beforeAfter:not(.in) .inner > * { transform: none; }
+    .beforeAfter .inner > * { transition-duration: .15s; transition-delay: 0s !important; }
   }
 
   /* Cadence. Sections deliberately do NOT all stand exactly one viewport tall:
@@ -1086,10 +1084,12 @@
   .block { max-width: 34rem; }
   .block h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -.02em; }
   /* each beat rises in once as it arrives; the hero has its own choreography */
-  .js .block:not(:first-child) > * { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
-  .js .block.is-on > * { opacity: 1; transform: none; }
-  .js .block.is-on > :nth-child(2) { transition-delay: .1s; }
-  @media (prefers-reduced-motion: reduce) { .js .block:not(:first-child) > * { opacity: 1; transform: none; transition: none; } }
+  .js .block:not(:first-child) > * { opacity: 0; filter: blur(10px); transform: none;
+    transition: opacity 1.2s cubic-bezier(.2,.7,.2,1), filter 1.2s cubic-bezier(.2,.7,.2,1); }
+  .js .block.is-on > * { opacity: 1; filter: blur(0); }
+  .js .block.is-on > :nth-child(2) { transition-delay: .2s; }
+  .js .block:not(:first-child):not(.is-on) > * { transition-duration: .5s; transition-delay: 0s; }
+  @media (prefers-reduced-motion: reduce) { .js .block:not(:first-child) > * { opacity: 1; filter: none; transition: none; } }
   .block .lead { font-size: 18px; color: var(--ink-soft); }
   .block:first-child .lead { max-width: 24rem; }
 
@@ -2224,7 +2224,7 @@ function splitWords(el) {
   walk(el);
 }
 let headlinesSplit = false;
-function splitHeadlines() { document.querySelectorAll('.block > h1, .block > h2, .beforeAfter h2, .band h2').forEach(splitWords); headlinesSplit = true; }
+function splitHeadlines() { document.querySelectorAll('.block:first-child > h1, .beforeAfter h2, .band h2').forEach(splitWords); headlinesSplit = true; }
 
 function applyLang(lang) {
   currentLang = lang;
@@ -2515,14 +2515,14 @@ splitHeadlines();
   const beats = Array.from(document.querySelectorAll('.block'));
   if (!beats.length) return;
   const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (en.isIntersecting) en.target.classList.add('is-on'); });
+    entries.forEach((en) => en.target.classList.toggle('is-on', en.isIntersecting));
   }, { threshold: 0.45 });
   beats.forEach((b) => io.observe(b));
 })();
 
 // Section reveal: once, on first arrival, then the section is simply there.
 {
-  const targets = [...document.querySelectorAll('.block:not(:first-child)'), document.getElementById('beforeAfter'), ...document.querySelectorAll('.band')].filter(Boolean);
+  const targets = [document.getElementById('beforeAfter'), ...document.querySelectorAll('.band')].filter(Boolean);
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
