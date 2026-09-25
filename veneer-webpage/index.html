@@ -131,7 +131,10 @@
     --ink-soft: #6b5f57;      /* --color-muted   — eyebrows, captions, secondary */
     --line: rgba(30, 25, 22, 0.14);
     --text: #5d534c;          /* --color-muted   — body copy, as on the main site */
-    --accent: #9a4322;        /* --color-teal-deep — AA-safe blue for links/small text */
+    --accent: #9a4322;
+    --sec: #5f7b88;           /* secondary: porcelain blue-grey, the ceramic's own colour; labels, table head, quiet surfaces */
+    --sec-tint: #eef2f4;      /* a pale wash for alternating bands */
+    --sec-line: rgba(95, 123, 136, .28);        /* --color-teal-deep — AA-safe blue for links/small text */
     /* On a light ground "brighter on hover" LOWERS contrast - the dark theme's
        instinct inverted. --color-teal as link hover measures 3.98:1 on shell,
        under AA, so link hover darkens instead (7.75:1). The CTA still fills
@@ -527,21 +530,25 @@
        stays CENTRED and animating the whole way down while the copy travels
        around it, instead of sitting in a band at the top that the page scrolls
        past. z-order: stage 1, copy 2, header 5. */
-    .stagewrap { position: sticky; top: 0; height: 44svh; order: -1;
-      --cx: 50%; --cy: 50%; z-index: 1; }
-    .copy { margin-top: -44svh; position: relative; z-index: 2; } /* pulls the copy back over the 44svh stage */
+    /* Full-screen sticky stage, model centred a little above the middle; each
+       beat is one screen tall and its line sits in the lower part, on paper. */
+    .stagewrap { position: sticky; top: 0; height: 100svh; order: -1;
+      --cx: 50%; --cy: 42%; z-index: 1; }
+    .copy { margin-top: -100svh; position: relative; z-index: 2; }
     /* The model owns the band between the header and the middle of the
        screen; every section's copy starts at 50svh, on solid paper, and grows
        DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
        over the teeth instead, which is what made the copy unreadable and the
        model half-hidden. Short sections still fill one screen (min-height). */
-    .block { min-height: 56svh; justify-content: flex-start;
-      padding: 6svh 0 8svh; max-width: none; }
-    .block + .block { padding-top: 6svh; }
-    .block h2 { font-size: clamp(22px, 6vw, 27px); margin-bottom: 8px; }
-    .block > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; }
-    .block .lead { font-size: 16px; }
-    .block:first-child h1 { font-size: clamp(30px, 8.4vw, 38px); }
+    .block { min-height: 100svh; justify-content: flex-end;
+      padding: 0 0 12svh; max-width: none; }
+    .block + .block { padding-top: 0; }
+    .block h2 { font-size: clamp(26px, 7.2vw, 34px); margin-bottom: 0; text-align: center; }
+    .block > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; text-align: center; }
+    .block .lead { font-size: 16px; margin: 10px auto 0; }
+    .block .eyebrow { text-align: center; margin-bottom: 12px; }
+    .block .cta { justify-content: center; }
+    .block:first-child h1 { font-size: clamp(32px, 9vw, 40px); text-align: center; }
     .checks li { font-size: 14.5px; }
     .heroCasesRow { gap: 5px; }
     .gauge { margin-top: 12px; }
@@ -564,7 +571,7 @@
        longer follows the copy, so it cannot climb over the model as a tall
        section scrolls up; the copy simply passes over the model's base. */
     .stagewrap::after { content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to top, var(--paper) 0%, var(--paper) 6%, transparent 20%); }
+      background: linear-gradient(to top, var(--paper) 0%, var(--paper) 24%, transparent 40%); }
     .caption, .scalebar, .hint { display: none; }
 
     /* Steps, in the main site's format (components/home/FirstVisit.tsx):
@@ -680,12 +687,10 @@
 
   /* Kosten: prose left, the three-step promise right, set as a numbered list
      on a cool tint. Numbers, not icons. */
-  .band--kosten .inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  .band--kosten .inner { display: block; max-width: 64rem;
+    /* the old two-column .inner grid is gone; .kostenGrid lays out the band */
     column-gap: clamp(28px, 5vw, 72px); row-gap: 18px; align-items: start; }
-  .band--kosten .inner > .prose { grid-column: 1; }
-  .band--kosten .inner > .promise { grid-column: 2; }
-  .band--kosten .inner > .eyebrow, .band--kosten .inner > h2 { grid-column: 1 / -1; margin-bottom: 0; }
-  .band--kosten .inner > h2 { margin-bottom: 8px; }
+
   .factors { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
   .factors li { display: grid; grid-template-columns: 9rem 1fr; gap: 14px; font-size: 15.5px; color: var(--text);
     padding: 10px 0; border-top: 1px solid var(--line); }
@@ -784,8 +789,7 @@
     .band .lede { font-size: 15px; margin-bottom: 14px; }
     .beforeAfter { padding: 40px clamp(18px, 5vw, 40px) 36px; }
 
-    .band--kosten .inner, .band--doctor .inner, .band--praxis .inner { grid-template-columns: 1fr; }
-    .band--kosten .inner > .prose, .band--kosten .inner > .promise { grid-column: 1; }
+    .band--doctor .inner { grid-template-columns: 1fr; }
     .band--kosten p { font-size: 15px; margin-bottom: 10px; }
     .factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
     .factors li { display: block; padding: 10px 0 0; border-top: 2px solid var(--accent); border-bottom: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
@@ -1089,6 +1093,11 @@
   /* ===== Act 1: the scroll story. One statement per beat, nothing else. ===== */
   .block { max-width: 34rem; }
   .block h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -.02em; }
+  /* each beat rises in once as it arrives; the hero has its own choreography */
+  .js .block:not(:first-child) > * { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .js .block.is-on > * { opacity: 1; transform: none; }
+  .js .block.is-on > :nth-child(2) { transition-delay: .1s; }
+  @media (prefers-reduced-motion: reduce) { .js .block:not(:first-child) > * { opacity: 1; transform: none; transition: none; } }
   .block .lead { font-size: 18px; color: var(--ink-soft); }
   .block:first-child .lead { max-width: 24rem; }
 
@@ -1127,20 +1136,30 @@
   .casesAll { margin: 24px 0 0; text-align: center; font-size: 15px; }
   .casesAll a { font-weight: 600; }
 
-  /* ===== Steps: a rail ===== */
+  /* ===== Steps: five stations on one hairline; a vertical timeline on phones ===== */
   .inner--wide { max-width: 68rem; }
-  .steps--rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 0 12px; margin: clamp(24px, 4vw, 40px) 0 0; scrollbar-width: none; }
-  .steps--rail::-webkit-scrollbar { display: none; }
-  .band--ablauf ol.steps--rail { list-style: none; padding: 4px 0 12px; }
-  .band--ablauf ol.steps--rail > li { border-bottom: 0; }
-  .steps--rail > li { flex: 0 0 min(100%, 22rem); scroll-snap-align: start; padding: 22px 22px 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); display: grid; grid-template-rows: auto auto; gap: 8px; }
-  .steps--rail > li i { font-family: 'Space Grotesk', system-ui, sans-serif; font-style: normal; font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--accent); }
-  .steps--rail h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 19px; margin: 0 0 6px; }
-  .steps--rail p { margin: 0; font-size: 15px; line-height: 1.55; }
-  .railDots { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
-
+  .steps--line { list-style: none; margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 clamp(18px, 2.4vw, 32px); position: relative; }
+  .steps--line::before { content: ''; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--line); }
+  .steps--line > li { position: relative; padding-top: 24px; }
+  .steps--line > li::before { content: ''; position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--paper); }
+  .steps--line > li i { display: block; font-style: normal; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 12.5px; letter-spacing: .1em; color: var(--accent); }
+  .steps--line h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; margin: 8px 0 6px; }
+  .steps--line p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); }
+  @media (max-width: 900px) {
+    .steps--line { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 20px; padding-left: 26px; }
+    .steps--line::before { left: 6px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
+    .steps--line > li { padding: 0 0 18px; }
+    .steps--line > li:last-child { padding-bottom: 0; }
+    .steps--line > li::before { left: -26px; top: 4px; }
+    .steps--line > li i { display: inline; margin-right: 8px; }
+    .steps--line h3 { display: inline; font-size: 16px; }
+    .steps--line p { margin-top: 4px; font-size: 14px; }
+  }
   /* ===== Kosten: veneer-specific ===== */
-  .kostenGrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .kostenGrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; margin-top: clamp(20px, 3vw, 32px); }
+  .kostenFacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 0; }
+  .kostenFacts > div { border-bottom: 0; border-top: 2px solid var(--accent); padding: 12px 0 0; }
+  .kostenGrid { grid-template-columns: minmax(0, 1fr); }
   .kostenGrid .prose p { font-size: 16.5px; line-height: 1.6; }
   .kostenFacts { margin: 0; border-top: 1px solid var(--line); }
   .kostenFacts > div { padding: 16px 0; border-bottom: 1px solid var(--line); }
@@ -1163,11 +1182,66 @@
     .caseBody > p { font-size: 13.5px; line-height: 1.45; margin-bottom: 6px; }
     .caseMore p { font-size: 13.5px; }
     .caseKicker { font-size: 11px; margin-bottom: 4px; }
-    .steps--rail > li { flex-basis: 84%; padding: 16px; }
-    .steps--rail h3 { font-size: 17px; }
-    .steps--rail p { font-size: 14px; }
     .kostenFacts dt { font-size: 15px; } .kostenFacts dd { font-size: 14px; }
   }
+
+  /* ===== Praxis: the map carries the section; facts beside it; the footer follows directly ===== */
+  .band--praxis { padding-bottom: clamp(48px, 6vw, 72px); background: var(--paper); }
+  .praxisGrid { display: grid; grid-template-columns: minmax(260px, 380px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .mapTile { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 22px; border: 1px solid var(--line); background: var(--paper-2);
+    text-decoration: none; color: var(--ink); box-shadow: 0 30px 60px -44px rgba(30, 25, 22, .4); transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease; }
+  .mapTile:hover { transform: translateY(-3px); box-shadow: 0 36px 70px -44px rgba(30, 25, 22, .5); }
+  .mapTile img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7) sepia(.12) contrast(.98); }
+  .mapPin { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+  .mapPin i { position: absolute; inset: 0; border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(30, 25, 22, .35); }
+  .mapPin::before, .mapPin::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; }
+  .mapLabel { position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; background: rgba(250, 248, 244, .94); font-size: 14px; line-height: 1.3; box-shadow: 0 10px 24px -14px rgba(30, 25, 22, .4); }
+  .mapLabel b { font-weight: 600; }
+  .mapLabel span { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .mapCredit { position: absolute; right: 8px; top: 8px; padding: 2px 6px; border-radius: 6px; background: rgba(250, 248, 244, .8); font-size: 10px; color: var(--ink-soft); }
+  @media (prefers-reduced-motion: no-preference) {
+    .mapTile img { animation: mapDrift 26s ease-in-out infinite alternate; }
+    .mapPin::before { animation: ping 2.4s cubic-bezier(.2,.7,.2,1) infinite; }
+    .mapPin::after { animation: ping 2.4s cubic-bezier(.2,.7,.2,1) 1.2s infinite; }
+  }
+  @keyframes mapDrift { from { transform: scale(1.04) translate(1.5%, -1%); } to { transform: scale(1.12) translate(-1.5%, 1.5%); } }
+  @keyframes ping { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(3.2); opacity: 0; } }
+  .praxisText .praxisRegion { font-size: 16px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 18px; }
+  .praxisFacts { margin: 0; display: grid; gap: 10px; }
+  .praxisFacts > div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .praxisFacts dt { font-weight: 600; color: var(--ink-soft); font-size: 13.5px; }
+  .praxisFacts dd { margin: 0; color: var(--ink); }
+  .praxisFacts a { font-weight: 600; color: var(--accent); }
+  .praxisText .reviewNote { margin-top: 14px; font-size: 13px; color: var(--ink-soft); }
+  footer { margin-top: 0; }
+  @media (max-width: 900px) {
+    .praxisGrid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .mapTile { aspect-ratio: 16 / 10; }
+    .praxisFacts > div { grid-template-columns: 6.5rem minmax(0, 1fr); font-size: 14px; }
+    .praxisText .praxisRegion { font-size: 14.5px; }
+  }
+
+  /* ===== Secondary colour: the ceramic's blue-grey against the warm paper ===== */
+  .band--read, .band--kosten, .band--faq { background: var(--sec-tint); }
+  .band--read .eyebrow, .band--kosten .eyebrow, .band--faq .eyebrow, .band--ablauf .eyebrow, .band--praxis .eyebrow, .beforeAfter .eyebrow, .band--material .eyebrow { color: var(--sec); }
+  .caseKicker { color: var(--sec); }
+  .matRow--head { color: var(--sec); }
+  .matRow--head span, .matRow [role="rowheader"] { color: var(--sec); }
+  .steps--line::before { background: var(--sec-line); }
+  .steps--line > li i { color: var(--sec); }
+  .kostenFacts > div { border-top-color: var(--sec-line); }
+  .kostenFacts dt { color: var(--sec); }
+  .praxisFacts dt { color: var(--sec); }
+  .mapPin i, .mapPin::before, .mapPin::after { background-color: var(--sec); border-color: var(--sec); }
+  .mapPin::before, .mapPin::after { background: none; }
+  .faq summary::after { border-color: var(--sec-line); }
+  .caseCard { border-color: var(--sec-line); }
+  .gauge .slab i { background: var(--sec); }
+  .gauge .slab.is-veneer i { background: var(--accent); }
+  /* ===== Praxis grid: override the old three-column rule ===== */
+  .band--praxis .inner.praxisGrid { display: grid; grid-template-columns: minmax(280px, 420px) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; max-width: 68rem; }
+  .praxisText { max-width: 34rem; }
+  @media (max-width: 900px) { .band--praxis .inner.praxisGrid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -1304,7 +1378,6 @@
         <p class="eyebrow" data-i18n="read.eyebrow">Was ein Veneer ist</p>
         <h2 data-i18n="read.h2">Aufgeklebt auf den Zahn, nicht im Knochen verankert.</h2>
         <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.</p>
-        <p data-i18n="what.p2">Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.</p>
       </div>
       <div class="readCol">
         <div class="gauge">
@@ -1323,7 +1396,6 @@
       <div class="readCol">
         <h3 data-i18n="crownRead.h3">Veneer oder Krone?</h3>
         <p data-i18n="crown.p1">Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.</p>
-        <p data-i18n="crown.p2">Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn.</p>
       </div>
       <div class="readCol">
         <h3 data-i18n="suitRead.h3">Wann Veneers passen</h3>
@@ -1370,7 +1442,7 @@
         <div class="caseBody">
           <p class="caseKicker" data-i18n="case1.k">Fall 1 · Lücke und Kanten</p>
           <h3 data-i18n="case1.h">Geschlossene Lücke, ruhige Kante.</h3>
-          <p data-i18n="case1.p">Abgenutzte Schneidekanten und ein kleiner Spalt zwischen den Frontzähnen. Keramikschalen auf den sichtbaren Frontzähnen schließen die Lücke und geben der Kante eine gleichmäßige Linie zurück.</p>
+          <p data-i18n="case1.p">Abgenutzte Kanten und ein kleiner Spalt. Keramikschalen schließen die Lücke und geben der Kante eine ruhige Linie.</p>
           <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case1.more">Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.</p></details>
         </div>
       </article>
@@ -1379,7 +1451,7 @@
         <div class="caseBody">
           <p class="caseKicker" data-i18n="case2.k">Fall 2 · Farbe und Form</p>
           <h3 data-i18n="case2.h">Heller und gleichmäßiger, ohne aufzutragen.</h3>
-          <p data-i18n="case2.p">Ungleiche Zahnfarbe und leicht unterschiedliche Formen im sichtbaren Bereich. Die Schalen bringen Farbe und Proportion in eine Linie; der Farbton wurde vorher bei Tageslicht an den Nachbarzähnen bestimmt.</p>
+          <p data-i18n="case2.p">Ungleiche Farbe und Form. Die Schalen bringen beides in eine Linie; der Ton wurde vorher bei Tageslicht bestimmt.</p>
           <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case2.more">Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.</p></details>
         </div>
       </article>
@@ -1388,7 +1460,7 @@
         <div class="caseBody">
           <p class="caseKicker" data-i18n="case3.k">Fall 3 · Stellung</p>
           <h3 data-i18n="case3.h">Gerader wirkend, ohne Zahnspange.</h3>
-          <p data-i18n="case3.p">Leicht gedrehte und unterschiedlich lange Frontzähne. Die Schalen gleichen die Fronten optisch an; die Zahnwurzeln bleiben, wo sie sind.</p>
+          <p data-i18n="case3.p">Leicht gedrehte, unterschiedlich lange Fronten. Optisch begradigt, die Wurzeln bleiben, wo sie sind.</p>
           <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case3.more">Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.</p></details>
         </div>
       </article>
@@ -1397,7 +1469,7 @@
         <div class="caseBody">
           <p class="caseKicker" data-i18n="case4.k">Fall 4 · Gesamtbild</p>
           <h3 data-i18n="case4.h">Sechs Fronten als ein Bild.</h3>
-          <p data-i18n="case4.p">Mehrere kleine Abweichungen zugleich: Farbe, Kantenverlauf, Breite. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt und nicht ein Zahn heraussticht.</p>
+          <p data-i18n="case4.p">Farbe, Kante, Breite zugleich. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt.</p>
           <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case4.more">Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.</p></details>
         </div>
       </article>
@@ -1436,13 +1508,13 @@
   <div class="inner inner--wide">
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
     <h2 data-i18n="process.h2">Fünf Schritte, ein Ergebnis.</h2>
-    <p class="lede" data-i18n="process.lede">Vom ersten Gespräch bis zur letzten Politur. Jeder Schritt wird erklärt, bevor er passiert, und geschliffen wird erst, wenn Sie zugestimmt haben.</p>
-    <ol class="steps steps--rail" id="stepsRail">
-      <li><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Am Anfang steht ein Gespräch: Was genau soll sich verändern? Passend dazu wählen wir den Farbton mit Mustern, die wir direkt neben Ihre eigenen Zähne halten.</p></div></li>
-      <li><i>02</i><div data-i18n="process.step2"><h3>Formvorbereitung</h3><p>Für die Schale braucht der Zahn ein wenig Platz. Meist genügt eine hauchdünne Schicht des äußeren Schmelzes, bei sehr dünnen Veneers manchmal gar keine. Mit Betäubung spüren Sie davon nichts.</p></div></li>
-      <li><i>03</i><div data-i18n="process.step3"><h3>Abdruck und Modell</h3><p>Ein digitaler Scanner oder eine klassische Abformung hält die genaue Form Ihrer Zähne fest. Aus diesen Daten fertigt ein Speziallabor jede Schale auf den Zehntelmillimeter genau.</p></div></li>
-      <li><i>04</i><div data-i18n="process.step4"><h3>Einprobe und Verklebung</h3><p>Bevor geklebt wird, wird probiert: Sitz, Farbe und Übergänge werden mit Wasser geprüft. Erst wenn alles passt, wird der Zahn getrocknet, angeätzt und die Schale dauerhaft verklebt.</p></div></li>
-      <li><i>05</i><div data-i18n="process.step5"><h3>Feinschliff und Nachsorge</h3><p>Zum Schluss werden Ränder und Biss kontrolliert und letzte Kanten poliert. Wir zeigen Ihnen außerdem, wie Sie Ihre neuen Veneers im Alltag pflegen, damit sie lange schön bleiben.</p></div></li>
+    <p class="lede" data-i18n="process.lede">Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.</p>
+    <ol class="steps steps--line" id="stepsRail">
+      <li><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p></div></li>
+      <li><i>02</i><div data-i18n="process.step2"><h3>Formvorbereitung</h3><p>Meist nur eine hauchdünne Schmelzschicht, mit Betäubung spürbar nichts.</p></div></li>
+      <li><i>03</i><div data-i18n="process.step3"><h3>Scan und Modell</h3><p>Ein digitaler Scan hält Ihre Zähne fest; das Labor fertigt jede Schale danach.</p></div></li>
+      <li><i>04</i><div data-i18n="process.step4"><h3>Einprobe und Verklebung</h3><p>Sitz und Farbe werden erst geprüft, dann wird die Schale dauerhaft verklebt.</p></div></li>
+      <li><i>05</i><div data-i18n="process.step5"><h3>Feinschliff und Nachsorge</h3><p>Biss und Ränder kontrolliert, Kanten poliert, Pflege erklärt.</p></div></li>
     </ol>
   </div>
 </section>
@@ -1453,11 +1525,6 @@
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
       <h2 data-i18n="bk.h2">Ihr Termin für den Scan.</h2>
       <p data-i18n="bk.p">Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts. Der Kalender zeigt, was in der Praxis wirklich frei ist.</p>
-      <ul class="introFacts">
-        <li data-i18n="bk.fact1">Beratung mit digitalem Scan, es wird nichts geschliffen</li>
-        <li data-i18n="bk.fact2">Schriftlicher Kostenplan, Entscheidung danach in Ruhe</li>
-        <li data-i18n="bk.fact3">Absagen jederzeit über den Link in der Bestätigung</li>
-      </ul>
     </div>
 
     <form class="bk" id="bkForm" novalidate aria-live="polite">
@@ -1557,8 +1624,7 @@
     <h2 data-i18n="kosten.h2">Was Veneers kosten, und wovon es abhängt.</h2>
     <div class="kostenGrid">
       <div class="prose">
-        <p data-i18n="kosten.p1">Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.</p>
-        <p data-i18n="kosten.p2">Der Preis pro Zahn hängt vor allem vom Material ab, die Summe von der Anzahl der Zähne. Einen Festpreis nennen wir erst, wenn wir Ihre Zähne gesehen haben; dann aber schriftlich, Position für Position, im Heil- und Kostenplan. Den nehmen Sie mit nach Hause und können ihn bei Ihrer Versicherung einreichen.</p>
+        <p data-i18n="kosten.p1">Veneers sind eine Privatleistung nach GOZ plus Laborkosten. Den Preis nennen wir schriftlich im Heil- und Kostenplan, sobald wir Ihre Zähne gesehen haben; er hängt vor allem vom Material und von der Zahl der Zähne ab.</p>
       </div>
       <dl class="kostenFacts">
         <div><dt data-i18n="kosten.d1k">Beratung mit Scan</dt><dd data-i18n="kosten.d1v">Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.</dd></div>
@@ -1579,7 +1645,6 @@
       <h2>Novin Molaie</h2>
       <p class="doctorRole" data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</p>
       <p data-i18n="doctor.p1">Bei uns beginnt jedes Veneer am Bildschirm. Wir planen die Schalen auf Basis eines digitalen Scans, bevor am Zahn etwas passiert. Sie sehen das Ergebnis also vorher, und wir schleifen nur so viel wie nötig.</p>
-      <p data-i18n="doctor.p2">Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.</p>
       <p data-i18n="doctor.langs">Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.</p>
     </div>
   </div>
@@ -1605,25 +1670,23 @@
 </section>
 
 <section class="band band--praxis" id="praxis">
-  <div class="inner">
-    <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
-    <h2 data-i18n="praxis.h2">Sie finden uns mitten in Aachen.</h2>
-    <p class="praxisRegion" data-i18n="praxis.region">Viele unserer Veneer-Patientinnen und -Patienten kommen nicht aus Aachen selbst, sondern aus Köln, Düren, Eschweiler, Stolberg, dem Kreis Heinsberg oder von jenseits der niederländischen und belgischen Grenze. Das passt zu dieser Behandlung: Veneers brauchen zwei bis drei Termine, keine Dauerbetreuung. Aus Köln sind Sie mit dem Zug ab etwa 35 Minuten, mit dem Auto über die A4 in rund einer Stunde bei uns; aus Düren in etwa 20 Minuten.</p>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.addrH">Anschrift</h3>
-      <p><b>Zahnarztpraxis AIXSMILE</b><br>Gro&szlig;k&ouml;lnstra&szlig;e 22&ndash;28<br>52062 Aachen</p>
-      <a class="btn ghost btnSm" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n="praxis.route">Route planen</a>
-    </div>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.hoursH">Sprechzeiten</h3>
-      <p><b data-i18n="praxis.hoursDays">Mo &middot; Di &middot; Do</b><br><span data-i18n="praxis.hoursTime">9:00 &ndash; 16:00 Uhr</span><br><span data-i18n="praxis.hoursNote">Termine nach Vereinbarung.</span></p>
-      <a class="btn ghost btnSm btnWithIcon" href="tel:+4924131202" data-cta="call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241 31202</span></a>
-    </div>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.reviewsH">Bewertungen</h3>
-      <p data-i18n="praxis.reviewsP">Was Patientinnen und Patienten über uns sagen, lesen Sie dort, wo sie es geschrieben haben.</p>
-      <a class="btn ghost btnSm" href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Bewertungen auf Google lesen</a>
-      <p class="reviewNote" data-i18n="praxis.reviewsNote">Wir zeigen hier keine ausgewählten Zitate. Alle Bewertungen stammen von Google und werden dort unverändert veröffentlicht.</p>
+  <div class="inner inner--wide praxisGrid">
+    <a class="mapTile" id="mapTile" href="https://www.google.com/maps/search/?api=1&amp;query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n-aria="praxis.mapAria" aria-label="Karte: Großkölnstraße 22–28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App">
+      <img src="/assets/map-aachen.webp" width="640" height="640" loading="lazy" decoding="async" alt="">
+      <span class="mapPin" aria-hidden="true"><i></i></span>
+      <span class="mapLabel"><b>Großkölnstraße 22–28</b><span data-i18n="praxis.mapGo">Route öffnen →</span></span>
+      <span class="mapCredit" aria-hidden="true">© OpenStreetMap</span>
+    </a>
+    <div class="praxisText">
+      <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
+      <h2 data-i18n="praxis.h2">Mitten in Aachen, gut erreichbar aus der ganzen Region.</h2>
+      <p class="praxisRegion" data-i18n="praxis.region">Aus Köln mit dem Zug in etwa 35 Minuten, aus Düren in 20; Parkhaus Großkölnstraße direkt gegenüber. Viele unserer Veneer-Patientinnen und -Patienten kommen aus Köln, Düren, dem Kreis Heinsberg, den Niederlanden und Belgien.</p>
+      <dl class="praxisFacts">
+        <div><dt data-i18n="praxis.hoursH">Sprechzeiten</dt><dd><span data-i18n="praxis.hoursDays">Mo · Di · Do</span> · <span data-i18n="praxis.hoursTime">9:00 – 16:00 Uhr</span></dd></div>
+        <div><dt data-i18n="praxis.addrH">Anschrift</dt><dd>Großkölnstraße 22–28, 52062 Aachen</dd></div>
+        <div><dt data-i18n="praxis.reviewsH">Bewertungen</dt><dd><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Bei Google lesen →</a></dd></div>
+      </dl>
+      <p class="reviewNote" data-i18n="praxis.reviewsNote">Wir zeigen hier keine ausgewählten Zitate; alle Bewertungen stehen unverändert bei Google.</p>
     </div>
   </div>
 </section>
@@ -1653,13 +1716,6 @@
       <a href="mailto:info@aixsmile.de">info@aixsmile.de</a>
     </p>
 
-    <p class="colophonBlock">
-      <span data-i18n="footer.hoursDays">Mo &middot; Di &middot; Do</span>, <span data-i18n="footer.hoursTime">9:00 &ndash; 16:00 Uhr</span>
-      <span class="sep">&middot;</span>
-      <span data-i18n="footer.hoursNote">Termine nach Vereinbarung.</span>
-      <span class="sep">&middot;</span>
-      <span data-i18n="footer.langs">Wir sprechen Deutsch, Englisch, Farsi, T&uuml;rkisch und Arabisch.</span>
-    </p>
 
     <p class="colophonMeta">
       <a href="#buchen" data-cta="book" data-i18n="footer.linkBook">Termin buchen</a>
@@ -1783,12 +1839,12 @@ const I18N = {
     process: {
       eyebrow: 'Ablauf',
       h2: 'Fünf Schritte, ein Ergebnis.',
-      lede: 'Vom ersten Gespräch bis zur letzten Politur. Jeder Schritt wird erklärt, bevor er passiert, und geschliffen wird erst, wenn Sie zugestimmt haben.',
-      step1: '<h3>Wunsch und Farbwahl</h3><p>Am Anfang steht ein Gespräch: Was genau soll sich verändern? Passend dazu wählen wir den Farbton mit Mustern, die wir direkt neben Ihre eigenen Zähne halten.</p>',
-      step2: '<h3>Formvorbereitung</h3><p>Für die Schale braucht der Zahn ein wenig Platz. Meist genügt eine hauchdünne Schicht des äußeren Schmelzes, bei sehr dünnen Veneers manchmal gar keine. Mit Betäubung spüren Sie davon nichts.</p>',
-      step3: '<h3>Abdruck und Modell</h3><p>Ein digitaler Scanner oder eine klassische Abformung hält die genaue Form Ihrer Zähne fest. Aus diesen Daten fertigt ein Speziallabor jede Schale auf den Zehntelmillimeter genau.</p>',
-      step4: '<h3>Einprobe und Verklebung</h3><p>Bevor geklebt wird, wird probiert: Sitz, Farbe und Übergänge werden mit Wasser geprüft. Erst wenn alles passt, wird der Zahn getrocknet, angeätzt und die Schale dauerhaft verklebt.</p>',
-      step5: '<h3>Feinschliff und Nachsorge</h3><p>Zum Schluss werden Ränder und Biss kontrolliert und letzte Kanten poliert. Wir zeigen Ihnen außerdem, wie Sie Ihre neuen Veneers im Alltag pflegen, damit sie lange schön bleiben.</p>',
+      lede: 'Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.',
+      step1: '<h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p>',
+      step2: '<h3>Formvorbereitung</h3><p>Meist nur eine hauchdünne Schmelzschicht, mit Betäubung spürbar nichts.</p>',
+      step3: '<h3>Scan und Modell</h3><p>Ein digitaler Scan hält Ihre Zähne fest; das Labor fertigt jede Schale danach.</p>',
+      step4: '<h3>Einprobe und Verklebung</h3><p>Sitz und Farbe werden erst geprüft, dann wird die Schale dauerhaft verklebt.</p>',
+      step5: '<h3>Feinschliff und Nachsorge</h3><p>Biss und Ränder kontrolliert, Kanten poliert, Pflege erklärt.</p>',
     },
     crown: {
       h2: 'Sechs Schalen, Zahn für Zahn gesetzt.',
@@ -1836,14 +1892,14 @@ const I18N = {
       r4: 'Termine', r4a: 'Zwei bis drei, das Labor fertigt dazwischen', r4b: 'Oft in einer Sitzung',
       r5: 'Kosten', r5a: 'Höher, Labor inklusive', r5b: 'Deutlich günstiger',
     },
-    case1: { k: 'Fall 1 · Lücke und Kanten', h: 'Geschlossene Lücke, ruhige Kante.', p: 'Abgenutzte Schneidekanten und ein kleiner Spalt zwischen den Frontzähnen. Keramikschalen auf den sichtbaren Frontzähnen schließen die Lücke und geben der Kante eine gleichmäßige Linie zurück.', more: 'Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.' },
-    case2: { k: 'Fall 2 · Farbe und Form', h: 'Heller und gleichmäßiger, ohne aufzutragen.', p: 'Ungleiche Zahnfarbe und leicht unterschiedliche Formen im sichtbaren Bereich. Die Schalen bringen Farbe und Proportion in eine Linie; der Farbton wurde vorher bei Tageslicht an den Nachbarzähnen bestimmt.', more: 'Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.' },
-    case3: { k: 'Fall 3 · Stellung', h: 'Gerader wirkend, ohne Zahnspange.', p: 'Leicht gedrehte und unterschiedlich lange Frontzähne. Die Schalen gleichen die Fronten optisch an; die Zahnwurzeln bleiben, wo sie sind.', more: 'Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.' },
-    case4: { k: 'Fall 4 · Gesamtbild', h: 'Sechs Fronten als ein Bild.', p: 'Mehrere kleine Abweichungen zugleich: Farbe, Kantenverlauf, Breite. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt und nicht ein Zahn heraussticht.', more: 'Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.' },
+    case1: { k: 'Fall 1 · Lücke und Kanten', h: 'Geschlossene Lücke, ruhige Kante.', p: 'Abgenutzte Kanten und ein kleiner Spalt. Keramikschalen schließen die Lücke und geben der Kante eine ruhige Linie.', more: 'Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.' },
+    case2: { k: 'Fall 2 · Farbe und Form', h: 'Heller und gleichmäßiger, ohne aufzutragen.', p: 'Ungleiche Farbe und Form. Die Schalen bringen beides in eine Linie; der Ton wurde vorher bei Tageslicht bestimmt.', more: 'Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.' },
+    case3: { k: 'Fall 3 · Stellung', h: 'Gerader wirkend, ohne Zahnspange.', p: 'Leicht gedrehte, unterschiedlich lange Fronten. Optisch begradigt, die Wurzeln bleiben, wo sie sind.', more: 'Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.' },
+    case4: { k: 'Fall 4 · Gesamtbild', h: 'Sechs Fronten als ein Bild.', p: 'Farbe, Kante, Breite zugleich. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt.', more: 'Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.' },
     kosten: {
       eyebrow: 'Kosten',
       h2: 'Was Veneers kosten, und wovon es abhängt.',
-      p1: 'Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.',
+      p1: 'Veneers sind eine Privatleistung nach GOZ plus Laborkosten. Den Preis nennen wir schriftlich im Heil- und Kostenplan, sobald wir Ihre Zähne gesehen haben; er hängt vor allem vom Material und von der Zahl der Zähne ab.',
       p2: 'Der Preis pro Zahn hängt vor allem vom Material ab, die Summe von der Anzahl der Zähne. Einen Festpreis nennen wir erst, wenn wir Ihre Zähne gesehen haben; dann aber schriftlich, Position für Position, im Heil- und Kostenplan. Den nehmen Sie mit nach Hause und können ihn bei Ihrer Versicherung einreichen.',
       d1k: 'Beratung mit Scan', d1v: 'Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.',
       d2k: 'Heil- und Kostenplan', d2v: 'Schriftlich, vor dem ersten Schliff. Gültig, solange sich der Befund nicht ändert.',
@@ -1883,14 +1939,12 @@ const I18N = {
     },
     praxis: {
       eyebrow: 'Die Praxis',
-      h2: 'Sie finden uns mitten in Aachen.',
-      region: 'Viele unserer Veneer-Patientinnen und -Patienten kommen nicht aus Aachen selbst, sondern aus Köln, Düren, Eschweiler, Stolberg, dem Kreis Heinsberg oder von jenseits der niederländischen und belgischen Grenze. Das passt zu dieser Behandlung: Veneers brauchen zwei bis drei Termine, keine Dauerbetreuung. Aus Köln sind Sie mit dem Zug ab etwa 35 Minuten, mit dem Auto über die A4 in rund einer Stunde bei uns; aus Düren in etwa 20 Minuten.',
-      addrH: 'Anschrift', route: 'Route planen',
-      hoursH: 'Sprechzeiten', hoursDays: 'Mo \u00b7 Di \u00b7 Do', hoursTime: '9:00 \u2013 16:00 Uhr', hoursNote: 'Termine nach Vereinbarung.',
-      reviewsH: 'Bewertungen',
-      reviewsP: 'Was Patientinnen und Patienten über uns sagen, lesen Sie dort, wo sie es geschrieben haben.',
-      reviewsBtn: 'Bewertungen auf Google lesen',
-      reviewsNote: 'Wir zeigen hier keine ausgewählten Zitate. Alle Bewertungen stammen von Google und werden dort unverändert veröffentlicht.',
+      h2: 'Mitten in Aachen, gut erreichbar aus der ganzen Region.',
+      region: 'Aus Köln mit dem Zug in etwa 35 Minuten, aus Düren in 20; Parkhaus Großkölnstraße direkt gegenüber. Viele unserer Veneer-Patientinnen und -Patienten kommen aus Köln, Düren, dem Kreis Heinsberg, den Niederlanden und Belgien.',
+      mapAria: 'Karte: Großkölnstraße 22–28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App', mapGo: 'Route öffnen →',
+      addrH: 'Anschrift', hoursH: 'Sprechzeiten', hoursDays: 'Mo · Di · Do', hoursTime: '9:00 – 16:00 Uhr',
+      reviewsH: 'Bewertungen', reviewsBtn: 'Bei Google lesen →',
+      reviewsNote: 'Wir zeigen hier keine ausgewählten Zitate; alle Bewertungen stehen unverändert bei Google.',
     },
     bk: {
       quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
@@ -1974,12 +2028,12 @@ const I18N = {
     process: {
       eyebrow: 'The process',
       h2: 'Five steps, one result.',
-      lede: 'From the first conversation to the final polish. Every step is explained before it happens, and nothing is prepared until you have said yes.',
-      step1: '<h3>Wish and shade</h3><p>It starts with a conversation: what exactly should change? We choose the shade to match, holding samples directly against your own teeth.</p>',
-      step2: '<h3>Making room</h3><p>The shell needs a little space to sit in. Usually a wafer-thin layer of outer enamel is enough, and with very thin veneers sometimes none at all. With anaesthetic you will not feel it.</p>',
-      step3: '<h3>Impression and model</h3><p>A digital scanner or a classic impression captures the exact shape of your teeth. From that data, a specialist lab crafts each shell to within a tenth of a millimetre.</p>',
-      step4: '<h3>Try-in and bonding</h3><p>Nothing gets bonded before it\'s tried: fit, colour and transitions are checked with water first. Only once everything sits right is the tooth dried, etched, and the shell permanently bonded.</p>',
-      step5: '<h3>Final polish and aftercare</h3><p>Margins and bite are checked and any last edges polished. We also show you how to look after your new veneers day to day, so they keep looking good for years.</p>',
+      lede: 'Every step is explained before it happens. Preparation only with your yes.',
+      step1: '<h3>Wish and shade</h3><p>A conversation about the goal, shade chosen with samples next to your teeth.</p>',
+      step2: '<h3>Preparation</h3><p>Usually just a wafer-thin layer of enamel; with anaesthetic you feel nothing.</p>',
+      step3: '<h3>Scan and model</h3><p>A digital scan records your teeth; the lab makes each shell from it.</p>',
+      step4: '<h3>Try-in and bonding</h3><p>Fit and colour are checked first, then the shell is bonded permanently.</p>',
+      step5: '<h3>Finishing and aftercare</h3><p>Bite and margins checked, edges polished, care explained.</p>',
     },
     crown: {
       h2: 'Six shells, seated tooth by tooth.',
@@ -2027,14 +2081,14 @@ const I18N = {
       r4: 'Appointments', r4a: 'Two to three, the lab works in between', r4b: 'Often in a single session',
       r5: 'Cost', r5a: 'Higher, lab included', r5b: 'Considerably lower',
     },
-    case1: { k: 'Case 1 · Gap and edges', h: 'A closed gap, a calm edge.', p: 'Worn incisal edges and a small gap between the front teeth. Ceramic shells on the visible front teeth close the gap and give the edge an even line again.', more: 'For gaps and worn edges a veneer is often the gentlest solution: the tooth itself is barely changed, the shell takes over length and contour. The bite is checked beforehand so the new edge is not overloaded when biting. Anyone who grinds at night gets a splint as well.' },
-    case2: { k: 'Case 2 · Colour and shape', h: 'Lighter and more even, without looking painted on.', p: 'Uneven tooth colour and slightly different shapes in the visible area. The shells bring colour and proportion into one line; the shade was chosen in daylight against the neighbouring teeth beforehand.', more: 'Ceramic lets light through like enamel, which is why the result does not look painted on. The colour is fixed before preparation and cannot be bleached later; anyone who wants lighter teeth whitens first and then chooses the shade of the shells.' },
-    case3: { k: 'Case 3 · Alignment', h: 'Straighter in appearance, without braces.', p: 'Slightly rotated front teeth of differing length. The shells even out the fronts visually; the roots stay where they are.', more: 'For mild misalignment veneers can replace braces, for stronger ones they cannot: too much tooth would be sacrificed. That is exactly what we check on the digital scan before anything is prepared, and we say so openly if braces or aligners are the better means.' },
-    case4: { k: 'Case 4 · The whole picture', h: 'Six fronts as one picture.', p: 'Several small deviations at once: colour, edge line, width. Six shells from canine to canine so the smile works as a whole and no single tooth stands out.', more: 'Why six and not two? Because the eye reads a smile as a surface. If only the two central teeth are treated, the neighbours stand out afterwards. From canine to canine a continuous line emerges; which teeth belong to it is decided by the smile line in the consultation.' },
+    case1: { k: 'Case 1 · Gap and edges', h: 'A closed gap, a calm edge.', p: 'Worn edges and a small gap. Ceramic shells close the gap and give the edge a calm line.', more: 'For gaps and worn edges a veneer is often the gentlest solution: the tooth itself is barely changed, the shell takes over length and contour. The bite is checked beforehand so the new edge is not overloaded when biting. Anyone who grinds at night gets a splint as well.' },
+    case2: { k: 'Case 2 · Colour and shape', h: 'Lighter and more even, without looking painted on.', p: 'Uneven colour and shape. The shells bring both into one line; the shade was chosen in daylight beforehand.', more: 'Ceramic lets light through like enamel, which is why the result does not look painted on. The colour is fixed before preparation and cannot be bleached later; anyone who wants lighter teeth whitens first and then chooses the shade of the shells.' },
+    case3: { k: 'Case 3 · Alignment', h: 'Straighter in appearance, without braces.', p: 'Slightly rotated fronts of differing length. Visually straightened, the roots stay where they are.', more: 'For mild misalignment veneers can replace braces, for stronger ones they cannot: too much tooth would be sacrificed. That is exactly what we check on the digital scan before anything is prepared, and we say so openly if braces or aligners are the better means.' },
+    case4: { k: 'Case 4 · The whole picture', h: 'Six fronts as one picture.', p: 'Colour, edge and width at once. Six shells from canine to canine so the smile works as a whole.', more: 'Why six and not two? Because the eye reads a smile as a surface. If only the two central teeth are treated, the neighbours stand out afterwards. From canine to canine a continuous line emerges; which teeth belong to it is decided by the smile line in the consultation.' },
     kosten: {
       eyebrow: 'Costs',
       h2: 'What veneers cost, and what it depends on.',
-      p1: 'Veneers are a cosmetic private service. They are billed under the German fee scale for dentists (GOZ), plus the laboratory costs for making the shells. Statutory insurers do not contribute; private supplementary insurance depends on the plan.',
+      p1: 'Veneers are a private service under the GOZ fee scale plus lab costs. We name the price in writing in the treatment and cost plan once we have seen your teeth; it depends mainly on the material and the number of teeth.',
       p2: 'The price per tooth depends mostly on the material, the total on the number of teeth. We only name a fixed price once we have seen your teeth; then in writing, item by item, in the treatment and cost plan. You take it home and can submit it to your insurer.',
       d1k: 'Consultation with scan', d1v: 'Examination, photos, digital scan, discussion. Billed to your health insurer as a routine check-up.',
       d2k: 'Treatment and cost plan', d2v: 'In writing, before the first preparation. Valid as long as the findings do not change.',
@@ -2074,14 +2128,12 @@ const I18N = {
     },
     praxis: {
       eyebrow: 'The practice',
-      h2: 'You will find us in the centre of Aachen.',
-      region: 'Many of our veneer patients do not live in Aachen itself but come from Cologne, Düren, Eschweiler, Stolberg, the Heinsberg district or from just across the Dutch and Belgian border. That suits this treatment: veneers take two or three appointments, not ongoing care. From Cologne you reach us by train in about 35 minutes or by car via the A4 in around an hour; from Düren in about 20 minutes.',
-      addrH: 'Address', route: 'Get directions',
-      hoursH: 'Opening hours', hoursDays: 'Mon \u00b7 Tue \u00b7 Thu', hoursTime: '9:00 \u2013 16:00', hoursNote: 'By appointment only.',
-      reviewsH: 'Reviews',
-      reviewsP: 'Read what patients say about us where they wrote it.',
-      reviewsBtn: 'Read reviews on Google',
-      reviewsNote: 'We show no hand-picked quotes here. All reviews come from Google and are published there unedited.',
+      h2: 'In the centre of Aachen, easy to reach from the whole region.',
+      region: 'From Cologne by train in about 35 minutes, from Düren in 20; the Großkölnstraße car park is directly opposite. Many of our veneer patients come from Cologne, Düren, the Heinsberg district, the Netherlands and Belgium.',
+      mapAria: 'Map: Großkölnstraße 22–28, 52062 Aachen. Opens the route in your maps app', mapGo: 'Open route →',
+      addrH: 'Address', hoursH: 'Consultation hours', hoursDays: 'Mon · Tue · Thu', hoursTime: '9:00 – 16:00',
+      reviewsH: 'Reviews', reviewsBtn: 'Read on Google →',
+      reviewsNote: 'We show no selected quotes here; all reviews are on Google, unchanged.',
     },
     bk: {
       quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Tap a day on the left. The free times for your scan appointment appear on the right.', taken: 'Someone booked this time in the meantime. Please pick another one.',
@@ -2448,23 +2500,23 @@ addEventListener('resize', resize);
 applyLang(currentLang);
 splitHeadlines();
 
-// ===== Steps rail: five stations you swipe through; a dot per station =====
+// ===== Story beats: a beat lights up when its block is the one on screen =====
 (function () {
-  const rail = document.getElementById('stepsRail'); if (!rail) return;
-  const items = Array.from(rail.children);
-  const dots = document.createElement('div'); dots.className = 'stepDots railDots'; dots.setAttribute('aria-hidden', 'true');
-  items.forEach((_, i) => { const d = document.createElement('span'); d.className = 'stepDot' + (i === 0 ? ' on' : ''); dots.appendChild(d); });
-  rail.after(dots);
-  const sync = () => { const i = Math.round(rail.scrollLeft / Math.max(1, items[0].offsetWidth + 16)); dots.querySelectorAll('.stepDot').forEach((d, k) => d.classList.toggle('on', k === Math.min(i, items.length - 1))); };
-  rail.addEventListener('scroll', sync, { passive: true });
+  const beats = Array.from(document.querySelectorAll('.block'));
+  if (!beats.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => { if (en.isIntersecting) en.target.classList.add('is-on'); });
+  }, { threshold: 0.45 });
+  beats.forEach((b) => io.observe(b));
 })();
+
 // Section reveal: once, on first arrival, then the section is simply there.
 {
   const targets = [...document.querySelectorAll('.block:not(:first-child)'), document.getElementById('beforeAfter'), ...document.querySelectorAll('.band')].filter(Boolean);
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-    }, { threshold: 0.18 });
+    }, { threshold: 0.06, rootMargin: '0px 0px -10% 0px' });
     targets.forEach((t) => io.observe(t));
   } else {
     targets.forEach((t) => t.classList.add('in'));
@@ -2796,6 +2848,10 @@ resize(); readScroll(); frame();
     document.getElementById('cookieClose').addEventListener('click', dismiss);
     chip.addEventListener('mouseenter', function () { clearTimeout(timer); });
   })();
+</script>
+<script>
+  var mapTile = document.getElementById('mapTile');
+  if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) mapTile.href = 'https://maps.apple.com/?q=Zahnarztpraxis%20AIXSMILE&address=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe%2022-28%2C%2052062%20Aachen&ll=50.7768518,6.085097';
 </script>
 </body>
 </html>
