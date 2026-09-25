@@ -128,27 +128,28 @@
     background: var(--paper); transition: opacity .45s ease; }
   .splash.is-leaving { opacity: 0; pointer-events: none; }
   html:not(.js) .splash { display: none; }
-  .splashTooth { width: 84px; height: 98px; }
+  .splashTooth { width: 190px; height: 119px; }
   .splashText { margin: 0; font-size: 11.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--soft); }
   .splashText [data-l="en"] { display: none; }
   html[lang="en"] .splashText [data-l="de"] { display: none; }
   html[lang="en"] .splashText [data-l="en"] { display: inline; }
-  /* the loop: outline draws, the white rises through the yellow from the gum line up,
-     a shine and a sparkle land, hold, fade, and it starts again */
-  .splashOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3s ease-in-out infinite; }
-  .splashWhite { transform-box: fill-box; transform-origin: bottom center; animation: spRise 3s ease-in-out infinite; }
-  .splashYellow { animation: spYellow 3s ease-in-out infinite; }
-  .splashShine { animation: spShine 3s ease-in-out infinite; }
-  .splashSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3s ease-in-out infinite; }
+  /* the loop (3.2 s): the lip line draws itself, the mouth's inside fades in,
+     the teeth whiten one pair at a time from the centre outwards, a glint and
+     two sparkles land, hold, everything fades and it starts again */
+  .splashOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3.2s ease-in-out infinite; }
+  .splashInner { animation: spInner 3.2s ease-in-out infinite; }
+  .spW { opacity: 0; animation: spWhite 3.2s ease-in-out infinite; }
+  .splashShine { animation: spShine 3.2s ease-in-out infinite; }
+  .splashSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3.2s ease-in-out infinite; }
   .splashSpark--2 { animation-delay: .15s; }
-  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 5% { opacity: 1; } 30% { stroke-dashoffset: 0; } 82% { stroke-dashoffset: 0; opacity: 1; } 92%, 100% { stroke-dashoffset: 0; opacity: 0; } }
-  @keyframes spYellow { 0%, 12% { opacity: 0; } 22% { opacity: 1; } 82% { opacity: 1; } 92%, 100% { opacity: 0; } }
-  @keyframes spRise { 0%, 24% { transform: scaleY(0); } 60% { transform: scaleY(1); } 82% { transform: scaleY(1); } 92%, 100% { transform: scaleY(1); opacity: 0; } }
-  @keyframes spShine { 0%, 58% { opacity: 0; } 66% { opacity: .95; } 82% { opacity: .95; } 92%, 100% { opacity: 0; } }
-  @keyframes spSpark { 0%, 60% { opacity: 0; transform: scale(.2) rotate(-25deg); } 68% { opacity: 1; transform: scale(1.15) rotate(0); } 74% { transform: scale(.92) rotate(6deg); } 82% { opacity: 1; transform: scale(1) rotate(0); } 92%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
+  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 4% { opacity: 1; } 28% { stroke-dashoffset: 0; } 84% { stroke-dashoffset: 0; opacity: 1; } 93%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes spInner { 0%, 10% { opacity: 0; } 24% { opacity: 1; } 84% { opacity: 1; } 93%, 100% { opacity: 0; } }
+  @keyframes spWhite { 0%, 36% { opacity: 0; } 46% { opacity: 1; } 100% { opacity: 1; } }
+  @keyframes spShine { 0%, 62% { opacity: 0; } 70% { opacity: .95; } 84% { opacity: .95; } 93%, 100% { opacity: 0; } }
+  @keyframes spSpark { 0%, 64% { opacity: 0; transform: scale(.2) rotate(-25deg); } 72% { opacity: 1; transform: scale(1.15) rotate(0); } 78% { transform: scale(.92) rotate(6deg); } 84% { opacity: 1; transform: scale(1) rotate(0); } 93%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
   @media (prefers-reduced-motion: reduce) {
-    .splashOutline, .splashWhite, .splashYellow, .splashShine, .splashSpark { animation: none; }
-    .splashOutline { stroke-dashoffset: 0; } .splashYellow { opacity: 0; } .splashShine { opacity: .95; } .splashSpark { opacity: 1; }
+    .splashOutline, .splashInner, .spW, .splashShine, .splashSpark { animation: none; }
+    .splashOutline { stroke-dashoffset: 0; } .spW { opacity: 1; } .splashShine { opacity: .95; } .splashSpark { opacity: 1; }
   }
   /* the hero's own entrance waits until the splash has lifted */
   html.js:not(.is-revealed) .heroCopy > *, html.js:not(.is-revealed) .heroFigure { animation-play-state: paused; }
@@ -844,19 +845,23 @@
      it, then the page is revealed. Held until the page has loaded (min 700 ms,
      failsafe 4 s). Without JavaScript it is never shown. -->
 <div class="splash" id="splash" aria-hidden="true">
-  <svg viewBox="0 0 120 140" class="splashTooth" fill="none">
+  <svg viewBox="0 0 240 150" class="splashTooth" fill="none">
     <defs>
-      <clipPath id="toothClip"><path d="M60 8c-16 0-30 10-34 28-4 20 2 40 8 60 3 10 6 26 12 34 4 6 10 4 12-4 2-8 1-20 2-28 1 8 0 20 2 28 2 8 8 10 12 4 6-8 9-24 12-34 6-20 12-40 8-60C90 18 76 8 60 8Z"/></clipPath>
-      <linearGradient id="enamel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfbf9"/><stop offset="1" stop-color="#eef3f4"/></linearGradient>
+      <clipPath id="mouthClip"><path d="M30 62Q120 40 210 62Q120 132 30 62Z"/></clipPath>
+      <clipPath id="teethClip"><path d="M102 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M120 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M84 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M139 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M68 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M157 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M54 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/><path d="M173 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/></clipPath>
+      <linearGradient id="enamel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eef3f4"/></linearGradient>
     </defs>
-    <g clip-path="url(#toothClip)">
-      <rect class="splashYellow" x="0" y="0" width="120" height="140" fill="#dcc08a"/>
-      <rect class="splashWhite" x="0" y="0" width="120" height="140" fill="url(#enamel)"/>
+    <g clip-path="url(#mouthClip)" class="splashInner">
+      <rect x="0" y="0" width="240" height="150" fill="#7a1f2b"/>
+      <path d="M30 40h180v22Q120 78 30 62Z" fill="#e9a7a3"/>
+      <g clip-path="url(#teethClip)"><rect x="0" y="0" width="240" height="150" fill="#dcc08a"/></g>
+      <g fill="url(#enamel)"><path class="spW" style="animation-delay:0.22s" d="M102 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path class="spW" style="animation-delay:0.22s" d="M120 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path class="spW" style="animation-delay:0.34s" d="M84 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path class="spW" style="animation-delay:0.34s" d="M139 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path class="spW" style="animation-delay:0.46s" d="M68 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path class="spW" style="animation-delay:0.46s" d="M157 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path class="spW" style="animation-delay:0.58s" d="M54 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/><path class="spW" style="animation-delay:0.58s" d="M173 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/></g>
+      <g stroke="#0f6b78" stroke-width="1.2" stroke-opacity=".55" stroke-linejoin="round"><path d="M102 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M120 58h18v26.4a7.6 7.6 0 0 1 -7.6 7.6h-2.9a7.6 7.6 0 0 1 -7.6 -7.6Z"/><path d="M84 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M139 60h17v22.9a7.1 7.1 0 0 1 -7.1 7.1h-2.7a7.1 7.1 0 0 1 -7.1 -7.1Z"/><path d="M68 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M157 63h15v18.7a6.3 6.3 0 0 1 -6.3 6.3h-2.4a6.3 6.3 0 0 1 -6.3 -6.3Z"/><path d="M54 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/><path d="M173 67h13v13.5a5.5 5.5 0 0 1 -5.5 5.5h-2.1a5.5 5.5 0 0 1 -5.5 -5.5Z"/></g>
+      <path class="splashShine" d="M106 64c-1 6-1 12 0 18M124 64c-1 6-1 12 0 18" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0"/>
     </g>
-    <path class="splashOutline" pathLength="1" stroke="#0f6b78" stroke-width="2.5" stroke-linejoin="round" d="M60 8c-16 0-30 10-34 28-4 20 2 40 8 60 3 10 6 26 12 34 4 6 10 4 12-4 2-8 1-20 2-28 1 8 0 20 2 28 2 8 8 10 12 4 6-8 9-24 12-34 6-20 12-40 8-60C90 18 76 8 60 8Z"/>
-    <path class="splashShine" stroke="#ffffff" stroke-width="3" stroke-linecap="round" d="M44 30c-6 6-8 14-8 22" opacity="0"/>
-    <g class="splashSpark" transform="translate(92 24)"><path fill="#0f6b78" d="M0-9C1.6-2.4 2.4-1.6 9 0 2.4 1.6 1.6 2.4 0 9-1.6 2.4-2.4 1.6-9 0-2.4-1.6-1.6-2.4 0-9Z"/></g>
-    <g class="splashSpark splashSpark--2" transform="translate(104 44)"><path fill="#7fd0dc" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+    <path class="splashOutline" pathLength="1" stroke="#0f6b78" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M30 62Q120 40 210 62Q120 132 30 62Z"/>
+    <g class="splashSpark" transform="translate(212 40)"><path fill="#0f6b78" d="M0-9C1.6-2.4 2.4-1.6 9 0 2.4 1.6 1.6 2.4 0 9-1.6 2.4-2.4 1.6-9 0-2.4-1.6-1.6-2.4 0-9Z"/></g>
+    <g class="splashSpark splashSpark--2" transform="translate(226 26)"><path fill="#7fd0dc" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
   </svg>
   <p class="splashText"><span data-l="de">Wird geladen …</span><span data-l="en">Loading …</span></p>
 </div>
