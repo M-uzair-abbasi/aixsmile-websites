@@ -29,7 +29,10 @@ export const EN = {
     t1: 'First visit billed to your health insurance',
     t2: 'Written cost plan',
     t3: 'Deutsch · English · فارسی · Türkçe · العربية',
-    alt: 'Treatment room: a patient wearing protective glasses, the whitening light in front (AI-generated image)',
+    stageAlt: 'A 3D model of a set of teeth, clearly yellowish. The slider below takes you through a whitening step by step.',
+    shadeLabel: 'Shade',
+    stageTag: 'Illustration · not a treatment result',
+    rangeAria: 'Whitening, step by step, on the 3D model',
     caseB: 'A real case from our practice',
     caseS: 'See before and after',
     caseAlt: 'Case 1 from our practice: before on the left, after on the right',
@@ -214,6 +217,11 @@ export const DYN = {
       description: 'Bleaching in Aachen bei AIXSMILE: Zahnfarbe vorher und nachher mit der Farbskala gemessen, Ziel gemeinsam festgelegt. Ablauf, Kosten, echte Fälle, Termin online buchen.',
     },
     kosten: { priceFrom: (n) => `Bleaching in der Praxis ab ${n} €. Der genaue Betrag steht in Ihrem Kostenplan.` },
+    stage: {
+      num: (n, total) => `Schritt ${n} von ${total}`,
+      steps: ['Ausgangsfarbe messen', 'Zahnfleisch schützen', 'Gel auftragen', 'Gel wirken lassen', 'Neue Farbe messen'],
+      valueText: (n, total, step, shade) => `Schritt ${n} von ${total}: ${step}. Farbe ${shade}`,
+    },
     mini: { hide: 'Ausblenden', none: 'Online ist gerade nichts frei. Rufen Sie uns an: 0241 31202', more: 'Alle Termine und Uhrzeiten', loading: 'Termine werden geladen …' },
     bk: {
       submit: 'Termin verbindlich buchen', submitting: 'Wird gebucht …',
@@ -244,6 +252,11 @@ export const DYN = {
       description: 'Teeth whitening in Aachen at AIXSMILE: tooth shade measured with a shade guide before and after, target agreed together. Process, costs, real cases, book online.',
     },
     kosten: { priceFrom: (n) => `In-practice whitening from €${n}. The exact amount is in your cost plan.` },
+    stage: {
+      num: (n, total) => `Step ${n} of ${total}`,
+      steps: ['Measure the starting shade', 'Protect the gums', 'Apply the gel', 'Let the gel work', 'Measure the new shade'],
+      valueText: (n, total, step, shade) => `Step ${n} of ${total}: ${step}. Shade ${shade}`,
+    },
     mini: { hide: 'Hide', none: 'Nothing is open online right now. Call us: 0241 31202', more: 'All days and times', loading: 'Loading appointments …' },
     bk: {
       submit: 'Book appointment', submitting: 'Booking …',

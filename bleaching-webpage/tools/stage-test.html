@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Stage test</title>
+<style>
+  html, body { margin: 0; background: #17151a; }
+  canvas { display: block; width: var(--w, 800px); height: var(--h, 800px); }
+</style>
+<canvas id="c"></canvas>
+<script type="module">
+  // Test bench for the hero's 3D jaw and the source of its still images
+  // (tools/render-teeth.mjs). Not deployed: .vercelignore drops tools/.
+  const q = new URLSearchParams(location.search);
+  document.documentElement.style.setProperty('--w', (q.get('w') || 800) + 'px');
+  document.documentElement.style.setProperty('--h', (q.get('h') || 800) + 'px');
+  const { createTeethStage } = await import('../js/teeth-stage.js');
+  const stage = await createTeethStage(document.getElementById('c'), {
+    modelUrl: '../assets/models/jaw.glb', maxDpr: Number(q.get('dpr') || 2), preserve: true, reduceMotion: true,
+  });
+  window.shot = (params) => { stage.set(params, { instant: true }); stage.renderNow(); return document.getElementById('c').toDataURL('image/png'); };
+  window.ready = true;
+</script>

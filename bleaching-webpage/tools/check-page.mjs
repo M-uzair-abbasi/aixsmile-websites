@@ -1,7 +1,10 @@
 // Behaviour and weight in a real browser. The booking API is answered from
 // fixtures, so nothing here reaches the live practice API.
 //   node tools/check-page.mjs
-import { serve, launch, mockApi } from './lib.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
+import zlib from 'node:zlib';
+import { serve, launch, mockApi, ROOT } from './lib.mjs';
 
 const results = [];
 const ok = (name, pass, detail = '') => results.push({ name, pass, detail });
@@ -84,6 +87,84 @@ try {
     for (let y = 0; y < 20; y++) { await page.mouse.wheel(0, 900); await page.waitForTimeout(60); }
     const classes = await page.evaluate(() => [...document.querySelectorAll('main [class*="in"], main .is-filled, main [data-card-step]')].filter((e) => /\b(in|is-filled|reveal)\b/.test(e.className)).length);
     ok('no scroll-driven reveals or card states in the page', classes === 0 && before > 0, `${classes} scroll-state classes`);
+    await ctx.close();
+  }
+
+  // ---- the hero's 3D stage: live jaw, slider, keyboard, drag, labels ----
+  {
+    const gz = (f) => zlib.gzipSync(fs.readFileSync(path.join(ROOT, f)), { level: 9 }).length;
+    const files = ['js/teeth-stage.js', 'assets/models/jaw.glb'];
+    const total = files.reduce((n, f) => n + gz(f), 0);
+    ok('hero 3D: bundle and model, loaded after the page, stay under 450 KB gzipped', total < 450 * 1024,
+      files.map((f) => `${f} ${Math.round(gz(f) / 1024)} KB`).join(' + '));
+
+    // reduced motion: one frame per move, no easing (software WebGL is slow)
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
+    const page = await ctx.newPage(); await mockApi(page, { live3d: true });
+    const errors = [];
+    page.on('pageerror', (e) => errors.push(String(e)));
+    page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+    await page.goto(srv.url, { waitUntil: 'load' });
+    await page.waitForSelector('#heroStage.is-live, #heroStage.is-still', { timeout: 180000 });
+    const live = await page.evaluate(() => document.getElementById('heroStage').classList.contains('is-live'));
+    ok('hero 3D: the live jaw replaces the still image once loaded', live, live ? 'is-live' : 'fell back to stills');
+    const read = () => page.evaluate(() => ({
+      step: document.querySelector('.stageName').textContent,
+      num: document.querySelector('.stageNum').textContent,
+      shade: document.querySelector('.stageShade b').textContent,
+      text: document.querySelector('.stageRange').getAttribute('aria-valuetext'),
+      value: document.querySelector('.stageRange').value,
+    }));
+    const start = await read();
+    ok('hero 3D: starts at step 1 with the yellow shade', start.num === 'Schritt 1 von 5' && start.step === 'Ausgangsfarbe messen' && start.shade === 'A3.5', `${start.num} ${start.step} ${start.shade}`);
+    await page.focus('.stageRange');
+    await page.keyboard.press('End');
+    const end = await read();
+    ok('hero 3D: the keyboard reaches the last step and the new shade', end.step === 'Neue Farbe messen' && end.shade === 'BL4' && /Schritt 5 von 5/.test(end.text), end.text);
+    await page.keyboard.press('Home');
+    await page.evaluate(() => { const r = document.querySelector('.stageRange'); r.value = '60'; r.dispatchEvent(new Event('input', { bubbles: true })); });
+    const mid = await read();
+    ok('hero 3D: mid-way the gel is working', mid.step === 'Gel wirken lassen' && mid.num === 'Schritt 4 von 5', `${mid.num} ${mid.step} ${mid.shade}`);
+    await page.evaluate(() => { const r = document.querySelector('.stageRange'); r.value = '0'; r.dispatchEvent(new Event('input', { bubbles: true })); });
+    const box = await page.locator('.stageFrame').boundingBox();
+    await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.5);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.5, { steps: 4 });
+    await page.mouse.up();
+    const dragged = await read();
+    ok('hero 3D: dragging across the model moves the slider', Number(dragged.value) > 30, `value ${dragged.value}`);
+    const tag = await page.evaluate(() => {
+      const t = document.querySelector('.stageTag'); const r = t.getBoundingClientRect();
+      const f = t.closest('.stageFrame').getBoundingClientRect();
+      return { text: t.textContent, hidden: !!t.closest('[aria-hidden="true"]'),
+        shown: r.width > 0 && getComputedStyle(t).visibility !== 'hidden' && t.scrollWidth <= t.clientWidth + 1 && r.left >= f.left && r.right <= f.right };
+    });
+    ok('hero 3D: labelled as an illustration, not a result, fully visible and read by screen readers', /kein Behandlungsergebnis/.test(tag.text) && tag.shown && !tag.hidden, tag.text);
+    await page.click('#langToggle');
+    const en = await read();
+    ok('hero 3D: the step caption follows the language', en.step === 'Let the gel work' || /^Step \d of 5$/.test(en.num), `${en.num} ${en.step}`);
+    ok('hero 3D: no console or page errors', errors.length === 0, errors.join(' | ') || 'none');
+    await ctx.close();
+  }
+
+  // ---- without WebGL the slider blends the yellow still into the white one ----
+  {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    await ctx.addInitScript(() => {
+      const orig = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (type, ...rest) { return /webgl/i.test(type) ? null : orig.call(this, type, ...rest); };
+    });
+    const page = await ctx.newPage(); await mockApi(page, { live3d: true });
+    await page.goto(srv.url, { waitUntil: 'load' });
+    await page.waitForSelector('#heroStage.is-still', { timeout: 10000 });
+    const op = async (v) => {
+      await page.evaluate((val) => { const r = document.querySelector('.stageRange'); r.value = String(val); r.dispatchEvent(new Event('input', { bubbles: true })); }, v);
+      return page.evaluate(() => Number(getComputedStyle(document.querySelector('.stagePoster--white')).opacity));
+    };
+    const [o0, o100] = [await op(0), await op(100)];
+    await page.waitForTimeout(300);
+    const loaded = await page.evaluate(() => { const i = document.querySelector('.stagePoster--white'); return i.complete && i.naturalWidth > 0; });
+    ok('hero without WebGL: the slider blends the yellow still into the white one', o0 === 0 && o100 === 1 && loaded, `opacity ${o0} -> ${o100}, white still loaded: ${loaded}`);
     await ctx.close();
   }
 

@@ -12,6 +12,7 @@ const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.json': 'application/json', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.png': 'image/png',
   '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8',
+  '.webp': 'image/webp', '.glb': 'model/gltf-binary',
 };
 
 /** Serve the site folder on a free localhost port. */
@@ -33,18 +34,26 @@ export function serve(root = ROOT) {
   });
 }
 
-/** Playwright is borrowed from the main app's node_modules (no install here). */
-export async function launch() {
-  // The main app's checkout lives in a different place on each machine: an
-  // env var wins, then the usual locations of both maintainers.
+/** Tools borrow packages (Playwright, esbuild, three, gltf-transform) from
+ *  the main app's node_modules, so this folder needs no install. The main
+ *  app's checkout lives in a different place on each machine: an env var
+ *  wins, then the usual locations of both maintainers. Returns the first
+ *  checkout that has `pkg`, as { dir, require }. */
+export function appWith(pkg) {
   const candidates = [process.env.AIXSMILE_DIR, '/home/muhammad-uzair/aixsmile/', `${process.env.HOME}/playground/aixsmile/`]
     .filter(Boolean).map((d) => (d.endsWith('/') ? d : `${d}/`));
-  let chromium;
   for (const dir of candidates) {
-    try { ({ chromium } = createRequire(dir)('playwright')); break; } catch { /* try the next */ }
+    const req = createRequire(dir);
+    try { req.resolve(pkg); return { dir, require: req }; } catch { /* try the next */ }
   }
-  if (!chromium) throw new Error(`playwright not found; set AIXSMILE_DIR to the main app checkout (tried ${candidates.join(', ')})`);
-  return chromium.launch({ headless: true });
+  throw new Error(`${pkg} not found; set AIXSMILE_DIR to the main app checkout (tried ${candidates.join(', ')})`);
+}
+
+export async function launch() {
+  const { chromium } = appWith('playwright').require('playwright');
+  // WebGL in headless Chromium runs on SwiftShader, which recent builds
+  // only enable on request. The hero's 3D jaw needs it.
+  return chromium.launch({ headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 }
 
 /** A realistic answer from GET /api/public/slots/ so the widget renders without
@@ -71,9 +80,16 @@ export function slotsFixture() {
   };
 }
 
-/** Route the booking API to fixtures. `book` decides the POST answer. */
-export async function mockApi(page, { book = { ok: true }, slots = slotsFixture(), fail = false } = {}) {
+/** Route the booking API to fixtures. `book` decides the POST answer.
+ *  Unless `live3d`, the hero's 3D bundle is swapped for a stub that fails
+ *  cleanly, so the hero keeps its still images: software WebGL in headless
+ *  Chromium is slow, and most checks are not about the 3D. */
+export async function mockApi(page, { book = { ok: true }, slots = slotsFixture(), fail = false, live3d = false } = {}) {
   const posts = [];
+  if (!live3d) {
+    await page.route('**/js/teeth-stage.js', (route) => route.fulfill({ status: 200, contentType: 'text/javascript',
+      body: "export async function createTeethStage() { throw new Error('3D off in this check'); }" }));
+  }
   await page.route('**/api/public/slots/**', (route) => fail
     ? route.fulfill({ status: 503, body: 'down' })
     : route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: JSON.stringify(slots) }));
@@ -107,5 +123,12 @@ export async function cdpShot(page, file) {
  *  is imported from its source text. */
 export async function loadI18n() {
   const src = fs.readFileSync(path.join(ROOT, 'js', 'i18n.js'), 'utf8');
+  return import(`data:text/javascript;base64,${Buffer.from(src).toString('base64')}`);
+}
+
+/** Import one of the page's own ES modules that has no imports of its own
+ *  (js/treatment.js), the same way as loadI18n. */
+export async function loadPageModule(rel) {
+  const src = fs.readFileSync(path.join(ROOT, rel), 'utf8');
   return import(`data:text/javascript;base64,${Buffer.from(src).toString('base64')}`);
 }

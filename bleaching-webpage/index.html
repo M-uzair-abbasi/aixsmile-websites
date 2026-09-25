@@ -21,6 +21,8 @@
 <link rel="icon" type="image/svg+xml" href="assets/tooth-mark.svg">
 <link rel="preload" href="assets/fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/figtree-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/photos/jaw-yellow.webp" media="(min-width: 600px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/photos/jaw-yellow-wide.webp" media="(max-width: 599px)" fetchpriority="high">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <script type="application/ld+json">
 {
@@ -186,7 +188,7 @@
   .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
   .copy > :last-child { margin-bottom: 0; }
 
-  /* ===== Hero: the promise beside a calm treatment-room photo ===== */
+  /* ===== Hero: the promise beside the 3D jaw and its bleaching slider ===== */
   .hero { display: flex; align-items: center; min-height: max(560px, 86svh); background: var(--paper); }
   .heroInner { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 6vw, 88px); align-items: center;
     padding-top: calc(var(--hdr) + 40px); padding-bottom: 56px; }
@@ -196,14 +198,64 @@
   .trustRow { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 26px 0 0; padding: 20px 0 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--soft); }
   .trustRow li { position: relative; padding-left: 18px; }
   .trustRow li::before { content: ''; position: absolute; left: 0; top: .55em; width: 10px; height: 5px; border-left: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); transform: rotate(-45deg); }
-  .heroFigure { position: relative; margin: 0; justify-self: end; width: min(100%, 27rem); }
+  /* The stage never grows taller than the screen allows: the square frame
+     plus the slider and the case row under it (about 190px). */
+  .heroFigure { position: relative; margin: 0; justify-self: end; width: min(100%, 28.5rem, max(20rem, calc(100svh - var(--hdr) - 280px))); }
+  .stageBox { position: relative; }
   .blob { position: absolute; inset: -8% -14% 10% -18%; z-index: 0; border-radius: 48% 52% 46% 54% / 55% 45% 55% 45%; background: var(--ice); }
-  .frame--hero { position: relative; z-index: 1; aspect-ratio: 4 / 5; border-radius: 26px; }
-  .heroCase { position: absolute; z-index: 2; left: -40px; bottom: 36px; width: 300px; margin: 0; padding: 10px; display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: center;
-    border-radius: 14px; background: #fff; border: 1px solid var(--line); color: var(--text); text-decoration: none; box-shadow: 0 24px 50px -30px rgba(16, 32, 42, .45);
+  /* The 3D jaw (js/hero-stage.js, js/teeth-stage.js). A still of the yellow
+     jaw shows until the live model has loaded; dragging across it moves the
+     slider, vertical swipes still scroll. */
+  .frame.stageFrame { z-index: 1; aspect-ratio: 1; border-radius: 26px; border: 1px solid var(--line);
+    background: radial-gradient(62% 56% at 50% 54%, #ffffff 0%, #f4f8f9 55%, #e9f1f3 100%);
+    box-shadow: 0 40px 80px -50px rgba(16, 32, 42, .45);
+    touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+  .stageFrame.is-dragging { cursor: grabbing; }
+  .stagePoster, .stageCanvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .stageCanvas { display: block; opacity: 0; transition: opacity .6s ease; }
+  .stagePoster--white { opacity: var(--shade, 0); }
+  .is-live .stageCanvas { opacity: 1; }
+  .is-live .stagePoster { opacity: 0; transition: opacity .2s ease .6s; }
+  /* the shade readout: a swatch in the current tooth colour and the shade */
+  .stageShade { position: absolute; z-index: 2; top: 5.5%; left: 50%; transform: translateX(-50%); margin: 0;
+    display: flex; align-items: center; gap: 8px; padding: 5px 14px 5px 7px; border-radius: 999px; white-space: nowrap;
+    background: rgba(255, 255, 255, .94); border: 1px solid var(--line); box-shadow: 0 10px 24px -16px rgba(16, 32, 42, .4); pointer-events: none; }
+  .stageShade i { width: 18px; height: 18px; border-radius: 50%; background: var(--tooth, #cf9f45); box-shadow: inset 0 0 0 1px rgba(16, 32, 42, .18); }
+  .stageShade span { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
+  .stageShade b { min-width: 2.7em; font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.2; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stageTag { left: 50%; right: auto; transform: translateX(-50%); width: max-content; max-width: calc(100% - 20px); pointer-events: none; }
+  /* the slider: a track in the tooth colours (yellow until the gel works,
+     then lighter), a thumb with arrows, and a dot per step underneath */
+  .stageCtl { position: relative; z-index: 1; margin: 22px 0 0; }
+  .stageStep { display: flex; align-items: baseline; gap: 12px; margin: 0 0 2px; }
+  .stageNum { flex: 0 0 auto; font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .stageName { font-family: var(--serif); font-size: 20px; font-weight: 600; line-height: 1.3; color: var(--heading); }
+  .stageTrack { --thumb: 32px; position: relative; padding-bottom: 12px; }
+  .stageRange { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; }
+  .stageRange::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(90deg, #cf9f45 0 30%, #e0c48e 52%, #efe4c9 74%, #f4eee0 88%); box-shadow: inset 0 0 0 1px rgba(16, 32, 42, .12); }
+  .stageRange::-moz-range-track { height: 8px; border-radius: 999px; background: linear-gradient(90deg, #cf9f45 0 30%, #e0c48e 52%, #efe4c9 74%, #f4eee0 88%); box-shadow: inset 0 0 0 1px rgba(16, 32, 42, .12); }
+  .stageRange::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: var(--thumb); height: var(--thumb);
+    margin-top: calc((8px - var(--thumb)) / 2); border-radius: 50%; border: 2px solid var(--accent);
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%230f6b78' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4 2 8l4 4M10 4l4 4-4 4'/%3E%3C/svg%3E") center / 16px no-repeat;
+    box-shadow: 0 8px 18px -8px rgba(16, 32, 42, .5); transition: transform .2s var(--ease), box-shadow .2s ease; }
+  .stageRange::-moz-range-thumb { box-sizing: border-box; width: var(--thumb); height: var(--thumb); border-radius: 50%; border: 2px solid var(--accent);
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%230f6b78' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4 2 8l4 4M10 4l4 4-4 4'/%3E%3C/svg%3E") center / 16px no-repeat;
+    box-shadow: 0 8px 18px -8px rgba(16, 32, 42, .5); transition: transform .2s var(--ease), box-shadow .2s ease; }
+  .stageRange:hover::-webkit-slider-thumb, .stageRange:active::-webkit-slider-thumb { transform: scale(1.08); }
+  .stageRange:hover::-moz-range-thumb, .stageRange:active::-moz-range-thumb { transform: scale(1.08); }
+  .stageRange:focus-visible { outline: none; }
+  .stageRange:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(15, 107, 120, .28); }
+  .stageRange:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px rgba(15, 107, 120, .28); }
+  .stageTicks { position: absolute; left: 0; right: 0; bottom: 4px; height: 6px; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+  .stageTicks li { position: absolute; top: 0; left: calc(var(--thumb) / 2 + var(--at, 0) * (100% - var(--thumb)));
+    width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: rgba(16, 32, 42, .18); transition: background-color .2s ease; }
+  .stageTicks li.is-done { background: var(--accent); }
+  /* real proof right under the illustration: one of the practice's own cases */
+  .heroCase { position: relative; z-index: 1; margin: 12px 0 0; padding: 8px 12px 8px 8px; display: grid; grid-template-columns: 136px minmax(0, 1fr); gap: 14px; align-items: center;
+    border-radius: 14px; background: #fff; border: 1px solid var(--line); color: var(--text); text-decoration: none;
     transition: border-color .2s ease, transform .25s var(--ease); }
   .heroCase:hover { border-color: var(--accent); transform: translateY(-2px); color: var(--text); }
-  .heroCase img { width: 100%; height: 48px; object-fit: cover; border-radius: 8px; }
+  .heroCase img { width: 100%; height: auto; border-radius: 7px; }
   .heroCaseText { display: grid; gap: 2px; font-size: 13.5px; line-height: 1.4; }
   .heroCaseText b { color: var(--heading); font-weight: 600; }
   .heroCaseText span { color: var(--accent); font-weight: 600; }
@@ -214,18 +266,9 @@
     .heroCopy > :nth-child(3) { animation-delay: .12s; }
     .heroCopy > :nth-child(4) { animation-delay: .18s; }
     .heroFigure { animation: riseIn .9s var(--ease) .15s backwards; }
-    /* the bleaching moment: the photo comes in warm and dim and clears to clean white,
-       a single soft light sweep crosses it, then the real case settles in */
-    .frame--hero img { animation: bleach 1.8s var(--ease) .35s both; }
-    .frame--hero::after { content: ''; position: absolute; inset: -20% -40%; z-index: 1; pointer-events: none;
-      background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .55) 50%, transparent 60%);
-      transform: translateX(-70%) skewX(-8deg); animation: sweep 1.4s var(--ease) 1s both; }
-    .heroCase { animation: riseIn .8s var(--ease) 1.5s backwards; }
     .blob { animation: blobIn 1.4s var(--ease) .1s backwards; }
   }
   @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  @keyframes bleach { from { filter: sepia(.55) saturate(.85) brightness(.84) contrast(.96); } to { filter: none; } }
-  @keyframes sweep { from { transform: translateX(-70%) skewX(-8deg); opacity: 0; } 15% { opacity: 1; } to { transform: translateX(70%) skewX(-8deg); opacity: 0; } }
   @keyframes blobIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
 
   .shadeCard { position: relative; padding: 28px 28px 24px; border-radius: 20px; background: #fff; border: 1px solid var(--line);
@@ -517,14 +560,12 @@
     .hero h1 { font-size: clamp(36px, 9.6vw, 46px); margin-bottom: 12px; }
     .lead { font-size: 17.5px; }
     .trustRow { gap: 6px 14px; font-size: 13px; margin-top: 20px; padding-top: 16px; }
-    .heroFigure { width: 100%; justify-self: stretch; }
-    .frame--hero { aspect-ratio: 5 / 4; }
-    .heroCase { position: relative; left: 0; bottom: 0; width: 100%; margin-top: 12px; }
+    .heroFigure { width: min(100%, 30rem); justify-self: center; }
     .measurePhoto { max-width: none; }
     .frame--tall { aspect-ratio: 5 / 4; }
     .shadeCard { padding: 22px 18px 18px; }
     .scaleTabs { gap: 6px; }
-    .heroCase { grid-template-columns: 120px minmax(0, 1fr); margin: 18px -6px -4px; }
+    .heroCase { grid-template-columns: 120px minmax(0, 1fr); margin-top: 14px; }
     .section { padding: 56px 0; }
     .section--tight { padding: 44px 0; }
     .split { grid-template-columns: minmax(0, 1fr); gap: 24px; }
@@ -623,6 +664,35 @@
     .steps4 p, .steps4 h3, .whenList p, .whenList h4, .route p, .route h3 { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: anywhere; }
     .steps4 p, .whenList p, .route p:last-child { font-size: 14px; line-height: 1.5; }
   }
+  /* Phones: headline, then the 3D stage with its slider and the real case,
+     then the lead and the trust line, so the hero fits one phone screen
+     (the fixed booking bar carries the button meanwhile). The copy wrapper
+     steps aside so its children can be ordered around the stage. */
+  @media (max-width: 599px) {
+    .heroInner { gap: 8px; padding-top: calc(var(--hdr) + 16px); padding-bottom: 22px; }
+    .heroCopy { display: contents; }
+    .hero .eyebrow { order: 1; margin: 0; }
+    .hero h1 { order: 2; margin: 0; font-size: clamp(32px, 8.8vw, 40px); }
+    .heroFigure { order: 3; width: 100%; justify-self: stretch; margin-top: 8px; }
+    .hero .lead { order: 4; margin: 6px 0 0; font-size: 16px; line-height: 1.45; }
+    .trustRow { order: 5; margin-top: 6px; padding-top: 10px; }
+    .blob { inset: -5% -6% 8% -6%; }
+    .frame.stageFrame { aspect-ratio: 3 / 2; border-radius: 18px; }
+    .stageShade { top: 10px; left: 10px; transform: none; padding: 4px 11px 4px 5px; gap: 6px; }
+    .stageShade i { width: 15px; height: 15px; }
+    .stageShade span { font-size: 11px; letter-spacing: .1em; }
+    .stageShade b { font-size: 16px; }
+    .stageTag { bottom: 8px; padding: 4px 9px; font-size: 11px; }
+    .stageCtl { margin-top: 10px; }
+    .stageStep { gap: 10px; }
+    .stageNum { font-size: 11px; letter-spacing: .1em; }
+    .stageName { font-size: 17px; }
+    .stageTrack { --thumb: 30px; padding-bottom: 8px; }
+    .stageRange { height: 36px; }
+    .heroCase { margin-top: 2px; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; padding: 5px 10px 5px 5px; border-radius: 10px; }
+    .heroCase img { border-radius: 5px; }
+    .heroCaseText { gap: 0; font-size: 12px; line-height: 1.3; }
+  }
 </style>
 </head>
 <body>
@@ -668,10 +738,25 @@
         <li data-i18n="hero.t3">Deutsch · English · فارسی · Türkçe · العربية</li>
       </ul>
     </div>
-    <figure class="heroFigure">
+    <figure class="heroFigure" id="heroStage">
+      <div class="stageBox">
       <span class="blob" aria-hidden="true"></span>
-      <div class="frame frame--hero">
-        <img src="assets/photos/ai/in-office.webp" width="900" height="1125" decoding="async" fetchpriority="high" data-i18n-alt="hero.alt" alt="Behandlungsraum: Patientin mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)">
+      <div class="frame stageFrame">
+        <picture>
+          <source media="(max-width: 599px)" srcset="assets/photos/jaw-yellow-wide.webp" width="960" height="640">
+          <img class="stagePoster" src="assets/photos/jaw-yellow.webp" width="1280" height="1280" decoding="async" fetchpriority="high" data-i18n-alt="hero.stageAlt" alt="3D-Modell eines Gebisses mit deutlich gelblichen Zähnen. Der Regler darunter führt Schritt für Schritt durch ein Bleaching.">
+        </picture>
+        <canvas class="stageCanvas" aria-hidden="true"></canvas>
+        <p class="stageShade" aria-hidden="true"><i></i><span data-i18n="hero.shadeLabel">Farbe</span><b>A3.5</b></p>
+        <span class="aiTag stageTag" data-i18n="hero.stageTag">Symbolbild · kein Behandlungsergebnis</span>
+      </div>
+      </div>
+      <div class="stageCtl">
+        <p class="stageStep"><span class="stageNum">Schritt 1 von 5</span><span class="stageName">Ausgangsfarbe messen</span></p>
+        <div class="stageTrack">
+          <input class="stageRange" type="range" min="0" max="100" step="1" value="0" data-i18n-aria="hero.rangeAria" aria-label="Bleaching Schritt für Schritt am 3D-Modell" aria-valuetext="Schritt 1 von 5: Ausgangsfarbe messen. Farbe A3.5">
+          <ol class="stageTicks" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li></ol>
+        </div>
       </div>
       <a class="heroCase" href="#faelle">
         <img src="assets/photos/case-1-pair.webp" width="726" height="192" decoding="async" data-i18n-alt="hero.caseAlt" alt="Fall 1 aus unserer Praxis: links vorher, rechts nachher">
@@ -1056,6 +1141,7 @@
   // from this document and applies the stored language before anything else.
   import { onLangChange, dyn, PRICE_FROM } from './js/i18n.js';
   import './js/booking.js';
+  import './js/hero-stage.js';
 
   document.getElementById('footYear').textContent = String(new Date().getFullYear());
 

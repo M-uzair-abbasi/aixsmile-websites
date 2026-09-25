@@ -23,6 +23,10 @@ alternating dark and warm cream, and no scroll-driven animation.
 | `index.html` | The page: markup, inline CSS, JSON-LD, all German copy |
 | `js/i18n.js` | English strings, runtime strings in both languages, the DE/EN switch, `PRICE_FROM` |
 | `js/booking.js` | The embedded booking widget; `API_BASE`, `SERVICE`, `VIA` at the top |
+| `js/treatment.js` | The hero slider's treatment timeline: steps, shades, tooth colours |
+| `js/hero-stage.js` | The hero slider: step caption, shade readout, loads the 3D jaw after the page |
+| `js/teeth-stage.js` | The 3D jaw with three.js, bundled and minified (built from `js/src/`, do not edit) |
+| `assets/models/jaw.glb` | The jaw model, compressed (built from `human-jaw.glb`, which is not deployed) |
 | `assets/fonts/` | Source Serif 4 + Figtree, self-hosted (no request to Google) |
 | `assets/photos/` | Shade-guide photo, two consented cases, the dentist's portrait |
 | `assets/photos/ai/` | Removed 2026-09-24: the page shows no AI images any more. Real practice photos (shade guide in the dentist's hand, lamp, trays, team) are still wanted; drop them into `assets/photos/` |
@@ -56,6 +60,41 @@ vercel --prod
 ```
 
 `.vercelignore` keeps `tools/` and this README out of the upload.
+
+## The 3D jaw in the hero (2026-09-25)
+
+The hero shows a 3D jaw model (`human-jaw.glb`, made by the owner) with
+full-yellow teeth, in place of the treatment-room photo. One slider walks
+through the treatment: the starting shade is measured, the gums get the blue
+barrier, the gel goes on and works while the teeth lighten, then gel and
+barrier come off and the new shade is measured. A readout shows the shade
+(A3.5 to BL4, the page's own scale), and the frame is labelled
+"Symbolbild · kein Behandlungsergebnis". Dragging across the model moves the
+slider too; the arrow keys, Home and End work on the slider. The real case
+card sits right under the slider. The photo's warm-to-clear entrance is gone:
+the slider is the bleaching moment now.
+
+The page paints first with a still of the yellow jaw; the 3D code and the
+model load after the page (about 270 KB gzipped) and draw only when the
+slider moves. Without WebGL, with Data Saver on, or if loading fails, the
+slider blends that still into a white one instead. On phones the stage comes
+right after the headline, in a wider 3:2 frame with its own stills.
+
+When the model changes, from this folder:
+
+```
+node tools/compress-model.mjs            # human-jaw.glb -> assets/models/jaw.glb (meshopt, ~250 KB)
+node tools/render-teeth.mjs --posters    # the yellow and white stills in assets/photos/
+```
+
+After editing `js/src/teeth-stage.js`, rebuild the bundle with
+`node tools/build-3d.mjs`. All three borrow esbuild, three.js (0.184) and
+gltf-transform from the main app's `node_modules` (found the same way as
+Playwright, `AIXSMILE_DIR` wins), so this folder still has no `package.json`
+and Vercel serves plain files. `node tools/render-teeth.mjs` without
+`--posters` writes test frames along the slider into `tools/shots/`, and
+`node tools/shoot-hero.mjs` screenshots the live hero on laptop, tablet and
+phone. `human-jaw.glb` and `js/src/` are in `.vercelignore`.
 
 ## The AI images (no longer on the page)
 
@@ -100,7 +139,9 @@ results come only from the two real cases.
 
 ## Sign-off still needed
 
-- **Clinician:** the section texts (what happens, when it helps, measuring,
+- **Clinician:** the hero's five treatment steps and the shade path A3.5 to
+  BL4 on the 3D model (labelled "Symbolbild · kein Behandlungsergebnis"),
+  the section texts (what happens, when it helps, measuring,
   the four steps, the two routes) and the nine FAQ answers, plus the one AI
   shade-step comparison ("Symbolbild, kein Behandlungsergebnis"), which the
   user chose to include. Claims to confirm, besides those below: grey or
@@ -129,7 +170,7 @@ node tools/check-i18n.mjs      # every element has English, runtime strings matc
 node tools/check-fresh.mjs     # no 8-word run shared with the veneers page or aixsmile.de's bleaching text
 node tools/check-schema.mjs    # JSON-LD valid, practice details identical to the veneers page, FAQ = visible FAQ
 node tools/check-contrast.mjs  # WCAG AA for all text, laptop and phone, DE and EN
-node tools/check-page.mjs      # weight, images load, third parties, overflow, language, no scroll animation, no-JS, widget flows
+node tools/check-page.mjs      # weight, images load, third parties, overflow, language, 3D hero and its fallback, no scroll animation, no-JS, widget flows
 node tools/check-images.mjs    # which AI images are still placeholders
 node tools/shoot.mjs           # screenshots of every section, laptop and phone, into tools/shots/
 npx html-validate@9 index.html # markup
