@@ -535,9 +535,9 @@
        DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
        over the teeth instead, which is what made the copy unreadable and the
        model half-hidden. Short sections still fill one screen (min-height). */
-    .block { min-height: 0; justify-content: flex-start;
-      padding: 46svh 0 4svh; max-width: none; }
-    .block + .block { padding-top: 46svh; }
+    .block { min-height: 56svh; justify-content: flex-start;
+      padding: 6svh 0 8svh; max-width: none; }
+    .block + .block { padding-top: 6svh; }
     .block h2 { font-size: clamp(22px, 6vw, 27px); margin-bottom: 8px; }
     .block > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; }
     .block .lead { font-size: 16px; }
@@ -707,38 +707,38 @@
      the two bands are visibly kin without being the same shape. */
   .band--ablauf h2 { max-width: 20ch; }
   .band--ablauf p.lede { margin-bottom: 0; }
-  .band--ablauf ol.steps { list-style: none; margin: clamp(36px, 5vh, 56px) 0 0; padding: 0;
+  .band--ablauf ol.steps:not(.steps--rail) { list-style: none; margin: clamp(36px, 5vh, 56px) 0 0; padding: 0;
     position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
     column-gap: clamp(18px, 2.4vw, 32px); }
-  .band--ablauf ol.steps::before { content: ''; position: absolute; left: 0; right: 0; top: 5px;
+  .band--ablauf ol.steps:not(.steps--rail)::before { content: ''; position: absolute; left: 0; right: 0; top: 5px;
     height: 1px; background: var(--line); }
-  .band--ablauf ol.steps li { position: relative; padding-top: 26px; }
+  .band--ablauf ol.steps:not(.steps--rail) li { position: relative; padding-top: 26px; }
   /* station marker on the rail: a filled dot with a paper halo so the rail
      visibly stops at it rather than running through */
-  .band--ablauf ol.steps li::before { content: ''; position: absolute; left: 0; top: 0;
+  .band--ablauf ol.steps:not(.steps--rail) li::before { content: ''; position: absolute; left: 0; top: 0;
     width: 11px; height: 11px; border-radius: 50%; background: var(--accent);
     box-shadow: 0 0 0 4px var(--paper); }
-  .band--ablauf ol.steps i { display: block; font-style: normal;
+  .band--ablauf ol.steps:not(.steps--rail) i { display: block; font-style: normal;
     font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 13px;
     letter-spacing: .06em; color: var(--accent); font-variant-numeric: tabular-nums; }
-  .band--ablauf ol.steps h3 { margin: 10px 0 8px; font-family: 'Space Grotesk', system-ui, sans-serif;
+  .band--ablauf ol.steps:not(.steps--rail) h3 { margin: 10px 0 8px; font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 17.5px; font-weight: 700; letter-spacing: -.01em; line-height: 1.25; color: var(--ink); }
-  .band--ablauf ol.steps p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text); }
+  .band--ablauf ol.steps:not(.steps--rail) p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text); }
   /* Narrower than a laptop the rail turns vertical, down the left, and the
      stations stack: the same journey, read top to bottom. */
   @media (max-width: 1000px) {
-    .band--ablauf ol.steps { grid-template-columns: 1fr; row-gap: 0; margin-top: 28px; }
-    .band--ablauf ol.steps::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
-    .band--ablauf ol.steps li { padding: 0 0 30px 32px; }
-    .band--ablauf ol.steps li:last-child { padding-bottom: 0; }
-    .band--ablauf ol.steps li::before { top: 5px; }
-    .band--ablauf ol.steps h3 { margin-top: 6px; }
-    .band--ablauf ol.steps li > div { max-width: 38rem; }
+    .band--ablauf ol.steps:not(.steps--rail) { grid-template-columns: 1fr; row-gap: 0; margin-top: 28px; }
+    .band--ablauf ol.steps:not(.steps--rail)::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
+    .band--ablauf ol.steps:not(.steps--rail) li { padding: 0 0 30px 32px; }
+    .band--ablauf ol.steps:not(.steps--rail) li:last-child { padding-bottom: 0; }
+    .band--ablauf ol.steps:not(.steps--rail) li::before { top: 5px; }
+    .band--ablauf ol.steps:not(.steps--rail) h3 { margin-top: 6px; }
+    .band--ablauf ol.steps:not(.steps--rail) li > div { max-width: 38rem; }
   }
   @media (max-width: 560px) {
-    .band--ablauf ol.steps li { padding-bottom: 24px; }
-    .band--ablauf ol.steps h3 { font-size: 16px; }
-    .band--ablauf ol.steps p { font-size: 14.5px; }
+    .band--ablauf ol.steps:not(.steps--rail) li { padding-bottom: 24px; }
+    .band--ablauf ol.steps:not(.steps--rail) h3 { font-size: 16px; }
+    .band--ablauf ol.steps:not(.steps--rail) p { font-size: 14.5px; }
   }
 
   /* Behandler: the one portrait on the page, off-centre, text beside it. */
@@ -783,10 +783,7 @@
     .band h2 { font-size: clamp(24px, 6.4vw, 30px); margin-bottom: 10px; }
     .band .lede { font-size: 15px; margin-bottom: 14px; }
     .beforeAfter { padding: 40px clamp(18px, 5vw, 40px) 36px; }
-    .band--ablauf ol.steps { margin-top: 16px; }
-    .band--ablauf ol.steps li { padding: 12px 0; }
-    .band--ablauf ol.steps h3 { font-size: 16px; }
-    .band--ablauf ol.steps p { font-size: 14px; line-height: 1.5; }
+
     .band--kosten .inner, .band--doctor .inner, .band--praxis .inner { grid-template-columns: 1fr; }
     .band--kosten .inner > .prose, .band--kosten .inner > .promise { grid-column: 1; }
     .band--kosten p { font-size: 15px; margin-bottom: 10px; }
@@ -814,7 +811,7 @@
   }
 
   /* Bands reveal like the before/after band: once, on arrival. */
-  .js .band:not(.in) .inner > * { opacity: 0; transform: translateY(30px); }
+  .js .band:not(.in):not(.band--ablauf) .inner > * { opacity: 0; transform: translateY(30px); }
   .band .inner > * { transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
   .band.in .inner > :nth-child(2) { transition-delay: .12s; }
   .band.in .inner > :nth-child(3) { transition-delay: .24s; }
@@ -1088,6 +1085,89 @@
   @keyframes chipIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   @keyframes chipTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
   @media (max-width: 900px) { .cookieChip { left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; font-size: 13px; } }
+
+  /* ===== Act 1: the scroll story. One statement per beat, nothing else. ===== */
+  .block { max-width: 34rem; }
+  .block h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -.02em; }
+  .block .lead { font-size: 18px; color: var(--ink-soft); }
+  .block:first-child .lead { max-width: 24rem; }
+
+  /* ===== Act 2: reading ===== */
+  .band--read .inner, .band--material .inner { max-width: 68rem; }
+  .readGrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+  .readGrid + .readGrid { margin-top: clamp(40px, 6vw, 72px); padding-top: clamp(32px, 5vw, 56px); border-top: 1px solid var(--line); }
+  .readCol > p { font-size: 17px; line-height: 1.6; }
+  .readCol h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 21px; margin: 0 0 12px; }
+  .readGrid .gauge { margin-top: 0; padding-top: 0; border-top: 0; }
+  .readGrid .checks { margin-top: 0; }
+  .matTable { margin-top: clamp(24px, 4vw, 40px); border-top: 1px solid var(--line); }
+  .matRow { display: grid; grid-template-columns: 8rem minmax(0, 1fr) minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.5; }
+  .matRow--head { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+  .matRow--head span { display: flex; align-items: center; gap: 10px; }
+  .matRow [role="rowheader"] { color: var(--ink-soft); font-weight: 600; font-size: 14px; }
+  .materialNote { margin-top: 20px; font-size: 15px; color: var(--ink-soft); }
+
+  /* ===== Cases: four studies ===== */
+  .beforeAfter .inner { max-width: 68rem; }
+  .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px); margin-top: clamp(28px, 4vw, 44px); }
+  .caseCard { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
+  .caseFig { position: relative; display: block; padding: 0; border: 0; background: var(--paper-2); cursor: zoom-in; }
+  .caseFig img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .caseZoom { position: absolute; right: 12px; bottom: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(30, 25, 22, .62) center / 16px no-repeat
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5M11 8v6M8 11h6'/></svg>"); }
+  .caseBody { padding: 20px 22px 18px; }
+  .caseKicker { margin: 0 0 6px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .caseBody h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2; margin: 0 0 10px; }
+  .caseBody > p { margin: 0 0 12px; font-size: 15.5px; line-height: 1.55; }
+  .caseMore summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 600; color: var(--accent); min-height: 40px; }
+  .caseMore summary::-webkit-details-marker { display: none; }
+  .caseMore summary::after { content: '+'; font-size: 18px; line-height: 1; }
+  .caseMore[open] summary::after { content: '−'; }
+  .caseMore p { margin: 6px 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+  .casesAll { margin: 24px 0 0; text-align: center; font-size: 15px; }
+  .casesAll a { font-weight: 600; }
+
+  /* ===== Steps: a rail ===== */
+  .inner--wide { max-width: 68rem; }
+  .steps--rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 0 12px; margin: clamp(24px, 4vw, 40px) 0 0; scrollbar-width: none; }
+  .steps--rail::-webkit-scrollbar { display: none; }
+  .band--ablauf ol.steps--rail { list-style: none; padding: 4px 0 12px; }
+  .band--ablauf ol.steps--rail > li { border-bottom: 0; }
+  .steps--rail > li { flex: 0 0 min(100%, 22rem); scroll-snap-align: start; padding: 22px 22px 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); display: grid; grid-template-rows: auto auto; gap: 8px; }
+  .steps--rail > li i { font-family: 'Space Grotesk', system-ui, sans-serif; font-style: normal; font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--accent); }
+  .steps--rail h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 19px; margin: 0 0 6px; }
+  .steps--rail p { margin: 0; font-size: 15px; line-height: 1.55; }
+  .railDots { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
+
+  /* ===== Kosten: veneer-specific ===== */
+  .kostenGrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .kostenGrid .prose p { font-size: 16.5px; line-height: 1.6; }
+  .kostenFacts { margin: 0; border-top: 1px solid var(--line); }
+  .kostenFacts > div { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .kostenFacts dt { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 16px; margin: 0 0 4px; }
+  .kostenFacts dd { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-soft); }
+
+  @media (max-width: 900px) {
+    .readGrid, .readGrid--crown, .kostenGrid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .readGrid + .readGrid { margin-top: 28px; padding-top: 24px; }
+    .readCol > p, .kostenGrid .prose p { font-size: 15px; }
+    .matRow { grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding: 12px 0; font-size: 13px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .matRow--head { font-size: 14px; }
+    .matRow [role="rowheader"] { font-size: 12.5px; }
+    .cases { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .caseCard { grid-template-columns: 116px minmax(0, 1fr); grid-template-rows: none; }
+    .caseFig img { aspect-ratio: 1; height: 100%; }
+    .caseZoom { width: 26px; height: 26px; right: 6px; bottom: 6px; background-size: 13px; }
+    .caseBody { padding: 12px 14px; }
+    .caseBody h3 { font-size: 16px; margin-bottom: 6px; }
+    .caseBody > p { font-size: 13.5px; line-height: 1.45; margin-bottom: 6px; }
+    .caseMore p { font-size: 13.5px; }
+    .caseKicker { font-size: 11px; margin-bottom: 4px; }
+    .steps--rail > li { flex-basis: 84%; padding: 16px; }
+    .steps--rail h3 { font-size: 17px; }
+    .steps--rail p { font-size: 14px; }
+    .kostenFacts dt { font-size: 15px; } .kostenFacts dd { font-size: 14px; }
+  }
 </style>
 </head>
 <body>
@@ -1178,97 +1258,29 @@
     <section class="block" data-anchor>
       <p class="eyebrow" data-i18n="hero.eyebrow">Veneers in Aachen · AIXSMILE</p>
       <h1 data-i18n="hero.h1">Veneers in Aachen: <em>dünner</em> als ein Fingernagel.</h1>
-      <p class="lead" data-i18n="hero.lead">Beim Scrollen legen sich sechs Schalen nacheinander auf die Zähne. Es entsteht kein neuer Zahn, nur eine neue Oberfläche. Farbe, Form und Glanz ändern sich, der eigene Zahn darunter bleibt.</p>
-      <div class="heroCases" id="heroCases">
-        <span class="heroCasesRow"><button type="button" class="heroCase lg" data-case="0" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/1-lg.jpg" width="560" height="560" decoding="async" data-i18n-alt="ba.img1Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 1"></button><button type="button" class="heroCase" data-case="1" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/2.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img2Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 2"></button><button type="button" class="heroCase" data-case="2" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/3.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img3Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 3"></button><button type="button" class="heroCase" data-case="3" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/4.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img4Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 4"></button><button type="button" class="heroCase" data-case="4" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/5.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img5Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 5"></button><button type="button" class="heroCase" data-case="5" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/6.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img6Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 6"></button><button type="button" class="heroCase" data-case="6" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/7.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img7Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 7"></button></span>
-        <a class="heroCasesCap" href="#beforeAfter" data-i18n-aria="hero.casesAria"><b data-i18n="hero.casesB">7 echte Fälle aus unserer Praxis</b> <span data-i18n="hero.casesS">Zum Vergrößern antippen · alle Fälle ansehen →</span></a>
-      </div>
-      <!-- The most characteristic fact about a veneer, made tangible: a
-           cross-section of three thicknesses at 20x, with a TRUE-size tick.
-           CSS mm are physical units (1mm = 3.78px), so 0.4mm at 1:1 is a
-           1.5px hairline - honest but invisible; magnified it can be read. -->
-      <!-- Three shells standing on edge: WIDTH is thickness at the stated
-           magnification, with a true-size tick in the note. CSS mm are
-           physical units (1mm = 3.78px); 0.4mm at 1:1 is a 1.5px hairline. -->
-      <div class="gauge">
-        <p class="gaugeTitle"><span data-i18n="hero.gaugeTitle">Wie d&uuml;nn ist d&uuml;nn?</span> <span class="gaugeMag" id="gaugeMag">20-fach vergr&ouml;&szlig;ert</span></p>
-        <div class="gaugeSlabs">
-          <div class="slab is-veneer" style="--mm: .4"><i aria-hidden="true"></i><b>0,4&nbsp;mm</b><span data-i18n="hero.gVeneer">ein Veneer</span></div>
-          <div class="slab" style="--mm: .5"><i aria-hidden="true"></i><b>0,5&nbsp;mm</b><span data-i18n="hero.gNail">Ihr Fingernagel</span></div>
-          <div class="slab" style="--mm: .76"><i aria-hidden="true"></i><b>0,76&nbsp;mm</b><span data-i18n="hero.gCard">eine Bankkarte</span></div>
-        </div>
-        <p class="gaugeNote"><i aria-hidden="true" style="--mm: .4"></i><span data-i18n="hero.gNote">tats&auml;chliche St&auml;rke &middot; 2 Materialien &middot; 15+ Jahre haltbar</span></p>
-      </div>
+      <p class="lead" data-i18n="hero.lead">Scrollen Sie, und sechs Schalen legen sich auf die Zähne.</p>
     </section>
 
     <section class="block" data-anchor>
-      <h2 data-i18n="what.h2">Aufgeklebt auf den Zahn, nicht im Knochen verankert.</h2>
-      <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.</p>
-      <p data-i18n="what.p2">Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.</p>
+      <h2 data-i18n="what.h2">Eine hauchdünne Keramikschale auf dem eigenen Zahn.</h2>
     </section>
 
     <section class="block" data-anchor id="material">
-      <h2 data-i18n="material.h2">Keramik oder Composite.</h2>
-      <p data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
-      <div class="materials">
-        <div class="flip">
-          <div class="flipInner">
-            <div class="flipFace flipFront">
-              <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-              <p class="materialName"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></p>
-              <p class="materialLead" data-i18n="material.m1Lead">Fleckenresistent und lichtdurchl&auml;ssig</p>
-              <p data-i18n="material.m1Body">Keramik-Veneers sind besonders fleckenresistent, lichtdurchl&auml;ssig und bei guter Pflege &uuml;ber viele Jahre stabil. Weil Licht wie bei echtem Schmelz in die Schale eindringt, wirkt das Ergebnis lebendig statt flach.</p>
-            </div>
-            <div class="flipFace flipBack" aria-hidden="true">
-              <img src="/assets/materials/keramik.jpg" decoding="async" data-i18n-alt="material.m1Alt" alt="Fertige Keramik-Veneers vor der Befestigung (Beispielbild)">
-              <button type="button" class="flipHit" data-flip="hide" data-i18n-aria="material.back" tabindex="-1"></button>
-              <div class="flipCaption"><b data-i18n="material.m1Full">Keramik-Veneers</b><span data-i18n="material.m1Cap">Hauchd&uuml;nne Keramikschalen (Beispielbild)</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="flip">
-          <div class="flipInner">
-            <div class="flipFace flipFront">
-              <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-              <p class="materialName"><i class="swatch swatch--composite" aria-hidden="true"></i><span data-i18n="material.m2Name">Composite</span></p>
-              <p class="materialLead" data-i18n="material.m2Lead">G&uuml;nstiger und leichter zu reparieren</p>
-              <p data-i18n="material.m2Body">Composite-Veneers sind g&uuml;nstiger und lassen sich sp&auml;ter leichter ausbessern. Daf&uuml;r sind sie anf&auml;lliger f&uuml;r Verf&auml;rbungen: Kaffee, Tee und Tabak hinterlassen hier eher Spuren als auf Keramik.</p>
-            </div>
-            <div class="flipFace flipBack" aria-hidden="true">
-              <img src="/assets/materials/composite.jpg" decoding="async" data-i18n-alt="material.m2Alt" alt="Mit Composite gestaltetes Lächeln (Beispielbild)">
-              <button type="button" class="flipHit" data-flip="hide" data-i18n-aria="material.back" tabindex="-1"></button>
-              <div class="flipCaption"><b data-i18n="material.m2Full">Composite-Veneers</b><span data-i18n="material.m2Cap">Direkt aufgebautes Composite (Beispielbild)</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="materialNote" data-i18n="material.note"><b>Ohne Beschleifen?</b> In geeigneten F&auml;llen bieten wir minimalinvasive oder &bdquo;no-prep&ldquo; Veneers (Lumineers) an, die weniger oder gar kein Beschleifen der nat&uuml;rlichen Z&auml;hne erfordern. Ob das f&uuml;r Sie infrage kommt, pr&uuml;fen wir sorgf&auml;ltig.</p>
+      <h2 data-i18n="material.h2">Keramik oder Composite. Ihr Zahn entscheidet mit.</h2>
     </section>
 
     <section class="block" data-anchor id="crown">
       <h2 data-i18n="crown.h2">Sechs Schalen, Zahn für Zahn gesetzt.</h2>
-      <p data-i18n="crown.p1">Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.</p>
-      <p data-i18n="crown.p2">Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn.</p>
     </section>
 
     <section class="block" data-anchor id="suitability">
-      <h2 data-i18n="suitability.h2">Wann Veneers passen, und wann nicht.</h2>
-      <ul class="checks">
-        <li data-i18n="suitability.check1">Entzündungsfreies Zahnfleisch und keine unbehandelte Karies an den betroffenen Zähnen.</li>
-        <li data-i18n="suitability.check2">Genügend eigener Zahnschmelz als Klebegrund. Ist davon wenig übrig, ist oft eine Krone die bessere Wahl.</li>
-        <li data-i18n="suitability.check3">Nächtliches Zähnepressen oder -knirschen vorher abgeklärt und bei Bedarf mit einer Schiene versorgt.</li>
-        <li data-i18n="suitability.check4">Wer aufhellen möchte, tut dies vor der Farbwahl, denn die Farbe eines Veneers lässt sich später nicht mehr bleichen.</li>
-      </ul>
+      <h2 data-i18n="suitability.h2">Farbe, Form und Glanz ändern sich. Der Zahn bleibt Ihrer.</h2>
     </section>
 
     <section class="block" data-anchor id="consult">
-      <h2 data-i18n="consult.h2">Starten Sie mit dem Scan, nicht mit dem Bohrer.</h2>
-      <p data-i18n="consult.p">In einem ausführlichen Ersttermin sehen wir uns gemeinsam Fotos und einen digitalen Scan an und besprechen ehrlich, ob Veneers das richtige Mittel für Ihr Anliegen sind oder ob eine andere Behandlung besser passt.</p>
+      <h2 data-i18n="consult.h2">Ein Scan zuerst. Geschliffen wird erst mit Ihrem Ja.</h2>
       <div class="cta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="consult.btnBook">Termin buchen</a>
-        <a class="btn ghost btnWithIcon" href="tel:+4924131202" data-cta="call" data-i18n-aria="consult.callAria">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241 31202</span>
-        </a>
+        <a class="btn" href="#buchen" data-cta="book" data-i18n="consult.btnBook">Beratung buchen</a>
       </div>
     </section>
   </main>
@@ -1283,34 +1295,120 @@
   </div>
 </div>
 
-<section class="beforeAfter" id="beforeAfter">
+<!-- Act 2: the reading part. The scroll story above says it in a line per
+     beat; here the same facts get their paragraphs, on plain paper. -->
+<section class="band band--read" id="wissen">
   <div class="inner">
-    <h2 data-i18n="ba.h2">Vorher und nachher.</h2>
-    <p class="lede" data-i18n="ba.p">Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten.</p>
-    <!-- One case at a time, large, with the same arrows-and-dots control as
-         the step gallery. The five-thumbnail grid mixed aspect ratios and
-         left half the row empty; a single frame gives each case its due.
-         Below the fold, so the photos are lazy. -->
-    <div class="baViewer">
-      <div class="baStage" id="baStage">
-        <img src="/assets/before-after/1.jpg" class="active" loading="lazy" decoding="async" data-i18n-alt="ba.img1Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 1">
-        <img src="/assets/before-after/2.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img2Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 2">
-        <img src="/assets/before-after/3.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img3Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 3">
-        <img src="/assets/before-after/4.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img4Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 4">
-        <img src="/assets/before-after/5.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img5Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 5">
-        <img src="/assets/before-after/6.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img6Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 6">
-        <img src="/assets/before-after/7.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img7Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 7">
+    <div class="readGrid">
+      <div class="readCol">
+        <p class="eyebrow" data-i18n="read.eyebrow">Was ein Veneer ist</p>
+        <h2 data-i18n="read.h2">Aufgeklebt auf den Zahn, nicht im Knochen verankert.</h2>
+        <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.</p>
+        <p data-i18n="what.p2">Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.</p>
       </div>
-      <div class="stepNav baNav">
-        <button type="button" class="stepArrow" id="baPrev" data-i18n-aria="ba.prev">&#8249;</button>
-        <div class="stepDots" id="baDots"></div>
-        <button type="button" class="stepArrow" id="baNext" data-i18n-aria="ba.next">&#8250;</button>
-        <span class="baCount" id="baCount" aria-live="polite"></span>
+      <div class="readCol">
+        <div class="gauge">
+        <p class="gaugeTitle"><span data-i18n="hero.gaugeTitle">Wie d&uuml;nn ist d&uuml;nn?</span> <span class="gaugeMag" id="gaugeMag">20-fach vergr&ouml;&szlig;ert</span></p>
+        <div class="gaugeSlabs">
+          <div class="slab is-veneer" style="--mm: .4"><i aria-hidden="true"></i><b>0,4&nbsp;mm</b><span data-i18n="hero.gVeneer">ein Veneer</span></div>
+          <div class="slab" style="--mm: .5"><i aria-hidden="true"></i><b>0,5&nbsp;mm</b><span data-i18n="hero.gNail">Ihr Fingernagel</span></div>
+          <div class="slab" style="--mm: .76"><i aria-hidden="true"></i><b>0,76&nbsp;mm</b><span data-i18n="hero.gCard">eine Bankkarte</span></div>
+        </div>
+        <p class="gaugeNote"><i aria-hidden="true" style="--mm: .4"></i><span data-i18n="hero.gNote">tats&auml;chliche St&auml;rke &middot; 2 Materialien &middot; 15+ Jahre haltbar</span></p>
+      </div>
+      </div>
+    </div>
+
+    <div class="readGrid readGrid--crown">
+      <div class="readCol">
+        <h3 data-i18n="crownRead.h3">Veneer oder Krone?</h3>
+        <p data-i18n="crown.p1">Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.</p>
+        <p data-i18n="crown.p2">Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn.</p>
+      </div>
+      <div class="readCol">
+        <h3 data-i18n="suitRead.h3">Wann Veneers passen</h3>
+        <ul class="checks">
+          <li data-i18n="suitability.check1">Entzündungsfreies Zahnfleisch und keine unbehandelte Karies an den betroffenen Zähnen.</li>
+          <li data-i18n="suitability.check2">Genügend eigener Zahnschmelz als Klebegrund. Ist davon wenig übrig, ist oft eine Krone die bessere Wahl.</li>
+          <li data-i18n="suitability.check3">Nächtliches Zähnepressen oder -knirschen vorher abgeklärt und bei Bedarf mit einer Schiene versorgt.</li>
+          <li data-i18n="suitability.check4">Wer aufhellen möchte, tut dies vor der Farbwahl, denn die Farbe eines Veneers lässt sich später nicht mehr bleichen.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
+<section class="band band--material" id="materialien">
+  <div class="inner">
+    <p class="eyebrow" data-i18n="matRead.eyebrow">Zwei Materialien</p>
+    <h2 data-i18n="matRead.h2">Keramik oder Composite.</h2>
+    <p class="lede" data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
+    <div class="matTable" role="table">
+      <div class="matRow matRow--head" role="row">
+        <span role="columnheader"></span>
+        <span role="columnheader"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></span>
+        <span role="columnheader"><i class="swatch swatch--composite" aria-hidden="true"></i><span data-i18n="material.m2Name">Composite</span></span>
+      </div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r1">Haltbarkeit</span><span data-i18n="mat.r1a">Bei guter Pflege häufig 15 Jahre und länger</span><span data-i18n="mat.r1b">Kürzer, dafür jederzeit in der Praxis ausbesserbar</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r2">Farbe</span><span data-i18n="mat.r2a">Fleckenresistent, verändert sich nicht</span><span data-i18n="mat.r2b">Kann mit Kaffee, Tee und Rotwein nachdunkeln</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r3">Wirkung</span><span data-i18n="mat.r3a">Lichtdurchlässig wie Schmelz, wirkt lebendig</span><span data-i18n="mat.r3b">Gut, aber flacher; direkt am Zahn modelliert</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r4">Termine</span><span data-i18n="mat.r4a">Zwei bis drei, das Labor fertigt dazwischen</span><span data-i18n="mat.r4b">Oft in einer Sitzung</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r5">Kosten</span><span data-i18n="mat.r5a">Höher, Labor inklusive</span><span data-i18n="mat.r5b">Deutlich günstiger</span></div>
+    </div>
+    <p class="materialNote" data-i18n="material.note"><b>Ohne Beschleifen?</p>
+  </div>
+</section>
+
+<section class="beforeAfter" id="beforeAfter">
+  <div class="inner">
+    <p class="eyebrow" data-i18n="ba.eyebrow">Fälle aus der Praxis</p>
+    <h2 data-i18n="ba.h2">Vier Wege zu einem Lächeln.</h2>
+    <p class="lede" data-i18n="ba.p">Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten. Jeder Fall ist anders; die Beschreibungen erklären die Behandlungsart, nicht ein Versprechen.</p>
+    <div class="cases">
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="0" data-i18n-aria="ba.open" aria-label="Fall 1 vergrößert ansehen"><img src="/assets/before-after/1.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img1Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 1"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case1.k">Fall 1 · Lücke und Kanten</p>
+          <h3 data-i18n="case1.h">Geschlossene Lücke, ruhige Kante.</h3>
+          <p data-i18n="case1.p">Abgenutzte Schneidekanten und ein kleiner Spalt zwischen den Frontzähnen. Keramikschalen auf den sichtbaren Frontzähnen schließen die Lücke und geben der Kante eine gleichmäßige Linie zurück.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case1.more">Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.</p></details>
+        </div>
+      </article>
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="1" data-i18n-aria="ba.open" aria-label="Fall 2 vergrößert ansehen"><img src="/assets/before-after/2.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img2Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 2"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case2.k">Fall 2 · Farbe und Form</p>
+          <h3 data-i18n="case2.h">Heller und gleichmäßiger, ohne aufzutragen.</h3>
+          <p data-i18n="case2.p">Ungleiche Zahnfarbe und leicht unterschiedliche Formen im sichtbaren Bereich. Die Schalen bringen Farbe und Proportion in eine Linie; der Farbton wurde vorher bei Tageslicht an den Nachbarzähnen bestimmt.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case2.more">Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.</p></details>
+        </div>
+      </article>
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="2" data-i18n-aria="ba.open" aria-label="Fall 3 vergrößert ansehen"><img src="/assets/before-after/3.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img3Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 3"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case3.k">Fall 3 · Stellung</p>
+          <h3 data-i18n="case3.h">Gerader wirkend, ohne Zahnspange.</h3>
+          <p data-i18n="case3.p">Leicht gedrehte und unterschiedlich lange Frontzähne. Die Schalen gleichen die Fronten optisch an; die Zahnwurzeln bleiben, wo sie sind.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case3.more">Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.</p></details>
+        </div>
+      </article>
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="4" data-i18n-aria="ba.open" aria-label="Fall 5 vergrößert ansehen"><img src="/assets/before-after/5.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img5Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 5"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case4.k">Fall 4 · Gesamtbild</p>
+          <h3 data-i18n="case4.h">Sechs Fronten als ein Bild.</h3>
+          <p data-i18n="case4.p">Mehrere kleine Abweichungen zugleich: Farbe, Kantenverlauf, Breite. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt und nicht ein Zahn heraussticht.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case4.more">Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.</p></details>
+        </div>
+      </article>
+    </div>
+    <p class="casesAll"><a href="#" id="casesAll" data-i18n="ba.all">Alle sieben Fälle ansehen →</a></p>
+  </div>
+</section>
+
+<div class="baStage" id="baStage" hidden aria-hidden="true">
+  <img src="/assets/before-after/1.jpg" alt=""><img src="/assets/before-after/2.jpg" alt=""><img src="/assets/before-after/3.jpg" alt=""><img src="/assets/before-after/4.jpg" alt=""><img src="/assets/before-after/5.jpg" alt=""><img src="/assets/before-after/6.jpg" alt=""><img src="/assets/before-after/7.jpg" alt="">
+</div>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="lbTop">
     <span class="lbTitle" data-i18n="ba.h2">Vorher und nachher.</span>
@@ -1335,11 +1433,11 @@
      stations, numerals in the Kosten band's register. No controls: there is
      nothing to swap, so nothing to click. -->
 <section class="band band--ablauf" id="process">
-  <div class="inner">
+  <div class="inner inner--wide">
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
     <h2 data-i18n="process.h2">Fünf Schritte, ein Ergebnis.</h2>
     <p class="lede" data-i18n="process.lede">Vom ersten Gespräch bis zur letzten Politur. Jeder Schritt wird erklärt, bevor er passiert, und geschliffen wird erst, wenn Sie zugestimmt haben.</p>
-    <ol class="steps">
+    <ol class="steps steps--rail" id="stepsRail">
       <li><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Am Anfang steht ein Gespräch: Was genau soll sich verändern? Passend dazu wählen wir den Farbton mit Mustern, die wir direkt neben Ihre eigenen Zähne halten.</p></div></li>
       <li><i>02</i><div data-i18n="process.step2"><h3>Formvorbereitung</h3><p>Für die Schale braucht der Zahn ein wenig Platz. Meist genügt eine hauchdünne Schicht des äußeren Schmelzes, bei sehr dünnen Veneers manchmal gar keine. Mit Betäubung spüren Sie davon nichts.</p></div></li>
       <li><i>03</i><div data-i18n="process.step3"><h3>Abdruck und Modell</h3><p>Ein digitaler Scanner oder eine klassische Abformung hält die genaue Form Ihrer Zähne fest. Aus diesen Daten fertigt ein Speziallabor jede Schale auf den Zehntelmillimeter genau.</p></div></li>
@@ -1353,8 +1451,8 @@
   <div class="inner">
     <div class="intro">
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
-      <h2 data-i18n="bk.h2">Beratungstermin direkt hier buchen.</h2>
-      <p data-i18n="bk.p">Freie Termine in Echtzeit. Tag und Uhrzeit wählen, Kontaktdaten eintragen, fertig. Die Bestätigung kommt sofort per E-Mail.</p>
+      <h2 data-i18n="bk.h2">Ihr Termin für den Scan.</h2>
+      <p data-i18n="bk.p">Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts. Der Kalender zeigt, was in der Praxis wirklich frei ist.</p>
       <ul class="introFacts">
         <li data-i18n="bk.fact1">Beratung mit digitalem Scan, es wird nichts geschliffen</li>
         <li data-i18n="bk.fact2">Schriftlicher Kostenplan, Entscheidung danach in Ruhe</li>
@@ -1381,10 +1479,6 @@
       <!-- Step 1: pick the slot -->
       <div class="pane" id="bkPane1" hidden>
         <p class="bkInfo" id="bkTaken" hidden data-i18n="bk.taken">Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.</p>
-        <div class="quick" id="bkQuick" hidden>
-          <p class="bkLabel" data-i18n="bk.quickH">Nächste freie Termine</p>
-          <div class="quickRow" id="bkQuickRow"></div>
-        </div>
         <div class="calRow" id="bkCalRow" hidden>
           <div class="cal" id="bkCal">
             <div class="calHead">
@@ -1398,7 +1492,7 @@
           </div>
           <div class="times" id="bkTimesWrap">
             <p class="bkLabel" id="bkTimesFor">Uhrzeit</p>
-            <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Tag wählen, dann erscheinen hier die freien Uhrzeiten.</p>
+            <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Links einen Tag antippen. Rechts erscheinen dann die freien Zeiten für Ihren Scan-Termin.</p>
             <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
             <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
           </div>
@@ -1461,25 +1555,16 @@
   <div class="inner">
     <p class="eyebrow" data-i18n="kosten.eyebrow">Kosten</p>
     <h2 data-i18n="kosten.h2">Was Veneers kosten, und wovon es abhängt.</h2>
-    <div class="prose">
-      <p data-i18n="kosten.p1">Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.</p>
-      <p data-i18n="kosten.p2">Einen Festpreis nennen wir deshalb erst, wenn wir Ihre Zähne gesehen haben. Drei Dinge entscheiden über die Summe:</p>
-      <ul class="factors">
-        <li><b data-i18n="kosten.f1k">Material</b><span data-i18n="kosten.f1v">Keramik ist haltbarer und farbstabil, Composite günstiger und in der Praxis reparierbar.</span></li>
-        <li><b data-i18n="kosten.f2k">Anzahl</b><span data-i18n="kosten.f2v">Ein einzelner Zahn nach einem Unfall oder sechs Frontzähne für ein geschlossenes Bild.</span></li>
-        <li><b data-i18n="kosten.f3k">Aufwand</b><span data-i18n="kosten.f3v">Ob Zahnfleisch, Biss oder Zahnstellung vorher mitbehandelt werden müssen.</span></li>
-      </ul>
-    </div>
-    <div class="promise">
-      <h3 data-i18n="kosten.promiseH">So kommen Sie zu Ihrem Preis</h3>
-      <ol>
-        <li><b data-i18n="kosten.s1k">Beratung und Scan</b><span data-i18n="kosten.s1v">Wir schauen gemeinsam auf Fotos und den digitalen Scan Ihrer Zähne.</span></li>
-        <li><b data-i18n="kosten.s2k">Heil- und Kostenplan</b><span data-i18n="kosten.s2v">Schriftlich, Position für Position, bevor irgendetwas geschliffen wird. Zum Einreichen bei Ihrer Versicherung geeignet.</span></li>
-        <li><b data-i18n="kosten.s3k">Sie entscheiden in Ruhe</b><span data-i18n="kosten.s3v">Sie nehmen den Plan mit nach Hause. Zahlungsmöglichkeiten besprechen wir im selben Gespräch.</span></li>
-      </ol>
-      <div class="cta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="kosten.btn">Beratung buchen</a>
+    <div class="kostenGrid">
+      <div class="prose">
+        <p data-i18n="kosten.p1">Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.</p>
+        <p data-i18n="kosten.p2">Der Preis pro Zahn hängt vor allem vom Material ab, die Summe von der Anzahl der Zähne. Einen Festpreis nennen wir erst, wenn wir Ihre Zähne gesehen haben; dann aber schriftlich, Position für Position, im Heil- und Kostenplan. Den nehmen Sie mit nach Hause und können ihn bei Ihrer Versicherung einreichen.</p>
       </div>
+      <dl class="kostenFacts">
+        <div><dt data-i18n="kosten.d1k">Beratung mit Scan</dt><dd data-i18n="kosten.d1v">Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.</dd></div>
+        <div><dt data-i18n="kosten.d2k">Heil- und Kostenplan</dt><dd data-i18n="kosten.d2v">Schriftlich, vor dem ersten Schliff. Gültig, solange sich der Befund nicht ändert.</dd></div>
+        <div><dt data-i18n="kosten.d3k">Ratenzahlung</dt><dd data-i18n="kosten.d3v">Auf Wunsch über einen Abrechnungspartner. Besprechen wir im selben Gespräch.</dd></div>
+      </dl>
     </div>
   </div>
 </section>
@@ -1674,7 +1759,6 @@ const I18N = {
     nav: { book: 'Termin buchen', call: 'Anrufen' },
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE',
-      casesB: '7 echte Fälle aus unserer Praxis', casesS: 'Zum Vergr\u00f6\u00dfern antippen \u00b7 alle F\u00e4lle ansehen \u2192', casesAria: 'Vorher-Nachher-Fälle ansehen',
       h1: 'Veneers in Aachen: <em>dünner</em> als ein Fingernagel.',
       gaugeTitle: 'Wie d\u00fcnn ist d\u00fcnn?',
       gaugeMag: (n) => `${n}-fach vergr\u00f6\u00dfert`,
@@ -1682,30 +1766,18 @@ const I18N = {
       gNail: 'Ihr Fingernagel',
       gCard: 'eine Bankkarte',
       gNote: 'tats\u00e4chliche St\u00e4rke \u00b7 2 Materialien \u00b7 15+ Jahre haltbar',
-      lead: 'Beim Scrollen legen sich sechs Schalen nacheinander auf die Zähne. Es entsteht kein neuer Zahn, nur eine neue Oberfläche. Farbe, Form und Glanz ändern sich, der eigene Zahn darunter bleibt.',
+      lead: 'Scrollen Sie, und sechs Schalen legen sich auf die Zähne.',
     },
     what: {
-      h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.',
+      h2: 'Eine hauchdünne Keramikschale auf dem eigenen Zahn.',
       p1: 'Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.',
       p2: 'Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.',
     },
     material: {
-      h2: 'Keramik oder Composite.',
+      h2: 'Keramik oder Composite. Ihr Zahn entscheidet mit.',
       p: 'Zur Auswahl stehen zwei Materialien. Welches passt, h\u00e4ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.',
       m1Name: 'Keramik',
-      m1Full: 'Keramik-Veneers',
-      m1Cap: 'Hauchd\u00fcnne Keramikschalen (Beispielbild)',
-      m1Alt: 'Fertige Keramik-Veneers vor der Befestigung (Beispielbild)',
-      m2Full: 'Composite-Veneers',
-      m2Cap: 'Direkt aufgebautes Composite (Beispielbild)',
-      m2Alt: 'Mit Composite gestaltetes L\u00e4cheln (Beispielbild)',
-      seePhoto: 'Foto ansehen',
-      back: 'Zur\u00fcck zur \u00dcbersicht',
-      m1Lead: 'Fleckenresistent und lichtdurchl\u00e4ssig',
-      m1Body: 'Keramik-Veneers sind besonders fleckenresistent, lichtdurchl\u00e4ssig und bei guter Pflege \u00fcber viele Jahre stabil. Weil Licht wie bei echtem Schmelz in die Schale eindringt, wirkt das Ergebnis lebendig statt flach.',
       m2Name: 'Composite',
-      m2Lead: 'G\u00fcnstiger und leichter zu reparieren',
-      m2Body: 'Composite-Veneers sind g\u00fcnstiger und lassen sich sp\u00e4ter leichter ausbessern. Daf\u00fcr sind sie anf\u00e4lliger f\u00fcr Verf\u00e4rbungen: Kaffee, Tee und Tabak hinterlassen hier eher Spuren als auf Keramik.',
       note: '<b>Ohne Beschleifen?</b> In geeigneten F\u00e4llen bieten wir minimalinvasive oder \u201eno-prep\u201c Veneers (Lumineers) an, die weniger oder gar kein Beschleifen der nat\u00fcrlichen Z\u00e4hne erfordern. Ob das f\u00fcr Sie infrage kommt, pr\u00fcfen wir sorgf\u00e4ltig.',
     },
     process: {
@@ -1720,35 +1792,27 @@ const I18N = {
     },
     crown: {
       h2: 'Sechs Schalen, Zahn für Zahn gesetzt.',
-      p1: 'Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.',
-      p2: 'Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn.',
+      p1: 'Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktflächen und der größte Teil des Zahns bleiben unberührt.',
+      p2: 'Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn neu überkront.',
     },
     suitability: {
-      h2: 'Wann Veneers passen, und wann nicht.',
+      h2: 'Farbe, Form und Glanz ändern sich. Der Zahn bleibt Ihrer.',
       check1: 'Entzündungsfreies Zahnfleisch und keine unbehandelte Karies an den betroffenen Zähnen.',
       check2: 'Genügend eigener Zahnschmelz als Klebegrund. Ist davon wenig übrig, ist oft eine Krone die bessere Wahl.',
       check3: 'Nächtliches Zähnepressen oder -knirschen vorher abgeklärt und bei Bedarf mit einer Schiene versorgt.',
       check4: 'Wer aufhellen möchte, tut dies vor der Farbwahl, denn die Farbe eines Veneers lässt sich später nicht mehr bleichen.',
     },
     ba: {
-      h2: 'Vorher und nachher.',
-      p: 'Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten.',
-      prev: 'Vorheriger Fall',
-      next: 'N\u00e4chster Fall',
-      open: 'Fall vergr\u00f6\u00dfert ansehen',
-      close: 'Schlie\u00dfen',
-      img1Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 1',
-      img2Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 2',
-      img3Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 3',
-      img4Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 4',
-      img5Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 5',
-      img6Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 6',
-      img7Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 7',
+      eyebrow: 'Fälle aus der Praxis',
+      h2: 'Vier Wege zu einem Lächeln.',
+      p: 'Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten. Jeder Fall ist anders; die Beschreibungen erklären die Behandlungsart, nicht ein Versprechen.',
+      more: 'Mehr lesen', all: 'Alle sieben Fälle ansehen →',
+      prev: 'Vorheriger Fall', next: 'Nächster Fall', open: 'Fall vergrößert ansehen', close: 'Schließen',
+      img1Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 1', img2Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 2', img3Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 3', img4Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 4', img5Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 5', img6Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 6', img7Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 7',
     },
     consult: {
-      h2: 'Starten Sie mit dem Scan, nicht mit dem Bohrer.',
-      p: 'In einem ausführlichen Ersttermin sehen wir uns gemeinsam Fotos und einen digitalen Scan an und besprechen ehrlich, ob Veneers das richtige Mittel für Ihr Anliegen sind oder ob eine andere Behandlung besser passt.',
-      btnBook: 'Termin buchen',
+      h2: 'Ein Scan zuerst. Geschliffen wird erst mit Ihrem Ja.',
+      btnBook: 'Beratung buchen',
       callAria: 'Anrufen: 0241 31202',
     },
     hint: 'Scrollen',
@@ -1760,19 +1824,30 @@ const I18N = {
       'Bereit zur fachlichen Prüfung',
       'Bereit, wenn Sie es sind',
     ],
+
+    read: { eyebrow: 'Was ein Veneer ist', h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.' },
+    crownRead: { h3: 'Veneer oder Krone?' },
+    suitRead: { h3: 'Wann Veneers passen' },
+    matRead: { eyebrow: 'Zwei Materialien', h2: 'Keramik oder Composite.' },
+    mat: {
+      r1: 'Haltbarkeit', r1a: 'Bei guter Pflege häufig 15 Jahre und länger', r1b: 'Kürzer, dafür jederzeit in der Praxis ausbesserbar',
+      r2: 'Farbe', r2a: 'Fleckenresistent, verändert sich nicht', r2b: 'Kann mit Kaffee, Tee und Rotwein nachdunkeln',
+      r3: 'Wirkung', r3a: 'Lichtdurchlässig wie Schmelz, wirkt lebendig', r3b: 'Gut, aber flacher; direkt am Zahn modelliert',
+      r4: 'Termine', r4a: 'Zwei bis drei, das Labor fertigt dazwischen', r4b: 'Oft in einer Sitzung',
+      r5: 'Kosten', r5a: 'Höher, Labor inklusive', r5b: 'Deutlich günstiger',
+    },
+    case1: { k: 'Fall 1 · Lücke und Kanten', h: 'Geschlossene Lücke, ruhige Kante.', p: 'Abgenutzte Schneidekanten und ein kleiner Spalt zwischen den Frontzähnen. Keramikschalen auf den sichtbaren Frontzähnen schließen die Lücke und geben der Kante eine gleichmäßige Linie zurück.', more: 'Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.' },
+    case2: { k: 'Fall 2 · Farbe und Form', h: 'Heller und gleichmäßiger, ohne aufzutragen.', p: 'Ungleiche Zahnfarbe und leicht unterschiedliche Formen im sichtbaren Bereich. Die Schalen bringen Farbe und Proportion in eine Linie; der Farbton wurde vorher bei Tageslicht an den Nachbarzähnen bestimmt.', more: 'Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.' },
+    case3: { k: 'Fall 3 · Stellung', h: 'Gerader wirkend, ohne Zahnspange.', p: 'Leicht gedrehte und unterschiedlich lange Frontzähne. Die Schalen gleichen die Fronten optisch an; die Zahnwurzeln bleiben, wo sie sind.', more: 'Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.' },
+    case4: { k: 'Fall 4 · Gesamtbild', h: 'Sechs Fronten als ein Bild.', p: 'Mehrere kleine Abweichungen zugleich: Farbe, Kantenverlauf, Breite. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt und nicht ein Zahn heraussticht.', more: 'Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.' },
     kosten: {
       eyebrow: 'Kosten',
       h2: 'Was Veneers kosten, und wovon es abhängt.',
       p1: 'Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.',
-      p2: 'Einen Festpreis nennen wir deshalb erst, wenn wir Ihre Zähne gesehen haben. Drei Dinge entscheiden über die Summe:',
-      f1k: 'Material', f1v: 'Keramik ist haltbarer und farbstabil, Composite günstiger und in der Praxis reparierbar.',
-      f2k: 'Anzahl', f2v: 'Ein einzelner Zahn nach einem Unfall oder sechs Frontzähne für ein geschlossenes Bild.',
-      f3k: 'Aufwand', f3v: 'Ob Zahnfleisch, Biss oder Zahnstellung vorher mitbehandelt werden müssen.',
-      promiseH: 'So kommen Sie zu Ihrem Preis',
-      s1k: 'Beratung und Scan', s1v: 'Wir schauen gemeinsam auf Fotos und den digitalen Scan Ihrer Zähne.',
-      s2k: 'Heil- und Kostenplan', s2v: 'Schriftlich, Position für Position, bevor irgendetwas geschliffen wird. Zum Einreichen bei Ihrer Versicherung geeignet.',
-      s3k: 'Sie entscheiden in Ruhe', s3v: 'Sie nehmen den Plan mit nach Hause. Zahlungsmöglichkeiten besprechen wir im selben Gespräch.',
-      btn: 'Beratung buchen',
+      p2: 'Der Preis pro Zahn hängt vor allem vom Material ab, die Summe von der Anzahl der Zähne. Einen Festpreis nennen wir erst, wenn wir Ihre Zähne gesehen haben; dann aber schriftlich, Position für Position, im Heil- und Kostenplan. Den nehmen Sie mit nach Hause und können ihn bei Ihrer Versicherung einreichen.',
+      d1k: 'Beratung mit Scan', d1v: 'Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.',
+      d2k: 'Heil- und Kostenplan', d2v: 'Schriftlich, vor dem ersten Schliff. Gültig, solange sich der Befund nicht ändert.',
+      d3k: 'Ratenzahlung', d3v: 'Auf Wunsch über einen Abrechnungspartner. Besprechen wir im selben Gespräch.',
     },
     doctor: {
       eyebrow: 'Ihr Behandler',
@@ -1820,9 +1895,9 @@ const I18N = {
     bk: {
       quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
       eyebrow: 'Termin',
-      h2: 'Beratungstermin direkt hier buchen.',
-      p: 'Freie Termine in Echtzeit. Tag und Uhrzeit wählen, Kontaktdaten eintragen, fertig. Die Bestätigung kommt sofort per E-Mail.',
-      fact1: 'Beratung mit digitalem Scan, es wird nichts geschliffen',
+      h2: 'Ihr Termin für den Scan.',
+      p: 'Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts. Der Kalender zeigt, was in der Praxis wirklich frei ist.',
+      fact1: 'Digitaler Scan statt Abdruck, nichts wird geschliffen',
       fact2: 'Schriftlicher Kostenplan, Entscheidung danach in Ruhe',
       fact3: 'Absagen jederzeit über den Link in der Bestätigung',
       unavailable: 'Die Terminübersicht ist gerade nicht erreichbar.', unavailableLink: 'Rufen Sie uns an: 0241 31202',
@@ -1875,7 +1950,6 @@ const I18N = {
     nav: { book: 'Book appointment', call: 'Call' },
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE',
-      casesB: '7 real cases from our practice', casesS: 'Tap to enlarge \u00b7 see all cases \u2192', casesAria: 'See before-and-after cases',
       h1: 'Veneers in Aachen: <em>thinner</em> than a fingernail.',
       gaugeTitle: 'How thin is thin?',
       gaugeMag: (n) => `magnified ${n}\u00d7`,
@@ -1883,30 +1957,18 @@ const I18N = {
       gNail: 'your fingernail',
       gCard: 'a bank card',
       gNote: 'true thickness \u00b7 2 materials \u00b7 15+ years typical',
-      lead: 'As you scroll, six shells settle onto the teeth one pair at a time. There is no new tooth, only a new surface. Colour, shape and shine change. The tooth underneath stays yours.',
+      lead: 'Scroll, and six shells settle onto the teeth.',
     },
     what: {
-      h2: 'Bonded to the tooth, not anchored in the bone.',
-      p1: 'A veneer does not replace a tooth. It covers it. Milled or pressed from ceramic, the wafer-thin shell is bonded with a special resin cement onto the etched, roughened tooth surface. Once the cement cures, shell and tooth behave as one: the ceramic carries the shape and the shine, the tooth beneath still carries the bite.',
-      p2: 'Because ceramic is translucent, your own tooth colour shows through slightly. That is why we choose the shade in daylight, with you awake, before anything is touched. Anyone planning to whiten does it first: once a veneer is bonded, its colour is fixed for good.',
+      h2: 'A wafer-thin ceramic shell on your own tooth.',
+      p1: 'A veneer does not replace a tooth. It clads it. Milled or pressed from ceramic, the wafer-thin shell is bonded with a special resin cement to the etched, roughened tooth surface. Once the cement has set, shell and tooth behave as one piece: the ceramic takes over shape and shine, the tooth beneath still carries the chewing load.',
+      p2: 'Because ceramic is translucent, your own tooth colour shimmers through slightly. That is why the shade is determined on the awake patient in daylight before anything is prepared. Anyone who also wants whiter teeth does so first: once seated, a veneer\'s colour no longer changes.',
     },
     material: {
-      h2: 'Ceramic or composite.',
+      h2: 'Ceramic or composite. Your tooth has a say.',
       p: 'Two materials are available. Which one fits depends on your tooth, your expectations and your budget. We discuss that openly, before anything is prepared.',
       m1Name: 'Ceramic',
-      m1Full: 'Ceramic veneers',
-      m1Cap: 'Wafer-thin ceramic shells (example image)',
-      m1Alt: 'Finished ceramic veneers before bonding (example image)',
-      m2Full: 'Composite veneers',
-      m2Cap: 'Directly built-up composite (example image)',
-      m2Alt: 'A smile shaped with composite (example image)',
-      seePhoto: 'See the photo',
-      back: 'Back to the overview',
-      m1Lead: 'Stain-resistant and translucent',
-      m1Body: 'Ceramic veneers are particularly stain-resistant, translucent and, with good care, stable for many years. Because light enters the shell as it does real enamel, the result looks alive rather than flat.',
       m2Name: 'Composite',
-      m2Lead: 'More affordable and easier to repair',
-      m2Body: 'Composite veneers are more affordable and easier to repair later on. In return they are more prone to discolouration: coffee, tea and tobacco leave marks here sooner than on ceramic.',
       note: '<b>Without preparation?</b> In suitable cases we offer minimally invasive or \u201cno-prep\u201d veneers (Lumineers), which require little to no grinding of the natural teeth. We assess carefully whether that is an option for you.',
     },
     process: {
@@ -1921,35 +1983,27 @@ const I18N = {
     },
     crown: {
       h2: 'Six shells, seated tooth by tooth.',
-      p1: 'The difference is one of scope: a crown wraps the entire visible tooth, while a veneer stays confined to the front surface and the edge. The back, the contact points with neighbouring teeth, and most of your own tooth structure are left untouched.',
-      p2: 'This has two advantages. The tooth stays stronger because less of it is removed. And if a shell chips years later, only that one piece is replaced, not the whole tooth.',
+      p1: 'The difference is one of extent: a crown wraps the whole visible tooth, a veneer stays limited to the front face and the edge. The back, the contact surfaces and most of the tooth remain untouched.',
+      p2: 'That has two advantages. The tooth stays more stable because less of it is removed. And if a shell cracks after years, only that one piece is replaced rather than the whole tooth being crowned again.',
     },
     suitability: {
-      h2: 'When veneers are a good idea, and when not.',
-      check1: 'Healthy gums and no untreated decay on the teeth involved.',
-      check2: 'Enough of your own enamel left to bond to. With little remaining, a crown is often the better fit.',
-      check3: 'Nighttime clenching or grinding addressed beforehand, with a guard if needed.',
-      check4: 'Anyone wanting whiter teeth does it before shade selection, because a veneer\'s colour cannot be bleached afterwards.',
+      h2: 'Colour, shape and shine change. The tooth stays yours.',
+      check1: 'Inflammation-free gums and no untreated decay on the teeth concerned.',
+      check2: 'Enough natural enamel as a bonding base. If little is left, a crown is often the better choice.',
+      check3: 'Night-time clenching or grinding clarified beforehand and, if needed, managed with a splint.',
+      check4: 'Anyone who wants whiter teeth does so before the shade is chosen, because a veneer cannot be bleached later.',
     },
     ba: {
-      h2: 'Before and after.',
-      p: 'Real cases from our practice in Aachen, published with our patients\' kind permission.',
-      prev: 'Previous case',
-      next: 'Next case',
-      open: 'View case at full size',
-      close: 'Close',
-      img1Alt: 'Veneers before-and-after comparison, case 1',
-      img2Alt: 'Veneers before-and-after comparison, case 2',
-      img3Alt: 'Veneers before-and-after comparison, case 3',
-      img4Alt: 'Veneers before-and-after comparison, case 4',
-      img5Alt: 'Veneers before-and-after comparison, case 5',
-      img6Alt: 'Veneers before-and-after comparison, case 6',
-      img7Alt: 'Veneers before-and-after comparison, case 7',
+      eyebrow: 'Cases from the practice',
+      h2: 'Four ways to a smile.',
+      p: 'Real cases from our practice in Aachen, published with the patients\' consent. Every case is different; the descriptions explain the type of treatment, not a promise.',
+      more: 'Read more', all: 'See all seven cases →',
+      prev: 'Previous case', next: 'Next case', open: 'View case enlarged', close: 'Close',
+      img1Alt: 'Veneers before-and-after comparison, case 1', img2Alt: 'Veneers before-and-after comparison, case 2', img3Alt: 'Veneers before-and-after comparison, case 3', img4Alt: 'Veneers before-and-after comparison, case 4', img5Alt: 'Veneers before-and-after comparison, case 5', img6Alt: 'Veneers before-and-after comparison, case 6', img7Alt: 'Veneers before-and-after comparison, case 7',
     },
     consult: {
-      h2: 'Start with the scan, not the drill.',
-      p: 'In a thorough first appointment we look at photographs and a digital scan together and talk honestly about whether veneers are the right tool for what you\'d like to change, or whether another treatment fits better.',
-      btnBook: 'Book appointment',
+      h2: 'A scan first. Preparation only with your yes.',
+      btnBook: 'Book a consultation',
       callAria: 'Call: 0241 31202',
     },
     hint: 'Scroll',
@@ -1961,19 +2015,30 @@ const I18N = {
       'Ready for a professional review',
       'Ready when you are',
     ],
+
+    read: { eyebrow: 'What a veneer is', h2: 'Bonded onto the tooth, not anchored in the bone.' },
+    crownRead: { h3: 'Veneer or crown?' },
+    suitRead: { h3: 'When veneers are the right choice' },
+    matRead: { eyebrow: 'Two materials', h2: 'Ceramic or composite.' },
+    mat: {
+      r1: 'Durability', r1a: 'Often 15 years and more with good care', r1b: 'Shorter, but repairable in the practice at any time',
+      r2: 'Colour', r2a: 'Stain-resistant, does not change', r2b: 'Can darken with coffee, tea and red wine',
+      r3: 'Look', r3a: 'Translucent like enamel, looks alive', r3b: 'Good, but flatter; shaped directly on the tooth',
+      r4: 'Appointments', r4a: 'Two to three, the lab works in between', r4b: 'Often in a single session',
+      r5: 'Cost', r5a: 'Higher, lab included', r5b: 'Considerably lower',
+    },
+    case1: { k: 'Case 1 · Gap and edges', h: 'A closed gap, a calm edge.', p: 'Worn incisal edges and a small gap between the front teeth. Ceramic shells on the visible front teeth close the gap and give the edge an even line again.', more: 'For gaps and worn edges a veneer is often the gentlest solution: the tooth itself is barely changed, the shell takes over length and contour. The bite is checked beforehand so the new edge is not overloaded when biting. Anyone who grinds at night gets a splint as well.' },
+    case2: { k: 'Case 2 · Colour and shape', h: 'Lighter and more even, without looking painted on.', p: 'Uneven tooth colour and slightly different shapes in the visible area. The shells bring colour and proportion into one line; the shade was chosen in daylight against the neighbouring teeth beforehand.', more: 'Ceramic lets light through like enamel, which is why the result does not look painted on. The colour is fixed before preparation and cannot be bleached later; anyone who wants lighter teeth whitens first and then chooses the shade of the shells.' },
+    case3: { k: 'Case 3 · Alignment', h: 'Straighter in appearance, without braces.', p: 'Slightly rotated front teeth of differing length. The shells even out the fronts visually; the roots stay where they are.', more: 'For mild misalignment veneers can replace braces, for stronger ones they cannot: too much tooth would be sacrificed. That is exactly what we check on the digital scan before anything is prepared, and we say so openly if braces or aligners are the better means.' },
+    case4: { k: 'Case 4 · The whole picture', h: 'Six fronts as one picture.', p: 'Several small deviations at once: colour, edge line, width. Six shells from canine to canine so the smile works as a whole and no single tooth stands out.', more: 'Why six and not two? Because the eye reads a smile as a surface. If only the two central teeth are treated, the neighbours stand out afterwards. From canine to canine a continuous line emerges; which teeth belong to it is decided by the smile line in the consultation.' },
     kosten: {
-      eyebrow: 'Cost',
+      eyebrow: 'Costs',
       h2: 'What veneers cost, and what it depends on.',
-      p1: 'Veneers are a private cosmetic service. They are billed under the German dental fee schedule (GOZ), plus the laboratory cost of making the shells. Statutory insurers do not contribute; private top-up plans do, depending on your policy.',
-      p2: 'So we only quote a fixed figure once we have seen your teeth. Three things decide the total:',
-      f1k: 'Material', f1v: 'Ceramic lasts longer and keeps its colour; composite is cheaper and can be repaired in the practice.',
-      f2k: 'Number', f2v: 'A single tooth after an accident, or six front teeth for a closed, even smile.',
-      f3k: 'Preparation', f3v: 'Whether gums, bite or tooth position need treating first.',
-      promiseH: 'How you get your price',
-      s1k: 'Consultation and scan', s1v: 'We look at photographs and the digital scan of your teeth together.',
-      s2k: 'Written treatment and cost plan', s2v: 'Item by item, before anything is prepared. Suitable for submitting to your insurer.',
-      s3k: 'You decide at your own pace', s3v: 'You take the plan home. We discuss payment options in the same conversation.',
-      btn: 'Book a consultation',
+      p1: 'Veneers are a cosmetic private service. They are billed under the German fee scale for dentists (GOZ), plus the laboratory costs for making the shells. Statutory insurers do not contribute; private supplementary insurance depends on the plan.',
+      p2: 'The price per tooth depends mostly on the material, the total on the number of teeth. We only name a fixed price once we have seen your teeth; then in writing, item by item, in the treatment and cost plan. You take it home and can submit it to your insurer.',
+      d1k: 'Consultation with scan', d1v: 'Examination, photos, digital scan, discussion. Billed to your health insurer as a routine check-up.',
+      d2k: 'Treatment and cost plan', d2v: 'In writing, before the first preparation. Valid as long as the findings do not change.',
+      d3k: 'Instalments', d3v: 'On request via a billing partner. Discussed in the same conversation.',
     },
     doctor: {
       eyebrow: 'Your dentist',
@@ -2019,11 +2084,11 @@ const I18N = {
       reviewsNote: 'We show no hand-picked quotes here. All reviews come from Google and are published there unedited.',
     },
     bk: {
-      quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Pick a day and the open times appear here.', taken: 'Someone booked this time in the meantime. Please pick another one.',
+      quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Tap a day on the left. The free times for your scan appointment appear on the right.', taken: 'Someone booked this time in the meantime. Please pick another one.',
       eyebrow: 'Appointment',
-      h2: 'Book your consultation right here.',
-      p: 'Free slots in real time. Pick a day and a time, enter your details, done. The confirmation arrives straight away by email.',
-      fact1: 'Consultation with a digital scan, nothing is prepared',
+      h2: 'Your appointment for the scan.',
+      p: 'About 60 minutes: photos, digital scan, an honest conversation. Nothing is prepared that day. The calendar shows what is genuinely free at the practice.',
+      fact1: 'Digital scan instead of an impression, nothing is prepared',
       fact2: 'Written cost plan, decide afterwards at your own pace',
       fact3: 'Cancel any time via the link in the confirmation',
       unavailable: 'The slot overview is not reachable right now.', unavailableLink: 'Call us: 0241 31202',
@@ -2239,7 +2304,7 @@ function resize() {
 // The gauge's magnification is a CSS token that changes per breakpoint; the
 // label is read back from it so "20-fach" can never be shown over 12x bars.
 function updateGaugeMag() {
-  const g = document.querySelector('.gauge'), el = document.getElementById('gaugeMag');
+  const g = document.querySelector('.gauge'), el = document.getElementById('gaugeMag'); if (!g || !el) return;
   if (!g || !el) return;
   const n = Math.round(parseFloat(getComputedStyle(g).getPropertyValue('--mag')) || 20);
   el.textContent = I18N[currentLang].hero.gaugeMag(n);
@@ -2382,6 +2447,17 @@ addEventListener('scroll', readScroll, { passive: true });
 addEventListener('resize', resize);
 applyLang(currentLang);
 splitHeadlines();
+
+// ===== Steps rail: five stations you swipe through; a dot per station =====
+(function () {
+  const rail = document.getElementById('stepsRail'); if (!rail) return;
+  const items = Array.from(rail.children);
+  const dots = document.createElement('div'); dots.className = 'stepDots railDots'; dots.setAttribute('aria-hidden', 'true');
+  items.forEach((_, i) => { const d = document.createElement('span'); d.className = 'stepDot' + (i === 0 ? ' on' : ''); dots.appendChild(d); });
+  rail.after(dots);
+  const sync = () => { const i = Math.round(rail.scrollLeft / Math.max(1, items[0].offsetWidth + 16)); dots.querySelectorAll('.stepDot').forEach((d, k) => d.classList.toggle('on', k === Math.min(i, items.length - 1))); };
+  rail.addEventListener('scroll', sync, { passive: true });
+})();
 // Section reveal: once, on first arrival, then the section is simply there.
 {
   const targets = [...document.querySelectorAll('.block:not(:first-child)'), document.getElementById('beforeAfter'), ...document.querySelectorAll('.band')].filter(Boolean);
@@ -2397,6 +2473,7 @@ splitHeadlines();
 
 // Flip cards. One handler per card; the two faces are toggled inert so only
 // the visible face can receive focus or clicks.
+// flip cards were replaced by the material table
 document.querySelectorAll('.flip').forEach((card) => {
   const front = card.querySelector('.flipFront'), back = card.querySelector('.flipBack');
   const set = (flipped) => {
@@ -2417,13 +2494,13 @@ const baStageEl = document.getElementById('baStage');
 const baDotsEl = document.getElementById('baDots');
 const baCountEl = document.getElementById('baCount');
 let baIdx = 0;
-const baDots = baImgs.map((_, i) => {
+const baDots = baDotsEl ? baImgs.map((_, i) => {
   const d = document.createElement('button');
   d.type = 'button'; d.className = 'stepDot';
   d.addEventListener('click', () => baSet(i));
   baDotsEl.appendChild(d);
   return d;
-});
+}) : [];
 function baSet(i) {
   baIdx = (i + baImgs.length) % baImgs.length;
   baImgs.forEach((im, k) => im.classList.toggle('active', k === baIdx));
@@ -2432,10 +2509,9 @@ function baSet(i) {
   const cur = baImgs[baIdx];
   if (cur.complete && cur.naturalWidth) fit(cur); else cur.addEventListener('load', () => { if (baImgs[baIdx] === cur) fit(cur); }, { once: true });
   baDots.forEach((d, k) => { d.classList.toggle('on', k === baIdx); d.setAttribute('aria-pressed', String(k === baIdx)); });
-  baCountEl.textContent = `${baIdx + 1} / ${baImgs.length}`;
+  if (baCountEl) baCountEl.textContent = `${baIdx + 1} / ${baImgs.length}`;
 }
-document.getElementById('baPrev').addEventListener('click', () => baSet(baIdx - 1));
-document.getElementById('baNext').addEventListener('click', () => baSet(baIdx + 1));
+// (the swiper controls were replaced by case cards; the lightbox keeps its own arrows)
 baSet(0);
 // Lightbox: the hero tiles and the viewer's photo open the active case
 // full screen; arrows, dots, swipe and the keyboard move between cases.
@@ -2489,10 +2565,10 @@ document.addEventListener('keydown', (e) => {
     if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) lbShow(lbIdx + (dx < 0 ? 1 : -1));
   }, { passive: true }); }
-document.querySelectorAll('#heroCases .heroCase').forEach((btn) => {
+document.querySelectorAll('.caseFig[data-case]').forEach((btn) => {
   btn.addEventListener('click', () => { const i = Number(btn.dataset.case) || 0; baSet(i); lbOpen(i, btn); });
 });
-document.getElementById('baStage').addEventListener('click', () => lbOpen(baIdx));
+document.getElementById('casesAll').addEventListener('click', (e) => { e.preventDefault(); lbOpen(0); });
 
 resize(); readScroll(); frame();
 </script>
