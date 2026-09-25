@@ -301,11 +301,7 @@
        ~165px measures - three words a line, and German compounds make that
        worse. The break comes from the card bleeding off the left edge, not
        from columns the width cannot carry. */
-    #crown { background: var(--card-cool); border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      margin-left: calc(-1 * clamp(28px, 5vw, 88px));
-      padding: clamp(44px, 6vh, 76px) clamp(30px, 3vw, 52px)
-               clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px); }
+    /* #crown used to sit on a tinted, bordered card; it is plain paper like the other beats now. */
     #crown h2 { max-width: 18ch; }
     #crown p:last-of-type { margin-bottom: 0; }
 
@@ -455,8 +451,8 @@
     -webkit-mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%);
             mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%); }
   /* contrast pocket sits between the grid and the canvas (the canvas is alpha) */
-  .stage3d { background: radial-gradient(36% 46% at var(--cx) var(--cy),
-      rgba(143, 169, 196, .30), rgba(180, 199, 219, .16) 52%, transparent 78%); }
+  .stage3d { background: radial-gradient(34% 40% at var(--cx) var(--cy),
+      rgba(30, 25, 22, .07), rgba(30, 25, 22, .03) 55%, transparent 76%); }
   .stage3d { position: absolute; inset: 0; transition: opacity .5s ease; }
   canvas#scene { display: block; width: 100%; height: 100%; }
   .caption { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center;
@@ -470,7 +466,7 @@
     font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft);
     transition: opacity .4s ease; }
 
-  .beforeAfter { border-top: 1px solid var(--line); padding: 104px clamp(28px, 5vw, 88px) 88px; }
+  .beforeAfter { padding: clamp(64px, 8vh, 96px) clamp(28px, 5vw, 88px) clamp(56px, 7vh, 80px); }
   .beforeAfter .inner { max-width: 64rem; margin: 0 auto; text-align: center; }
   .beforeAfter .eyebrow { text-align: center; }
   .beforeAfter h2 { text-align: center; }
@@ -675,7 +671,7 @@
      LEFT-aligned on a 64rem measure: this is reference material a patient
      reads, not a gallery. Each band gets its own inner shape so the four do
      not read as one repeated card. */
-  .band { border-top: 1px solid var(--line); padding: clamp(72px, 9vh, 112px) clamp(28px, 5vw, 88px); }
+  .band { padding: clamp(72px, 9vh, 112px) clamp(28px, 5vw, 88px); }
   .band .inner { max-width: 64rem; margin: 0 auto; }
   .band .eyebrow { margin-bottom: 14px; }
   .band h2 { max-width: 22ch; }
@@ -825,7 +821,7 @@
      A small, quiet tool inside a brand page. Compact controls, hairlines,
      one accent, 44px touch targets. Two working steps (slot, details) and a
      confirmation. Talks to the practice's booking API; stores nothing. */
-  .band--buchen { background: var(--card-cool); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .band--buchen { background: var(--card-cool); }
   .band--buchen .inner { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
   .band--buchen .eyebrow { margin-bottom: 12px; }
   .band--buchen h2 { max-width: 16ch; }
@@ -1115,15 +1111,15 @@
   /* ===== Cases: four studies ===== */
   .beforeAfter .inner { max-width: 68rem; }
   .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px); margin-top: clamp(28px, 4vw, 44px); }
-  .caseCard { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
+  .caseCard { display: grid; grid-template-columns: 168px minmax(0, 1fr); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
   .caseFig { position: relative; display: block; padding: 0; border: 0; background: var(--paper-2); cursor: zoom-in; }
-  .caseFig img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .caseFig img { display: block; width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; }
   .caseZoom { position: absolute; right: 12px; bottom: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(30, 25, 22, .62) center / 16px no-repeat
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5M11 8v6M8 11h6'/></svg>"); }
-  .caseBody { padding: 20px 22px 18px; }
+  .caseBody { padding: 18px 20px 16px; text-align: left; }
   .caseKicker { margin: 0 0 6px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
-  .caseBody h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 21px; line-height: 1.2; margin: 0 0 10px; }
-  .caseBody > p { margin: 0 0 12px; font-size: 15.5px; line-height: 1.55; }
+  .caseBody h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 19px; line-height: 1.2; margin: 0 0 10px; }
+  .caseBody > p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
   .caseMore summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 600; color: var(--accent); min-height: 40px; }
   .caseMore summary::-webkit-details-marker { display: none; }
   .caseMore summary::after { content: '+'; font-size: 18px; line-height: 1; }
@@ -1231,9 +1227,22 @@
   .mapPin i, .mapPin::before, .mapPin::after { background-color: var(--sec); border-color: var(--sec); }
   .mapPin::before, .mapPin::after { background: none; }
   .faq summary::after { border-color: var(--sec-line); }
-  .caseCard { border-color: var(--sec-line); }
   .gauge .slab i { background: var(--sec); }
   .gauge .slab.is-veneer i { background: var(--accent); }
+  /* ===== Cases on dark ground: the one deep band between the paper sections ===== */
+  .beforeAfter { background: var(--footer-bg); color: var(--footer-soft);
+    --ink: var(--footer-ink); --ink-soft: var(--footer-soft); --line: rgba(238, 240, 236, .14); --accent: #e6a98b; --accent-hover: #f3d3c2; }
+  .beforeAfter h2 { color: var(--footer-ink); }
+  .beforeAfter .eyebrow { color: #b9c4a9; }
+  .beforeAfter p.lede { color: var(--footer-soft); }
+  .beforeAfter .caseCard { background: rgba(255, 255, 255, .045); border-color: rgba(238, 240, 236, .12); }
+  .beforeAfter .caseFig { background: rgba(255, 255, 255, .04); }
+  .beforeAfter .caseKicker { color: #b9c4a9; }
+  .beforeAfter .caseBody h3 { color: var(--footer-ink); }
+  .beforeAfter .caseBody > p { color: #e6e1d8; }
+  .beforeAfter .caseMore p { color: var(--footer-soft); }
+  .beforeAfter .caseMore summary, .beforeAfter .casesAll a { color: #e6a98b; }
+  .beforeAfter .casesAll { color: var(--footer-soft); }
   /* ===== Praxis grid: override the old three-column rule ===== */
   .band--praxis .inner.praxisGrid { display: grid; grid-template-columns: minmax(280px, 420px) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; max-width: 68rem; }
   .praxisText { max-width: 34rem; }
@@ -1430,7 +1439,7 @@
 <section class="beforeAfter" id="beforeAfter">
   <div class="inner">
     <p class="eyebrow" data-i18n="ba.eyebrow">Fälle aus der Praxis</p>
-    <h2 data-i18n="ba.h2">Vier Wege zu einem Lächeln.</h2>
+    <h2 data-i18n="ba.h2">Vier Fälle, vier Ausgangslagen.</h2>
     <p class="lede" data-i18n="ba.p">Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten. Jeder Fall ist anders; die Beschreibungen erklären die Behandlungsart, nicht ein Versprechen.</p>
     <div class="cases">
       <article class="caseCard">
@@ -1856,7 +1865,7 @@ const I18N = {
     },
     ba: {
       eyebrow: 'Fälle aus der Praxis',
-      h2: 'Vier Wege zu einem Lächeln.',
+      h2: 'Vier Fälle, vier Ausgangslagen.',
       p: 'Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten. Jeder Fall ist anders; die Beschreibungen erklären die Behandlungsart, nicht ein Versprechen.',
       more: 'Mehr lesen', all: 'Alle sieben Fälle ansehen →',
       prev: 'Vorheriger Fall', next: 'Nächster Fall', open: 'Fall vergrößert ansehen', close: 'Schließen',
@@ -2045,7 +2054,7 @@ const I18N = {
     },
     ba: {
       eyebrow: 'Cases from the practice',
-      h2: 'Four ways to a smile.',
+      h2: 'Four cases, four starting points.',
       p: 'Real cases from our practice in Aachen, published with the patients\' consent. Every case is different; the descriptions explain the type of treatment, not a promise.',
       more: 'Read more', all: 'See all seven cases →',
       prev: 'Previous case', next: 'Next case', open: 'View case enlarged', close: 'Close',
@@ -2246,7 +2255,12 @@ function applyLang(lang) {
 }
 
 window.I18N = I18N;
-langToggle.addEventListener('click', () => { location.href = (currentLang === 'de' ? '/en/' : '/') + location.hash; });
+langToggle.addEventListener('click', () => {
+  const next = currentLang === 'de' ? 'en' : 'de';
+  applyLang(next);
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', 'https://veneers-aachen.de' + (next === 'en' ? '/en/' : '/'));
+  history.replaceState(null, '', (next === 'en' ? '/en/' : '/') + location.hash);
+});
 
 document.getElementById('footYear').textContent = new Date().getFullYear();
 
