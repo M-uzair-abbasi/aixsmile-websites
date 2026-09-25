@@ -1071,7 +1071,8 @@
         setTimeout(function () { el.remove(); }, 500);
       }, wait);
     }
-    if (document.readyState === 'complete') leave(); else window.addEventListener('load', leave, { once: true });
+    var onLoad = function () { leave(false); }; // never pass the Event in as `force`
+    if (document.readyState === 'complete') onLoad(); else window.addEventListener('load', onLoad, { once: true });
     setTimeout(function () { leave(true); }, 6500); // failsafe: lift at once, whatever the loop is doing
   })();
 </script>
