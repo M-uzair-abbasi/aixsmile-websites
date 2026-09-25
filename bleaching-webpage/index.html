@@ -710,6 +710,80 @@
     .heroCase img { border-radius: 5px; }
     .heroCaseText { gap: 0; font-size: 12px; line-height: 1.3; }
   }
+  /* ===== Phones: one section per screen, roughly ===== */
+  @media (max-width: 900px) {
+    body { font-size: 16px; }
+    .section { padding: 40px 0; }
+    .section--tight { padding: 32px 0; }
+    h2 { font-size: clamp(25px, 6.6vw, 31px); margin-bottom: 12px; }
+    .lede { font-size: 15.5px; }
+    .sectionHead { margin-bottom: 18px; }
+    .eyebrow { margin-bottom: 12px; font-size: 13px; }
+    /* hero */
+    .heroInner { gap: 18px; padding-top: calc(var(--hdr) + 18px); padding-bottom: 24px; }
+    .hero h1 { font-size: clamp(32px, 8.6vw, 40px); margin-bottom: 10px; }
+    .lead { font-size: 16px; }
+    .trustRow { margin-top: 14px; padding-top: 12px; gap: 4px 12px; font-size: 12.5px; }
+    /* cases: both side by side, half the height */
+    .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .case { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .case figcaption { font-size: 13px; line-height: 1.4; }
+    .case figcaption b { font-size: 16px; margin-bottom: 2px; }
+    .caseTag { padding: 3px 7px; font-size: 11px; left: 8px; }
+    .caseTag--before { top: 8px; } .caseTag--after { top: calc(var(--split) + 8px); }
+    .caseNote { margin-top: 8px; font-size: 12.5px; }
+    /* measuring */
+    .measure { gap: 14px; }
+    .measurePhoto .frame--tall { aspect-ratio: 16 / 9; }
+    .shadeCard { padding: 16px 14px 14px; }
+    .shadeCard h2 { font-size: 18px; }
+    .shadeCard .scaleIntro { margin-bottom: 12px; font-size: 14px; }
+    .tab { font-size: 11px; gap: 5px; }
+    .scaleNote, .scaleAxis { font-size: 12px; }
+    .stepStrip { margin-top: 18px; }
+    .stepStripLabels { font-size: 15px; margin-top: 6px; }
+    .stepStripNote { font-size: 13px; margin-top: 8px; }
+    /* costs */
+    .band--kosten .inner { row-gap: 0; }
+    .band--kosten p { font-size: 15.5px; }
+    .factors li { padding: 9px 0; font-size: 14.5px; }
+    .promise { margin-top: 16px; padding: 16px 14px 4px; }
+    .promise h3 { font-size: 18px; margin-bottom: 6px; }
+    .promise li { padding: 9px 0; font-size: 14.5px; }
+    /* booking */
+    .band--buchen .inner { gap: 14px; }
+    .band--buchen .intro p { font-size: 15.5px; margin-bottom: 8px; }
+    .introFacts { display: none; }
+    .bk { min-height: 0; }
+    /* process, routes, when */
+    .stepsHead { gap: 12px; margin-bottom: 14px; }
+    .frame--land { aspect-ratio: 21 / 9; }
+    .steps4 li { padding: 12px 0 14px; }
+    .steps4 h3 { font-size: 16px; margin-bottom: 4px; }
+    .steps4 p, .whenList p, .route p:last-child { font-size: 13.5px; line-height: 1.45; }
+    .steps4 li { grid-template-columns: 22px minmax(0, 1fr); }
+    .stepNum { font-size: 17px; }
+    .frame--route { aspect-ratio: 16 / 10; margin-bottom: 8px; }
+    .route h3 { font-size: 17px; margin-bottom: 4px; }
+    .whenCols { gap: 12px; }
+    .whenList li { padding: 9px 0; gap: 6px; }
+    .whenList h4 { font-size: 15px; }
+    .frame--thumb { aspect-ratio: 21 / 9; }
+    /* dentist, faq, practice */
+    .band--doctor .inner { grid-template-columns: 88px minmax(0, 1fr); gap: 12px; }
+    .band--doctor h2 { font-size: 22px; }
+    .band--doctor .inner > div > p { font-size: 14.5px; margin-bottom: 10px; }
+    .faqAside { font-size: 15px; }
+    .faq summary { font-size: 16px; padding: 12px 0; gap: 10px; }
+    .faq summary::after { width: 28px; height: 28px; }
+    .faq details p { font-size: 15px; margin: 0 0 14px; }
+    .mapTile { aspect-ratio: 16 / 9; }
+    .praxisCols { gap: 12px; }
+    .praxisCol { padding-top: 12px; }
+    .praxisCol p { font-size: 14.5px; margin-bottom: 8px; }
+    .praxisSoft { font-size: 13.5px; }
+    footer { padding: 36px var(--gutter) 28px; font-size: 13px; }
+  }
 </style>
 </head>
 <body>
