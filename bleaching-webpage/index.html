@@ -1317,9 +1317,19 @@
     var el = document.getElementById('splash'); if (!el) return;
     var t0 = performance.now(), done = false;
     var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // The tooth's loop runs 3.4 s. Lift at the end of a loop, never mid-whitening,
+    // and only after the first loop has played in full.
+    var LOOP = 3400, LIFT_AT = 0.9; // the tooth begins to fade at 90% of the loop
     function leave() {
       if (done) return; done = true;
-      var wait = Math.max(0, (reduce ? 200 : 700) - (performance.now() - t0));
+      var elapsed = performance.now() - t0, wait;
+      if (reduce) wait = Math.max(0, 200 - elapsed);
+      else {
+        var loop = Math.max(1, Math.ceil((elapsed + 50) / LOOP)); // the loop we are in, 1-based
+        var lift = (loop - 1) * LOOP + LOOP * LIFT_AT;
+        if (lift < elapsed) lift += LOOP;
+        wait = lift - elapsed;
+      }
       setTimeout(function () {
         el.classList.add('is-leaving');
         document.documentElement.classList.add('is-revealed');
@@ -1327,7 +1337,7 @@
       }, wait);
     }
     if (document.readyState === 'complete') leave(); else window.addEventListener('load', leave, { once: true });
-    setTimeout(leave, 4000);
+    setTimeout(leave, 6500);
   })();
 </script>
 <script type="module">
