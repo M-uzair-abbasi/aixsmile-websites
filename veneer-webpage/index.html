@@ -1165,15 +1165,25 @@
     .matRow { grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding: 12px 0; font-size: 13px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
     .matRow--head { font-size: 14px; }
     .matRow [role="rowheader"] { font-size: 12.5px; }
-    .cases { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-    .caseCard { grid-template-columns: 116px minmax(0, 1fr); grid-template-rows: none; }
-    .caseFig img { aspect-ratio: 1; height: 100%; }
+    /* phones: the bleaching layout - two cases side by side, photo on top,
+       caption below, no card chrome; "Mehr lesen" opens under the caption */
+    .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; margin-top: 22px; }
+    .caseCard { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; border: 0; border-radius: 0; background: none; align-content: start; }
+    .beforeAfter .caseCard { background: none; border: 0; }
+    .caseFig { border-radius: 12px; overflow: hidden; }
+    .caseFig img { aspect-ratio: 1; height: auto; }
     .caseZoom { width: 26px; height: 26px; right: 6px; bottom: 6px; background-size: 13px; }
-    .caseBody { padding: 12px 14px; }
-    .caseBody h3 { font-size: 16px; margin-bottom: 6px; }
-    .caseBody > p { font-size: 13.5px; line-height: 1.45; margin-bottom: 6px; }
-    .caseMore p { font-size: 13.5px; }
-    .caseKicker { font-size: 11px; margin-bottom: 4px; }
+    .caseBody { padding: 10px 2px 0; }
+    .caseKicker { font-size: 10.5px; letter-spacing: .1em; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .caseBody h3 { font-size: 15px; line-height: 1.25; margin-bottom: 5px; }
+    /* the short paragraph moves into "Mehr lesen" on phones; the title carries the cell */
+    .caseBody > p { display: none; }
+    .caseMore[open] summary { margin-bottom: 2px; }
+    .caseMore summary { font-size: 13px; min-height: 32px; }
+    .caseMore p { font-size: 13px; line-height: 1.45; }
+    .caseMore[open] ~ *, .caseCard.is-open .caseBody > p { display: block; }
+    .beforeAfter p.lede { font-size: 14px; }
+    .casesAll { margin-top: 18px; font-size: 14px; }
     .kostenFacts dt { font-size: 15px; } .kostenFacts dd { font-size: 14px; }
   }
 
@@ -2519,6 +2529,10 @@ splitHeadlines();
   }, { threshold: 0.45 });
   beats.forEach((b) => io.observe(b));
 })();
+
+// Case cards: mirror the details state on the card so phones can show the short
+// paragraph only once "Mehr lesen" is open.
+document.querySelectorAll('.caseMore').forEach((d) => d.addEventListener('toggle', () => d.closest('.caseCard')?.classList.toggle('is-open', d.open)));
 
 // Section reveal: once, on first arrival, then the section is simply there.
 {
