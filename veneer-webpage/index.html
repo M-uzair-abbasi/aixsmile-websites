@@ -204,16 +204,18 @@
   /* left: scrolling copy */
   .copy { padding: 0 clamp(28px, 5vw, 88px); }
   /* ambient pools of warm light, alternating left/right down the page */
-  .block { position: relative; }
+  .block { position: relative; height: 100vh; }
   /* the ambient light pools behind each block were removed with the one-line beats (2026-09-25) */
-  /* keep copy above the glow: positioned children paint after the pseudo-element */
-  .block > * { position: relative; }
 
   /* Sections deliberately do NOT share one vertical rhythm - a page where every
      section is exactly one viewport tall metronomes, and that regularity is
      what reads as generated. The dense ones breathe, the short ones sit closer. */
-  .block { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 96px 0; max-width: 30rem; }
+  /* the pinned copy layer: one viewport tall, pulled back up over the tracks */
+  .beats { position: sticky; top: 0; height: 100vh; z-index: 2; pointer-events: none; }
+  .beats + .block { margin-top: -100vh; }  /* the negative margin sits on the track, not the sticky layer, so the layer is confined to the copy column */
+  .beat { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+    padding: 96px 0; max-width: 30rem; opacity: 0; pointer-events: none; will-change: opacity, transform; }
+  .beat.is-live { pointer-events: auto; }
   /* One orchestrated entrance, on the hero, once. Every other section is
      simply there when you arrive at it.
      Fading every child of every section on intersection is the tell: the page
@@ -236,12 +238,12 @@
     #curtain::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); opacity: .6; }
     .stage3d { animation: stageIn 1.4s cubic-bezier(.2,.7,.2,1) .45s backwards; }
     .stagewrap::before { animation: fadeIn 1.6s ease .7s backwards; }
-    .block:first-child > * { opacity: 0; transform: translateY(22px);
+    .beat:first-child > * { opacity: 0; transform: translateY(22px);
       animation: riseIn .9s cubic-bezier(.2,.7,.2,1) .7s forwards; }
-    .block:first-child > :nth-child(2) { animation-delay: .8s; }
-    .block:first-child > :nth-child(3) { animation-delay: 1.15s; }
-    .block:first-child > :nth-child(4) { animation-delay: 1.3s; }
-    .block:first-child .w > span { animation-delay: calc(.85s + var(--i) * 60ms); }
+    .beat:first-child > :nth-child(2) { animation-delay: .8s; }
+    .beat:first-child > :nth-child(3) { animation-delay: 1.15s; }
+    .beat:first-child > :nth-child(4) { animation-delay: 1.3s; }
+    .beat:first-child .w > span { animation-delay: calc(.85s + var(--i) * 60ms); }
     .slab i { transform-origin: left center; animation: slabGrow .9s cubic-bezier(.2,.7,.2,1) both; }
     .slab:nth-child(1) i { animation-delay: 1.75s; }
     .slab:nth-child(2) i { animation-delay: 1.9s; }
@@ -258,7 +260,7 @@
   /* word masks: each word of a headline rises from behind its own line */
   .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
   .w > span { display: inline-block; transform: translateY(112%); }
-  .block:first-child .w > span, .in .w > span { animation: wordUp .75s cubic-bezier(.2,.7,.2,1) both; }
+  .beat:first-child .w > span, .in .w > span { animation: wordUp .75s cubic-bezier(.2,.7,.2,1) both; }
   .in .w > span { animation-delay: calc(var(--i) * 45ms); }
   html:not(.js) .w > span { transform: none; }
   @media (prefers-reduced-motion: reduce) { .w > span { transform: none; animation: none !important; } }
@@ -300,8 +302,8 @@
        worse. The break comes from the card bleeding off the left edge, not
        from columns the width cannot carry. */
     /* #crown used to sit on a tinted, bordered card; it is plain paper like the other beats now. */
-    #crown h2 { max-width: 18ch; }
-    #crown p:last-of-type { margin-bottom: 0; }
+    .beat--crown h2 { max-width: 18ch; }
+    .beat--crown p:last-of-type { margin-bottom: 0; }
 
     #material { min-height: 112vh; }
     #suitability { min-height: 86vh; }
@@ -530,15 +532,16 @@
        DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
        over the teeth instead, which is what made the copy unreadable and the
        model half-hidden. Short sections still fill one screen (min-height). */
-    .block { min-height: 100svh; justify-content: flex-end;
-      padding: 0 0 12svh; max-width: none; }
-    .block + .block { padding-top: 0; }
-    .block h2 { font-size: clamp(26px, 7.2vw, 34px); margin-bottom: 0; text-align: center; }
-    .block > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; text-align: center; }
-    .block .lead { font-size: 16px; margin: 10px auto 0; }
-    .block .eyebrow { text-align: center; margin-bottom: 12px; }
-    .block .cta { justify-content: center; }
-    .block:first-child h1 { font-size: clamp(32px, 9vw, 40px); text-align: center; }
+    .block { height: 100svh; }
+    .beats { height: 100svh; }
+    .beats + .block { margin-top: -100svh; }
+    .beat { justify-content: flex-end; padding: 0 0 12svh; max-width: none; }
+    .beat h2 { font-size: clamp(26px, 7.2vw, 34px); margin-bottom: 0; text-align: center; }
+    .beat > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; text-align: center; }
+    .beat .lead { font-size: 16px; margin: 10px auto 0; }
+    .beat .eyebrow { text-align: center; margin-bottom: 12px; }
+    .beat .cta { justify-content: center; }
+    .beat:first-child h1 { font-size: clamp(32px, 9vw, 40px); text-align: center; }
     .checks li { font-size: 14.5px; }
     .heroCasesRow { gap: 5px; }
     .gauge { margin-top: 12px; }
@@ -546,9 +549,9 @@
        behind the copy. Legibility comes from the text itself: every glyph
        carries a paper-coloured halo, so copy crossing the teeth on its way out
        stays readable, and body copy uses full ink instead of the muted tone. */
-    .block > :is(h1, h2, p, ul, ol, .eyebrow, .lead) {
+    .beat > :is(h1, h2, p, ul, ol, .eyebrow, .lead) {
       text-shadow: 0 0 1px var(--paper), 0 0 5px var(--paper), 0 0 12px var(--paper), 0 0 22px var(--paper); }
-    .block > p, .block > ul, .block > ol { color: var(--ink); }
+    .beat > p, .beat > ul, .beat > ol { color: var(--ink); }
     /* Paper rising from the bottom so copy over the stage keeps its contrast -
        the main site's equivalent is the inset-x-0 bottom-0 h-[38%] paper
        gradient layered over its stage. */
@@ -581,7 +584,7 @@
     .flipFront p:last-child { font-size: 13.5px; line-height: 1.4; }
     .flipFront .materialLead { margin-bottom: 5px; }
     .flipFront .materialName { margin-bottom: 4px; }
-    #material > p { margin-bottom: 9px; }
+    .beat--material > p { margin-bottom: 9px; }
     .materialNote { margin-top: 8px; }
     header.top { padding: 10px 18px; }
     .controls { gap: 8px; }
@@ -614,13 +617,11 @@
     .gaugeTitle { margin-bottom: 9px; font-size: 13px; }
     .gaugeNote { margin-top: 8px; font-size: 12px; }
     /* the hero carries the gauge; it can spend a little of the model's room */
-    .block:first-child { padding-top: 50svh; }
     .materials { gap: 12px; margin: 12px 0 0; }
     .materialName { font-size: 19px; margin: 0 0 5px; }
     .materialLead { font-size: 10px; margin: 0 0 6px; }
     .materialNote { margin-top: 10px; padding: 9px 11px; font-size: 12.5px; }
 
-    .block { padding: 50svh 0 6svh; }
   }
 
   /* Narrow phones (<=400px): the Material section carries the most words of
@@ -628,14 +629,12 @@
      Everything below trims leading and spacing only; no wording is cut, so the
      section still reads in full on one screen like it does on a laptop. */
   @media (max-width: 400px) {
-    .block { padding-bottom: 5svh; }
-    .block:first-child { padding-top: 50svh; }
-    .block:first-child p.lead { font-size: 14.5px; line-height: 1.46; }
+    .beat:first-child p.lead { font-size: 14.5px; line-height: 1.46; }
     h1 { font-size: 32px; }
     .gauge { --mag: 11mm; margin-top: 6px; padding-top: 10px; }
     p { margin: 0 0 9px; }
-    #material h2 { font-size: 20px; margin: 0 0 8px; }
-    #material > p { margin: 0 0 9px; }
+    .beat--material h2 { font-size: 20px; margin: 0 0 8px; }
+    .beat--material > p { margin: 0 0 9px; }
     .materials { gap: 7px; margin: 8px 0 0; }
     .materialName { font-size: 17px; margin: 0 0 3px; }
     .materialLead { font-size: 9.5px; margin: 0 0 4px; }
@@ -647,7 +646,6 @@
      <=400px width tier and wins where the two overlap. */
   @media (max-width: 560px) and (max-height: 720px) {
     /* Short phones give the model less room before the copy needs it. */
-    .block { padding: 50svh 0 5svh; }
     .gauge { --mag: 9mm; }
     body { font-size: 14.5px; line-height: 1.46; }
     h1 { font-size: 27px; margin: 0 0 11px; }
@@ -655,8 +653,8 @@
     p { margin: 0 0 10px; }
     p.lead { font-size: 15px; }
     .eyebrow { margin: 0 0 9px; }
-    #material h2 { font-size: 19px; margin: 0 0 9px; }
-    #material > p { margin: 0 0 9px; }
+    .beat--material h2 { font-size: 19px; margin: 0 0 9px; }
+    .beat--material > p { margin: 0 0 9px; }
     .materials { gap: 7px; margin: 8px 0 0; }
     .materialName { font-size: 17px; margin: 0 0 3px; }
     .materialLead { font-size: 9.5px; margin: 0 0 4px; }
@@ -1058,7 +1056,7 @@
   }
   /* the landing choreography waits behind the splash */
   html.js:not(.is-revealed) #curtain, html.js:not(.is-revealed) .stage3d, html.js:not(.is-revealed) .stagewrap::before,
-  html.js:not(.is-revealed) .block:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
+  html.js:not(.is-revealed) .beat:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
   html.js:not(.is-revealed) .gaugeNote i, html.js:not(.is-revealed) .hint { animation-play-state: paused; }
 
   /* the no-cookies chip: bottom left, five seconds, then it slides away */
@@ -1082,16 +1080,11 @@
 
   /* ===== Act 1: the scroll story. One statement per beat, nothing else. ===== */
   .block { max-width: 34rem; }
-  .block h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -.02em; }
-  /* each beat rises in once as it arrives; the hero has its own choreography */
-  .js .block:not(:first-child) > * { opacity: 0; filter: blur(10px); transform: none;
-    transition: opacity 1.2s cubic-bezier(.2,.7,.2,1), filter 1.2s cubic-bezier(.2,.7,.2,1); }
-  .js .block.is-on > * { opacity: 1; filter: blur(0); }
-  .js .block.is-on > :nth-child(2) { transition-delay: .2s; }
-  .js .block:not(:first-child):not(.is-on) > * { transition-duration: .5s; transition-delay: 0s; }
-  @media (prefers-reduced-motion: reduce) { .js .block:not(:first-child) > * { opacity: 1; filter: none; transition: none; } }
-  .block .lead { font-size: 18px; color: var(--ink-soft); }
-  .block:first-child .lead { max-width: 24rem; }
+  .beat h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -.02em; }
+  /* beat opacity and drift are written per frame from scroll progress (readScroll) */
+  html:not(.js) .beat { position: static; opacity: 1; }
+  .beat .lead { font-size: 18px; color: var(--ink-soft); }
+  .beat:first-child .lead { max-width: 24rem; }
 
   /* ===== Act 2: reading ===== */
   .band--read .inner, .band--material .inner { max-width: 68rem; }
@@ -1344,34 +1337,40 @@
 
 <div class="shell">
   <main class="copy">
-    <section class="block" data-anchor>
+    <!-- Act 1 copy: six beats in ONE pinned layer. Each beat fades in, holds and
+         dissolves as a function of scroll progress (readScroll); the empty .block
+         sections below are only the scroll tracks and camera anchors. -->
+    <div class="beats" id="beats">
+      <div class="beat">
       <p class="eyebrow" data-i18n="hero.eyebrow">Veneers in Aachen · AIXSMILE</p>
       <h1 data-i18n="hero.h1">Veneers in Aachen: <em>dünner</em> als ein Fingernagel.</h1>
       <p class="lead" data-i18n="hero.lead">Scrollen Sie, und sechs Schalen legen sich auf die Zähne.</p>
-    </section>
-
-    <section class="block" data-anchor>
+      </div>
+      <div class="beat">
       <h2 data-i18n="what.h2">Eine hauchdünne Keramikschale auf dem eigenen Zahn.</h2>
-    </section>
-
-    <section class="block" data-anchor id="material">
+      </div>
+      <div class="beat beat--material">
       <h2 data-i18n="material.h2">Keramik oder Composite. Ihr Zahn entscheidet mit.</h2>
-    </section>
-
-    <section class="block" data-anchor id="crown">
+      </div>
+      <div class="beat beat--crown">
       <h2 data-i18n="crown.h2">Sechs Schalen, Zahn für Zahn gesetzt.</h2>
-    </section>
-
-    <section class="block" data-anchor id="suitability">
+      </div>
+      <div class="beat beat--suitability">
       <h2 data-i18n="suitability.h2">Farbe, Form und Glanz ändern sich. Der Zahn bleibt Ihrer.</h2>
-    </section>
-
-    <section class="block" data-anchor id="consult">
+      </div>
+      <div class="beat beat--consult">
       <h2 data-i18n="consult.h2">Ein Scan zuerst. Geschliffen wird erst mit Ihrem Ja.</h2>
       <div class="cta">
         <a class="btn" href="#buchen" data-cta="book" data-i18n="consult.btnBook">Beratung buchen</a>
       </div>
-    </section>
+      </div>
+    </div>
+    <section class="block" data-anchor></section>
+    <section class="block" data-anchor></section>
+    <section class="block" data-anchor id="material"></section>
+    <section class="block" data-anchor id="crown"></section>
+    <section class="block" data-anchor id="suitability"></section>
+    <section class="block" data-anchor id="consult"></section>
   </main>
 
   <div class="stagewrap" id="stagewrap">
@@ -1749,6 +1748,7 @@
   </div>
 </footer>
 
+<script src="/js/lenis.min.js"></script>
 <script type="module">
 import * as THREE from 'three';
 import { buildVeneerModel } from '/js/veneer-model.js';
@@ -2234,7 +2234,7 @@ function splitWords(el) {
   walk(el);
 }
 let headlinesSplit = false;
-function splitHeadlines() { document.querySelectorAll('.block:first-child > h1, .beforeAfter h2, .band h2').forEach(splitWords); headlinesSplit = true; }
+function splitHeadlines() { document.querySelectorAll('.beat:first-child > h1, .beforeAfter h2, .band h2').forEach(splitWords); headlinesSplit = true; }
 
 function applyLang(lang) {
   currentLang = lang;
@@ -2333,8 +2333,39 @@ function anchorProgress() {
   return { i, f: Math.min(1, Math.max(0, f)) };
 }
 
+// ===== Story beats, scrubbed: opacity and a little drift are a pure function of
+// scroll position (s = anchor index + fraction), so the copy answers the finger
+// the way the model does. A beat rises over the last 40% of the approach, holds
+// around its anchor, and dissolves upward over the next 40%.
+const beatEls = Array.from(document.querySelectorAll('.beat'));
+const reduceBeats = window.matchMedia('(prefers-reduced-motion: reduce)');
+const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const DRIFT = 18;
+function driveBeats(s) {
+  const last = beatEls.length - 1;
+  // the closing beat dissolves as the story's last track leaves the screen
+  const lastBottom = anchors[last].getBoundingClientRect().bottom;
+  const endHold = Math.min(1, Math.max(0, (lastBottom - vpH * 0.5) / (vpH * 0.35)));
+  for (let k = 0; k <= last; k++) {
+    const d = s - k;
+    let o, y;
+    if (k === 0 && d <= 0) { o = 1; y = 0; }
+    else if (k === last && d >= 0) { const t = easeIO(1 - endHold); o = 1 - t; y = -DRIFT * t; }
+    else if (d < -0.62) { o = 0; y = DRIFT; }
+    else if (d < -0.2) { const t = easeIO((d + 0.62) / 0.42); o = t; y = DRIFT * (1 - t); }
+    else if (d <= 0.22) { o = 1; y = 0; }
+    else if (d < 0.64) { const t = easeIO((d - 0.22) / 0.42); o = 1 - t; y = -DRIFT * t; }
+    else { o = 0; y = -DRIFT; }
+    const el = beatEls[k];
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = reduceBeats.matches || y === 0 ? '' : `translate3d(0, ${y.toFixed(1)}px, 0)`;
+    el.classList.toggle('is-live', o > 0.6);
+  }
+}
+
 function readScroll() {
   const { i, f } = anchorProgress();
+  driveBeats(i + f);
   // Laptop: smoothstep - the camera rests while you read a section and moves in
   // the gap between sections. Phone: (near) linear - a phone is scrolled in
   // flicks, and a curve that parks at both ends of every section then moves
@@ -2520,15 +2551,6 @@ addEventListener('resize', resize);
 applyLang(currentLang);
 splitHeadlines();
 
-// ===== Story beats: a beat lights up when its block is the one on screen =====
-(function () {
-  const beats = Array.from(document.querySelectorAll('.block'));
-  if (!beats.length) return;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => en.target.classList.toggle('is-on', en.isIntersecting));
-  }, { threshold: 0.45 });
-  beats.forEach((b) => io.observe(b));
-})();
 
 // Case cards: mirror the details state on the card so phones can show the short
 // paragraph only once "Mehr lesen" is open.
@@ -2647,6 +2669,15 @@ document.querySelectorAll('.caseFig[data-case]').forEach((btn) => {
 document.getElementById('casesAll').addEventListener('click', (e) => { e.preventDefault(); lbOpen(0); });
 
 resize(); readScroll(); frame();
+
+// Smooth scrolling (Lenis, self-hosted) on desktop only. Phones keep native
+// touch scrolling; the story is scrubbed either way.
+if (window.Lenis && !journeyLift.matches && !reduceBeats.matches) {
+  const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, anchors: true });
+  const lraf = (t) => { lenis.raf(t); requestAnimationFrame(lraf); };
+  requestAnimationFrame(lraf);
+  window.lenis = lenis;
+}
 </script>
 <script>
 // ===== Embedded booking widget =====
