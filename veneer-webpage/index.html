@@ -2635,8 +2635,8 @@ resize(); readScroll(); frame();
     var timer = 0;
     function dismiss() { clearTimeout(timer); chip.classList.add('is-out'); setTimeout(function () { chip.hidden = true; }, 450); try { localStorage.setItem('aixsmileNoCookiesSeen', '1'); } catch (e) {} }
     function show() { chip.hidden = false; timer = setTimeout(dismiss, 5000); }
-    if (document.documentElement.classList.contains('is-revealed')) setTimeout(show, 800);
-    else addEventListener('aixsmile:revealed', function () { setTimeout(show, 800); }, { once: true });
+    var poll = setInterval(function () { if (document.documentElement.classList.contains('is-revealed')) { clearInterval(poll); setTimeout(show, 800); } }, 250);
+    setTimeout(function () { clearInterval(poll); if (chip.hidden && !chip.classList.contains('is-out')) show(); }, 12000);
     document.getElementById('cookieClose').addEventListener('click', dismiss);
     chip.addEventListener('mouseenter', function () { clearTimeout(timer); });
   })();
