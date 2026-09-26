@@ -1366,6 +1366,270 @@
   @media (prefers-reduced-motion: reduce) {
     .skipLink, .topNav a, .textLink, .veneerStateControls button { transition: none; }
   }
+
+  /* ===== Light editorial refinement ===== */
+  :root {
+    --paper: #f4f8f5;
+    --paper-2: #e7f0eb;
+    --card: #ffffff;
+    --foam: #dbe9e2;
+    --card-cool: #edf4f0;
+    --ink: #17362f;
+    --ink-soft: #58736b;
+    --ink-muted: #789087;
+    --line: rgba(23, 54, 47, .15);
+    --line-strong: rgba(23, 54, 47, .28);
+    --text: #405c53;
+    --accent: #c86d57;
+    --accent-hover: #a95343;
+    --accent-underline: rgba(200, 109, 87, .48);
+    --cta-hover: #dc8067;
+    --sec: #5d8376;
+    --sec-tint: #e5efea;
+    --sec-line: rgba(93, 131, 118, .3);
+    --footer-bg: #e7f0eb;
+    --footer-ink: #17362f;
+    --footer-soft: #58736b;
+  }
+  body {
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 8% 8%, rgba(200, 109, 87, .08), transparent 28rem),
+      linear-gradient(180deg, #f9fbf9 0%, var(--paper) 42%, #eef5f1 100%);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.54;
+  }
+  body::after { opacity: .016; mix-blend-mode: multiply; }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-hover); }
+  h1, h2, h3, h4, .btn, .brandWord, .proofBand__lead strong, .heroCaseFeature__caption strong {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-variation-settings: 'wght' 560;
+  }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  header.top {
+    background: rgba(249, 251, 249, .86);
+    border-bottom-color: var(--line);
+    box-shadow: 0 8px 30px rgba(23, 54, 47, .05);
+  }
+  .brand, .brandWord, .brandSwoosh { color: var(--ink); }
+  .brandTag, .brandSky { color: var(--accent); }
+  .topNav { color: var(--ink-soft); }
+  .topNav a:hover, .topNav a:focus-visible { color: var(--ink); }
+  .btn {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 12px 26px -18px rgba(200, 109, 87, .85);
+  }
+  .btn:hover, .btn:focus-visible { background: var(--cta-hover); border-color: var(--cta-hover); color: #fff; }
+  .btn.ghost { background: transparent; border-color: var(--line-strong); color: var(--ink); box-shadow: none; }
+  .btn.ghost:hover, .btn.ghost:focus-visible { background: var(--paper-2); border-color: var(--ink); color: var(--ink); }
+  .skipLink { background: var(--ink); color: var(--paper); }
+  #splash, #curtain { display: none !important; }
+  html.js:not(.is-revealed) #curtain, html.js:not(.is-revealed) .stage3d, html.js:not(.is-revealed) .stagewrap::before,
+  html.js:not(.is-revealed) .beat:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
+  html.js:not(.is-revealed) .gaugeNote i, html.js:not(.is-revealed) .hint { animation-play-state: running; }
+
+  .heroNew {
+    position: relative;
+    display: block;
+    max-width: none;
+    min-height: calc(100dvh - 72px);
+    padding: 0;
+    overflow: hidden;
+    background: var(--paper-2);
+  }
+  .heroNew__visual { min-height: inherit; }
+  .heroCaseFeature {
+    height: min(780px, calc(100dvh - 72px));
+    aspect-ratio: auto;
+    border-radius: 0 0 30px 30px;
+    background: var(--paper-2);
+    box-shadow: none;
+  }
+  .heroCaseFeature::after {
+    background:
+      linear-gradient(90deg, rgba(244, 248, 245, .98) 0%, rgba(244, 248, 245, .82) 27%, rgba(244, 248, 245, .10) 61%, transparent 78%),
+      linear-gradient(0deg, rgba(23, 54, 47, .25), transparent 34%);
+  }
+  .heroCaseFeature img { object-position: center center; filter: saturate(.82) contrast(.98); }
+  .heroNew__copy {
+    position: absolute;
+    z-index: 2;
+    left: clamp(18px, 6vw, 96px);
+    bottom: clamp(24px, 7vw, 88px);
+    max-width: 34rem;
+    padding: clamp(26px, 4vw, 46px);
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .89);
+    box-shadow: 0 28px 70px -38px rgba(23, 54, 47, .35);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .heroNew h1 {
+    max-width: 11ch;
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(50px, 5.2vw, 76px);
+    font-weight: 560;
+    line-height: .94;
+    letter-spacing: -.075em;
+  }
+  .heroNew__lead { max-width: 25rem; margin: 22px 0 0; color: var(--text); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.45; }
+  .heroNew__actions { gap: 16px; margin-top: 26px; }
+  .heroNew__note { display: none; }
+  .heroCaseFeature__caption { right: 24px; bottom: 24px; left: auto; width: min(22rem, 34%); border: 1px solid rgba(255, 255, 255, .55); border-radius: 14px; background: rgba(23, 54, 47, .84); color: #fff; }
+  .heroCaseFeature__caption span { color: #f0b09f; }
+  .proofBand { max-width: 1440px; padding: 22px clamp(18px, 5vw, 88px); border-color: var(--line); background: rgba(231, 240, 235, .72); }
+  .proofBand__lead strong { color: var(--ink); }
+  .proofBand__lead span, .proofBand__facts em { color: var(--ink-soft); }
+  .proofBand__facts b { background: rgba(200, 109, 87, .12); color: var(--accent); }
+
+  .visualRibbon { display: grid; grid-template-columns: 1.18fr .82fr 1fr; gap: 12px; align-items: start; padding: clamp(30px, 5vw, 62px) clamp(18px, 5vw, 88px) clamp(42px, 6vw, 84px); background: var(--paper); }
+  .visualRibbon figure { margin: 0; overflow: hidden; border-radius: 18px; background: var(--paper-2); box-shadow: 0 18px 40px -32px rgba(23, 54, 47, .6); }
+  .visualRibbon figure:nth-child(2) { margin-top: 36px; }
+  .visualRibbon figure:nth-child(1), .visualRibbon figure:nth-child(3) { aspect-ratio: 1.38 / 1; }
+  .visualRibbon figure:nth-child(2) { aspect-ratio: .92 / 1; }
+  .visualRibbon img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8); }
+  .visualRibbon figure:nth-child(1) img { object-position: center; }
+  .visualRibbon figure:nth-child(2) img { object-position: 58% center; }
+  .visualRibbon figure:nth-child(3) img { object-position: center; }
+
+  .veneerExplainer { grid-template-columns: minmax(280px, .68fr) minmax(0, 1.32fr); gap: clamp(34px, 5vw, 72px); max-width: none; padding: clamp(70px, 8vw, 112px) clamp(18px, 5vw, 88px); background: var(--paper-2); }
+  .veneerExplainer__intro { max-width: 30rem; }
+  .veneerExplainer h2 { max-width: 10ch; color: var(--ink); font-size: clamp(38px, 4.8vw, 70px); font-weight: 560; letter-spacing: -.07em; }
+  .veneerExplainer__intro > p:not(.eyebrow) { margin-top: 18px; color: var(--text); }
+  .veneerStateCopy { margin-top: 32px; border-top-color: var(--line-strong); }
+  .veneerStateCopy__label { color: var(--accent); }
+  .veneerStateCopy h3 { color: var(--ink); font-weight: 560; }
+  .veneerStateCopy p { color: var(--ink-soft); }
+  .veneerCanvasFrame { min-height: 520px; aspect-ratio: 1.35 / 1; border: 1px solid rgba(23, 54, 47, .12); border-radius: 24px; background: radial-gradient(circle at 50% 30%, #ffffff 0%, #eef5f1 57%, #dce9e2 100%); box-shadow: 0 28px 58px -38px rgba(23, 54, 47, .36); }
+  .veneerCanvasFrame::before { inset: 8% 13%; border-color: rgba(93, 131, 118, .2); }
+  #veneerScene { min-height: 520px; }
+  .veneerCanvasHint { color: rgba(23, 54, 47, .6); }
+  .veneerFallback { background: #eef5f1; }
+  .veneerFallback p { color: var(--ink-soft); }
+  .veneerStateControls button { border-color: var(--line); background: rgba(255, 255, 255, .62); color: var(--ink-soft); }
+  .veneerStateControls button:hover { border-color: rgba(200, 109, 87, .55); color: var(--ink); }
+  .veneerStateControls button[aria-selected="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+  .band { padding-block: clamp(62px, 7vw, 104px); }
+  .band .inner, .beforeAfter .inner { max-width: 1200px; }
+  .band--read, .band--kosten, .band--faq, .band--material, .band--praxis { background: var(--paper); }
+  .band--buchen, .band--doctor, .band--ablauf { background: var(--paper-2); }
+  .band h2, .beforeAfter h2 { max-width: 14ch; color: var(--ink); font-size: clamp(34px, 4.2vw, 60px); font-weight: 560; line-height: 1.01; letter-spacing: -.065em; }
+  .band .lede, .beforeAfter p.lede { max-width: 38rem; color: var(--text); }
+  .band .eyebrow, .beforeAfter .eyebrow { color: var(--accent); }
+  .readGrid { gap: clamp(26px, 5vw, 72px); }
+  .readCol > p { max-width: 36rem; font-size: 16px; line-height: 1.62; color: var(--text); }
+  .readVisual { height: 230px; margin: 0 0 22px; overflow: hidden; border-radius: 18px; background: var(--paper-2); box-shadow: 0 18px 36px -28px rgba(23, 54, 47, .4); }
+  .readVisual img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.8); }
+  .readGrid:first-child .readCol:nth-child(2) { display: flex; flex-direction: column; }
+  .readGrid:first-child .readCol:nth-child(2) .gauge { order: 2; }
+  .checks li { color: var(--text); }
+  .checks li::before { background: var(--accent); }
+  .band--material .lede { margin-bottom: 26px; }
+  .materialShowcase { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(26px, 5vw, 72px); align-items: start; margin-top: 28px; }
+  .materialVisual { height: 100%; min-height: 390px; margin: 0; overflow: hidden; border-radius: 22px; background: var(--paper-2); box-shadow: 0 22px 46px -34px rgba(23, 54, 47, .44); }
+  .materialVisual img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8); }
+  .matTable { margin-top: 0; }
+  .matRow { border-color: var(--line); color: var(--text); }
+  .matRow--head, .matRow [role="rowheader"] { color: var(--sec); }
+  .materialNote { max-width: 42rem; color: var(--ink-soft); }
+
+  .beforeAfter { background: var(--paper-2); color: var(--ink); }
+  .beforeAfter .caseCard { background: rgba(255, 255, 255, .86); border-color: var(--line); box-shadow: 0 18px 34px -30px rgba(23, 54, 47, .54); }
+  .beforeAfter .caseBody h3, .beforeAfter h2 { color: var(--ink); }
+  .beforeAfter p.lede, .beforeAfter .caseBody > p, .beforeAfter .caseMore p, .beforeAfter .casesAll { color: var(--text); }
+  .beforeAfter .caseKicker, .beforeAfter .caseMore summary, .beforeAfter .casesAll a { color: var(--accent); }
+
+  .band--ablauf .inner { display: grid; grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr); column-gap: clamp(28px, 5vw, 76px); align-items: start; }
+  .processVisual { grid-row: 1 / span 4; margin: 0; overflow: hidden; min-height: 520px; border-radius: 22px; background: var(--paper); box-shadow: 0 24px 48px -34px rgba(23, 54, 47, .5); }
+  .processVisual img { display: block; width: 100%; height: 100%; min-height: 520px; object-fit: cover; object-position: center; filter: saturate(.76); }
+  .band--ablauf .steps--line { grid-column: 2; }
+  .steps--line::before { background: var(--sec-line); }
+  .steps--line > li i { color: var(--accent); }
+  .steps--line h3 { color: var(--ink); font-weight: 560; }
+  .steps--line p { color: var(--text); }
+
+  .band--buchen .inner { gap: clamp(28px, 5vw, 72px); }
+  .band--buchen .intro p { color: var(--text); }
+  .bk, .cal, .times, .portrait, .bkFields input, .bkFields textarea, .seg button { background: var(--card); }
+  .bk { border-color: var(--line); box-shadow: 0 24px 48px -38px rgba(23, 54, 47, .45); }
+  .band--kosten .kostenGrid { gap: clamp(26px, 5vw, 84px); }
+  .kostenFacts > div { border-color: var(--line); }
+  .kostenFacts dt, .praxisFacts dt { color: var(--sec); }
+
+  .band--doctor .inner { grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr); gap: clamp(30px, 6vw, 92px); }
+  .band--doctor .portrait { height: clamp(340px, 42vw, 540px); border-radius: 22px; box-shadow: 0 22px 46px -34px rgba(23, 54, 47, .5); }
+  .band--doctor .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 35% center; }
+  .band--doctor .doctorRole { color: var(--accent); }
+  .band--doctor p { color: var(--text); }
+
+  .band--faq .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
+  .band--faq details { margin: 0; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255, 255, 255, .6); }
+  .band--faq details[open] { background: var(--card); border-color: var(--line-strong); }
+  .band--faq summary { color: var(--ink); }
+  .band--faq details p { color: var(--text); }
+
+  .band--praxis .inner.praxisGrid { display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); grid-template-areas: 'map visual' 'text text'; gap: 26px clamp(26px, 5vw, 72px); max-width: 1200px; }
+  .band--praxis .mapTile { grid-area: map; min-height: 360px; border-radius: 22px; box-shadow: 0 22px 46px -34px rgba(23, 54, 47, .48); }
+  .band--praxis .praxisVisual { grid-area: visual; min-height: 360px; margin: 0; overflow: hidden; border-radius: 22px; box-shadow: 0 22px 46px -34px rgba(23, 54, 47, .48); }
+  .band--praxis .praxisVisual img { display: block; width: 100%; height: 100%; min-height: 360px; object-fit: cover; filter: saturate(.8); }
+  .band--praxis .praxisText { grid-area: text; max-width: 44rem; }
+  .praxisText .praxisRegion, .praxisText .reviewNote, .praxisFacts dd { color: var(--text); }
+  footer { background: var(--footer-bg); color: var(--footer-soft); border-top-color: var(--line); }
+  .colophonLead, footer a { color: var(--ink); }
+  .cookieChip { background: var(--card); color: var(--text); border-color: var(--line); box-shadow: 0 18px 40px -24px rgba(23, 54, 47, .36); }
+  .chipClose { background: var(--paper-2); color: var(--ink); }
+
+  @media (max-width: 980px) {
+    .heroNew { min-height: auto; }
+    .heroCaseFeature { height: 720px; }
+    .heroNew__copy { bottom: 36px; }
+    .heroCaseFeature__caption { width: min(22rem, 32%); }
+    .materialShowcase, .band--ablauf .inner, .band--praxis .inner.praxisGrid { grid-template-columns: 1fr; }
+    .processVisual { grid-row: auto; min-height: 300px; max-height: 420px; }
+    .processVisual img { min-height: 300px; }
+    .band--ablauf .steps--line { grid-column: auto; }
+    .band--praxis .inner.praxisGrid { grid-template-areas: 'visual' 'map' 'text'; }
+    .band--praxis .mapTile, .band--praxis .praxisVisual { min-height: 300px; }
+    .band--praxis .praxisVisual img, .band--praxis .mapTile { min-height: 300px; }
+  }
+  @media (max-width: 700px) {
+    header.top { min-height: 64px; padding-inline: 16px; }
+    .heroCaseFeature { height: 640px; border-radius: 0 0 20px 20px; }
+    .heroCaseFeature img { object-position: 68% center; }
+    .heroCaseFeature::after { background: linear-gradient(0deg, rgba(244, 248, 245, .96) 0%, rgba(244, 248, 245, .72) 35%, rgba(244, 248, 245, 0) 72%); }
+    .heroNew__copy { right: 18px; bottom: 18px; left: 18px; max-width: none; padding: 24px 22px; border-radius: 18px; }
+    .heroNew h1 { max-width: 8ch; font-size: clamp(48px, 14vw, 68px); }
+    .heroNew__actions { align-items: stretch; flex-direction: column; gap: 12px; }
+    .heroNew__actions .btn { width: 100%; justify-content: center; }
+    .heroCaseFeature__caption { display: none; }
+    .visualRibbon { grid-template-columns: 1fr 1fr; gap: 10px; padding: 22px 16px 36px; }
+    .visualRibbon figure:nth-child(1) { grid-column: 1 / -1; aspect-ratio: 1.55 / 1; }
+    .visualRibbon figure:nth-child(2) { margin-top: 0; aspect-ratio: .9 / 1; }
+    .visualRibbon figure:nth-child(3) { aspect-ratio: .9 / 1; }
+    .veneerExplainer { gap: 28px; padding: 62px 16px 70px; }
+    .veneerExplainer h2 { font-size: clamp(38px, 12vw, 54px); }
+    .veneerCanvasFrame, #veneerScene { min-height: 340px; }
+    .veneerCanvasFrame { aspect-ratio: .95 / 1; border-radius: 18px; }
+    .veneerStateControls { grid-template-columns: 1fr; }
+    .band { padding-block: 60px; }
+    .band h2, .beforeAfter h2 { font-size: clamp(36px, 11vw, 52px); }
+    .readVisual { height: 210px; }
+    .materialVisual { min-height: 260px; max-height: 340px; }
+    .band--faq .faq { grid-template-columns: 1fr; }
+    .band--doctor .inner { grid-template-columns: 1fr; gap: 24px; }
+    .band--doctor .portrait { height: 350px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .heroCaseFeature img, .visualRibbon img, .readVisual img, .materialVisual img, .processVisual img, .praxisVisual img { transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -1462,20 +1726,19 @@
   <section class="heroNew" id="top">
     <div class="heroNew__copy">
       <p class="eyebrow" data-i18n="hero.eyebrow">Veneers in Aachen · AIXSMILE</p>
-      <h1 data-i18n="hero.redesignH1">Veneers in Aachen, die natürlich aussehen.</h1>
-      <p class="heroNew__lead" data-i18n="hero.redesignLead">Natürlich in Form, Farbe und Gefühl. Wir planen Ihr Ergebnis, bevor etwas am Zahn passiert.</p>
+      <h1 data-i18n="hero.redesignH1">Natürlich gute Veneers.</h1>
+      <p class="heroNew__lead" data-i18n="hero.redesignLead">Form, Farbe und Planung für ein Ergebnis, das zu Ihnen passt.</p>
       <div class="heroNew__actions">
         <a class="btn" href="#buchen" data-cta="book" data-i18n="nav.book">Termin buchen</a>
         <a class="textLink" href="#beforeAfter" data-i18n="hero.caseLink">Echte Fälle ansehen <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="heroNew__note" data-i18n="hero.heroNote">Persönliche Beratung in der AIXSMILE Praxis im Herzen von Aachen.</p>
     </div>
     <div class="heroNew__visual">
       <div class="heroCaseFeature">
-        <img src="/assets/before-after/4.jpg" width="920" height="760" fetchpriority="high" decoding="async" data-i18n-alt="hero.caseAlt" alt="Vorher-Nachher-Fall mit sechs Veneers bei AIXSMILE">
+        <img src="/assets/generated/hero-smile.png" width="1672" height="941" fetchpriority="high" decoding="async" data-i18n-alt="hero.caseAlt" alt="Natürlich lächelnde Patientin in einer hellen AIXSMILE Praxis">
         <div class="heroCaseFeature__caption">
-          <span data-i18n="hero.caseLabel">Fall aus der Praxis</span>
-          <strong data-i18n="hero.caseTitle">Sechs Fronten als ein Bild.</strong>
+          <span data-i18n="hero.caseLabel">AIXSMILE Aachen</span>
+          <strong data-i18n="hero.caseTitle">Erst planen. Dann lächeln.</strong>
         </div>
       </div>
     </div>
@@ -1488,6 +1751,12 @@
       <span><b>02</b><em data-i18n="proof.fact2">Echte Vorher-Nachher-Fälle</em></span>
       <span><b>03</b><em data-i18n="proof.fact3">Beratung in Aachen</em></span>
     </div>
+  </section>
+
+  <section class="visualRibbon" aria-label="Einblicke in Beratung und Material">
+    <figure><img src="/assets/generated/scan-planning.png" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="visual.scanAlt" alt="Beratung mit digitalem Zahnscan in einer hellen Praxis"></figure>
+    <figure><img src="/assets/generated/veneer-detail.png" width="1586" height="992" loading="lazy" decoding="async" data-i18n-alt="visual.detailAlt" alt="Zwei feine Keramikschalen auf einem hellen Steintray"></figure>
+    <figure><img src="/assets/generated/clinician-portrait.png" width="1586" height="992" loading="lazy" decoding="async" data-i18n-alt="visual.clinicianAlt" alt="Zahnarzt in einer hellen Praxis"></figure>
   </section>
 
   <section class="veneerExplainer" id="veneerExplainer" aria-labelledby="veneerExplainerTitle">
@@ -1530,6 +1799,7 @@
         <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.</p>
       </div>
       <div class="readCol">
+        <figure class="readVisual"><img src="/assets/generated/scan-planning.png" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="read.visualAlt" alt="Digitale Planung eines Veneers im Beratungsgespräch"></figure>
         <div class="gauge">
         <p class="gaugeTitle"><span data-i18n="hero.gaugeTitle">Wie d&uuml;nn ist d&uuml;nn?</span> <span class="gaugeMag" id="gaugeMag">20-fach vergr&ouml;&szlig;ert</span></p>
         <div class="gaugeSlabs">
@@ -1565,7 +1835,9 @@
     <p class="eyebrow" data-i18n="matRead.eyebrow">Zwei Materialien</p>
     <h2 data-i18n="matRead.h2">Keramik oder Composite.</h2>
     <p class="lede" data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
-    <div class="matTable" role="table">
+    <div class="materialShowcase">
+      <figure class="materialVisual"><img src="/assets/generated/veneer-detail.png" width="1586" height="992" loading="lazy" decoding="async" data-i18n-alt="material.visualAlt" alt="Detailansicht von zwei transluzenten Keramikschalen"></figure>
+      <div class="matTable" role="table">
       <div class="matRow matRow--head" role="row">
         <span role="columnheader"></span>
         <span role="columnheader"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></span>
@@ -1576,6 +1848,7 @@
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r3">Wirkung</span><span data-i18n="mat.r3a">Lichtdurchlässig wie Schmelz, wirkt lebendig</span><span data-i18n="mat.r3b">Gut, aber flacher; direkt am Zahn modelliert</span></div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r4">Termine</span><span data-i18n="mat.r4a">Zwei bis drei, das Labor fertigt dazwischen</span><span data-i18n="mat.r4b">Oft in einer Sitzung</span></div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r5">Kosten</span><span data-i18n="mat.r5a">Höher, Labor inklusive</span><span data-i18n="mat.r5b">Deutlich günstiger</span></div>
+      </div>
     </div>
     <p class="materialNote" data-i18n="material.note"><b>Ohne Beschleifen?</p>
   </div>
@@ -1656,6 +1929,7 @@
      nothing to swap, so nothing to click. -->
 <section class="band band--ablauf" id="ablauf">
   <div class="inner inner--wide">
+    <figure class="processVisual"><img src="/assets/generated/treatment-room.png" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="process.visualAlt" alt="Heller Behandlungsraum mit natürlichem Licht"></figure>
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
     <h2 data-i18n="process.h2">Fünf Schritte, ein Ergebnis.</h2>
     <p class="lede" data-i18n="process.lede">Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.</p>
@@ -1827,6 +2101,7 @@
       <span class="mapLabel"><b>Großkölnstraße 22–28</b><span data-i18n="praxis.mapGo">Route öffnen →</span></span>
       <span class="mapCredit" aria-hidden="true">© OpenStreetMap</span>
     </a>
+    <figure class="praxisVisual"><img src="/assets/generated/practice-closing.png" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="praxis.visualAlt" alt="Heller Eingang einer modernen Zahnarztpraxis"></figure>
     <div class="praxisText">
       <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
       <h2 data-i18n="praxis.h2">Mitten in Aachen, gut erreichbar aus der ganzen Region.</h2>
@@ -1968,13 +2243,13 @@ const I18N = {
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE',
       h1: 'Veneers in Aachen: <em>dünner</em> als ein Fingernagel.',
-      redesignH1: 'Veneers in Aachen, die natürlich aussehen.',
-      redesignLead: 'Natürlich in Form, Farbe und Gefühl. Wir planen Ihr Ergebnis, bevor etwas am Zahn passiert.',
+      redesignH1: 'Natürlich gute Veneers.',
+      redesignLead: 'Form, Farbe und Planung für ein Ergebnis, das zu Ihnen passt.',
       caseLink: 'Echte Fälle ansehen <span aria-hidden="true">↗</span>',
       heroNote: 'Persönliche Beratung in der AIXSMILE Praxis im Herzen von Aachen.',
-      caseAlt: 'Vorher-Nachher-Fall mit sechs Veneers bei AIXSMILE',
-      caseLabel: 'Fall aus der Praxis',
-      caseTitle: 'Sechs Fronten als ein Bild.',
+      caseAlt: 'Natürlich lächelnde Patientin in einer hellen AIXSMILE Praxis',
+      caseLabel: 'AIXSMILE Aachen',
+      caseTitle: 'Erst planen. Dann lächeln.',
       gaugeTitle: 'Wie d\u00fcnn ist d\u00fcnn?',
       gaugeMag: (n) => `${n}-fach vergr\u00f6\u00dfert`,
       gVeneer: 'ein Veneer',
@@ -1986,6 +2261,11 @@ const I18N = {
     proof: {
       title: 'Veneers beginnen mit einem Plan.', text: 'Scan, Farbwahl und ein ehrlicher Blick auf das, was zu Ihren Zähnen passt.',
       fact1: 'Digitaler Scan', fact2: 'Echte Vorher-Nachher-Fälle', fact3: 'Beratung in Aachen',
+    },
+    visual: {
+      scanAlt: 'Beratung mit digitalem Zahnscan in einer hellen Praxis',
+      detailAlt: 'Zwei feine Keramikschalen auf einem hellen Steintray',
+      clinicianAlt: 'Zahnarzt in einer hellen Praxis',
     },
     explainer: {
       eyebrow: 'So sitzt ein Veneer', h2: 'Sehen, was sich verändert. Und was bleibt.',
@@ -2004,6 +2284,7 @@ const I18N = {
     },
     material: {
       h2: 'Keramik oder Composite. Ihr Zahn entscheidet mit.',
+      visualAlt: 'Detailansicht von zwei transluzenten Keramikschalen',
       p: 'Zur Auswahl stehen zwei Materialien. Welches passt, h\u00e4ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.',
       m1Name: 'Keramik',
       m2Name: 'Composite',
@@ -2013,6 +2294,7 @@ const I18N = {
       eyebrow: 'Ablauf',
       h2: 'Fünf Schritte, ein Ergebnis.',
       lede: 'Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.',
+      visualAlt: 'Heller Behandlungsraum mit natürlichem Licht',
       step1: '<h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p>',
       step2: '<h3>Formvorbereitung</h3><p>Meist nur eine hauchdünne Schmelzschicht, mit Betäubung spürbar nichts.</p>',
       step3: '<h3>Scan und Modell</h3><p>Ein digitaler Scan hält Ihre Zähne fest; das Labor fertigt jede Schale danach.</p>',
@@ -2054,7 +2336,7 @@ const I18N = {
       'Bereit, wenn Sie es sind',
     ],
 
-    read: { eyebrow: 'Was ein Veneer ist', h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.' },
+    read: { eyebrow: 'Was ein Veneer ist', h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.', visualAlt: 'Digitale Planung eines Veneers im Beratungsgespräch' },
     crownRead: { h3: 'Veneer oder Krone?' },
     suitRead: { h3: 'Wann Veneers passen' },
     matRead: { eyebrow: 'Zwei Materialien', h2: 'Keramik oder Composite.' },
@@ -2118,6 +2400,7 @@ const I18N = {
       addrH: 'Anschrift', hoursH: 'Sprechzeiten', hoursDays: 'Mo · Di · Do', hoursTime: '9:00 – 16:00 Uhr',
       reviewsH: 'Bewertungen', reviewsBtn: 'Bei Google lesen →',
       reviewsNote: 'Wir zeigen hier keine ausgewählten Zitate; alle Bewertungen stehen unverändert bei Google.',
+      visualAlt: 'Heller Eingang einer modernen Zahnarztpraxis',
     },
     bk: {
       quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
@@ -2178,13 +2461,13 @@ const I18N = {
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE',
       h1: 'Veneers in Aachen: <em>thinner</em> than a fingernail.',
-      redesignH1: 'Veneers in Aachen that look natural.',
-      redesignLead: 'Natural in shape, colour and feel. We plan your result before anything happens to the tooth.',
+      redesignH1: 'Naturally good veneers.',
+      redesignLead: 'Shape, shade and planning for a result that belongs to you.',
       caseLink: 'See real cases <span aria-hidden="true">↗</span>',
       heroNote: 'Personal consultation at the AIXSMILE practice in the heart of Aachen.',
-      caseAlt: 'Before-and-after case with six veneers at AIXSMILE',
-      caseLabel: 'Practice case',
-      caseTitle: 'Six front teeth as one picture.',
+      caseAlt: 'Naturally smiling patient in a bright AIXSMILE practice',
+      caseLabel: 'AIXSMILE Aachen',
+      caseTitle: 'Plan first. Smile after.',
       gaugeTitle: 'How thin is thin?',
       gaugeMag: (n) => `magnified ${n}\u00d7`,
       gVeneer: 'a veneer',
@@ -2196,6 +2479,11 @@ const I18N = {
     proof: {
       title: 'Veneers start with a plan.', text: 'Scan, shade selection and an honest look at what fits your teeth.',
       fact1: 'Digital scan', fact2: 'Real before-and-after cases', fact3: 'Consultation in Aachen',
+    },
+    visual: {
+      scanAlt: 'Consultation with a digital dental scan in a bright practice',
+      detailAlt: 'Two fine ceramic shells on a pale stone tray',
+      clinicianAlt: 'Dentist in a bright practice',
     },
     explainer: {
       eyebrow: 'How a veneer sits', h2: 'See what changes. And what stays.',
@@ -2214,6 +2502,7 @@ const I18N = {
     },
     material: {
       h2: 'Ceramic or composite. Your tooth has a say.',
+      visualAlt: 'Detail view of two translucent ceramic shells',
       p: 'Two materials are available. Which one fits depends on your tooth, your expectations and your budget. We discuss that openly, before anything is prepared.',
       m1Name: 'Ceramic',
       m2Name: 'Composite',
@@ -2223,6 +2512,7 @@ const I18N = {
       eyebrow: 'The process',
       h2: 'Five steps, one result.',
       lede: 'Every step is explained before it happens. Preparation only with your yes.',
+      visualAlt: 'Bright treatment room with natural light',
       step1: '<h3>Wish and shade</h3><p>A conversation about the goal, shade chosen with samples next to your teeth.</p>',
       step2: '<h3>Preparation</h3><p>Usually just a wafer-thin layer of enamel; with anaesthetic you feel nothing.</p>',
       step3: '<h3>Scan and model</h3><p>A digital scan records your teeth; the lab makes each shell from it.</p>',
@@ -2264,7 +2554,7 @@ const I18N = {
       'Ready when you are',
     ],
 
-    read: { eyebrow: 'What a veneer is', h2: 'Bonded onto the tooth, not anchored in the bone.' },
+    read: { eyebrow: 'What a veneer is', h2: 'Bonded onto the tooth, not anchored in the bone.', visualAlt: 'Digital veneer planning during a consultation' },
     crownRead: { h3: 'Veneer or crown?' },
     suitRead: { h3: 'When veneers are the right choice' },
     matRead: { eyebrow: 'Two materials', h2: 'Ceramic or composite.' },
@@ -2328,6 +2618,7 @@ const I18N = {
       addrH: 'Address', hoursH: 'Consultation hours', hoursDays: 'Mon · Tue · Thu', hoursTime: '9:00 – 16:00',
       reviewsH: 'Reviews', reviewsBtn: 'Read on Google →',
       reviewsNote: 'We show no selected quotes here; all reviews are on Google, unchanged.',
+      visualAlt: 'Bright entrance to a modern dental practice',
     },
     bk: {
       quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Tap a day on the left. The free times for your scan appointment appear on the right.', taken: 'Someone booked this time in the meantime. Please pick another one.',
@@ -2879,16 +3170,8 @@ document.querySelectorAll('.caseFig[data-case]').forEach((btn) => {
 });
 document.getElementById('casesAll').addEventListener('click', (e) => { e.preventDefault(); lbOpen(0); });
 
-resize(); readScroll(); frame();
-
-// Smooth scrolling (Lenis, self-hosted) on desktop only. Phones keep native
-// touch scrolling; the story is scrubbed either way.
-if (window.Lenis && !journeyLift.matches && !reduceBeats.matches) {
-  const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, anchors: true });
-  const lraf = (t) => { lenis.raf(t); requestAnimationFrame(lraf); };
-  requestAnimationFrame(lraf);
-  window.lenis = lenis;
-}
+// The old pinned scroll-story runtime is intentionally disabled. The page now
+// uses native scrolling and the contained explainer owns its own interaction.
 </script>
 <script>
 // ===== Embedded booking widget =====

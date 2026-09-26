@@ -88,10 +88,10 @@ export function createVeneerExplainer({ THREE, canvas, fallback, controls, label
     const verticalHalf = Math.max(size.y, size.z) * .5;
     const horizontalHalf = size.x * .5;
     const fovTan = Math.tan(THREE.MathUtils.degToRad(camera.fov) * .5);
-    const distance = Math.max(verticalHalf / fovTan, horizontalHalf / (fovTan * aspect)) * 1.24;
+    const distance = Math.max(verticalHalf / fovTan, horizontalHalf / (fovTan * aspect)) * 1.04;
     const aim = center.clone();
     aim.y += size.y * .04;
-    camera.position.set(center.x + distance * .18, center.y + distance * .18, center.z + distance);
+    camera.position.set(center.x + distance * .12, center.y + distance * .08, center.z + distance);
     camera.lookAt(aim);
     camera.near = Math.max(.001, distance * .01);
     camera.far = Math.max(2, distance * 30);
@@ -190,17 +190,22 @@ export function createVeneerExplainer({ THREE, canvas, fallback, controls, label
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    if ('toneMapping' in renderer && THREE.ACESFilmicToneMapping) renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    if ('toneMappingExposure' in renderer) renderer.toneMappingExposure = 1.08;
     if ('outputColorSpace' in renderer && THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(34, 1, .001, 2);
-    scene.add(new THREE.HemisphereLight(0xfff7ed, 0x30383c, 1.55));
-    const key = new THREE.DirectionalLight(0xfff0df, 2.25);
-    key.position.set(.12, .18, .16);
+    camera = new THREE.PerspectiveCamera(29, 1, .001, 2);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x8da99d, 1.8));
+    const key = new THREE.DirectionalLight(0xfff8ee, 2.45);
+    key.position.set(.14, .24, .18);
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0x9babb0, .72);
-    fill.position.set(-.15, .08, -.12);
+    const fill = new THREE.DirectionalLight(0xa9c8bb, .9);
+    fill.position.set(-.16, .08, -.14);
     scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xffffff, .58);
+    rim.position.set(.04, -.04, -.22);
+    scene.add(rim);
 
     const built = buildVeneerModel(THREE);
     ({ root, setSeating, getBounds } = built);

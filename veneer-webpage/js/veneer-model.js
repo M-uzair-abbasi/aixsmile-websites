@@ -4,15 +4,15 @@
 // framework and no branding, so it needs no changes for this build.
 
 export function buildVeneerModel(THREE) {
-  const enamel = new THREE.MeshStandardMaterial({ name: 'enamel', color: 0xe0d8cb, roughness: 0.42, metalness: 0.03 });
+  const enamel = new THREE.MeshStandardMaterial({ name: 'enamel', color: 0xf0f2ea, roughness: 0.30, metalness: 0.01 });
   const porcelain = new THREE.MeshStandardMaterial({
-    name: 'porcelain_veneer', color: 0xfffdf6, roughness: 0.09, metalness: 0.05, side: THREE.DoubleSide
+    name: 'porcelain_veneer', color: 0xfffef9, roughness: 0.16, metalness: 0.01, side: THREE.DoubleSide
   });
-  // Calmer, cooler tissue and a neutral base: the warm beige puck and saturated
-  // gum read as a dental training model against warm paper. A cool grey base
-  // recedes and lets the porcelain shells carry the scene.
-  const gingiva = new THREE.MeshStandardMaterial({ name: 'gingiva', color: 0x946d6f, roughness: 0.70, metalness: 0.0 });
-  const base = new THREE.MeshStandardMaterial({ name: 'model_base', color: 0x707a7e, roughness: 0.86, metalness: 0.0 });
+  // The explainer is intentionally a focused six-tooth smile segment. A full
+  // horseshoe made the shells read as tiny props instead of a useful patient
+  // explanation. The sage base recedes; the porcelain remains the focal point.
+  const gingiva = new THREE.MeshStandardMaterial({ name: 'gingiva', color: 0xc99496, roughness: 0.58, metalness: 0.0 });
+  const base = new THREE.MeshStandardMaterial({ name: 'model_base', color: 0xa8bab1, roughness: 0.75, metalness: 0.0 });
 
   // Sculpt a sphere into a crown: neck at y=0, biting edge at y=-h.
   function sculpt(geo, w, h, d, o = {}) {
@@ -62,14 +62,11 @@ export function buildVeneerModel(THREE) {
     sculpt(new THREE.SphereGeometry(0.5, 48, 36, -0.42, Math.PI + 0.84, 0.30, Math.PI - 0.30),
       w * 1.055, h * 1.02, d * 1.06, o);
 
-  const ARCH_A = 0.0270, ARCH_B = 0.0315;
+  const ARCH_A = 0.0290, ARCH_B = 0.0260;
   const TEETH = [
     { name: 'central_incisor', t: 0.165, w: 0.0090, h: 0.0112, d: 0.0068, veneer: true },
     { name: 'lateral_incisor', t: 0.480, w: 0.0075, h: 0.0093, d: 0.0062, veneer: true },
-    { name: 'canine',          t: 0.790, w: 0.0082, h: 0.0110, d: 0.0078, veneer: true, pointed: true },
-    { name: 'first_premolar',  t: 1.130, w: 0.0078, h: 0.0082, d: 0.0090, molar: true },
-    { name: 'second_premolar', t: 1.480, w: 0.0076, h: 0.0076, d: 0.0092, molar: true },
-    { name: 'first_molar',     t: 1.830, w: 0.0104, h: 0.0074, d: 0.0106, molar: true }
+    { name: 'canine',          t: 0.790, w: 0.0082, h: 0.0110, d: 0.0078, veneer: true, pointed: true }
   ];
 
   const model = new THREE.Group();
@@ -147,8 +144,8 @@ export function buildVeneerModel(THREE) {
   }
 
   const ridge = new THREE.Mesh(
-    new THREE.ExtrudeGeometry(horseshoe(0.0264, 0.0308, 0.0150, 0.0180, 1.98), {
-      depth: 0.0072, bevelEnabled: true, bevelThickness: 0.0018, bevelSize: 0.0018, bevelSegments: 4
+    new THREE.ExtrudeGeometry(horseshoe(0.0264, 0.0308, 0.0150, 0.0180, 1.12), {
+      depth: 0.0048, bevelEnabled: true, bevelThickness: 0.0010, bevelSize: 0.0011, bevelSegments: 4
     }),
     gingiva
   );
@@ -166,8 +163,8 @@ export function buildVeneerModel(THREE) {
   model.add(palate);
 
   const plate = new THREE.Mesh(
-    new THREE.ExtrudeGeometry(horseshoe(0.0290, 0.0334, 0.0128, 0.0158, 2.04), {
-      depth: 0.0038, bevelEnabled: true, bevelThickness: 0.0009, bevelSize: 0.0009, bevelSegments: 2
+    new THREE.ExtrudeGeometry(horseshoe(0.0290, 0.0334, 0.0128, 0.0158, 1.18), {
+      depth: 0.0028, bevelEnabled: true, bevelThickness: 0.0006, bevelSize: 0.0007, bevelSegments: 2
     }),
     base
   );
