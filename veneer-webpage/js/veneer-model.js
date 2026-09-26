@@ -192,6 +192,7 @@ export function buildVeneerModel(THREE) {
   // short settle wobble, and a flash of light on contact so the moment reads
   // as an event and not a drift.
   function setSeating(p) {
+    p = Math.min(1, Math.max(0, p));
     const STAGGER = 0.24, SPAN = 0.42;
     for (const s of veneers) {
       const d = s.userData;
@@ -217,5 +218,9 @@ export function buildVeneerModel(THREE) {
     }
   }
 
-  return { root, model, veneers, setSeating };
+  function getBounds() {
+    return new THREE.Box3().setFromObject(root);
+  }
+
+  return { root, model, veneers, setSeating, getBounds };
 }
