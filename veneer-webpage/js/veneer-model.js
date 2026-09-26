@@ -4,15 +4,15 @@
 // framework and no branding, so it needs no changes for this build.
 
 export function buildVeneerModel(THREE) {
-  const enamel = new THREE.MeshStandardMaterial({ name: 'enamel', color: 0xd9ccb4, roughness: 0.40, metalness: 0.04 });
+  const enamel = new THREE.MeshStandardMaterial({ name: 'enamel', color: 0xe0d8cb, roughness: 0.42, metalness: 0.03 });
   const porcelain = new THREE.MeshStandardMaterial({
     name: 'porcelain_veneer', color: 0xfffdf6, roughness: 0.09, metalness: 0.05, side: THREE.DoubleSide
   });
   // Calmer, cooler tissue and a neutral base: the warm beige puck and saturated
   // gum read as a dental training model against warm paper. A cool grey base
   // recedes and lets the porcelain shells carry the scene.
-  const gingiva = new THREE.MeshStandardMaterial({ name: 'gingiva', color: 0xb37b7a, roughness: 0.68, metalness: 0.0 });
-  const base = new THREE.MeshStandardMaterial({ name: 'model_base', color: 0x9aa2a9, roughness: 0.86, metalness: 0.0 });
+  const gingiva = new THREE.MeshStandardMaterial({ name: 'gingiva', color: 0x946d6f, roughness: 0.70, metalness: 0.0 });
+  const base = new THREE.MeshStandardMaterial({ name: 'model_base', color: 0x707a7e, roughness: 0.86, metalness: 0.0 });
 
   // Sculpt a sphere into a crown: neck at y=0, biting edge at y=-h.
   function sculpt(geo, w, h, d, o = {}) {
