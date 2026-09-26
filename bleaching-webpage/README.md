@@ -29,6 +29,7 @@ alternating dark and warm cream, and no scroll-driven animation.
 | `assets/models/jaw.glb` | The jaw model, compressed (built from `human-jaw.glb`, which is not deployed) |
 | `assets/fonts/` | Source Serif 4 + Figtree, self-hosted (no request to Google) |
 | `assets/photos/` | Shade-guide photo, two consented cases, the dentist's portrait |
+| `assets/tooth-mark.png` | Favicon |
 | `assets/photos/ai/` | Removed 2026-09-24: the page shows no AI images any more. Real practice photos (shade guide in the dentist's hand, lamp, trays, team) are still wanted; drop them into `assets/photos/` |
 | `robots.txt`, `sitemap.xml` | For the real domain |
 | `vercel.json` | Headers; **noindex while on the Vercel preview URL** |

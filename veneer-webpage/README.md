@@ -17,7 +17,7 @@ no framework, just static HTML/CSS/JS that can be hosted anywhere.
 - `assets/fonts/` — self-hosted Space Grotesk and Inter (the main site's pair).
 - `assets/steps/`, `assets/before-after/`, `assets/materials/` — photos for the
   step gallery, the before/after viewer and the material flip cards.
-- `assets/tooth-mark.svg` — favicon.
+- `assets/tooth-mark.png` — favicon.
 - `viewer.html` + `js/three-d-stage.js` — a developer-only page to inspect and
   export the model (OBJ/GLB). Not linked from the site; safe to delete.
 
