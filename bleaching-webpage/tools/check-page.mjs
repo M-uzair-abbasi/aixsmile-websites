@@ -226,7 +226,7 @@ try {
     await page.goto(srv.url, { waitUntil: 'load' });
     await page.waitForTimeout(400);
     const s = await page.evaluate(() => ({ shown: !document.getElementById('bkUnavailable').hidden, href: document.querySelector('#bkUnavailable a').href }));
-    ok('with the API down the widget offers the aixsmile.de link', s.shown && /service=bleaching&via=bleaching-aachen/.test(s.href), s.href);
+    ok('with the API down the widget offers the phone number', s.shown && /^tel:\+4924131202$/.test(s.href), s.href);
     await ctx.close();
   }
   {

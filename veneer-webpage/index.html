@@ -34,7 +34,7 @@
       "name": "Zahnarztpraxis AIXSMILE",
       "url": "https://aixsmile.de/",
       "telephone": "+49 241 31202",
-      "email": "praxis@aixsmile.de",
+      "email": "info@aixsmile.de",
       "image": "https://veneers-aachen.de/assets/doctor.jpg",
       "address": {
         "@type": "PostalAddress",
@@ -131,7 +131,10 @@
     --ink-soft: #6b5f57;      /* --color-muted   — eyebrows, captions, secondary */
     --line: rgba(30, 25, 22, 0.14);
     --text: #5d534c;          /* --color-muted   — body copy, as on the main site */
-    --accent: #9a4322;        /* --color-teal-deep — AA-safe blue for links/small text */
+    --accent: #9a4322;
+    --sec: #6f7f5e;           /* secondary: soft sage, an analogous neighbour of the terracotta; labels, table head, quiet surfaces */
+    --sec-tint: #eff0e9;      /* a pale sage wash for alternating bands */
+    --sec-line: rgba(111, 127, 94, .3);        /* --color-teal-deep — AA-safe blue for links/small text */
     /* On a light ground "brighter on hover" LOWERS contrast - the dark theme's
        instinct inverted. --color-teal as link hover measures 3.98:1 on shell,
        under AA, so link hover darkens instead (7.75:1). The CTA still fills
@@ -201,20 +204,18 @@
   /* left: scrolling copy */
   .copy { padding: 0 clamp(28px, 5vw, 88px); }
   /* ambient pools of warm light, alternating left/right down the page */
-  .block { position: relative; }
-  .block::before { content: ''; position: absolute; pointer-events: none;
-    top: 50%; left: -20%; width: 76vw; height: 74vh; transform: translateY(-50%);
-    background: radial-gradient(closest-side, rgba(154, 67, 34, .06), transparent 72%); }
-  .block:nth-of-type(even)::before { left: auto; right: -24%;
-    background: radial-gradient(closest-side, rgba(154, 67, 34, .04), transparent 72%); }
-  /* keep copy above the glow: positioned children paint after the pseudo-element */
-  .block > * { position: relative; }
+  .block { position: relative; height: 100vh; }
+  /* the ambient light pools behind each block were removed with the one-line beats (2026-09-25) */
 
   /* Sections deliberately do NOT share one vertical rhythm - a page where every
      section is exactly one viewport tall metronomes, and that regularity is
      what reads as generated. The dense ones breathe, the short ones sit closer. */
-  .block { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 96px 0; max-width: 30rem; }
+  /* the pinned copy layer: one viewport tall, pulled back up over the tracks */
+  .beats { position: sticky; top: 0; height: 100vh; z-index: 2; pointer-events: none; }
+  .beats + .block { margin-top: -100vh; }  /* the negative margin sits on the track, not the sticky layer, so the layer is confined to the copy column */
+  .beat { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+    padding: 96px 0; max-width: 30rem; opacity: 0; pointer-events: none; will-change: opacity, transform; }
+  .beat.is-live { pointer-events: auto; }
   /* One orchestrated entrance, on the hero, once. Every other section is
      simply there when you arrive at it.
      Fading every child of every section on intersection is the tell: the page
@@ -237,12 +238,12 @@
     #curtain::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); opacity: .6; }
     .stage3d { animation: stageIn 1.4s cubic-bezier(.2,.7,.2,1) .45s backwards; }
     .stagewrap::before { animation: fadeIn 1.6s ease .7s backwards; }
-    .block:first-child > * { opacity: 0; transform: translateY(22px);
+    .beat:first-child > * { opacity: 0; transform: translateY(22px);
       animation: riseIn .9s cubic-bezier(.2,.7,.2,1) .7s forwards; }
-    .block:first-child > :nth-child(2) { animation-delay: .8s; }
-    .block:first-child > :nth-child(3) { animation-delay: 1.15s; }
-    .block:first-child > :nth-child(4) { animation-delay: 1.3s; }
-    .block:first-child .w > span { animation-delay: calc(.85s + var(--i) * 60ms); }
+    .beat:first-child > :nth-child(2) { animation-delay: .8s; }
+    .beat:first-child > :nth-child(3) { animation-delay: 1.15s; }
+    .beat:first-child > :nth-child(4) { animation-delay: 1.3s; }
+    .beat:first-child .w > span { animation-delay: calc(.85s + var(--i) * 60ms); }
     .slab i { transform-origin: left center; animation: slabGrow .9s cubic-bezier(.2,.7,.2,1) both; }
     .slab:nth-child(1) i { animation-delay: 1.75s; }
     .slab:nth-child(2) i { animation-delay: 1.9s; }
@@ -259,7 +260,7 @@
   /* word masks: each word of a headline rises from behind its own line */
   .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
   .w > span { display: inline-block; transform: translateY(112%); }
-  .block:first-child .w > span, .in .w > span { animation: wordUp .75s cubic-bezier(.2,.7,.2,1) both; }
+  .beat:first-child .w > span, .in .w > span { animation: wordUp .75s cubic-bezier(.2,.7,.2,1) both; }
   .in .w > span { animation-delay: calc(var(--i) * 45ms); }
   html:not(.js) .w > span { transform: none; }
   @media (prefers-reduced-motion: reduce) { .w > span { transform: none; animation: none !important; } }
@@ -271,17 +272,15 @@
      Gated on html.js so a page without JavaScript shows everything at once.
      Each section's children rise in a short stagger the first time it enters
      the viewport, then stay. The hero has its own landing sequence above. */
-  .js .block:not(:first-child):not(.in) > *,
   .js .beforeAfter:not(.in) .inner > * { opacity: 0; transform: translateY(30px); }
-  .block:not(:first-child) > *, .beforeAfter .inner > * {
+  .beforeAfter .inner > * {
     transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
-  .block.in > :nth-child(2), .beforeAfter.in .inner > :nth-child(2) { transition-delay: .12s; }
-  .block.in > :nth-child(3), .beforeAfter.in .inner > :nth-child(3) { transition-delay: .24s; }
-  .block.in > :nth-child(4), .beforeAfter.in .inner > :nth-child(4) { transition-delay: .36s; }
-  .block.in > :nth-child(n+5) { transition-delay: .45s; }
+  .beforeAfter.in .inner > :nth-child(2) { transition-delay: .12s; }
+  .beforeAfter.in .inner > :nth-child(3) { transition-delay: .24s; }
+  .beforeAfter.in .inner > :nth-child(4) { transition-delay: .36s; }
   @media (prefers-reduced-motion: reduce) {
-    .js .block:not(:first-child):not(.in) > *, .js .beforeAfter:not(.in) .inner > * { transform: none; }
-    .block:not(:first-child) > *, .beforeAfter .inner > * { transition-duration: .15s; transition-delay: 0s !important; }
+    .js .beforeAfter:not(.in) .inner > * { transform: none; }
+    .beforeAfter .inner > * { transition-duration: .15s; transition-delay: 0s !important; }
   }
 
   /* Cadence. Sections deliberately do NOT all stand exactly one viewport tall:
@@ -302,13 +301,9 @@
        ~165px measures - three words a line, and German compounds make that
        worse. The break comes from the card bleeding off the left edge, not
        from columns the width cannot carry. */
-    #crown { background: var(--card-cool); border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      margin-left: calc(-1 * clamp(28px, 5vw, 88px));
-      padding: clamp(44px, 6vh, 76px) clamp(30px, 3vw, 52px)
-               clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px); }
-    #crown h2 { max-width: 18ch; }
-    #crown p:last-of-type { margin-bottom: 0; }
+    /* #crown used to sit on a tinted, bordered card; it is plain paper like the other beats now. */
+    .beat--crown h2 { max-width: 18ch; }
+    .beat--crown p:last-of-type { margin-bottom: 0; }
 
     #material { min-height: 112vh; }
     #suitability { min-height: 86vh; }
@@ -456,8 +451,8 @@
     -webkit-mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%);
             mask-image: radial-gradient(105% 115% at var(--cx) var(--cy), #000 0%, #000 36%, rgba(0,0,0,.45) 60%, transparent 80%); }
   /* contrast pocket sits between the grid and the canvas (the canvas is alpha) */
-  .stage3d { background: radial-gradient(36% 46% at var(--cx) var(--cy),
-      rgba(143, 169, 196, .30), rgba(180, 199, 219, .16) 52%, transparent 78%); }
+  .stage3d { background: radial-gradient(34% 40% at var(--cx) var(--cy),
+      rgba(30, 25, 22, .07), rgba(30, 25, 22, .03) 55%, transparent 76%); }
   .stage3d { position: absolute; inset: 0; transition: opacity .5s ease; }
   canvas#scene { display: block; width: 100%; height: 100%; }
   .caption { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center;
@@ -471,7 +466,7 @@
     font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft);
     transition: opacity .4s ease; }
 
-  .beforeAfter { border-top: 1px solid var(--line); padding: 104px clamp(28px, 5vw, 88px) 88px; }
+  .beforeAfter { padding: clamp(64px, 8vh, 96px) clamp(28px, 5vw, 88px) clamp(56px, 7vh, 80px); }
   .beforeAfter .inner { max-width: 64rem; margin: 0 auto; text-align: center; }
   .beforeAfter .eyebrow { text-align: center; }
   .beforeAfter h2 { text-align: center; }
@@ -527,23 +522,36 @@
        stays CENTRED and animating the whole way down while the copy travels
        around it, instead of sitting in a band at the top that the page scrolls
        past. z-order: stage 1, copy 2, header 5. */
+    /* Full-screen sticky stage, model centred a little above the middle; each
+       beat is one screen tall and its line sits in the lower part, on paper. */
     .stagewrap { position: sticky; top: 0; height: 100svh; order: -1;
-      --cx: 50%; --cy: 27%; z-index: 1; }
+      --cx: 50%; --cy: 42%; z-index: 1; }
     .copy { margin-top: -100svh; position: relative; z-index: 2; }
     /* The model owns the band between the header and the middle of the
        screen; every section's copy starts at 50svh, on solid paper, and grows
        DOWNWARD. Anchored at the bottom (flex-end) a long section grew upward
        over the teeth instead, which is what made the copy unreadable and the
        model half-hidden. Short sections still fill one screen (min-height). */
-    .block { min-height: 100svh; justify-content: flex-start;
-      padding: 50svh 0 8svh; max-width: none; }
+    .block { height: 100svh; }
+    .beats { height: 100svh; }
+    .beats + .block { margin-top: -100svh; }
+    .beat { justify-content: flex-end; padding: 0 0 12svh; max-width: none; }
+    .beat h2 { font-size: clamp(26px, 7.2vw, 34px); margin-bottom: 0; text-align: center; }
+    .beat > p { font-size: 15px; line-height: 1.5; margin-bottom: 10px; text-align: center; }
+    .beat .lead { font-size: 16px; margin: 10px auto 0; }
+    .beat .eyebrow { text-align: center; margin-bottom: 12px; }
+    .beat .cta { justify-content: center; }
+    .beat:first-child h1 { font-size: clamp(32px, 9vw, 40px); text-align: center; }
+    .checks li { font-size: 14.5px; }
+    .heroCasesRow { gap: 5px; }
+    .gauge { margin-top: 12px; }
     /* The model is never covered or faded on the phone - it runs continuously
        behind the copy. Legibility comes from the text itself: every glyph
        carries a paper-coloured halo, so copy crossing the teeth on its way out
        stays readable, and body copy uses full ink instead of the muted tone. */
-    .block > :is(h1, h2, p, ul, ol, .eyebrow, .lead) {
+    .beat > :is(h1, h2, p, ul, ol, .eyebrow, .lead) {
       text-shadow: 0 0 1px var(--paper), 0 0 5px var(--paper), 0 0 12px var(--paper), 0 0 22px var(--paper); }
-    .block > p, .block > ul, .block > ol { color: var(--ink); }
+    .beat > p, .beat > ul, .beat > ol { color: var(--ink); }
     /* Paper rising from the bottom so copy over the stage keeps its contrast -
        the main site's equivalent is the inset-x-0 bottom-0 h-[38%] paper
        gradient layered over its stage. */
@@ -556,10 +564,7 @@
        longer follows the copy, so it cannot climb over the model as a tall
        section scrolls up; the copy simply passes over the model's base. */
     .stagewrap::after { content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to top,
-        var(--paper) 0%, var(--paper) 49%,
-        rgba(243, 241, 236, .7) 53%,
-        transparent 58%); }
+      background: linear-gradient(to top, var(--paper) 0%, var(--paper) 24%, transparent 40%); }
     .caption, .scalebar, .hint { display: none; }
 
     /* Steps, in the main site's format (components/home/FirstVisit.tsx):
@@ -579,7 +584,7 @@
     .flipFront p:last-child { font-size: 13.5px; line-height: 1.4; }
     .flipFront .materialLead { margin-bottom: 5px; }
     .flipFront .materialName { margin-bottom: 4px; }
-    #material > p { margin-bottom: 9px; }
+    .beat--material > p { margin-bottom: 9px; }
     .materialNote { margin-top: 8px; }
     header.top { padding: 10px 18px; }
     .controls { gap: 8px; }
@@ -612,13 +617,11 @@
     .gaugeTitle { margin-bottom: 9px; font-size: 13px; }
     .gaugeNote { margin-top: 8px; font-size: 12px; }
     /* the hero carries the gauge; it can spend a little of the model's room */
-    .block:first-child { padding-top: 50svh; }
     .materials { gap: 12px; margin: 12px 0 0; }
     .materialName { font-size: 19px; margin: 0 0 5px; }
     .materialLead { font-size: 10px; margin: 0 0 6px; }
     .materialNote { margin-top: 10px; padding: 9px 11px; font-size: 12.5px; }
 
-    .block { padding: 50svh 0 6svh; }
   }
 
   /* Narrow phones (<=400px): the Material section carries the most words of
@@ -626,14 +629,12 @@
      Everything below trims leading and spacing only; no wording is cut, so the
      section still reads in full on one screen like it does on a laptop. */
   @media (max-width: 400px) {
-    .block { padding-bottom: 5svh; }
-    .block:first-child { padding-top: 50svh; }
-    .block:first-child p.lead { font-size: 14.5px; line-height: 1.46; }
+    .beat:first-child p.lead { font-size: 14.5px; line-height: 1.46; }
     h1 { font-size: 32px; }
     .gauge { --mag: 11mm; margin-top: 6px; padding-top: 10px; }
     p { margin: 0 0 9px; }
-    #material h2 { font-size: 20px; margin: 0 0 8px; }
-    #material > p { margin: 0 0 9px; }
+    .beat--material h2 { font-size: 20px; margin: 0 0 8px; }
+    .beat--material > p { margin: 0 0 9px; }
     .materials { gap: 7px; margin: 8px 0 0; }
     .materialName { font-size: 17px; margin: 0 0 3px; }
     .materialLead { font-size: 9.5px; margin: 0 0 4px; }
@@ -645,7 +646,6 @@
      <=400px width tier and wins where the two overlap. */
   @media (max-width: 560px) and (max-height: 720px) {
     /* Short phones give the model less room before the copy needs it. */
-    .block { padding: 50svh 0 5svh; }
     .gauge { --mag: 9mm; }
     body { font-size: 14.5px; line-height: 1.46; }
     h1 { font-size: 27px; margin: 0 0 11px; }
@@ -653,8 +653,8 @@
     p { margin: 0 0 10px; }
     p.lead { font-size: 15px; }
     .eyebrow { margin: 0 0 9px; }
-    #material h2 { font-size: 19px; margin: 0 0 9px; }
-    #material > p { margin: 0 0 9px; }
+    .beat--material h2 { font-size: 19px; margin: 0 0 9px; }
+    .beat--material > p { margin: 0 0 9px; }
     .materials { gap: 7px; margin: 8px 0 0; }
     .materialName { font-size: 17px; margin: 0 0 3px; }
     .materialLead { font-size: 9.5px; margin: 0 0 4px; }
@@ -667,7 +667,7 @@
      LEFT-aligned on a 64rem measure: this is reference material a patient
      reads, not a gallery. Each band gets its own inner shape so the four do
      not read as one repeated card. */
-  .band { border-top: 1px solid var(--line); padding: clamp(72px, 9vh, 112px) clamp(28px, 5vw, 88px); }
+  .band { padding: clamp(72px, 9vh, 112px) clamp(28px, 5vw, 88px); }
   .band .inner { max-width: 64rem; margin: 0 auto; }
   .band .eyebrow { margin-bottom: 14px; }
   .band h2 { max-width: 22ch; }
@@ -675,12 +675,10 @@
 
   /* Kosten: prose left, the three-step promise right, set as a numbered list
      on a cool tint. Numbers, not icons. */
-  .band--kosten .inner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  .band--kosten .inner { display: block; max-width: 64rem;
+    /* the old two-column .inner grid is gone; .kostenGrid lays out the band */
     column-gap: clamp(28px, 5vw, 72px); row-gap: 18px; align-items: start; }
-  .band--kosten .inner > .prose { grid-column: 1; }
-  .band--kosten .inner > .promise { grid-column: 2; }
-  .band--kosten .inner > .eyebrow, .band--kosten .inner > h2 { grid-column: 1 / -1; margin-bottom: 0; }
-  .band--kosten .inner > h2 { margin-bottom: 8px; }
+
   .factors { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
   .factors li { display: grid; grid-template-columns: 9rem 1fr; gap: 14px; font-size: 15.5px; color: var(--text);
     padding: 10px 0; border-top: 1px solid var(--line); }
@@ -702,38 +700,38 @@
      the two bands are visibly kin without being the same shape. */
   .band--ablauf h2 { max-width: 20ch; }
   .band--ablauf p.lede { margin-bottom: 0; }
-  .band--ablauf ol.steps { list-style: none; margin: clamp(36px, 5vh, 56px) 0 0; padding: 0;
+  .band--ablauf ol.steps:not(.steps--rail) { list-style: none; margin: clamp(36px, 5vh, 56px) 0 0; padding: 0;
     position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
     column-gap: clamp(18px, 2.4vw, 32px); }
-  .band--ablauf ol.steps::before { content: ''; position: absolute; left: 0; right: 0; top: 5px;
+  .band--ablauf ol.steps:not(.steps--rail)::before { content: ''; position: absolute; left: 0; right: 0; top: 5px;
     height: 1px; background: var(--line); }
-  .band--ablauf ol.steps li { position: relative; padding-top: 26px; }
+  .band--ablauf ol.steps:not(.steps--rail) li { position: relative; padding-top: 26px; }
   /* station marker on the rail: a filled dot with a paper halo so the rail
      visibly stops at it rather than running through */
-  .band--ablauf ol.steps li::before { content: ''; position: absolute; left: 0; top: 0;
+  .band--ablauf ol.steps:not(.steps--rail) li::before { content: ''; position: absolute; left: 0; top: 0;
     width: 11px; height: 11px; border-radius: 50%; background: var(--accent);
     box-shadow: 0 0 0 4px var(--paper); }
-  .band--ablauf ol.steps i { display: block; font-style: normal;
+  .band--ablauf ol.steps:not(.steps--rail) i { display: block; font-style: normal;
     font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 13px;
     letter-spacing: .06em; color: var(--accent); font-variant-numeric: tabular-nums; }
-  .band--ablauf ol.steps h3 { margin: 10px 0 8px; font-family: 'Space Grotesk', system-ui, sans-serif;
+  .band--ablauf ol.steps:not(.steps--rail) h3 { margin: 10px 0 8px; font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 17.5px; font-weight: 700; letter-spacing: -.01em; line-height: 1.25; color: var(--ink); }
-  .band--ablauf ol.steps p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text); }
+  .band--ablauf ol.steps:not(.steps--rail) p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text); }
   /* Narrower than a laptop the rail turns vertical, down the left, and the
      stations stack: the same journey, read top to bottom. */
   @media (max-width: 1000px) {
-    .band--ablauf ol.steps { grid-template-columns: 1fr; row-gap: 0; margin-top: 28px; }
-    .band--ablauf ol.steps::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
-    .band--ablauf ol.steps li { padding: 0 0 30px 32px; }
-    .band--ablauf ol.steps li:last-child { padding-bottom: 0; }
-    .band--ablauf ol.steps li::before { top: 5px; }
-    .band--ablauf ol.steps h3 { margin-top: 6px; }
-    .band--ablauf ol.steps li > div { max-width: 38rem; }
+    .band--ablauf ol.steps:not(.steps--rail) { grid-template-columns: 1fr; row-gap: 0; margin-top: 28px; }
+    .band--ablauf ol.steps:not(.steps--rail)::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
+    .band--ablauf ol.steps:not(.steps--rail) li { padding: 0 0 30px 32px; }
+    .band--ablauf ol.steps:not(.steps--rail) li:last-child { padding-bottom: 0; }
+    .band--ablauf ol.steps:not(.steps--rail) li::before { top: 5px; }
+    .band--ablauf ol.steps:not(.steps--rail) h3 { margin-top: 6px; }
+    .band--ablauf ol.steps:not(.steps--rail) li > div { max-width: 38rem; }
   }
   @media (max-width: 560px) {
-    .band--ablauf ol.steps li { padding-bottom: 24px; }
-    .band--ablauf ol.steps h3 { font-size: 16px; }
-    .band--ablauf ol.steps p { font-size: 14.5px; }
+    .band--ablauf ol.steps:not(.steps--rail) li { padding-bottom: 24px; }
+    .band--ablauf ol.steps:not(.steps--rail) h3 { font-size: 16px; }
+    .band--ablauf ol.steps:not(.steps--rail) p { font-size: 14.5px; }
   }
 
   /* Behandler: the one portrait on the page, off-centre, text beside it. */
@@ -774,18 +772,38 @@
   .reviewNote { font-size: 13px; color: var(--ink-soft); }
 
   @media (max-width: 900px) {
-    .band { padding: 64px clamp(20px, 5vw, 40px); }
-    .band--kosten .inner, .band--doctor .inner, .band--praxis .inner { grid-template-columns: 1fr; }
-    .band--kosten .inner > .prose, .band--kosten .inner > .promise { grid-column: 1; }
-    .band--doctor .inner { gap: 22px; }
-    .portrait { max-width: 200px; }
-    .factors li { grid-template-columns: 7.5rem 1fr; font-size: 14.5px; }
-    .faq summary { font-size: 15.5px; padding: 15px 0; }
-    .faq details p { font-size: 14.5px; }
+    .band { padding: 40px clamp(18px, 5vw, 40px); }
+    .band h2 { font-size: clamp(24px, 6.4vw, 30px); margin-bottom: 10px; }
+    .band .lede { font-size: 15px; margin-bottom: 14px; }
+    .beforeAfter { padding: 40px clamp(18px, 5vw, 40px) 36px; }
+
+    .band--doctor .inner { grid-template-columns: 1fr; }
+    .band--kosten p { font-size: 15px; margin-bottom: 10px; }
+    .factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+    .factors li { display: block; padding: 10px 0 0; border-top: 2px solid var(--accent); border-bottom: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .factors b { display: block; margin-bottom: 3px; font-size: 13.5px; }
+    .promise { margin-top: 14px; padding: 14px 14px 12px; }
+    .promise h3 { font-size: 17px; margin-bottom: 8px; }
+    .promise ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .promise li { display: block; padding: 0; border-top: 0; font-size: 12.5px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .promise li b { display: block; font-size: 13.5px; margin-bottom: 3px; }
+    .promise li span { display: block; }
+    .promise .cta { margin: 10px 0 0; }
+    .band--doctor .inner { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: start; }
+    .band--doctor h2 { font-size: 22px; }
+    .band--doctor p { font-size: 14.5px; margin-bottom: 8px; }
+    .portrait { max-width: 96px; }
+    .faq summary { font-size: 15px; padding: 12px 0; }
+    .faq details p { font-size: 14.5px; margin-bottom: 12px; }
+    .band--praxis .inner { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 14px; row-gap: 10px; }
+    .band--praxis .inner > .eyebrow, .band--praxis .inner > h2, .band--praxis .inner > .praxisRegion, .band--praxis .praxisCol:last-child { grid-column: 1 / -1; }
+    .praxisRegion { font-size: 14px; }
+    .praxisCol { padding-top: 12px; }
+    .praxisCol p { font-size: 14.5px; margin-bottom: 8px; }
   }
 
   /* Bands reveal like the before/after band: once, on arrival. */
-  .js .band:not(.in) .inner > * { opacity: 0; transform: translateY(30px); }
+  .js .band:not(.in):not(.band--ablauf) .inner > * { opacity: 0; transform: translateY(30px); }
   .band .inner > * { transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
   .band.in .inner > :nth-child(2) { transition-delay: .12s; }
   .band.in .inner > :nth-child(3) { transition-delay: .24s; }
@@ -799,7 +817,7 @@
      A small, quiet tool inside a brand page. Compact controls, hairlines,
      one accent, 44px touch targets. Two working steps (slot, details) and a
      confirmation. Talks to the practice's booking API; stores nothing. */
-  .band--buchen { background: var(--card-cool); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .band--buchen { background: var(--card-cool); }
   .band--buchen .inner { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
   .band--buchen .eyebrow { margin-bottom: 12px; }
   .band--buchen h2 { max-width: 16ch; }
@@ -829,24 +847,40 @@
   .bkHint { font-size: 13.5px; color: var(--ink-soft); }
 
   /* day strip: horizontal, snapping, small */
-  .dayStrip { min-width: 0; display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 8px; margin: 0 -2px 4px;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .dayStrip::-webkit-scrollbar { display: none; }
-  .day { flex: 0 0 auto; scroll-snap-align: start; width: 52px; min-height: 56px; display: grid; justify-items: center; align-content: center;
-    padding: 6px 2px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: inherit; color: var(--ink);
-    transition: background .15s ease, border-color .15s ease, color .15s ease; }
-  .day small { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
-  .day b { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; }
-  .day span { font-size: 9.5px; color: var(--ink-soft); }
-  .day i { display: none; }
-  .day:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
-  .day[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
-  .day[aria-selected="true"] small, .day[aria-selected="true"] span { color: rgba(255,255,255,.7); }
-  .day:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  /* times: small pills */
-  .timeGroup { margin-top: 4px; }
-  .timeHead { margin: 6px 0 6px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  /* fixed height so nothing jumps between steps */
+  .bk { min-height: 560px; display: flex; flex-direction: column; }
+  .bk .pane { flex: 1 1 auto; }
+  .bkSteps li.done { cursor: pointer; color: var(--accent); }
+  /* quick picks: the next three days as pills */
+  .quick { margin: 0 0 12px; }
+  .quickRow { display: flex; flex-wrap: wrap; gap: 8px; }
+  .quickBtn { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 8px 14px; min-height: 48px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--paper); font: inherit; color: var(--ink); cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+  .quickBtn:hover { border-color: var(--accent); background: var(--foam); }
+  .quickBtn b { font-size: 13.5px; font-weight: 600; line-height: 1.25; }
+  .quickBtn span { font-size: 12px; color: var(--accent); font-weight: 600; }
+  /* the month calendar beside the times */
+  .calRow { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px; align-items: stretch; }
+  .cal { padding: 8px 8px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+  .calHead { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .calMonth { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .calNav { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); font: inherit; font-size: 20px; line-height: 1; color: var(--ink); cursor: pointer; }
+  .calNav:hover { border-color: var(--accent); color: var(--accent); }
+  .calNav:disabled { opacity: .3; cursor: default; }
+  .calWeek, .calGrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+  .calGrid { grid-template-rows: repeat(6, 1fr); }
+  .calWeek span { text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-soft); padding: 2px 0; }
+  .calGrid .day, .calGrid .off { height: 32px; display: grid; place-items: center; border-radius: 50%; font: inherit; font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; border: 1px solid transparent; }
+  .calGrid .off { color: var(--ink-soft); opacity: .4; background: none; }
+  .calGrid .day { background: var(--foam); color: var(--ink); cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+  .calGrid .day:hover { border-color: var(--accent); }
+  .calGrid .day[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .calGrid .today { box-shadow: inset 0 0 0 1.5px var(--line); }
+  .calHint { margin: 6px 2px 0; font-size: 12px; color: var(--ink-soft); }
+  .times { display: flex; flex-direction: column; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+  .times .bkLabel { margin-bottom: 6px; }
+  .timesEmpty { margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+  .times .timeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; overflow-y: auto; max-height: 220px; }
   .timeGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
   .time { min-height: 40px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 600; font-size: 14px;
     color: var(--ink); cursor: pointer; font-variant-numeric: tabular-nums; transition: background .15s ease, border-color .15s ease, color .15s ease; }
@@ -915,7 +949,11 @@
     .bk { padding: 14px 14px 16px; border-radius: 14px; }
     .bkFields { grid-template-columns: 1fr 1fr; gap: 10px; }
     .bkFields > div:not(.half):not(.full) { grid-column: 1 / -1; }
-    .timeGrid { grid-template-columns: repeat(4, 1fr); }
+    .calRow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .times { min-height: 96px; }
+    .times .timeGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-height: none; }
+    .calGrid .day, .calGrid .off { height: 36px; }
+    .bk { min-height: 0; }
     .introFacts { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 10px; }
     .introFacts li { display: inline; font-size: 13px; }
     .introFacts li::before { content: '·'; display: inline; width: auto; height: auto; margin: 0 6px 0 0; background: none; color: var(--accent); font-weight: 700; }
@@ -986,11 +1024,288 @@
   .brandSky { color: #00a3e8; }
   .brandSwoosh { position: absolute; left: 0; right: 0; top: calc(100% + .04em); width: 100%; height: auto; overflow: visible; color: #1e1916; }
   @media (max-width: 560px) { .brand { font-size: 17px; } }
+
+  /* ===== First-load splash (veneer: the shell slides onto the tooth) ===== */
+  .splash { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+    background: var(--paper); transition: opacity .45s ease; }
+  .splash.is-leaving { opacity: 0; pointer-events: none; }
+  html:not(.js) .splash { display: none; }
+  .splashTooth { width: 96px; height: 112px; overflow: visible; }
+  .splashText { margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+  .splashText [data-l="en"] { display: none; }
+  html[lang="en"] .splashText [data-l="de"] { display: none; }
+  html[lang="en"] .splashText [data-l="en"] { display: inline; }
+  /* loop 3.4 s: outline draws around the prepared tooth, the ceramic shell slides
+     in from the left and seats itself, a shine crosses it, sparkles land, hold, fade */
+  .spOutline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: spOutline 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .spBody { animation: spBody 3.4s ease-in-out infinite; }
+  .spShell, .spShellLine { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spShell 3.4s cubic-bezier(.2,.7,.2,1) infinite; }
+  .spSweepR { animation: spSweep 3.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .spHaloC { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spHalo 3.4s ease-in-out infinite; }
+  .spSpark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: spSpark 3.4s ease-in-out infinite; }
+  .spSpark--2 { animation-delay: .12s; }
+  @keyframes spOutline { 0% { stroke-dashoffset: 1; opacity: 0; } 4% { opacity: 1; } 26% { stroke-dashoffset: 0; } 86% { stroke-dashoffset: 0; opacity: 1; } 94%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes spBody { 0%, 6% { opacity: 0; } 22% { opacity: 1; } 86% { opacity: 1; } 94%, 100% { opacity: 0; } }
+  @keyframes spShell { 0%, 30% { opacity: 0; transform: translateX(-46px) rotate(-6deg); } 40% { opacity: 1; } 56% { transform: translateX(0) rotate(0); } 100% { opacity: 1; transform: none; } }
+  @keyframes spSweep { 0%, 58% { transform: skewX(-14deg) translateX(-20px); opacity: 0; } 62% { opacity: 1; } 78% { transform: skewX(-14deg) translateX(180px); opacity: 1; } 80%, 100% { transform: skewX(-14deg) translateX(180px); opacity: 0; } }
+  @keyframes spHalo { 0%, 52% { opacity: 0; transform: scale(.8); } 72% { opacity: 1; transform: scale(1); } 86% { opacity: 1; transform: scale(1.06); } 94%, 100% { opacity: 0; transform: scale(1.1); } }
+  @keyframes spSpark { 0%, 66% { opacity: 0; transform: scale(.2) rotate(-25deg); } 74% { opacity: 1; transform: scale(1.15) rotate(0); } 80% { transform: scale(.92) rotate(6deg); } 86% { opacity: 1; transform: scale(1) rotate(0); } 94%, 100% { opacity: 0; transform: scale(.2) rotate(-25deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .spOutline, .spBody, .spShell, .spShellLine, .spSweepR, .spHaloC, .spSpark { animation: none; }
+    .spOutline { stroke-dashoffset: 0; } .spShell, .spShellLine, .spHaloC, .spSpark { opacity: 1; } .spSweepR { opacity: 0; }
+  }
+  /* the landing choreography waits behind the splash */
+  html.js:not(.is-revealed) #curtain, html.js:not(.is-revealed) .stage3d, html.js:not(.is-revealed) .stagewrap::before,
+  html.js:not(.is-revealed) .beat:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
+  html.js:not(.is-revealed) .gaugeNote i, html.js:not(.is-revealed) .hint { animation-play-state: paused; }
+
+  /* the no-cookies chip: bottom left, five seconds, then it slides away */
+  .cookieChip { position: fixed; left: 16px; bottom: 16px; z-index: 35; display: flex; align-items: center; gap: 10px; max-width: min(92vw, 420px);
+    padding: 10px 10px 10px 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); color: var(--text);
+    box-shadow: 0 20px 40px -24px rgba(30, 25, 22, .45); font-size: 13.5px; line-height: 1.4; }
+  .cookieChip > svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); }
+  .cookieChip a { font-weight: 600; color: var(--accent); }
+  .chipClose { flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 9px; background: var(--paper-2); color: var(--ink); cursor: pointer; }
+  .chipClose svg { width: 16px; height: 16px; }
+  .cookieChip::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 0; height: 2px; border-radius: 2px; background: var(--accent); transform-origin: left; opacity: .55; }
+  .cookieChip.is-out { opacity: 0; transform: translateY(12px); transition: opacity .4s ease, transform .4s cubic-bezier(.2,.7,.2,1); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cookieChip:not([hidden]) { animation: chipIn .5s cubic-bezier(.2,.7,.2,1) both; }
+    .cookieChip:not([hidden])::after { animation: chipTimer 5s linear .5s both; }
+    .cookieChip:hover::after { animation-play-state: paused; }
+  }
+  @keyframes chipIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes chipTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @media (max-width: 900px) { .cookieChip { left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; font-size: 13px; } }
+
+  /* ===== Act 1: the scroll story. One statement per beat, nothing else. ===== */
+  .block { max-width: 34rem; }
+  .beat h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; letter-spacing: -.02em; }
+  /* beat opacity and drift are written per frame from scroll progress (readScroll) */
+  html:not(.js) .beat { position: static; opacity: 1; }
+  .beat .lead { font-size: 18px; color: var(--ink-soft); }
+  .beat:first-child .lead { max-width: 24rem; }
+
+  /* ===== Act 2: reading ===== */
+  .band--read .inner, .band--material .inner { max-width: 68rem; }
+  .readGrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+  .readGrid + .readGrid { margin-top: clamp(40px, 6vw, 72px); padding-top: clamp(32px, 5vw, 56px); border-top: 1px solid var(--line); }
+  .readCol > p { font-size: 17px; line-height: 1.6; }
+  .readCol h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 21px; margin: 0 0 12px; }
+  .readGrid .gauge { margin-top: 0; padding-top: 0; border-top: 0; }
+  .readGrid .checks { margin-top: 0; }
+  .matTable { margin-top: clamp(24px, 4vw, 40px); border-top: 1px solid var(--line); }
+  .matRow { display: grid; grid-template-columns: 8rem minmax(0, 1fr) minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.5; }
+  .matRow--head { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+  .matRow--head span { display: flex; align-items: center; gap: 10px; }
+  .matRow [role="rowheader"] { color: var(--ink-soft); font-weight: 600; font-size: 14px; }
+  .materialNote { margin-top: 20px; font-size: 15px; color: var(--ink-soft); }
+
+  /* ===== Cases: four studies ===== */
+  .beforeAfter .inner { max-width: 68rem; }
+  .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px); margin-top: clamp(28px, 4vw, 44px); }
+  .caseCard { display: grid; grid-template-columns: 168px minmax(0, 1fr); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
+  .caseFig { position: relative; display: block; padding: 0; border: 0; background: var(--paper-2); cursor: zoom-in; }
+  .caseFig img { display: block; width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; }
+  .caseZoom { position: absolute; right: 12px; bottom: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(30, 25, 22, .62) center / 16px no-repeat
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m20 20-3.5-3.5M11 8v6M8 11h6'/></svg>"); }
+  .caseBody { padding: 18px 20px 16px; text-align: left; }
+  .caseKicker { margin: 0 0 6px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .caseBody h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 19px; line-height: 1.2; margin: 0 0 10px; }
+  .caseBody > p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
+  .caseMore summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 600; color: var(--accent); min-height: 40px; }
+  .caseMore summary::-webkit-details-marker { display: none; }
+  .caseMore summary::after { content: '+'; font-size: 18px; line-height: 1; }
+  .caseMore[open] summary::after { content: '−'; }
+  .caseMore p { margin: 6px 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+  .casesAll { margin: 24px 0 0; text-align: center; font-size: 15px; }
+  .casesAll a { font-weight: 600; }
+
+  /* ===== Steps: five stations on one hairline; a vertical timeline on phones ===== */
+  .inner--wide { max-width: 68rem; }
+  .steps--line { list-style: none; margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 clamp(18px, 2.4vw, 32px); position: relative; }
+  .steps--line::before { content: ''; position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: var(--line); }
+  .steps--line > li { position: relative; padding-top: 24px; }
+  .steps--line > li::before { content: ''; position: absolute; left: 0; top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--paper); }
+  .steps--line > li i { display: block; font-style: normal; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 12.5px; letter-spacing: .1em; color: var(--accent); }
+  .steps--line h3 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 17px; line-height: 1.25; margin: 8px 0 6px; }
+  .steps--line p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); }
+  @media (max-width: 900px) {
+    .steps--line { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 20px; padding-left: 26px; }
+    .steps--line::before { left: 6px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
+    .steps--line > li { padding: 0 0 18px; }
+    .steps--line > li:last-child { padding-bottom: 0; }
+    .steps--line > li::before { left: -26px; top: 4px; }
+    .steps--line > li i { display: inline; margin-right: 8px; }
+    .steps--line h3 { display: inline; font-size: 16px; }
+    .steps--line p { margin-top: 4px; font-size: 14px; }
+  }
+  /* ===== Kosten: veneer-specific ===== */
+  .kostenGrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; margin-top: clamp(20px, 3vw, 32px); }
+  .kostenFacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 0; }
+  .kostenFacts > div { border-bottom: 0; border-top: 2px solid var(--accent); padding: 12px 0 0; }
+  .kostenGrid { grid-template-columns: minmax(0, 1fr); }
+  .kostenGrid .prose p { font-size: 16.5px; line-height: 1.6; }
+  .kostenFacts { margin: 0; border-top: 1px solid var(--line); }
+  .kostenFacts > div { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .kostenFacts dt { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 700; font-size: 16px; margin: 0 0 4px; }
+  .kostenFacts dd { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-soft); }
+
+  @media (max-width: 900px) {
+    .readGrid, .readGrid--crown, .kostenGrid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .readGrid + .readGrid { margin-top: 28px; padding-top: 24px; }
+    .readCol > p, .kostenGrid .prose p { font-size: 15px; }
+    .matRow { grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding: 12px 0; font-size: 13px; line-height: 1.4; hyphens: auto; -webkit-hyphens: auto; }
+    .matRow--head { font-size: 14px; }
+    .matRow [role="rowheader"] { font-size: 12.5px; }
+    /* phones: the bleaching layout - two cases side by side, photo on top,
+       caption below, no card chrome; "Mehr lesen" opens under the caption */
+    .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; margin-top: 22px; }
+    .caseCard { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; border: 0; border-radius: 0; background: none; align-content: start; }
+    .beforeAfter .caseCard { background: none; border: 0; }
+    .caseFig { border-radius: 12px; overflow: hidden; }
+    .caseFig img { aspect-ratio: 1; height: auto; }
+    .caseZoom { width: 26px; height: 26px; right: 6px; bottom: 6px; background-size: 13px; }
+    .caseBody { padding: 10px 2px 0; }
+    .caseKicker { font-size: 10.5px; letter-spacing: .1em; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .caseBody h3 { font-size: 15px; line-height: 1.25; margin-bottom: 5px; }
+    /* the short paragraph moves into "Mehr lesen" on phones; the title carries the cell */
+    .caseBody > p { display: none; }
+    .caseMore[open] summary { margin-bottom: 2px; }
+    .caseMore summary { font-size: 13px; min-height: 32px; }
+    .caseMore p { font-size: 13px; line-height: 1.45; }
+    .caseMore[open] ~ *, .caseCard.is-open .caseBody > p { display: block; }
+    .beforeAfter p.lede { font-size: 14px; }
+    .casesAll { margin-top: 18px; font-size: 14px; }
+    .kostenFacts dt { font-size: 15px; } .kostenFacts dd { font-size: 14px; }
+  }
+
+  /* ===== Praxis: the map carries the section; facts beside it; the footer follows directly ===== */
+  .band--praxis { padding-bottom: clamp(48px, 6vw, 72px); background: var(--paper); }
+  .praxisGrid { display: grid; grid-template-columns: minmax(260px, 380px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .mapTile { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 22px; border: 1px solid var(--line); background: var(--paper-2);
+    text-decoration: none; color: var(--ink); box-shadow: 0 30px 60px -44px rgba(30, 25, 22, .4); transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease; }
+  .mapTile:hover { transform: translateY(-3px); box-shadow: 0 36px 70px -44px rgba(30, 25, 22, .5); }
+  .mapTile img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7) sepia(.12) contrast(.98); }
+  .mapPin { position: absolute; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+  .mapPin i { position: absolute; inset: 0; border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(30, 25, 22, .35); }
+  .mapPin::before, .mapPin::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; }
+  .mapLabel { position: absolute; left: 14px; right: 14px; bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; background: rgba(250, 248, 244, .94); font-size: 14px; line-height: 1.3; box-shadow: 0 10px 24px -14px rgba(30, 25, 22, .4); }
+  .mapLabel b { font-weight: 600; }
+  .mapLabel span { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .mapCredit { position: absolute; right: 8px; top: 8px; padding: 2px 6px; border-radius: 6px; background: rgba(250, 248, 244, .8); font-size: 10px; color: var(--ink-soft); }
+  @media (prefers-reduced-motion: no-preference) {
+    .mapTile img { animation: mapDrift 26s ease-in-out infinite alternate; }
+    .mapPin::before { animation: ping 2.4s cubic-bezier(.2,.7,.2,1) infinite; }
+    .mapPin::after { animation: ping 2.4s cubic-bezier(.2,.7,.2,1) 1.2s infinite; }
+  }
+  @keyframes mapDrift { from { transform: scale(1.04) translate(1.5%, -1%); } to { transform: scale(1.12) translate(-1.5%, 1.5%); } }
+  @keyframes ping { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(3.2); opacity: 0; } }
+  .praxisText .praxisRegion { font-size: 16px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 18px; }
+  .praxisFacts { margin: 0; display: grid; gap: 10px; }
+  .praxisFacts > div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .praxisFacts dt { font-weight: 600; color: var(--ink-soft); font-size: 13.5px; }
+  .praxisFacts dd { margin: 0; color: var(--ink); }
+  .praxisFacts a { font-weight: 600; color: var(--accent); }
+  .praxisText .reviewNote { margin-top: 14px; font-size: 13px; color: var(--ink-soft); }
+  footer { margin-top: 0; }
+  @media (max-width: 900px) {
+    .praxisGrid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .mapTile { aspect-ratio: 16 / 10; }
+    .praxisFacts > div { grid-template-columns: 6.5rem minmax(0, 1fr); font-size: 14px; }
+    .praxisText .praxisRegion { font-size: 14.5px; }
+  }
+
+  /* ===== Secondary colour: the ceramic's blue-grey against the warm paper ===== */
+  .band--read, .band--kosten, .band--faq { background: var(--sec-tint); }
+  .band--read .eyebrow, .band--kosten .eyebrow, .band--faq .eyebrow, .band--ablauf .eyebrow, .band--praxis .eyebrow, .beforeAfter .eyebrow, .band--material .eyebrow { color: var(--sec); }
+  .caseKicker { color: var(--sec); }
+  .matRow--head { color: var(--sec); }
+  .matRow--head span, .matRow [role="rowheader"] { color: var(--sec); }
+  .steps--line::before { background: var(--sec-line); }
+  .steps--line > li i { color: var(--sec); }
+  .kostenFacts > div { border-top-color: var(--sec-line); }
+  .kostenFacts dt { color: var(--sec); }
+  .praxisFacts dt { color: var(--sec); }
+  .mapPin i, .mapPin::before, .mapPin::after { background-color: var(--sec); border-color: var(--sec); }
+  .mapPin::before, .mapPin::after { background: none; }
+  .faq summary::after { border-color: var(--sec-line); }
+  .gauge .slab i { background: var(--sec); }
+  .gauge .slab.is-veneer i { background: var(--accent); }
+  /* ===== Cases on dark ground: the one deep band between the paper sections ===== */
+  .beforeAfter { background: var(--footer-bg); color: var(--footer-soft);
+    --ink: var(--footer-ink); --ink-soft: var(--footer-soft); --line: rgba(238, 240, 236, .14); --accent: #e6a98b; --accent-hover: #f3d3c2; }
+  .beforeAfter h2 { color: var(--footer-ink); }
+  .beforeAfter .eyebrow { color: #b9c4a9; }
+  .beforeAfter p.lede { color: var(--footer-soft); }
+  .beforeAfter .caseCard { background: rgba(255, 255, 255, .045); border-color: rgba(238, 240, 236, .12); }
+  .beforeAfter .caseFig { background: rgba(255, 255, 255, .04); }
+  .beforeAfter .caseKicker { color: #b9c4a9; }
+  .beforeAfter .caseBody h3 { color: var(--footer-ink); }
+  .beforeAfter .caseBody > p { color: #e6e1d8; }
+  .beforeAfter .caseMore p { color: var(--footer-soft); }
+  .beforeAfter .caseMore summary, .beforeAfter .casesAll a { color: #e6a98b; }
+  .beforeAfter .casesAll { color: var(--footer-soft); }
+  /* ===== Praxis grid: override the old three-column rule ===== */
+  .band--praxis .inner.praxisGrid { display: grid; grid-template-columns: minmax(280px, 420px) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; max-width: 68rem; }
+  .praxisText { max-width: 34rem; }
+  @media (max-width: 900px) { .band--praxis .inner.praxisGrid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
 <script>document.documentElement.classList.add('js');</script>
+<!-- First-load splash: a prepared tooth, a thin ceramic shell slides on and
+     bonds, a shine runs across it. One full loop always plays; the page's own
+     landing choreography starts when the splash lifts. Never shown without JS. -->
+<div class="splash" id="splash" aria-hidden="true">
+  <svg viewBox="0 0 120 140" class="splashTooth" fill="none">
+    <defs>
+      <clipPath id="spClip"><path d="M60 10c-15 0-27 8-31 22-3 12-1 24 2 36 2 8 3 16 6 24 3 9 6 20 10 28 3 6 8 6 10 0 2-7 1-16 3-24 1 8 0 17 3 24 2 6 7 6 10 0 4-8 7-19 10-28 3-8 4-16 6-24 3-12 5-24 2-36C87 18 75 10 60 10Z"/></clipPath>
+      <linearGradient id="spPrep" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2d6c4"/><stop offset="1" stop-color="#c8b8a0"/></linearGradient>
+      <linearGradient id="spCeramic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f7f4ee"/><stop offset="1" stop-color="#e6dfd3"/></linearGradient>
+      <linearGradient id="spSweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <radialGradient id="spHalo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#9a4322" stop-opacity=".16"/><stop offset="1" stop-color="#9a4322" stop-opacity="0"/></radialGradient>
+    </defs>
+    <circle class="spHaloC" cx="60" cy="66" r="58" fill="url(#spHalo)"/>
+    <g class="spBody">
+      <g clip-path="url(#spClip)">
+        <rect x="0" y="0" width="120" height="140" fill="url(#spPrep)"/>
+        <path class="spShell" d="M60 12c-13 0-24 7-27 20-3 11-1 22 2 34 1 5 2 10 4 15 6-3 13-4 21-4s15 1 21 4c2-5 3-10 4-15 3-12 5-23 2-34C84 19 73 12 60 12Z" fill="url(#spCeramic)"/>
+        <rect class="spSweepR" x="-60" y="0" width="60" height="140" fill="url(#spSweep)" transform="skewX(-14)"/>
+      </g>
+      <path class="spShellLine" d="M60 12c-13 0-24 7-27 20-3 11-1 22 2 34 1 5 2 10 4 15 6-3 13-4 21-4s15 1 21 4c2-5 3-10 4-15 3-12 5-23 2-34C84 19 73 12 60 12Z" stroke="#9a4322" stroke-width="1.4" stroke-opacity=".7" stroke-linejoin="round"/>
+    </g>
+    <path class="spOutline" pathLength="1" stroke="#9a4322" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M60 10c-15 0-27 8-31 22-3 12-1 24 2 36 2 8 3 16 6 24 3 9 6 20 10 28 3 6 8 6 10 0 2-7 1-16 3-24 1 8 0 17 3 24 2 6 7 6 10 0 4-8 7-19 10-28 3-8 4-16 6-24 3-12 5-24 2-36C87 18 75 10 60 10Z"/>
+    <g class="spSpark" transform="translate(94 22)"><path fill="#9a4322" d="M0-10C1.8-2.7 2.7-1.8 10 0 2.7 1.8 1.8 2.7 0 10-1.8 2.7-2.7 1.8-10 0-2.7-1.8-1.8-2.7 0-10Z"/></g>
+    <g class="spSpark spSpark--2" transform="translate(108 42)"><path fill="#c9866a" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+  </svg>
+  <p class="splashText"><span data-l="de">Wird geladen …</span><span data-l="en">Loading …</span></p>
+</div>
+<noscript><style>.splash { display: none !important; }</style></noscript>
 <div id="curtain" aria-hidden="true"></div>
+<script>
+  // Splash release: page loaded, at least one full 3.4 s loop, lift at the end of a loop.
+  (function () {
+    var el = document.getElementById('splash'); if (!el) return;
+    var t0 = performance.now(), done = false, LOOP = 3400, LIFT_AT = 0.9;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function leave(force) {
+      if (done) return; done = true;
+      var elapsed = performance.now() - t0, wait;
+      if (reduce || force) wait = Math.max(0, 200 - elapsed);
+      else { var loop = Math.max(1, Math.ceil((elapsed + 50) / LOOP)); var lift = (loop - 1) * LOOP + LOOP * LIFT_AT; if (lift < elapsed) lift += LOOP; wait = lift - elapsed; }
+      setTimeout(function () {
+        el.classList.add('is-leaving');
+        document.documentElement.classList.add('is-revealed');
+        window.dispatchEvent(new CustomEvent('aixsmile:revealed'));
+        setTimeout(function () { el.remove(); }, 500);
+      }, wait);
+    }
+    var onLoad = function () { leave(false); }; // never pass the Event in as `force`
+    if (document.readyState === 'complete') onLoad(); else window.addEventListener('load', onLoad, { once: true });
+    setTimeout(function () { leave(true); }, 6500); // failsafe: lift at once, whatever the loop is doing
+  })();
+</script>
 <script>
   // Remove the curtain the moment its lift ends. Registered here, before the
   // module script (which waits on the Three.js import), so it cannot miss the
@@ -999,7 +1314,7 @@
     var c = document.getElementById('curtain'); if (!c) return;
     var gone = function () { if (c.parentNode) c.parentNode.removeChild(c); };
     c.addEventListener('animationend', gone, { once: true });
-    setTimeout(gone, 2600);
+    setTimeout(gone, 2600 + 7000);
   })();
 </script>
 <header class="top">
@@ -1022,102 +1337,40 @@
 
 <div class="shell">
   <main class="copy">
-    <section class="block" data-anchor>
+    <!-- Act 1 copy: six beats in ONE pinned layer. Each beat fades in, holds and
+         dissolves as a function of scroll progress (readScroll); the empty .block
+         sections below are only the scroll tracks and camera anchors. -->
+    <div class="beats" id="beats">
+      <div class="beat">
       <p class="eyebrow" data-i18n="hero.eyebrow">Veneers in Aachen · AIXSMILE</p>
       <h1 data-i18n="hero.h1">Veneers in Aachen: <em>dünner</em> als ein Fingernagel.</h1>
-      <p class="lead" data-i18n="hero.lead">Beim Scrollen legen sich sechs Schalen nacheinander auf die Zähne. Es entsteht kein neuer Zahn, nur eine neue Oberfläche. Farbe, Form und Glanz ändern sich, der eigene Zahn darunter bleibt.</p>
-      <div class="heroCases" id="heroCases">
-        <span class="heroCasesRow"><button type="button" class="heroCase lg" data-case="0" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/1-lg.jpg" width="560" height="560" decoding="async" data-i18n-alt="ba.img1Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 1"></button><button type="button" class="heroCase" data-case="1" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/2.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img2Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 2"></button><button type="button" class="heroCase" data-case="2" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/3.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img3Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 3"></button><button type="button" class="heroCase" data-case="3" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/4.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img4Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 4"></button><button type="button" class="heroCase" data-case="4" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/5.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img5Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 5"></button><button type="button" class="heroCase" data-case="5" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/6.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img6Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 6"></button><button type="button" class="heroCase" data-case="6" data-i18n-aria="ba.open"><img src="/assets/before-after/thumbs/7.jpg" width="240" height="240" decoding="async" data-i18n-alt="ba.img7Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 7"></button></span>
-        <a class="heroCasesCap" href="#beforeAfter" data-i18n-aria="hero.casesAria"><b data-i18n="hero.casesB">7 echte Fälle aus unserer Praxis</b> <span data-i18n="hero.casesS">Zum Vergrößern antippen · alle Fälle ansehen →</span></a>
+      <p class="lead" data-i18n="hero.lead">Scrollen Sie, und sechs Schalen legen sich auf die Zähne.</p>
       </div>
-      <!-- The most characteristic fact about a veneer, made tangible: a
-           cross-section of three thicknesses at 20x, with a TRUE-size tick.
-           CSS mm are physical units (1mm = 3.78px), so 0.4mm at 1:1 is a
-           1.5px hairline - honest but invisible; magnified it can be read. -->
-      <!-- Three shells standing on edge: WIDTH is thickness at the stated
-           magnification, with a true-size tick in the note. CSS mm are
-           physical units (1mm = 3.78px); 0.4mm at 1:1 is a 1.5px hairline. -->
-      <div class="gauge">
-        <p class="gaugeTitle"><span data-i18n="hero.gaugeTitle">Wie d&uuml;nn ist d&uuml;nn?</span> <span class="gaugeMag" id="gaugeMag">20-fach vergr&ouml;&szlig;ert</span></p>
-        <div class="gaugeSlabs">
-          <div class="slab is-veneer" style="--mm: .4"><i aria-hidden="true"></i><b>0,4&nbsp;mm</b><span data-i18n="hero.gVeneer">ein Veneer</span></div>
-          <div class="slab" style="--mm: .5"><i aria-hidden="true"></i><b>0,5&nbsp;mm</b><span data-i18n="hero.gNail">Ihr Fingernagel</span></div>
-          <div class="slab" style="--mm: .76"><i aria-hidden="true"></i><b>0,76&nbsp;mm</b><span data-i18n="hero.gCard">eine Bankkarte</span></div>
-        </div>
-        <p class="gaugeNote"><i aria-hidden="true" style="--mm: .4"></i><span data-i18n="hero.gNote">tats&auml;chliche St&auml;rke &middot; 2 Materialien &middot; 15+ Jahre haltbar</span></p>
+      <div class="beat">
+      <h2 data-i18n="what.h2">Eine hauchdünne Keramikschale auf dem eigenen Zahn.</h2>
       </div>
-    </section>
-
-    <section class="block" data-anchor>
-      <h2 data-i18n="what.h2">Aufgeklebt auf den Zahn, nicht im Knochen verankert.</h2>
-      <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.</p>
-      <p data-i18n="what.p2">Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.</p>
-    </section>
-
-    <section class="block" data-anchor id="material">
-      <h2 data-i18n="material.h2">Keramik oder Composite.</h2>
-      <p data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
-      <div class="materials">
-        <div class="flip">
-          <div class="flipInner">
-            <div class="flipFace flipFront">
-              <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-              <p class="materialName"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></p>
-              <p class="materialLead" data-i18n="material.m1Lead">Fleckenresistent und lichtdurchl&auml;ssig</p>
-              <p data-i18n="material.m1Body">Keramik-Veneers sind besonders fleckenresistent, lichtdurchl&auml;ssig und bei guter Pflege &uuml;ber viele Jahre stabil. Weil Licht wie bei echtem Schmelz in die Schale eindringt, wirkt das Ergebnis lebendig statt flach.</p>
-            </div>
-            <div class="flipFace flipBack" aria-hidden="true">
-              <img src="/assets/materials/keramik.jpg" decoding="async" data-i18n-alt="material.m1Alt" alt="Fertige Keramik-Veneers vor der Befestigung (Beispielbild)">
-              <button type="button" class="flipHit" data-flip="hide" data-i18n-aria="material.back" tabindex="-1"></button>
-              <div class="flipCaption"><b data-i18n="material.m1Full">Keramik-Veneers</b><span data-i18n="material.m1Cap">Hauchd&uuml;nne Keramikschalen (Beispielbild)</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="flip">
-          <div class="flipInner">
-            <div class="flipFace flipFront">
-              <button type="button" class="flipBtn" data-flip="show" data-i18n-aria="material.seePhoto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-              <p class="materialName"><i class="swatch swatch--composite" aria-hidden="true"></i><span data-i18n="material.m2Name">Composite</span></p>
-              <p class="materialLead" data-i18n="material.m2Lead">G&uuml;nstiger und leichter zu reparieren</p>
-              <p data-i18n="material.m2Body">Composite-Veneers sind g&uuml;nstiger und lassen sich sp&auml;ter leichter ausbessern. Daf&uuml;r sind sie anf&auml;lliger f&uuml;r Verf&auml;rbungen: Kaffee, Tee und Tabak hinterlassen hier eher Spuren als auf Keramik.</p>
-            </div>
-            <div class="flipFace flipBack" aria-hidden="true">
-              <img src="/assets/materials/composite.jpg" decoding="async" data-i18n-alt="material.m2Alt" alt="Mit Composite gestaltetes Lächeln (Beispielbild)">
-              <button type="button" class="flipHit" data-flip="hide" data-i18n-aria="material.back" tabindex="-1"></button>
-              <div class="flipCaption"><b data-i18n="material.m2Full">Composite-Veneers</b><span data-i18n="material.m2Cap">Direkt aufgebautes Composite (Beispielbild)</span></div>
-            </div>
-          </div>
-        </div>
+      <div class="beat beat--material">
+      <h2 data-i18n="material.h2">Keramik oder Composite. Ihr Zahn entscheidet mit.</h2>
       </div>
-      <p class="materialNote" data-i18n="material.note"><b>Ohne Beschleifen?</b> In geeigneten F&auml;llen bieten wir minimalinvasive oder &bdquo;no-prep&ldquo; Veneers (Lumineers) an, die weniger oder gar kein Beschleifen der nat&uuml;rlichen Z&auml;hne erfordern. Ob das f&uuml;r Sie infrage kommt, pr&uuml;fen wir sorgf&auml;ltig.</p>
-    </section>
-
-    <section class="block" data-anchor id="crown">
+      <div class="beat beat--crown">
       <h2 data-i18n="crown.h2">Sechs Schalen, Zahn für Zahn gesetzt.</h2>
-      <p data-i18n="crown.p1">Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.</p>
-      <p data-i18n="crown.p2">Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn.</p>
-    </section>
-
-    <section class="block" data-anchor id="suitability">
-      <h2 data-i18n="suitability.h2">Wann Veneers passen, und wann nicht.</h2>
-      <ul class="checks">
-        <li data-i18n="suitability.check1">Entzündungsfreies Zahnfleisch und keine unbehandelte Karies an den betroffenen Zähnen.</li>
-        <li data-i18n="suitability.check2">Genügend eigener Zahnschmelz als Klebegrund. Ist davon wenig übrig, ist oft eine Krone die bessere Wahl.</li>
-        <li data-i18n="suitability.check3">Nächtliches Zähnepressen oder -knirschen vorher abgeklärt und bei Bedarf mit einer Schiene versorgt.</li>
-        <li data-i18n="suitability.check4">Wer aufhellen möchte, tut dies vor der Farbwahl, denn die Farbe eines Veneers lässt sich später nicht mehr bleichen.</li>
-      </ul>
-    </section>
-
-    <section class="block" data-anchor id="consult">
-      <h2 data-i18n="consult.h2">Starten Sie mit dem Scan, nicht mit dem Bohrer.</h2>
-      <p data-i18n="consult.p">In einem ausführlichen Ersttermin sehen wir uns gemeinsam Fotos und einen digitalen Scan an und besprechen ehrlich, ob Veneers das richtige Mittel für Ihr Anliegen sind oder ob eine andere Behandlung besser passt.</p>
-      <div class="cta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="consult.btnBook">Termin buchen</a>
-        <a class="btn ghost btnWithIcon" href="tel:+4924131202" data-cta="call" data-i18n-aria="consult.callAria">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241 31202</span>
-        </a>
       </div>
-    </section>
+      <div class="beat beat--suitability">
+      <h2 data-i18n="suitability.h2">Farbe, Form und Glanz ändern sich. Der Zahn bleibt Ihrer.</h2>
+      </div>
+      <div class="beat beat--consult">
+      <h2 data-i18n="consult.h2">Ein Scan zuerst. Geschliffen wird erst mit Ihrem Ja.</h2>
+      <div class="cta">
+        <a class="btn" href="#buchen" data-cta="book" data-i18n="consult.btnBook">Beratung buchen</a>
+      </div>
+      </div>
+    </div>
+    <section class="block" data-anchor></section>
+    <section class="block" data-anchor></section>
+    <section class="block" data-anchor id="material"></section>
+    <section class="block" data-anchor id="crown"></section>
+    <section class="block" data-anchor id="suitability"></section>
+    <section class="block" data-anchor id="consult"></section>
   </main>
 
   <div class="stagewrap" id="stagewrap">
@@ -1130,34 +1383,118 @@
   </div>
 </div>
 
-<section class="beforeAfter" id="beforeAfter">
+<!-- Act 2: the reading part. The scroll story above says it in a line per
+     beat; here the same facts get their paragraphs, on plain paper. -->
+<section class="band band--read" id="wissen">
   <div class="inner">
-    <h2 data-i18n="ba.h2">Vorher und nachher.</h2>
-    <p class="lede" data-i18n="ba.p">Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten.</p>
-    <!-- One case at a time, large, with the same arrows-and-dots control as
-         the step gallery. The five-thumbnail grid mixed aspect ratios and
-         left half the row empty; a single frame gives each case its due.
-         Below the fold, so the photos are lazy. -->
-    <div class="baViewer">
-      <div class="baStage" id="baStage">
-        <img src="/assets/before-after/1.jpg" class="active" loading="lazy" decoding="async" data-i18n-alt="ba.img1Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 1">
-        <img src="/assets/before-after/2.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img2Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 2">
-        <img src="/assets/before-after/3.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img3Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 3">
-        <img src="/assets/before-after/4.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img4Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 4">
-        <img src="/assets/before-after/5.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img5Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 5">
-        <img src="/assets/before-after/6.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img6Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 6">
-        <img src="/assets/before-after/7.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img7Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 7">
+    <div class="readGrid">
+      <div class="readCol">
+        <p class="eyebrow" data-i18n="read.eyebrow">Was ein Veneer ist</p>
+        <h2 data-i18n="read.h2">Aufgeklebt auf den Zahn, nicht im Knochen verankert.</h2>
+        <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.</p>
       </div>
-      <div class="stepNav baNav">
-        <button type="button" class="stepArrow" id="baPrev" data-i18n-aria="ba.prev">&#8249;</button>
-        <div class="stepDots" id="baDots"></div>
-        <button type="button" class="stepArrow" id="baNext" data-i18n-aria="ba.next">&#8250;</button>
-        <span class="baCount" id="baCount" aria-live="polite"></span>
+      <div class="readCol">
+        <div class="gauge">
+        <p class="gaugeTitle"><span data-i18n="hero.gaugeTitle">Wie d&uuml;nn ist d&uuml;nn?</span> <span class="gaugeMag" id="gaugeMag">20-fach vergr&ouml;&szlig;ert</span></p>
+        <div class="gaugeSlabs">
+          <div class="slab is-veneer" style="--mm: .4"><i aria-hidden="true"></i><b>0,4&nbsp;mm</b><span data-i18n="hero.gVeneer">ein Veneer</span></div>
+          <div class="slab" style="--mm: .5"><i aria-hidden="true"></i><b>0,5&nbsp;mm</b><span data-i18n="hero.gNail">Ihr Fingernagel</span></div>
+          <div class="slab" style="--mm: .76"><i aria-hidden="true"></i><b>0,76&nbsp;mm</b><span data-i18n="hero.gCard">eine Bankkarte</span></div>
+        </div>
+        <p class="gaugeNote"><i aria-hidden="true" style="--mm: .4"></i><span data-i18n="hero.gNote">tats&auml;chliche St&auml;rke &middot; 2 Materialien &middot; 15+ Jahre haltbar</span></p>
+      </div>
+      </div>
+    </div>
+
+    <div class="readGrid readGrid--crown">
+      <div class="readCol">
+        <h3 data-i18n="crownRead.h3">Veneer oder Krone?</h3>
+        <p data-i18n="crown.p1">Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.</p>
+      </div>
+      <div class="readCol">
+        <h3 data-i18n="suitRead.h3">Wann Veneers passen</h3>
+        <ul class="checks">
+          <li data-i18n="suitability.check1">Entzündungsfreies Zahnfleisch und keine unbehandelte Karies an den betroffenen Zähnen.</li>
+          <li data-i18n="suitability.check2">Genügend eigener Zahnschmelz als Klebegrund. Ist davon wenig übrig, ist oft eine Krone die bessere Wahl.</li>
+          <li data-i18n="suitability.check3">Nächtliches Zähnepressen oder -knirschen vorher abgeklärt und bei Bedarf mit einer Schiene versorgt.</li>
+          <li data-i18n="suitability.check4">Wer aufhellen möchte, tut dies vor der Farbwahl, denn die Farbe eines Veneers lässt sich später nicht mehr bleichen.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
+<section class="band band--material" id="materialien">
+  <div class="inner">
+    <p class="eyebrow" data-i18n="matRead.eyebrow">Zwei Materialien</p>
+    <h2 data-i18n="matRead.h2">Keramik oder Composite.</h2>
+    <p class="lede" data-i18n="material.p">Zur Auswahl stehen zwei Materialien. Welches passt, h&auml;ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.</p>
+    <div class="matTable" role="table">
+      <div class="matRow matRow--head" role="row">
+        <span role="columnheader"></span>
+        <span role="columnheader"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></span>
+        <span role="columnheader"><i class="swatch swatch--composite" aria-hidden="true"></i><span data-i18n="material.m2Name">Composite</span></span>
+      </div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r1">Haltbarkeit</span><span data-i18n="mat.r1a">Bei guter Pflege häufig 15 Jahre und länger</span><span data-i18n="mat.r1b">Kürzer, dafür jederzeit in der Praxis ausbesserbar</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r2">Farbe</span><span data-i18n="mat.r2a">Fleckenresistent, verändert sich nicht</span><span data-i18n="mat.r2b">Kann mit Kaffee, Tee und Rotwein nachdunkeln</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r3">Wirkung</span><span data-i18n="mat.r3a">Lichtdurchlässig wie Schmelz, wirkt lebendig</span><span data-i18n="mat.r3b">Gut, aber flacher; direkt am Zahn modelliert</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r4">Termine</span><span data-i18n="mat.r4a">Zwei bis drei, das Labor fertigt dazwischen</span><span data-i18n="mat.r4b">Oft in einer Sitzung</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r5">Kosten</span><span data-i18n="mat.r5a">Höher, Labor inklusive</span><span data-i18n="mat.r5b">Deutlich günstiger</span></div>
+    </div>
+    <p class="materialNote" data-i18n="material.note"><b>Ohne Beschleifen?</p>
+  </div>
+</section>
+
+<section class="beforeAfter" id="beforeAfter">
+  <div class="inner">
+    <p class="eyebrow" data-i18n="ba.eyebrow">Fälle aus der Praxis</p>
+    <h2 data-i18n="ba.h2">Vier Fälle, vier Ausgangslagen.</h2>
+    <p class="lede" data-i18n="ba.p">Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten. Jeder Fall ist anders; die Beschreibungen erklären die Behandlungsart, nicht ein Versprechen.</p>
+    <div class="cases">
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="0" data-i18n-aria="ba.open" aria-label="Fall 1 vergrößert ansehen"><img src="/assets/before-after/1.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img1Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 1"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case1.k">Fall 1 · Lücke und Kanten</p>
+          <h3 data-i18n="case1.h">Geschlossene Lücke, ruhige Kante.</h3>
+          <p data-i18n="case1.p">Abgenutzte Kanten und ein kleiner Spalt. Keramikschalen schließen die Lücke und geben der Kante eine ruhige Linie.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case1.more">Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.</p></details>
+        </div>
+      </article>
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="1" data-i18n-aria="ba.open" aria-label="Fall 2 vergrößert ansehen"><img src="/assets/before-after/2.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img2Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 2"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case2.k">Fall 2 · Farbe und Form</p>
+          <h3 data-i18n="case2.h">Heller und gleichmäßiger, ohne aufzutragen.</h3>
+          <p data-i18n="case2.p">Ungleiche Farbe und Form. Die Schalen bringen beides in eine Linie; der Ton wurde vorher bei Tageslicht bestimmt.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case2.more">Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.</p></details>
+        </div>
+      </article>
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="2" data-i18n-aria="ba.open" aria-label="Fall 3 vergrößert ansehen"><img src="/assets/before-after/3.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img3Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 3"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case3.k">Fall 3 · Stellung</p>
+          <h3 data-i18n="case3.h">Gerader wirkend, ohne Zahnspange.</h3>
+          <p data-i18n="case3.p">Leicht gedrehte, unterschiedlich lange Fronten. Optisch begradigt, die Wurzeln bleiben, wo sie sind.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case3.more">Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.</p></details>
+        </div>
+      </article>
+      <article class="caseCard">
+        <button type="button" class="caseFig" data-case="4" data-i18n-aria="ba.open" aria-label="Fall 5 vergrößert ansehen"><img src="/assets/before-after/5.jpg" loading="lazy" decoding="async" data-i18n-alt="ba.img5Alt" alt="Vorher-Nachher-Vergleich mit Veneers, Fall 5"><span class="caseZoom" aria-hidden="true"></span></button>
+        <div class="caseBody">
+          <p class="caseKicker" data-i18n="case4.k">Fall 4 · Gesamtbild</p>
+          <h3 data-i18n="case4.h">Sechs Fronten als ein Bild.</h3>
+          <p data-i18n="case4.p">Farbe, Kante, Breite zugleich. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt.</p>
+          <details class="caseMore"><summary data-i18n="ba.more">Mehr lesen</summary><p data-i18n="case4.more">Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.</p></details>
+        </div>
+      </article>
+    </div>
+    <p class="casesAll"><a href="#" id="casesAll" data-i18n="ba.all">Alle sieben Fälle ansehen →</a></p>
+  </div>
+</section>
+
+<div class="baStage" id="baStage" hidden aria-hidden="true">
+  <img src="/assets/before-after/1.jpg" alt=""><img src="/assets/before-after/2.jpg" alt=""><img src="/assets/before-after/3.jpg" alt=""><img src="/assets/before-after/4.jpg" alt=""><img src="/assets/before-after/5.jpg" alt=""><img src="/assets/before-after/6.jpg" alt=""><img src="/assets/before-after/7.jpg" alt="">
+</div>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="lbTop">
     <span class="lbTitle" data-i18n="ba.h2">Vorher und nachher.</span>
@@ -1182,16 +1519,16 @@
      stations, numerals in the Kosten band's register. No controls: there is
      nothing to swap, so nothing to click. -->
 <section class="band band--ablauf" id="process">
-  <div class="inner">
+  <div class="inner inner--wide">
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
     <h2 data-i18n="process.h2">Fünf Schritte, ein Ergebnis.</h2>
-    <p class="lede" data-i18n="process.lede">Vom ersten Gespräch bis zur letzten Politur. Jeder Schritt wird erklärt, bevor er passiert, und geschliffen wird erst, wenn Sie zugestimmt haben.</p>
-    <ol class="steps">
-      <li><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Am Anfang steht ein Gespräch: Was genau soll sich verändern? Passend dazu wählen wir den Farbton mit Mustern, die wir direkt neben Ihre eigenen Zähne halten.</p></div></li>
-      <li><i>02</i><div data-i18n="process.step2"><h3>Formvorbereitung</h3><p>Für die Schale braucht der Zahn ein wenig Platz. Meist genügt eine hauchdünne Schicht des äußeren Schmelzes, bei sehr dünnen Veneers manchmal gar keine. Mit Betäubung spüren Sie davon nichts.</p></div></li>
-      <li><i>03</i><div data-i18n="process.step3"><h3>Abdruck und Modell</h3><p>Ein digitaler Scanner oder eine klassische Abformung hält die genaue Form Ihrer Zähne fest. Aus diesen Daten fertigt ein Speziallabor jede Schale auf den Zehntelmillimeter genau.</p></div></li>
-      <li><i>04</i><div data-i18n="process.step4"><h3>Einprobe und Verklebung</h3><p>Bevor geklebt wird, wird probiert: Sitz, Farbe und Übergänge werden mit Wasser geprüft. Erst wenn alles passt, wird der Zahn getrocknet, angeätzt und die Schale dauerhaft verklebt.</p></div></li>
-      <li><i>05</i><div data-i18n="process.step5"><h3>Feinschliff und Nachsorge</h3><p>Zum Schluss werden Ränder und Biss kontrolliert und letzte Kanten poliert. Wir zeigen Ihnen außerdem, wie Sie Ihre neuen Veneers im Alltag pflegen, damit sie lange schön bleiben.</p></div></li>
+    <p class="lede" data-i18n="process.lede">Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.</p>
+    <ol class="steps steps--line" id="stepsRail">
+      <li><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p></div></li>
+      <li><i>02</i><div data-i18n="process.step2"><h3>Formvorbereitung</h3><p>Meist nur eine hauchdünne Schmelzschicht, mit Betäubung spürbar nichts.</p></div></li>
+      <li><i>03</i><div data-i18n="process.step3"><h3>Scan und Modell</h3><p>Ein digitaler Scan hält Ihre Zähne fest; das Labor fertigt jede Schale danach.</p></div></li>
+      <li><i>04</i><div data-i18n="process.step4"><h3>Einprobe und Verklebung</h3><p>Sitz und Farbe werden erst geprüft, dann wird die Schale dauerhaft verklebt.</p></div></li>
+      <li><i>05</i><div data-i18n="process.step5"><h3>Feinschliff und Nachsorge</h3><p>Biss und Ränder kontrolliert, Kanten poliert, Pflege erklärt.</p></div></li>
     </ol>
   </div>
 </section>
@@ -1200,20 +1537,14 @@
   <div class="inner">
     <div class="intro">
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
-      <h2 data-i18n="bk.h2">Beratungstermin direkt hier buchen.</h2>
-      <p data-i18n="bk.p">Freie Termine in Echtzeit. Tag und Uhrzeit wählen, Kontaktdaten eintragen, fertig. Die Bestätigung kommt sofort per E-Mail.</p>
-      <ul class="introFacts">
-        <li data-i18n="bk.fact1">Beratung mit digitalem Scan, es wird nichts geschliffen</li>
-        <li data-i18n="bk.fact2">Schriftlicher Kostenplan, Entscheidung danach in Ruhe</li>
-        <li data-i18n="bk.fact3">Absagen jederzeit über den Link in der Bestätigung</li>
-      </ul>
-      <p class="fallback"><span data-i18n="bk.fallbackText">Lieber telefonisch?</span> <a href="tel:+4924131202" data-cta="call">0241 31202</a> <span class="sep">&middot;</span> <a href="https://aixsmile.de/termin/?service=veneers&amp;via=veneers-aachen" data-cta="book" data-i18n="bk.fallbackLink">Auf aixsmile.de buchen</a></p>
+      <h2 data-i18n="bk.h2">Ihr Termin für den Scan.</h2>
+      <p data-i18n="bk.p">Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts. Der Kalender zeigt, was in der Praxis wirklich frei ist.</p>
     </div>
 
     <form class="bk" id="bkForm" novalidate aria-live="polite">
       <ol class="bkSteps" id="bkSteps" aria-label="Schritte">
-        <li class="on" data-step="1"><i>1</i><span data-i18n="bk.step1">Termin</span></li>
-        <li data-step="2"><i>2</i><span data-i18n="bk.step2">Ihre Daten</span></li>
+        <li class="on" data-step="1" role="button" tabindex="0"><i>1</i><span data-i18n="bk.step1">Termin</span></li>
+        <li data-step="2" role="button" tabindex="0"><i>2</i><span data-i18n="bk.step2">Ihre Daten</span></li>
         <li data-step="3"><i>3</i><span data-i18n="bk.step3">Bestätigt</span></li>
       </ol>
 
@@ -1223,20 +1554,29 @@
         <div class="skelRow"><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i></div>
       </div>
       <div id="bkUnavailable" class="bkNotice" hidden>
-        <p><span data-i18n="bk.unavailable">Die Terminübersicht ist gerade nicht erreichbar.</span> <a href="https://aixsmile.de/termin/?service=veneers&amp;via=veneers-aachen" data-cta="book" data-i18n="bk.unavailableLink">Bitte buchen Sie direkt auf aixsmile.de.</a></p>
+        <p><span data-i18n="bk.unavailable">Die Terminübersicht ist gerade nicht erreichbar.</span> <a href="tel:+4924131202" data-cta="call" data-i18n="bk.unavailableLink">Rufen Sie uns an: 0241 31202</a></p>
       </div>
 
       <!-- Step 1: pick the slot -->
       <div class="pane" id="bkPane1" hidden>
-        <div class="bkHead">
-          <p class="bkLabel" data-i18n="bk.pickDay">Tag wählen</p>
-          <p class="bkMonth" id="bkMonth"></p>
-        </div>
-        <div class="dayStrip" id="bkDays" role="listbox" aria-label="Tage"></div>
-        <div id="bkTimesWrap" hidden>
-          <p class="bkLabel" data-i18n="bk.pickTime">Uhrzeit wählen</p>
-          <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
-          <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+        <p class="bkInfo" id="bkTaken" hidden data-i18n="bk.taken">Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.</p>
+        <div class="calRow" id="bkCalRow" hidden>
+          <div class="cal" id="bkCal">
+            <div class="calHead">
+              <button type="button" class="calNav" id="bkPrev" data-i18n-aria="bk.calPrev" aria-label="Voriger Monat">‹</button>
+              <p class="calMonth" id="bkMonth" aria-live="polite"></p>
+              <button type="button" class="calNav" id="bkNext" data-i18n-aria="bk.calNext" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="calWeek" id="bkWeek" aria-hidden="true"></div>
+            <div class="calGrid" id="bkDays" role="group" aria-label="Tage"></div>
+            <p class="calHint" data-i18n="bk.calHint">Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.</p>
+          </div>
+          <div class="times" id="bkTimesWrap">
+            <p class="bkLabel" id="bkTimesFor">Uhrzeit</p>
+            <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Links einen Tag antippen. Rechts erscheinen dann die freien Zeiten für Ihren Scan-Termin.</p>
+            <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
+            <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+          </div>
         </div>
         <p class="bkHint" id="bkNoDays" hidden data-i18n="bk.noDays">Aktuell sind keine freien Beratungstermine online. Rufen Sie uns gern an.</p>
       </div>
@@ -1252,18 +1592,10 @@
         </div>
 
         <div class="bkFields">
-          <div class="full">
-            <span class="fLabel" data-i18n="bk.gender">Anrede *</span>
-            <div class="seg" id="bkGender" role="radiogroup"></div>
-          </div>
           <div class="half"><label class="fLabel" for="bkFirst" data-i18n="bk.first">Vorname *</label><input id="bkFirst" name="firstName" autocomplete="given-name" required maxlength="80"></div>
           <div class="half"><label class="fLabel" for="bkLast" data-i18n="bk.last">Nachname *</label><input id="bkLast" name="lastName" autocomplete="family-name" required maxlength="80"></div>
           <div><label class="fLabel" for="bkPhone" data-i18n="bk.phone">Telefon *</label><input id="bkPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="40"></div>
           <div><label class="fLabel" for="bkEmail" data-i18n="bk.email">E-Mail *</label><input id="bkEmail" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254"></div>
-          <div class="full">
-            <span class="fLabel" data-i18n="bk.existing">Waren Sie schon einmal bei uns?</span>
-            <div class="seg" id="bkExisting" role="radiogroup"></div>
-          </div>
           <div class="full">
             <button type="button" class="linkBtn" id="bkNoteToggle" data-i18n="bk.addNote">+ Anmerkung hinzufügen</button>
             <div id="bkNoteWrap" hidden><label class="fLabel" for="bkNote" data-i18n="bk.note">Anmerkung (optional)</label><textarea id="bkNote" name="note" maxlength="1000" rows="3"></textarea></div>
@@ -1304,25 +1636,15 @@
   <div class="inner">
     <p class="eyebrow" data-i18n="kosten.eyebrow">Kosten</p>
     <h2 data-i18n="kosten.h2">Was Veneers kosten, und wovon es abhängt.</h2>
-    <div class="prose">
-      <p data-i18n="kosten.p1">Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.</p>
-      <p data-i18n="kosten.p2">Einen Festpreis nennen wir deshalb erst, wenn wir Ihre Zähne gesehen haben. Drei Dinge entscheiden über die Summe:</p>
-      <ul class="factors">
-        <li><b data-i18n="kosten.f1k">Material</b><span data-i18n="kosten.f1v">Keramik ist haltbarer und farbstabil, Composite günstiger und in der Praxis reparierbar.</span></li>
-        <li><b data-i18n="kosten.f2k">Anzahl</b><span data-i18n="kosten.f2v">Ein einzelner Zahn nach einem Unfall oder sechs Frontzähne für ein geschlossenes Bild.</span></li>
-        <li><b data-i18n="kosten.f3k">Aufwand</b><span data-i18n="kosten.f3v">Ob Zahnfleisch, Biss oder Zahnstellung vorher mitbehandelt werden müssen.</span></li>
-      </ul>
-    </div>
-    <div class="promise">
-      <h3 data-i18n="kosten.promiseH">So kommen Sie zu Ihrem Preis</h3>
-      <ol>
-        <li><b data-i18n="kosten.s1k">Beratung und Scan</b><span data-i18n="kosten.s1v">Wir schauen gemeinsam auf Fotos und den digitalen Scan Ihrer Zähne.</span></li>
-        <li><b data-i18n="kosten.s2k">Heil- und Kostenplan</b><span data-i18n="kosten.s2v">Schriftlich, Position für Position, bevor irgendetwas geschliffen wird. Zum Einreichen bei Ihrer Versicherung geeignet.</span></li>
-        <li><b data-i18n="kosten.s3k">Sie entscheiden in Ruhe</b><span data-i18n="kosten.s3v">Sie nehmen den Plan mit nach Hause. Zahlungsmöglichkeiten besprechen wir im selben Gespräch.</span></li>
-      </ol>
-      <div class="cta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="kosten.btn">Beratung buchen</a>
+    <div class="kostenGrid">
+      <div class="prose">
+        <p data-i18n="kosten.p1">Veneers sind eine Privatleistung nach GOZ plus Laborkosten. Den Preis nennen wir schriftlich im Heil- und Kostenplan, sobald wir Ihre Zähne gesehen haben; er hängt vor allem vom Material und von der Zahl der Zähne ab.</p>
       </div>
+      <dl class="kostenFacts">
+        <div><dt data-i18n="kosten.d1k">Beratung mit Scan</dt><dd data-i18n="kosten.d1v">Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.</dd></div>
+        <div><dt data-i18n="kosten.d2k">Heil- und Kostenplan</dt><dd data-i18n="kosten.d2v">Schriftlich, vor dem ersten Schliff. Gültig, solange sich der Befund nicht ändert.</dd></div>
+        <div><dt data-i18n="kosten.d3k">Ratenzahlung</dt><dd data-i18n="kosten.d3v">Auf Wunsch über einen Abrechnungspartner. Besprechen wir im selben Gespräch.</dd></div>
+      </dl>
     </div>
   </div>
 </section>
@@ -1337,11 +1659,7 @@
       <h2>Novin Molaie</h2>
       <p class="doctorRole" data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</p>
       <p data-i18n="doctor.p1">Bei uns beginnt jedes Veneer am Bildschirm. Wir planen die Schalen auf Basis eines digitalen Scans, bevor am Zahn etwas passiert. Sie sehen das Ergebnis also vorher, und wir schleifen nur so viel wie nötig.</p>
-      <p data-i18n="doctor.p2">Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.</p>
       <p data-i18n="doctor.langs">Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.</p>
-      <div class="cta">
-        <a class="btn ghost" href="https://aixsmile.de/praxis/" data-i18n="doctor.btn">Mehr über die Praxis auf aixsmile.de</a>
-      </div>
     </div>
   </div>
 </section>
@@ -1366,29 +1684,32 @@
 </section>
 
 <section class="band band--praxis" id="praxis">
-  <div class="inner">
-    <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
-    <h2 data-i18n="praxis.h2">Sie finden uns mitten in Aachen.</h2>
-    <p class="praxisRegion" data-i18n="praxis.region">Viele unserer Veneer-Patientinnen und -Patienten kommen nicht aus Aachen selbst, sondern aus Köln, Düren, Eschweiler, Stolberg, dem Kreis Heinsberg oder von jenseits der niederländischen und belgischen Grenze. Das passt zu dieser Behandlung: Veneers brauchen zwei bis drei Termine, keine Dauerbetreuung. Aus Köln sind Sie mit dem Zug ab etwa 35 Minuten, mit dem Auto über die A4 in rund einer Stunde bei uns; aus Düren in etwa 20 Minuten.</p>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.addrH">Anschrift</h3>
-      <p><b>Zahnarztpraxis AIXSMILE</b><br>Gro&szlig;k&ouml;lnstra&szlig;e 22&ndash;28<br>52062 Aachen</p>
-      <a class="btn ghost btnSm" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n="praxis.route">Route planen</a>
-    </div>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.hoursH">Sprechzeiten</h3>
-      <p><b data-i18n="praxis.hoursDays">Mo &middot; Di &middot; Do</b><br><span data-i18n="praxis.hoursTime">9:00 &ndash; 16:00 Uhr</span><br><span data-i18n="praxis.hoursNote">Termine nach Vereinbarung.</span></p>
-      <a class="btn ghost btnSm btnWithIcon" href="tel:+4924131202" data-cta="call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241 31202</span></a>
-    </div>
-    <div class="praxisCol">
-      <h3 data-i18n="praxis.reviewsH">Bewertungen</h3>
-      <p data-i18n="praxis.reviewsP">Was Patientinnen und Patienten über uns sagen, lesen Sie dort, wo sie es geschrieben haben.</p>
-      <a class="btn ghost btnSm" href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Bewertungen auf Google lesen</a>
-      <p class="reviewNote" data-i18n="praxis.reviewsNote">Wir zeigen hier keine ausgewählten Zitate. Alle Bewertungen stammen von Google und werden dort unverändert veröffentlicht.</p>
+  <div class="inner inner--wide praxisGrid">
+    <a class="mapTile" id="mapTile" href="https://www.google.com/maps/search/?api=1&amp;query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n-aria="praxis.mapAria" aria-label="Karte: Großkölnstraße 22–28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App">
+      <img src="/assets/map-aachen.webp" width="640" height="640" loading="lazy" decoding="async" alt="">
+      <span class="mapPin" aria-hidden="true"><i></i></span>
+      <span class="mapLabel"><b>Großkölnstraße 22–28</b><span data-i18n="praxis.mapGo">Route öffnen →</span></span>
+      <span class="mapCredit" aria-hidden="true">© OpenStreetMap</span>
+    </a>
+    <div class="praxisText">
+      <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
+      <h2 data-i18n="praxis.h2">Mitten in Aachen, gut erreichbar aus der ganzen Region.</h2>
+      <p class="praxisRegion" data-i18n="praxis.region">Aus Köln mit dem Zug in etwa 35 Minuten, aus Düren in 20; Parkhaus Großkölnstraße direkt gegenüber. Viele unserer Veneer-Patientinnen und -Patienten kommen aus Köln, Düren, dem Kreis Heinsberg, den Niederlanden und Belgien.</p>
+      <dl class="praxisFacts">
+        <div><dt data-i18n="praxis.hoursH">Sprechzeiten</dt><dd><span data-i18n="praxis.hoursDays">Mo · Di · Do</span> · <span data-i18n="praxis.hoursTime">9:00 – 16:00 Uhr</span></dd></div>
+        <div><dt data-i18n="praxis.addrH">Anschrift</dt><dd>Großkölnstraße 22–28, 52062 Aachen</dd></div>
+        <div><dt data-i18n="praxis.reviewsH">Bewertungen</dt><dd><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviewsBtn">Bei Google lesen →</a></dd></div>
+      </dl>
+      <p class="reviewNote" data-i18n="praxis.reviewsNote">Wir zeigen hier keine ausgewählten Zitate; alle Bewertungen stehen unverändert bei Google.</p>
     </div>
   </div>
 </section>
 
+<div class="cookieChip" id="cookieChip" hidden role="status">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  <span data-i18n="cookie.text">Diese Seite setzt keine Cookies und kein Tracking. <a href="/datenschutz/">Datenschutz</a></span>
+  <button type="button" class="chipClose" id="cookieClose" data-i18n-aria="cookie.close" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
 <footer>
   <!-- Ft4 dense colophon. Was Ft3 "index columns": four link columns, a social
        icon row and a small copyright tail - the single most-recognised footer
@@ -1406,18 +1727,9 @@
       <span class="sep">&middot;</span>
       <a href="tel:+4924131202" data-cta="call">0241 31202</a>
       <span class="sep">&middot;</span>
-      <span data-i18n="footer.fax">Fax 0241 4018150</span>
-      <span class="sep">&middot;</span>
-      <a href="mailto:praxis@aixsmile.de">praxis@aixsmile.de</a>
+      <a href="mailto:info@aixsmile.de">info@aixsmile.de</a>
     </p>
 
-    <p class="colophonBlock">
-      <span data-i18n="footer.hoursDays">Mo &middot; Di &middot; Do</span>, <span data-i18n="footer.hoursTime">9:00 &ndash; 16:00 Uhr</span>
-      <span class="sep">&middot;</span>
-      <span data-i18n="footer.hoursNote">Termine nach Vereinbarung.</span>
-      <span class="sep">&middot;</span>
-      <span data-i18n="footer.langs">Wir sprechen Deutsch, Englisch, Farsi, T&uuml;rkisch und Arabisch.</span>
-    </p>
 
     <p class="colophonMeta">
       <a href="#buchen" data-cta="book" data-i18n="footer.linkBook">Termin buchen</a>
@@ -1425,18 +1737,18 @@
       <a href="https://www.instagram.com/zahnarztpraxis_aixsmile" target="_blank" rel="noopener">Instagram</a>
       <span class="sep">&middot;</span>
       <a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener">Google</a>
+      
       <span class="sep">&middot;</span>
-      <a href="https://aixsmile.de/leistungen/zahnaesthetik/veneers/" data-i18n="footer.linkMain">Veneers auf aixsmile.de</a>
+      <a href="/impressum/" data-i18n="footer.impressum">Impressum</a>
       <span class="sep">&middot;</span>
-      <a href="https://aixsmile.de/impressum" data-i18n="footer.impressum">Impressum</a>
-      <span class="sep">&middot;</span>
-      <a href="https://aixsmile.de/datenschutz" data-i18n="footer.datenschutz">Datenschutz</a>
+      <a href="/datenschutz/" data-i18n="footer.datenschutz">Datenschutz</a>
       <span class="sep">&middot;</span>
       &copy;&nbsp;<span id="footYear">2026</span> Zahnarztpraxis Aixsmile
     </p>
   </div>
 </footer>
 
+<script src="/js/lenis.min.js"></script>
 <script type="module">
 import * as THREE from 'three';
 import { buildVeneerModel } from '/js/veneer-model.js';
@@ -1518,7 +1830,6 @@ const I18N = {
     nav: { book: 'Termin buchen', call: 'Anrufen' },
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE',
-      casesB: '7 echte Fälle aus unserer Praxis', casesS: 'Zum Vergr\u00f6\u00dfern antippen \u00b7 alle F\u00e4lle ansehen \u2192', casesAria: 'Vorher-Nachher-Fälle ansehen',
       h1: 'Veneers in Aachen: <em>dünner</em> als ein Fingernagel.',
       gaugeTitle: 'Wie d\u00fcnn ist d\u00fcnn?',
       gaugeMag: (n) => `${n}-fach vergr\u00f6\u00dfert`,
@@ -1526,73 +1837,53 @@ const I18N = {
       gNail: 'Ihr Fingernagel',
       gCard: 'eine Bankkarte',
       gNote: 'tats\u00e4chliche St\u00e4rke \u00b7 2 Materialien \u00b7 15+ Jahre haltbar',
-      lead: 'Beim Scrollen legen sich sechs Schalen nacheinander auf die Zähne. Es entsteht kein neuer Zahn, nur eine neue Oberfläche. Farbe, Form und Glanz ändern sich, der eigene Zahn darunter bleibt.',
+      lead: 'Scrollen Sie, und sechs Schalen legen sich auf die Zähne.',
     },
     what: {
-      h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.',
+      h2: 'Eine hauchdünne Keramikschale auf dem eigenen Zahn.',
       p1: 'Ein Veneer ersetzt keinen Zahn. Es verkleidet ihn. Aus Keramik gefräst oder gepresst, wird die hauchfeine Schale mit einem speziellen Kunststoffkleber auf die geätzte, angeraute Zahnoberfläche gesetzt. Sobald der Kleber ausgehärtet ist, verhalten sich Schale und Zahn wie ein einziges Stück: Die Keramik übernimmt Form und Glanz, der Zahn darunter trägt weiterhin die Kaubelastung.',
       p2: 'Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.',
     },
     material: {
-      h2: 'Keramik oder Composite.',
+      h2: 'Keramik oder Composite. Ihr Zahn entscheidet mit.',
       p: 'Zur Auswahl stehen zwei Materialien. Welches passt, h\u00e4ngt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor irgendetwas geschliffen wird.',
       m1Name: 'Keramik',
-      m1Full: 'Keramik-Veneers',
-      m1Cap: 'Hauchd\u00fcnne Keramikschalen (Beispielbild)',
-      m1Alt: 'Fertige Keramik-Veneers vor der Befestigung (Beispielbild)',
-      m2Full: 'Composite-Veneers',
-      m2Cap: 'Direkt aufgebautes Composite (Beispielbild)',
-      m2Alt: 'Mit Composite gestaltetes L\u00e4cheln (Beispielbild)',
-      seePhoto: 'Foto ansehen',
-      back: 'Zur\u00fcck zur \u00dcbersicht',
-      m1Lead: 'Fleckenresistent und lichtdurchl\u00e4ssig',
-      m1Body: 'Keramik-Veneers sind besonders fleckenresistent, lichtdurchl\u00e4ssig und bei guter Pflege \u00fcber viele Jahre stabil. Weil Licht wie bei echtem Schmelz in die Schale eindringt, wirkt das Ergebnis lebendig statt flach.',
       m2Name: 'Composite',
-      m2Lead: 'G\u00fcnstiger und leichter zu reparieren',
-      m2Body: 'Composite-Veneers sind g\u00fcnstiger und lassen sich sp\u00e4ter leichter ausbessern. Daf\u00fcr sind sie anf\u00e4lliger f\u00fcr Verf\u00e4rbungen: Kaffee, Tee und Tabak hinterlassen hier eher Spuren als auf Keramik.',
       note: '<b>Ohne Beschleifen?</b> In geeigneten F\u00e4llen bieten wir minimalinvasive oder \u201eno-prep\u201c Veneers (Lumineers) an, die weniger oder gar kein Beschleifen der nat\u00fcrlichen Z\u00e4hne erfordern. Ob das f\u00fcr Sie infrage kommt, pr\u00fcfen wir sorgf\u00e4ltig.',
     },
     process: {
       eyebrow: 'Ablauf',
       h2: 'Fünf Schritte, ein Ergebnis.',
-      lede: 'Vom ersten Gespräch bis zur letzten Politur. Jeder Schritt wird erklärt, bevor er passiert, und geschliffen wird erst, wenn Sie zugestimmt haben.',
-      step1: '<h3>Wunsch und Farbwahl</h3><p>Am Anfang steht ein Gespräch: Was genau soll sich verändern? Passend dazu wählen wir den Farbton mit Mustern, die wir direkt neben Ihre eigenen Zähne halten.</p>',
-      step2: '<h3>Formvorbereitung</h3><p>Für die Schale braucht der Zahn ein wenig Platz. Meist genügt eine hauchdünne Schicht des äußeren Schmelzes, bei sehr dünnen Veneers manchmal gar keine. Mit Betäubung spüren Sie davon nichts.</p>',
-      step3: '<h3>Abdruck und Modell</h3><p>Ein digitaler Scanner oder eine klassische Abformung hält die genaue Form Ihrer Zähne fest. Aus diesen Daten fertigt ein Speziallabor jede Schale auf den Zehntelmillimeter genau.</p>',
-      step4: '<h3>Einprobe und Verklebung</h3><p>Bevor geklebt wird, wird probiert: Sitz, Farbe und Übergänge werden mit Wasser geprüft. Erst wenn alles passt, wird der Zahn getrocknet, angeätzt und die Schale dauerhaft verklebt.</p>',
-      step5: '<h3>Feinschliff und Nachsorge</h3><p>Zum Schluss werden Ränder und Biss kontrolliert und letzte Kanten poliert. Wir zeigen Ihnen außerdem, wie Sie Ihre neuen Veneers im Alltag pflegen, damit sie lange schön bleiben.</p>',
+      lede: 'Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.',
+      step1: '<h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p>',
+      step2: '<h3>Formvorbereitung</h3><p>Meist nur eine hauchdünne Schmelzschicht, mit Betäubung spürbar nichts.</p>',
+      step3: '<h3>Scan und Modell</h3><p>Ein digitaler Scan hält Ihre Zähne fest; das Labor fertigt jede Schale danach.</p>',
+      step4: '<h3>Einprobe und Verklebung</h3><p>Sitz und Farbe werden erst geprüft, dann wird die Schale dauerhaft verklebt.</p>',
+      step5: '<h3>Feinschliff und Nachsorge</h3><p>Biss und Ränder kontrolliert, Kanten poliert, Pflege erklärt.</p>',
     },
     crown: {
       h2: 'Sechs Schalen, Zahn für Zahn gesetzt.',
-      p1: 'Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktpunkte zu den Nachbarzähnen und der Großteil der eigenen Zahnhartsubstanz bleiben unangetastet.',
-      p2: 'Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn.',
+      p1: 'Der Unterschied liegt im Ausmaß: Eine Krone ummantelt den kompletten sichtbaren Zahn, ein Veneer bleibt auf die Vorderseite und die Kante beschränkt. Rückseite, Kontaktflächen und der größte Teil des Zahns bleiben unberührt.',
+      p2: 'Das hat zwei Vorteile. Der Zahn bleibt stabiler, weil weniger von ihm entfernt wird. Und bekommt eine Schale nach Jahren einen Sprung, wird nur dieses eine Stück ersetzt, nicht der ganze Zahn neu überkront.',
     },
     suitability: {
-      h2: 'Wann Veneers passen, und wann nicht.',
+      h2: 'Farbe, Form und Glanz ändern sich. Der Zahn bleibt Ihrer.',
       check1: 'Entzündungsfreies Zahnfleisch und keine unbehandelte Karies an den betroffenen Zähnen.',
       check2: 'Genügend eigener Zahnschmelz als Klebegrund. Ist davon wenig übrig, ist oft eine Krone die bessere Wahl.',
       check3: 'Nächtliches Zähnepressen oder -knirschen vorher abgeklärt und bei Bedarf mit einer Schiene versorgt.',
       check4: 'Wer aufhellen möchte, tut dies vor der Farbwahl, denn die Farbe eines Veneers lässt sich später nicht mehr bleichen.',
     },
     ba: {
-      h2: 'Vorher und nachher.',
-      p: 'Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten.',
-      prev: 'Vorheriger Fall',
-      next: 'N\u00e4chster Fall',
-      open: 'Fall vergr\u00f6\u00dfert ansehen',
-      close: 'Schlie\u00dfen',
-      img1Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 1',
-      img2Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 2',
-      img3Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 3',
-      img4Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 4',
-      img5Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 5',
-      img6Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 6',
-      img7Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 7',
+      eyebrow: 'Fälle aus der Praxis',
+      h2: 'Vier Fälle, vier Ausgangslagen.',
+      p: 'Echte Fälle aus unserer Praxis in Aachen, veröffentlicht mit Einverständnis der Patientinnen und Patienten. Jeder Fall ist anders; die Beschreibungen erklären die Behandlungsart, nicht ein Versprechen.',
+      more: 'Mehr lesen', all: 'Alle sieben Fälle ansehen →',
+      prev: 'Vorheriger Fall', next: 'Nächster Fall', open: 'Fall vergrößert ansehen', close: 'Schließen',
+      img1Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 1', img2Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 2', img3Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 3', img4Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 4', img5Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 5', img6Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 6', img7Alt: 'Vorher-Nachher-Vergleich mit Veneers, Fall 7',
     },
     consult: {
-      h2: 'Starten Sie mit dem Scan, nicht mit dem Bohrer.',
-      p: 'In einem ausführlichen Ersttermin sehen wir uns gemeinsam Fotos und einen digitalen Scan an und besprechen ehrlich, ob Veneers das richtige Mittel für Ihr Anliegen sind oder ob eine andere Behandlung besser passt.',
-      btnBook: 'Termin buchen',
+      h2: 'Ein Scan zuerst. Geschliffen wird erst mit Ihrem Ja.',
+      btnBook: 'Beratung buchen',
       callAria: 'Anrufen: 0241 31202',
     },
     hint: 'Scrollen',
@@ -1604,19 +1895,30 @@ const I18N = {
       'Bereit zur fachlichen Prüfung',
       'Bereit, wenn Sie es sind',
     ],
+
+    read: { eyebrow: 'Was ein Veneer ist', h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.' },
+    crownRead: { h3: 'Veneer oder Krone?' },
+    suitRead: { h3: 'Wann Veneers passen' },
+    matRead: { eyebrow: 'Zwei Materialien', h2: 'Keramik oder Composite.' },
+    mat: {
+      r1: 'Haltbarkeit', r1a: 'Bei guter Pflege häufig 15 Jahre und länger', r1b: 'Kürzer, dafür jederzeit in der Praxis ausbesserbar',
+      r2: 'Farbe', r2a: 'Fleckenresistent, verändert sich nicht', r2b: 'Kann mit Kaffee, Tee und Rotwein nachdunkeln',
+      r3: 'Wirkung', r3a: 'Lichtdurchlässig wie Schmelz, wirkt lebendig', r3b: 'Gut, aber flacher; direkt am Zahn modelliert',
+      r4: 'Termine', r4a: 'Zwei bis drei, das Labor fertigt dazwischen', r4b: 'Oft in einer Sitzung',
+      r5: 'Kosten', r5a: 'Höher, Labor inklusive', r5b: 'Deutlich günstiger',
+    },
+    case1: { k: 'Fall 1 · Lücke und Kanten', h: 'Geschlossene Lücke, ruhige Kante.', p: 'Abgenutzte Kanten und ein kleiner Spalt. Keramikschalen schließen die Lücke und geben der Kante eine ruhige Linie.', more: 'Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.' },
+    case2: { k: 'Fall 2 · Farbe und Form', h: 'Heller und gleichmäßiger, ohne aufzutragen.', p: 'Ungleiche Farbe und Form. Die Schalen bringen beides in eine Linie; der Ton wurde vorher bei Tageslicht bestimmt.', more: 'Keramik lässt Licht durch wie Schmelz, deshalb wirkt das Ergebnis nicht aufgemalt. Die Farbe wird vor dem Beschleifen festgelegt und lässt sich später nicht mehr bleichen; wer heller möchte, hellt zuerst auf und wählt dann den Ton der Schalen.' },
+    case3: { k: 'Fall 3 · Stellung', h: 'Gerader wirkend, ohne Zahnspange.', p: 'Leicht gedrehte, unterschiedlich lange Fronten. Optisch begradigt, die Wurzeln bleiben, wo sie sind.', more: 'Bei leichten Stellungsabweichungen können Veneers eine Zahnspange ersetzen, bei stärkeren nicht: Dann würde zu viel Zahn geopfert. Genau das prüfen wir am digitalen Scan, bevor irgendetwas geschliffen wird, und sagen es offen, wenn eine Spange oder Aligner das bessere Mittel sind.' },
+    case4: { k: 'Fall 4 · Gesamtbild', h: 'Sechs Fronten als ein Bild.', p: 'Farbe, Kante, Breite zugleich. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt.', more: 'Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.' },
     kosten: {
       eyebrow: 'Kosten',
       h2: 'Was Veneers kosten, und wovon es abhängt.',
-      p1: 'Veneers sind eine ästhetische Privatleistung. Abgerechnet wird nach der Gebührenordnung für Zahnärzte (GOZ), dazu kommen die Laborkosten für die Fertigung der Schalen. Gesetzliche Kassen beteiligen sich nicht; private Zusatzversicherungen je nach Tarif.',
-      p2: 'Einen Festpreis nennen wir deshalb erst, wenn wir Ihre Zähne gesehen haben. Drei Dinge entscheiden über die Summe:',
-      f1k: 'Material', f1v: 'Keramik ist haltbarer und farbstabil, Composite günstiger und in der Praxis reparierbar.',
-      f2k: 'Anzahl', f2v: 'Ein einzelner Zahn nach einem Unfall oder sechs Frontzähne für ein geschlossenes Bild.',
-      f3k: 'Aufwand', f3v: 'Ob Zahnfleisch, Biss oder Zahnstellung vorher mitbehandelt werden müssen.',
-      promiseH: 'So kommen Sie zu Ihrem Preis',
-      s1k: 'Beratung und Scan', s1v: 'Wir schauen gemeinsam auf Fotos und den digitalen Scan Ihrer Zähne.',
-      s2k: 'Heil- und Kostenplan', s2v: 'Schriftlich, Position für Position, bevor irgendetwas geschliffen wird. Zum Einreichen bei Ihrer Versicherung geeignet.',
-      s3k: 'Sie entscheiden in Ruhe', s3v: 'Sie nehmen den Plan mit nach Hause. Zahlungsmöglichkeiten besprechen wir im selben Gespräch.',
-      btn: 'Beratung buchen',
+      p1: 'Veneers sind eine Privatleistung nach GOZ plus Laborkosten. Den Preis nennen wir schriftlich im Heil- und Kostenplan, sobald wir Ihre Zähne gesehen haben; er hängt vor allem vom Material und von der Zahl der Zähne ab.',
+      p2: 'Der Preis pro Zahn hängt vor allem vom Material ab, die Summe von der Anzahl der Zähne. Einen Festpreis nennen wir erst, wenn wir Ihre Zähne gesehen haben; dann aber schriftlich, Position für Position, im Heil- und Kostenplan. Den nehmen Sie mit nach Hause und können ihn bei Ihrer Versicherung einreichen.',
+      d1k: 'Beratung mit Scan', d1v: 'Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.',
+      d2k: 'Heil- und Kostenplan', d2v: 'Schriftlich, vor dem ersten Schliff. Gültig, solange sich der Befund nicht ändert.',
+      d3k: 'Ratenzahlung', d3v: 'Auf Wunsch über einen Abrechnungspartner. Besprechen wir im selben Gespräch.',
     },
     doctor: {
       eyebrow: 'Ihr Behandler',
@@ -1625,8 +1927,7 @@ const I18N = {
       p1: 'Bei uns beginnt jedes Veneer am Bildschirm. Wir planen die Schalen auf Basis eines digitalen Scans, bevor am Zahn etwas passiert. Sie sehen das Ergebnis also vorher, und wir schleifen nur so viel wie nötig.',
       p2: 'Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.',
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.',
-      btn: 'Mehr über die Praxis auf aixsmile.de',
-    },
+      },
     faq: {
       eyebrow: 'Häufige Fragen',
       h2: 'Was Patientinnen und Patienten vor Veneers wissen wollen.',
@@ -1653,24 +1954,22 @@ const I18N = {
     },
     praxis: {
       eyebrow: 'Die Praxis',
-      h2: 'Sie finden uns mitten in Aachen.',
-      region: 'Viele unserer Veneer-Patientinnen und -Patienten kommen nicht aus Aachen selbst, sondern aus Köln, Düren, Eschweiler, Stolberg, dem Kreis Heinsberg oder von jenseits der niederländischen und belgischen Grenze. Das passt zu dieser Behandlung: Veneers brauchen zwei bis drei Termine, keine Dauerbetreuung. Aus Köln sind Sie mit dem Zug ab etwa 35 Minuten, mit dem Auto über die A4 in rund einer Stunde bei uns; aus Düren in etwa 20 Minuten.',
-      addrH: 'Anschrift', route: 'Route planen',
-      hoursH: 'Sprechzeiten', hoursDays: 'Mo \u00b7 Di \u00b7 Do', hoursTime: '9:00 \u2013 16:00 Uhr', hoursNote: 'Termine nach Vereinbarung.',
-      reviewsH: 'Bewertungen',
-      reviewsP: 'Was Patientinnen und Patienten über uns sagen, lesen Sie dort, wo sie es geschrieben haben.',
-      reviewsBtn: 'Bewertungen auf Google lesen',
-      reviewsNote: 'Wir zeigen hier keine ausgewählten Zitate. Alle Bewertungen stammen von Google und werden dort unverändert veröffentlicht.',
+      h2: 'Mitten in Aachen, gut erreichbar aus der ganzen Region.',
+      region: 'Aus Köln mit dem Zug in etwa 35 Minuten, aus Düren in 20; Parkhaus Großkölnstraße direkt gegenüber. Viele unserer Veneer-Patientinnen und -Patienten kommen aus Köln, Düren, dem Kreis Heinsberg, den Niederlanden und Belgien.',
+      mapAria: 'Karte: Großkölnstraße 22–28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App', mapGo: 'Route öffnen →',
+      addrH: 'Anschrift', hoursH: 'Sprechzeiten', hoursDays: 'Mo · Di · Do', hoursTime: '9:00 – 16:00 Uhr',
+      reviewsH: 'Bewertungen', reviewsBtn: 'Bei Google lesen →',
+      reviewsNote: 'Wir zeigen hier keine ausgewählten Zitate; alle Bewertungen stehen unverändert bei Google.',
     },
     bk: {
+      quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
       eyebrow: 'Termin',
-      h2: 'Beratungstermin direkt hier buchen.',
-      p: 'Freie Termine in Echtzeit. Tag und Uhrzeit wählen, Kontaktdaten eintragen, fertig. Die Bestätigung kommt sofort per E-Mail.',
-      fact1: 'Beratung mit digitalem Scan, es wird nichts geschliffen',
+      h2: 'Ihr Termin für den Scan.',
+      p: 'Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts. Der Kalender zeigt, was in der Praxis wirklich frei ist.',
+      fact1: 'Digitaler Scan statt Abdruck, nichts wird geschliffen',
       fact2: 'Schriftlicher Kostenplan, Entscheidung danach in Ruhe',
       fact3: 'Absagen jederzeit über den Link in der Bestätigung',
-      fallbackText: 'Lieber telefonisch?', fallbackLink: 'Auf aixsmile.de buchen',
-      unavailable: 'Die Terminübersicht ist gerade nicht erreichbar.', unavailableLink: 'Bitte buchen Sie direkt auf aixsmile.de.',
+      unavailable: 'Die Terminübersicht ist gerade nicht erreichbar.', unavailableLink: 'Rufen Sie uns an: 0241 31202',
       step1: 'Termin', step2: 'Ihre Daten', step3: 'Bestätigt',
       pickDay: 'Tag wählen', pickTime: 'Uhrzeit wählen', morning: 'Vormittag', afternoon: 'Nachmittag',
       nTimes: (n) => n === 1 ? '1 Zeit' : `${n} Zeiten`,
@@ -1697,21 +1996,20 @@ const I18N = {
       errTaken: 'Dieser Termin wurde gerade vergeben. Bitte wählen Sie einen anderen.',
       errRate: 'Zu viele Versuche. Bitte warten Sie eine Minute.',
       errLimit: 'Für diese Kontaktdaten sind bereits mehrere Termine gebucht. Bitte rufen Sie uns an, wenn Sie einen weiteren benötigen.',
-      errGeneric: 'Die Buchung hat nicht geklappt. Bitte versuchen Sie es erneut oder buchen Sie auf aixsmile.de.',
+      errGeneric: 'Die Buchung hat nicht geklappt. Bitte versuchen Sie es erneut oder rufen Sie uns an: 0241 31202.',
       weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
       weekdaysLong: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
       months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
       monthsLong: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
     },
+    cookie: { text: 'Diese Seite setzt keine Cookies und kein Tracking. <a href="/datenschutz/">Datenschutz</a>', close: 'Hinweis schließen' },
     footer: {
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, T\u00fcrkisch und Arabisch.',
-      fax: 'Fax 0241 4018150',
       hoursDays: 'Mo \u00b7 Di \u00b7 Do',
       hoursTime: '9:00 \u2013 16:00 Uhr',
       hoursNote: 'Termine nach Vereinbarung.',
       linkBook: 'Termin buchen',
-      linkMain: 'Veneers auf aixsmile.de',
-      impressum: 'Impressum',
+        impressum: 'Impressum',
       datenschutz: 'Datenschutz',
     },
   },
@@ -1721,7 +2019,6 @@ const I18N = {
     nav: { book: 'Book appointment', call: 'Call' },
     hero: {
       eyebrow: 'Veneers in Aachen · AIXSMILE',
-      casesB: '7 real cases from our practice', casesS: 'Tap to enlarge \u00b7 see all cases \u2192', casesAria: 'See before-and-after cases',
       h1: 'Veneers in Aachen: <em>thinner</em> than a fingernail.',
       gaugeTitle: 'How thin is thin?',
       gaugeMag: (n) => `magnified ${n}\u00d7`,
@@ -1729,73 +2026,53 @@ const I18N = {
       gNail: 'your fingernail',
       gCard: 'a bank card',
       gNote: 'true thickness \u00b7 2 materials \u00b7 15+ years typical',
-      lead: 'As you scroll, six shells settle onto the teeth one pair at a time. There is no new tooth, only a new surface. Colour, shape and shine change. The tooth underneath stays yours.',
+      lead: 'Scroll, and six shells settle onto the teeth.',
     },
     what: {
-      h2: 'Bonded to the tooth, not anchored in the bone.',
-      p1: 'A veneer does not replace a tooth. It covers it. Milled or pressed from ceramic, the wafer-thin shell is bonded with a special resin cement onto the etched, roughened tooth surface. Once the cement cures, shell and tooth behave as one: the ceramic carries the shape and the shine, the tooth beneath still carries the bite.',
-      p2: 'Because ceramic is translucent, your own tooth colour shows through slightly. That is why we choose the shade in daylight, with you awake, before anything is touched. Anyone planning to whiten does it first: once a veneer is bonded, its colour is fixed for good.',
+      h2: 'A wafer-thin ceramic shell on your own tooth.',
+      p1: 'A veneer does not replace a tooth. It clads it. Milled or pressed from ceramic, the wafer-thin shell is bonded with a special resin cement to the etched, roughened tooth surface. Once the cement has set, shell and tooth behave as one piece: the ceramic takes over shape and shine, the tooth beneath still carries the chewing load.',
+      p2: 'Because ceramic is translucent, your own tooth colour shimmers through slightly. That is why the shade is determined on the awake patient in daylight before anything is prepared. Anyone who also wants whiter teeth does so first: once seated, a veneer\'s colour no longer changes.',
     },
     material: {
-      h2: 'Ceramic or composite.',
+      h2: 'Ceramic or composite. Your tooth has a say.',
       p: 'Two materials are available. Which one fits depends on your tooth, your expectations and your budget. We discuss that openly, before anything is prepared.',
       m1Name: 'Ceramic',
-      m1Full: 'Ceramic veneers',
-      m1Cap: 'Wafer-thin ceramic shells (example image)',
-      m1Alt: 'Finished ceramic veneers before bonding (example image)',
-      m2Full: 'Composite veneers',
-      m2Cap: 'Directly built-up composite (example image)',
-      m2Alt: 'A smile shaped with composite (example image)',
-      seePhoto: 'See the photo',
-      back: 'Back to the overview',
-      m1Lead: 'Stain-resistant and translucent',
-      m1Body: 'Ceramic veneers are particularly stain-resistant, translucent and, with good care, stable for many years. Because light enters the shell as it does real enamel, the result looks alive rather than flat.',
       m2Name: 'Composite',
-      m2Lead: 'More affordable and easier to repair',
-      m2Body: 'Composite veneers are more affordable and easier to repair later on. In return they are more prone to discolouration: coffee, tea and tobacco leave marks here sooner than on ceramic.',
       note: '<b>Without preparation?</b> In suitable cases we offer minimally invasive or \u201cno-prep\u201d veneers (Lumineers), which require little to no grinding of the natural teeth. We assess carefully whether that is an option for you.',
     },
     process: {
       eyebrow: 'The process',
       h2: 'Five steps, one result.',
-      lede: 'From the first conversation to the final polish. Every step is explained before it happens, and nothing is prepared until you have said yes.',
-      step1: '<h3>Wish and shade</h3><p>It starts with a conversation: what exactly should change? We choose the shade to match, holding samples directly against your own teeth.</p>',
-      step2: '<h3>Making room</h3><p>The shell needs a little space to sit in. Usually a wafer-thin layer of outer enamel is enough, and with very thin veneers sometimes none at all. With anaesthetic you will not feel it.</p>',
-      step3: '<h3>Impression and model</h3><p>A digital scanner or a classic impression captures the exact shape of your teeth. From that data, a specialist lab crafts each shell to within a tenth of a millimetre.</p>',
-      step4: '<h3>Try-in and bonding</h3><p>Nothing gets bonded before it\'s tried: fit, colour and transitions are checked with water first. Only once everything sits right is the tooth dried, etched, and the shell permanently bonded.</p>',
-      step5: '<h3>Final polish and aftercare</h3><p>Margins and bite are checked and any last edges polished. We also show you how to look after your new veneers day to day, so they keep looking good for years.</p>',
+      lede: 'Every step is explained before it happens. Preparation only with your yes.',
+      step1: '<h3>Wish and shade</h3><p>A conversation about the goal, shade chosen with samples next to your teeth.</p>',
+      step2: '<h3>Preparation</h3><p>Usually just a wafer-thin layer of enamel; with anaesthetic you feel nothing.</p>',
+      step3: '<h3>Scan and model</h3><p>A digital scan records your teeth; the lab makes each shell from it.</p>',
+      step4: '<h3>Try-in and bonding</h3><p>Fit and colour are checked first, then the shell is bonded permanently.</p>',
+      step5: '<h3>Finishing and aftercare</h3><p>Bite and margins checked, edges polished, care explained.</p>',
     },
     crown: {
       h2: 'Six shells, seated tooth by tooth.',
-      p1: 'The difference is one of scope: a crown wraps the entire visible tooth, while a veneer stays confined to the front surface and the edge. The back, the contact points with neighbouring teeth, and most of your own tooth structure are left untouched.',
-      p2: 'This has two advantages. The tooth stays stronger because less of it is removed. And if a shell chips years later, only that one piece is replaced, not the whole tooth.',
+      p1: 'The difference is one of extent: a crown wraps the whole visible tooth, a veneer stays limited to the front face and the edge. The back, the contact surfaces and most of the tooth remain untouched.',
+      p2: 'That has two advantages. The tooth stays more stable because less of it is removed. And if a shell cracks after years, only that one piece is replaced rather than the whole tooth being crowned again.',
     },
     suitability: {
-      h2: 'When veneers are a good idea, and when not.',
-      check1: 'Healthy gums and no untreated decay on the teeth involved.',
-      check2: 'Enough of your own enamel left to bond to. With little remaining, a crown is often the better fit.',
-      check3: 'Nighttime clenching or grinding addressed beforehand, with a guard if needed.',
-      check4: 'Anyone wanting whiter teeth does it before shade selection, because a veneer\'s colour cannot be bleached afterwards.',
+      h2: 'Colour, shape and shine change. The tooth stays yours.',
+      check1: 'Inflammation-free gums and no untreated decay on the teeth concerned.',
+      check2: 'Enough natural enamel as a bonding base. If little is left, a crown is often the better choice.',
+      check3: 'Night-time clenching or grinding clarified beforehand and, if needed, managed with a splint.',
+      check4: 'Anyone who wants whiter teeth does so before the shade is chosen, because a veneer cannot be bleached later.',
     },
     ba: {
-      h2: 'Before and after.',
-      p: 'Real cases from our practice in Aachen, published with our patients\' kind permission.',
-      prev: 'Previous case',
-      next: 'Next case',
-      open: 'View case at full size',
-      close: 'Close',
-      img1Alt: 'Veneers before-and-after comparison, case 1',
-      img2Alt: 'Veneers before-and-after comparison, case 2',
-      img3Alt: 'Veneers before-and-after comparison, case 3',
-      img4Alt: 'Veneers before-and-after comparison, case 4',
-      img5Alt: 'Veneers before-and-after comparison, case 5',
-      img6Alt: 'Veneers before-and-after comparison, case 6',
-      img7Alt: 'Veneers before-and-after comparison, case 7',
+      eyebrow: 'Cases from the practice',
+      h2: 'Four cases, four starting points.',
+      p: 'Real cases from our practice in Aachen, published with the patients\' consent. Every case is different; the descriptions explain the type of treatment, not a promise.',
+      more: 'Read more', all: 'See all seven cases →',
+      prev: 'Previous case', next: 'Next case', open: 'View case enlarged', close: 'Close',
+      img1Alt: 'Veneers before-and-after comparison, case 1', img2Alt: 'Veneers before-and-after comparison, case 2', img3Alt: 'Veneers before-and-after comparison, case 3', img4Alt: 'Veneers before-and-after comparison, case 4', img5Alt: 'Veneers before-and-after comparison, case 5', img6Alt: 'Veneers before-and-after comparison, case 6', img7Alt: 'Veneers before-and-after comparison, case 7',
     },
     consult: {
-      h2: 'Start with the scan, not the drill.',
-      p: 'In a thorough first appointment we look at photographs and a digital scan together and talk honestly about whether veneers are the right tool for what you\'d like to change, or whether another treatment fits better.',
-      btnBook: 'Book appointment',
+      h2: 'A scan first. Preparation only with your yes.',
+      btnBook: 'Book a consultation',
       callAria: 'Call: 0241 31202',
     },
     hint: 'Scroll',
@@ -1807,19 +2084,30 @@ const I18N = {
       'Ready for a professional review',
       'Ready when you are',
     ],
+
+    read: { eyebrow: 'What a veneer is', h2: 'Bonded onto the tooth, not anchored in the bone.' },
+    crownRead: { h3: 'Veneer or crown?' },
+    suitRead: { h3: 'When veneers are the right choice' },
+    matRead: { eyebrow: 'Two materials', h2: 'Ceramic or composite.' },
+    mat: {
+      r1: 'Durability', r1a: 'Often 15 years and more with good care', r1b: 'Shorter, but repairable in the practice at any time',
+      r2: 'Colour', r2a: 'Stain-resistant, does not change', r2b: 'Can darken with coffee, tea and red wine',
+      r3: 'Look', r3a: 'Translucent like enamel, looks alive', r3b: 'Good, but flatter; shaped directly on the tooth',
+      r4: 'Appointments', r4a: 'Two to three, the lab works in between', r4b: 'Often in a single session',
+      r5: 'Cost', r5a: 'Higher, lab included', r5b: 'Considerably lower',
+    },
+    case1: { k: 'Case 1 · Gap and edges', h: 'A closed gap, a calm edge.', p: 'Worn edges and a small gap. Ceramic shells close the gap and give the edge a calm line.', more: 'For gaps and worn edges a veneer is often the gentlest solution: the tooth itself is barely changed, the shell takes over length and contour. The bite is checked beforehand so the new edge is not overloaded when biting. Anyone who grinds at night gets a splint as well.' },
+    case2: { k: 'Case 2 · Colour and shape', h: 'Lighter and more even, without looking painted on.', p: 'Uneven colour and shape. The shells bring both into one line; the shade was chosen in daylight beforehand.', more: 'Ceramic lets light through like enamel, which is why the result does not look painted on. The colour is fixed before preparation and cannot be bleached later; anyone who wants lighter teeth whitens first and then chooses the shade of the shells.' },
+    case3: { k: 'Case 3 · Alignment', h: 'Straighter in appearance, without braces.', p: 'Slightly rotated fronts of differing length. Visually straightened, the roots stay where they are.', more: 'For mild misalignment veneers can replace braces, for stronger ones they cannot: too much tooth would be sacrificed. That is exactly what we check on the digital scan before anything is prepared, and we say so openly if braces or aligners are the better means.' },
+    case4: { k: 'Case 4 · The whole picture', h: 'Six fronts as one picture.', p: 'Colour, edge and width at once. Six shells from canine to canine so the smile works as a whole.', more: 'Why six and not two? Because the eye reads a smile as a surface. If only the two central teeth are treated, the neighbours stand out afterwards. From canine to canine a continuous line emerges; which teeth belong to it is decided by the smile line in the consultation.' },
     kosten: {
-      eyebrow: 'Cost',
+      eyebrow: 'Costs',
       h2: 'What veneers cost, and what it depends on.',
-      p1: 'Veneers are a private cosmetic service. They are billed under the German dental fee schedule (GOZ), plus the laboratory cost of making the shells. Statutory insurers do not contribute; private top-up plans do, depending on your policy.',
-      p2: 'So we only quote a fixed figure once we have seen your teeth. Three things decide the total:',
-      f1k: 'Material', f1v: 'Ceramic lasts longer and keeps its colour; composite is cheaper and can be repaired in the practice.',
-      f2k: 'Number', f2v: 'A single tooth after an accident, or six front teeth for a closed, even smile.',
-      f3k: 'Preparation', f3v: 'Whether gums, bite or tooth position need treating first.',
-      promiseH: 'How you get your price',
-      s1k: 'Consultation and scan', s1v: 'We look at photographs and the digital scan of your teeth together.',
-      s2k: 'Written treatment and cost plan', s2v: 'Item by item, before anything is prepared. Suitable for submitting to your insurer.',
-      s3k: 'You decide at your own pace', s3v: 'You take the plan home. We discuss payment options in the same conversation.',
-      btn: 'Book a consultation',
+      p1: 'Veneers are a private service under the GOZ fee scale plus lab costs. We name the price in writing in the treatment and cost plan once we have seen your teeth; it depends mainly on the material and the number of teeth.',
+      p2: 'The price per tooth depends mostly on the material, the total on the number of teeth. We only name a fixed price once we have seen your teeth; then in writing, item by item, in the treatment and cost plan. You take it home and can submit it to your insurer.',
+      d1k: 'Consultation with scan', d1v: 'Examination, photos, digital scan, discussion. Billed to your health insurer as a routine check-up.',
+      d2k: 'Treatment and cost plan', d2v: 'In writing, before the first preparation. Valid as long as the findings do not change.',
+      d3k: 'Instalments', d3v: 'On request via a billing partner. Discussed in the same conversation.',
     },
     doctor: {
       eyebrow: 'Your dentist',
@@ -1828,8 +2116,7 @@ const I18N = {
       p1: 'With us, every veneer starts on a screen. We plan the shells from a digital scan before anything happens to the tooth. You see the result first, and we prepare only as much as needed.',
       p2: 'In the consultation we tell you plainly what we recommend. If whitening, Composhaping or braces would get you there better, we say so, even if it is the cheaper treatment.',
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
-      btn: 'More about the practice on aixsmile.de',
-    },
+      },
     faq: {
       eyebrow: 'Common questions',
       h2: 'What patients want to know before veneers.',
@@ -1856,24 +2143,22 @@ const I18N = {
     },
     praxis: {
       eyebrow: 'The practice',
-      h2: 'You will find us in the centre of Aachen.',
-      region: 'Many of our veneer patients do not live in Aachen itself but come from Cologne, Düren, Eschweiler, Stolberg, the Heinsberg district or from just across the Dutch and Belgian border. That suits this treatment: veneers take two or three appointments, not ongoing care. From Cologne you reach us by train in about 35 minutes or by car via the A4 in around an hour; from Düren in about 20 minutes.',
-      addrH: 'Address', route: 'Get directions',
-      hoursH: 'Opening hours', hoursDays: 'Mon \u00b7 Tue \u00b7 Thu', hoursTime: '9:00 \u2013 16:00', hoursNote: 'By appointment only.',
-      reviewsH: 'Reviews',
-      reviewsP: 'Read what patients say about us where they wrote it.',
-      reviewsBtn: 'Read reviews on Google',
-      reviewsNote: 'We show no hand-picked quotes here. All reviews come from Google and are published there unedited.',
+      h2: 'In the centre of Aachen, easy to reach from the whole region.',
+      region: 'From Cologne by train in about 35 minutes, from Düren in 20; the Großkölnstraße car park is directly opposite. Many of our veneer patients come from Cologne, Düren, the Heinsberg district, the Netherlands and Belgium.',
+      mapAria: 'Map: Großkölnstraße 22–28, 52062 Aachen. Opens the route in your maps app', mapGo: 'Open route →',
+      addrH: 'Address', hoursH: 'Consultation hours', hoursDays: 'Mon · Tue · Thu', hoursTime: '9:00 – 16:00',
+      reviewsH: 'Reviews', reviewsBtn: 'Read on Google →',
+      reviewsNote: 'We show no selected quotes here; all reviews are on Google, unchanged.',
     },
     bk: {
+      quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Tap a day on the left. The free times for your scan appointment appear on the right.', taken: 'Someone booked this time in the meantime. Please pick another one.',
       eyebrow: 'Appointment',
-      h2: 'Book your consultation right here.',
-      p: 'Free slots in real time. Pick a day and a time, enter your details, done. The confirmation arrives straight away by email.',
-      fact1: 'Consultation with a digital scan, nothing is prepared',
+      h2: 'Your appointment for the scan.',
+      p: 'About 60 minutes: photos, digital scan, an honest conversation. Nothing is prepared that day. The calendar shows what is genuinely free at the practice.',
+      fact1: 'Digital scan instead of an impression, nothing is prepared',
       fact2: 'Written cost plan, decide afterwards at your own pace',
       fact3: 'Cancel any time via the link in the confirmation',
-      fallbackText: 'Prefer to call?', fallbackLink: 'Book on aixsmile.de',
-      unavailable: 'The slot overview is not reachable right now.', unavailableLink: 'Please book directly on aixsmile.de.',
+      unavailable: 'The slot overview is not reachable right now.', unavailableLink: 'Call us: 0241 31202',
       step1: 'Slot', step2: 'Your details', step3: 'Confirmed',
       pickDay: 'Choose a day', pickTime: 'Choose a time', morning: 'Morning', afternoon: 'Afternoon',
       nTimes: (n) => n === 1 ? '1 time' : `${n} times`,
@@ -1900,21 +2185,20 @@ const I18N = {
       errTaken: 'That slot has just been taken. Please choose another one.',
       errRate: 'Too many attempts. Please wait a minute.',
       errLimit: 'Several appointments are already booked for these contact details. Please call us if you need another one.',
-      errGeneric: 'The booking did not go through. Please try again or book on aixsmile.de.',
+      errGeneric: 'The booking did not go through. Please try again or call us: 0241 31202.',
       weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       weekdaysLong: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       monthsLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     },
+    cookie: { text: 'This page sets no cookies and runs no tracking. <a href="/datenschutz/">Privacy</a>', close: 'Dismiss' },
     footer: {
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
-      fax: 'Fax 0241 4018150',
       hoursDays: 'Mon \u00b7 Tue \u00b7 Thu',
       hoursTime: '9:00 \u2013 16:00',
       hoursNote: 'By appointment only.',
       linkBook: 'Book appointment',
-      linkMain: 'Veneers on aixsmile.de',
-      impressum: 'Imprint',
+        impressum: 'Imprint',
       datenschutz: 'Privacy policy',
     },
   },
@@ -1950,7 +2234,7 @@ function splitWords(el) {
   walk(el);
 }
 let headlinesSplit = false;
-function splitHeadlines() { document.querySelectorAll('.block > h1, .block > h2, .beforeAfter h2, .band h2').forEach(splitWords); headlinesSplit = true; }
+function splitHeadlines() { document.querySelectorAll('.beat:first-child > h1, .beforeAfter h2, .band h2').forEach(splitWords); headlinesSplit = true; }
 
 function applyLang(lang) {
   currentLang = lang;
@@ -1981,7 +2265,12 @@ function applyLang(lang) {
 }
 
 window.I18N = I18N;
-langToggle.addEventListener('click', () => { location.href = (currentLang === 'de' ? '/en/' : '/') + location.hash; });
+langToggle.addEventListener('click', () => {
+  const next = currentLang === 'de' ? 'en' : 'de';
+  applyLang(next);
+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', 'https://veneers-aachen.de' + (next === 'en' ? '/en/' : '/'));
+  history.replaceState(null, '', (next === 'en' ? '/en/' : '/') + location.hash);
+});
 
 document.getElementById('footYear').textContent = new Date().getFullYear();
 
@@ -2044,8 +2333,39 @@ function anchorProgress() {
   return { i, f: Math.min(1, Math.max(0, f)) };
 }
 
+// ===== Story beats, scrubbed: opacity and a little drift are a pure function of
+// scroll position (s = anchor index + fraction), so the copy answers the finger
+// the way the model does. A beat rises over the last 40% of the approach, holds
+// around its anchor, and dissolves upward over the next 40%.
+const beatEls = Array.from(document.querySelectorAll('.beat'));
+const reduceBeats = window.matchMedia('(prefers-reduced-motion: reduce)');
+const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const DRIFT = 18;
+function driveBeats(s) {
+  const last = beatEls.length - 1;
+  // the closing beat dissolves as the story's last track leaves the screen
+  const lastBottom = anchors[last].getBoundingClientRect().bottom;
+  const endHold = Math.min(1, Math.max(0, (lastBottom - vpH * 0.5) / (vpH * 0.35)));
+  for (let k = 0; k <= last; k++) {
+    const d = s - k;
+    let o, y;
+    if (k === 0 && d <= 0) { o = 1; y = 0; }
+    else if (k === last && d >= 0) { const t = easeIO(1 - endHold); o = 1 - t; y = -DRIFT * t; }
+    else if (d < -0.62) { o = 0; y = DRIFT; }
+    else if (d < -0.2) { const t = easeIO((d + 0.62) / 0.42); o = t; y = DRIFT * (1 - t); }
+    else if (d <= 0.22) { o = 1; y = 0; }
+    else if (d < 0.64) { const t = easeIO((d - 0.22) / 0.42); o = 1 - t; y = -DRIFT * t; }
+    else { o = 0; y = -DRIFT; }
+    const el = beatEls[k];
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = reduceBeats.matches || y === 0 ? '' : `translate3d(0, ${y.toFixed(1)}px, 0)`;
+    el.classList.toggle('is-live', o > 0.6);
+  }
+}
+
 function readScroll() {
   const { i, f } = anchorProgress();
+  driveBeats(i + f);
   // Laptop: smoothstep - the camera rests while you read a section and moves in
   // the gap between sections. Phone: (near) linear - a phone is scrolled in
   // flicks, and a curve that parks at both ends of every section then moves
@@ -2087,7 +2407,7 @@ function resize() {
 // The gauge's magnification is a CSS token that changes per breakpoint; the
 // label is read back from it so "20-fach" can never be shown over 12x bars.
 function updateGaugeMag() {
-  const g = document.querySelector('.gauge'), el = document.getElementById('gaugeMag');
+  const g = document.querySelector('.gauge'), el = document.getElementById('gaugeMag'); if (!g || !el) return;
   if (!g || !el) return;
   const n = Math.round(parseFloat(getComputedStyle(g).getPropertyValue('--mag')) || 20);
   el.textContent = I18N[currentLang].hero.gaugeMag(n);
@@ -2152,7 +2472,11 @@ let idle = 0;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Landing dolly: the camera starts further out and swung round, and settles
 // onto the hero anchor over INTRO_MS (cued behind the curtain).
-const introStart = performance.now();
+let introStart = performance.now();
+if (!document.documentElement.classList.contains('is-revealed')) {
+  introStart = Infinity; // the dolly waits behind the splash
+  addEventListener('aixsmile:revealed', () => { introStart = performance.now(); }, { once: true });
+}
 const INTRO_MS = 2300;
 // Pointer parallax on fine pointers only: a few degrees of look-around.
 let ptrX = 0, ptrY = 0, curPx = 0, curPy = 0;
@@ -2226,13 +2550,19 @@ addEventListener('scroll', readScroll, { passive: true });
 addEventListener('resize', resize);
 applyLang(currentLang);
 splitHeadlines();
+
+
+// Case cards: mirror the details state on the card so phones can show the short
+// paragraph only once "Mehr lesen" is open.
+document.querySelectorAll('.caseMore').forEach((d) => d.addEventListener('toggle', () => d.closest('.caseCard')?.classList.toggle('is-open', d.open)));
+
 // Section reveal: once, on first arrival, then the section is simply there.
 {
-  const targets = [...document.querySelectorAll('.block:not(:first-child)'), document.getElementById('beforeAfter'), ...document.querySelectorAll('.band')].filter(Boolean);
+  const targets = [document.getElementById('beforeAfter'), ...document.querySelectorAll('.band')].filter(Boolean);
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-    }, { threshold: 0.18 });
+    }, { threshold: 0.06, rootMargin: '0px 0px -10% 0px' });
     targets.forEach((t) => io.observe(t));
   } else {
     targets.forEach((t) => t.classList.add('in'));
@@ -2241,6 +2571,7 @@ splitHeadlines();
 
 // Flip cards. One handler per card; the two faces are toggled inert so only
 // the visible face can receive focus or clicks.
+// flip cards were replaced by the material table
 document.querySelectorAll('.flip').forEach((card) => {
   const front = card.querySelector('.flipFront'), back = card.querySelector('.flipBack');
   const set = (flipped) => {
@@ -2261,13 +2592,13 @@ const baStageEl = document.getElementById('baStage');
 const baDotsEl = document.getElementById('baDots');
 const baCountEl = document.getElementById('baCount');
 let baIdx = 0;
-const baDots = baImgs.map((_, i) => {
+const baDots = baDotsEl ? baImgs.map((_, i) => {
   const d = document.createElement('button');
   d.type = 'button'; d.className = 'stepDot';
   d.addEventListener('click', () => baSet(i));
   baDotsEl.appendChild(d);
   return d;
-});
+}) : [];
 function baSet(i) {
   baIdx = (i + baImgs.length) % baImgs.length;
   baImgs.forEach((im, k) => im.classList.toggle('active', k === baIdx));
@@ -2276,10 +2607,9 @@ function baSet(i) {
   const cur = baImgs[baIdx];
   if (cur.complete && cur.naturalWidth) fit(cur); else cur.addEventListener('load', () => { if (baImgs[baIdx] === cur) fit(cur); }, { once: true });
   baDots.forEach((d, k) => { d.classList.toggle('on', k === baIdx); d.setAttribute('aria-pressed', String(k === baIdx)); });
-  baCountEl.textContent = `${baIdx + 1} / ${baImgs.length}`;
+  if (baCountEl) baCountEl.textContent = `${baIdx + 1} / ${baImgs.length}`;
 }
-document.getElementById('baPrev').addEventListener('click', () => baSet(baIdx - 1));
-document.getElementById('baNext').addEventListener('click', () => baSet(baIdx + 1));
+// (the swiper controls were replaced by case cards; the lightbox keeps its own arrows)
 baSet(0);
 // Lightbox: the hero tiles and the viewer's photo open the active case
 // full screen; arrows, dots, swipe and the keyboard move between cases.
@@ -2333,12 +2663,21 @@ document.addEventListener('keydown', (e) => {
     if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) lbShow(lbIdx + (dx < 0 ? 1 : -1));
   }, { passive: true }); }
-document.querySelectorAll('#heroCases .heroCase').forEach((btn) => {
+document.querySelectorAll('.caseFig[data-case]').forEach((btn) => {
   btn.addEventListener('click', () => { const i = Number(btn.dataset.case) || 0; baSet(i); lbOpen(i, btn); });
 });
-document.getElementById('baStage').addEventListener('click', () => lbOpen(baIdx));
+document.getElementById('casesAll').addEventListener('click', (e) => { e.preventDefault(); lbOpen(0); });
 
 resize(); readScroll(); frame();
+
+// Smooth scrolling (Lenis, self-hosted) on desktop only. Phones keep native
+// touch scrolling; the story is scrubbed either way.
+if (window.Lenis && !journeyLift.matches && !reduceBeats.matches) {
+  const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, anchors: true });
+  const lraf = (t) => { lenis.raf(t); requestAnimationFrame(lraf); };
+  requestAnimationFrame(lraf);
+  window.lenis = lenis;
+}
 </script>
 <script>
 // ===== Embedded booking widget =====
@@ -2382,35 +2721,66 @@ resize(); readScroll(); frame();
   }
 
   // ---- step 1 ----
-  function renderDays() {
-    var t = T(), box = $('bkDays'); box.innerHTML = '';
-    $('bkNoDays').hidden = days.length > 0; box.hidden = days.length === 0;
-    if (!days.length) { $('bkMonth').textContent = ''; return; }
-    var seen = {};
-    days.forEach(function (d) {
-      var p = parts(d.date), n = slotsFor(d).length;
-      var b = el('button', 'day'); b.type = 'button'; b.setAttribute('role', 'option');
-      b.setAttribute('aria-selected', d.date === date ? 'true' : 'false');
-      b.appendChild(el('small', null, t.weekdays[p.dow]));
-      b.appendChild(el('b', null, String(p.d)));
-      b.appendChild(el('span', null, t.months[p.m - 1]));
-      b.appendChild(el('i', null, t.nTimes(n)));
-      b.addEventListener('click', function () { date = d.date; time = ''; renderDays(); renderTimes(); b.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' }); });
-      box.appendChild(b);
-      var mk = p.y + '-' + p.m; if (!seen[mk]) seen[mk] = t.monthsLong[p.m - 1] + ' ' + p.y;
-    });
-    $('bkMonth').textContent = Object.keys(seen).map(function (k) { return seen[k]; }).join(' · ');
+  var month = '';
+  function monthKey(key) { var p = parts(key); return p.y + '-' + p.m; }
+  function months() { var out = []; days.forEach(function (d) { var k = monthKey(d.date); if (out.indexOf(k) === -1) out.push(k); }); return out; }
+  function pick(d, slot) { date = d.date; time = slot.time; len = slot.len || 30; month = monthKey(d.date); renderDays(); renderTimes(); goStep2(); }
+  function renderQuick() {
+    var t = T(), box = $('bkQuick'), row = $('bkQuickRow'); if (!box) return;
+    row.innerHTML = '';
+    var seen = {}, count = 0;
+    for (var i = 0; i < days.length && count < 3; i++) {
+      var d = days[i], slots = slotsFor(d); if (!slots.length) continue;
+      var k = d.date; if (seen[k]) continue; seen[k] = 1; count++;
+      var b = el('button', 'quickBtn'); b.type = 'button';
+      b.appendChild(el('b', null, shortDate(d.date)));
+      b.appendChild(el('span', null, slots[0].time + (slots.length > 1 ? ' · ' + t.nTimes(slots.length) : '')));
+      (function (dd, ss) { b.addEventListener('click', function () { pick(dd, ss); }); })(d, slots[0]);
+      row.appendChild(b);
+    }
+    box.hidden = row.children.length === 0;
   }
+  function renderDays() {
+    var t = T(), grid = $('bkDays'), cal = $('bkCalRow');
+    $('bkNoDays').hidden = days.length > 0; cal.hidden = days.length === 0;
+    renderQuick();
+    if (!days.length) return;
+    var ms = months(); if (ms.indexOf(month) === -1) month = ms[0];
+    var y = +month.split('-')[0], mo = +month.split('-')[1];
+    $('bkMonth').textContent = t.monthsLong[mo - 1] + ' ' + y;
+    $('bkPrev').disabled = ms.indexOf(month) === 0; $('bkNext').disabled = ms.indexOf(month) === ms.length - 1;
+    var week = $('bkWeek'); week.innerHTML = '';
+    [1, 2, 3, 4, 5, 6, 0].forEach(function (dow) { week.appendChild(el('span', null, t.weekdays[dow])); });
+    grid.innerHTML = '';
+    var open = {}; days.forEach(function (d) { open[d.date] = slotsFor(d).length; });
+    var lead = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7;
+    for (var i = 0; i < lead; i++) grid.appendChild(el('span', 'off', ''));
+    var dim = new Date(Date.UTC(y, mo, 0)).getUTCDate(), todayKey = new Date().toISOString().slice(0, 10);
+    for (var d = 1; d <= dim; d++) {
+      var key = y + '-' + (mo < 10 ? '0' : '') + mo + '-' + (d < 10 ? '0' : '') + d;
+      if (open[key]) {
+        var b = el('button', 'day' + (key === todayKey ? ' today' : ''), String(d)); b.type = 'button';
+        b.setAttribute('aria-pressed', key === date ? 'true' : 'false');
+        b.setAttribute('aria-label', longDate(key) + ', ' + t.nTimes(open[key]));
+        (function (kk) { b.addEventListener('click', function () { date = kk; time = ''; $('bkTaken').hidden = true; renderDays(); renderTimes(); }); })(key);
+        grid.appendChild(b);
+      } else grid.appendChild(el('span', 'off' + (key === todayKey ? ' today' : ''), String(d)));
+    }
+    while (grid.children.length < 42) grid.appendChild(el('span', 'off', ''));
+  }
+  $('bkPrev').addEventListener('click', function () { var ms = months(), i = ms.indexOf(month); if (i > 0) { month = ms[i - 1]; renderDays(); } });
+  $('bkNext').addEventListener('click', function () { var ms = months(), i = ms.indexOf(month); if (i < ms.length - 1) { month = ms[i + 1]; renderDays(); } });
   function renderTimes() {
     var day = days.filter(function (d) { return d.date === date; })[0];
-    $('bkTimesWrap').hidden = !day;
-    if (!day) return;
+    $('bkTimesEmpty').hidden = !!day;
+    if (!day) { $('bkAm').hidden = true; $('bkPm').hidden = true; $('bkTimesFor').textContent = currentLang === 'en' ? 'Time' : 'Uhrzeit'; return; }
+    $('bkTimesFor').textContent = shortDate(date);
     var am = $('bkAm'), pm = $('bkPm'); am.querySelector('.timeGrid').innerHTML = ''; pm.querySelector('.timeGrid').innerHTML = '';
     var nAm = 0, nPm = 0;
-    slotsFor(day).forEach(function (s) {
-      var b = el('button', 'time', s.time); b.type = 'button'; b.setAttribute('aria-pressed', s.time === time ? 'true' : 'false');
-      b.addEventListener('click', function () { time = s.time; len = s.len || 30; renderTimes(); goStep2(); });
-      if (+s.time.slice(0, 2) < 12) { am.querySelector('.timeGrid').appendChild(b); nAm++; } else { pm.querySelector('.timeGrid').appendChild(b); nPm++; }
+    slotsFor(day).forEach(function (sl) {
+      var b = el('button', 'time', sl.time); b.type = 'button'; b.setAttribute('aria-pressed', sl.time === time ? 'true' : 'false');
+      b.addEventListener('click', function () { pick(day, sl); });
+      if (+sl.time.slice(0, 2) < 12) { am.querySelector('.timeGrid').appendChild(b); nAm++; } else { pm.querySelector('.timeGrid').appendChild(b); nPm++; }
     });
     am.hidden = !nAm; pm.hidden = !nPm;
   }
@@ -2421,7 +2791,13 @@ resize(); readScroll(); frame();
     $('bkPickWhen').textContent = t.when(shortDate(date), time);
     $('bkPickWhat').textContent = t.service + ' · ' + t.mins(len);
   }
-  function goStep2() { renderPick(); setStep(2); setTimeout(function () { var g = $('bkGender').querySelector('button'); if (g && !gender) g.focus(); }, 380); }
+  function goStep2() { $('bkTaken').hidden = true; renderPick(); setStep(2); setTimeout(function () { if (!$('bkFirst').value) $('bkFirst').focus({ preventScroll: true }); }, 380); }
+  $('bkSteps').querySelectorAll('[data-step]').forEach(function (li) {
+    var k = +li.getAttribute('data-step');
+    var back = function () { if (k < step && step < 3) { $('bkTaken').hidden = true; setStep(k); } };
+    li.addEventListener('click', back);
+    li.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); back(); } });
+  });
   function renderSeg(id, opts, current, set) {
     var box = $(id); box.innerHTML = '';
     opts.forEach(function (o) {
@@ -2432,8 +2808,6 @@ resize(); readScroll(); frame();
   }
   function renderStatic() {
     var t = T();
-    renderSeg('bkGender', t.genders, gender, function (v) { gender = v; });
-    renderSeg('bkExisting', t.existingOpts, existing, function (v) { existing = v; });
     if (data) { var lang = (window.currentLang || 'de'); $('bkConsentText').textContent = data.consent.text[lang] || data.consent.text.de; }
     $('bkSubmit').textContent = t.submit;
     renderDays(); renderTimes();
@@ -2485,7 +2859,7 @@ resize(); readScroll(); frame();
     var t = T();
     var first = $('bkFirst').value.trim(), last = $('bkLast').value.trim(), phone = $('bkPhone').value.trim(), email = $('bkEmail').value.trim();
     mark('bkFirst', !first); mark('bkLast', !last); mark('bkPhone', !phone); mark('bkEmail', !email);
-    if (!date || !time || !first || !last || !phone || !email || !gender) return showError(t.errRequired);
+    if (!date || !time || !first || !last || !phone || !email ) return showError(t.errRequired);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mark('bkEmail', true); return showError(t.errEmail); }
     if (!$('bkConsent').checked) return showError(t.errConsent);
     var btn = $('bkSubmit'); btn.disabled = true; btn.textContent = t.submitting;
@@ -2493,7 +2867,7 @@ resize(); readScroll(); frame();
       method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         date: date, time: time, firstName: first, lastName: last, phone: phone, email: email,
-        gender: gender, existingPatient: existing, service: SERVICE, note: $('bkNote').value,
+        service: SERVICE, note: $('bkNote').value,
         consent: true, consentVersion: data.consent.version, locale: window.currentLang || 'de',
         via: VIA, website: form.elements.website.value
       })
@@ -2514,6 +2888,25 @@ resize(); readScroll(); frame();
 
   load();
 })();
+</script>
+<script>
+  // The no-cookies chip: shown after the splash, five seconds, or the cross.
+  (function () {
+    var chip = document.getElementById('cookieChip'); if (!chip) return;
+    var seen = false; try { seen = localStorage.getItem('aixsmileNoCookiesSeen') === '1'; } catch (e) {}
+    if (seen) return;
+    var timer = 0;
+    function dismiss() { clearTimeout(timer); chip.classList.add('is-out'); setTimeout(function () { chip.hidden = true; }, 450); try { localStorage.setItem('aixsmileNoCookiesSeen', '1'); } catch (e) {} }
+    function show() { chip.hidden = false; timer = setTimeout(dismiss, 5000); }
+    var poll = setInterval(function () { if (document.documentElement.classList.contains('is-revealed')) { clearInterval(poll); setTimeout(show, 800); } }, 250);
+    setTimeout(function () { clearInterval(poll); if (chip.hidden && !chip.classList.contains('is-out')) show(); }, 12000);
+    document.getElementById('cookieClose').addEventListener('click', dismiss);
+    chip.addEventListener('mouseenter', function () { clearTimeout(timer); });
+  })();
+</script>
+<script>
+  var mapTile = document.getElementById('mapTile');
+  if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) mapTile.href = 'https://maps.apple.com/?q=Zahnarztpraxis%20AIXSMILE&address=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe%2022-28%2C%2052062%20Aachen&ll=50.7768518,6.085097';
 </script>
 </body>
 </html>
