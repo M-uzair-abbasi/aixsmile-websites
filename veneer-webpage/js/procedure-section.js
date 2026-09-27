@@ -1,8 +1,9 @@
 // The procedure section: a pinned stage that plays the veneer treatment while
 // the visitor scrolls through it. This file owns the scroll -> progress
-// mapping, the caption and the step dots. The 3D stage (veneer-procedure.js)
-// loads when the section comes near and only draws what it is told; until it
-// is ready, or if WebGL is missing, the stage shows a rendered still per step.
+// mapping, the caption and the step dots. The 3D stage (veneer-procedure.js,
+// shipped as js/veneer-procedure.bundle.js with three.js inside — rebuild it
+// with tools/build-procedure.mjs) loads when the section comes near and only
+// draws what it is told; until it is ready, the stage shows a rendered still.
 import { STEP_COUNT, stepAt, stepAnchor } from './procedure-timeline.js';
 
 const SETTLE = 0.11; // seconds: how softly the drawn progress follows the scroll

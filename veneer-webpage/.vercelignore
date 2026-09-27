@@ -3,8 +3,11 @@ js/three-d-stage.js
 README.md
 .playwright-mcp
 assets/generated/*.png
-js/vendor/three/three.module.js
-js/vendor/three/three.core.js
+js/vendor
+js/veneer-procedure.js
+js/dentition-rig.js
+js/veneer-explainer.js
+js/veneer-model.js
 human_dentition.glb
 tools
 tests

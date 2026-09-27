@@ -106,14 +106,6 @@
 }
 </script>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
-<script type="importmap">
-{
-  "imports": {
-    "three": "./js/vendor/three/three.module.min.js",
-    "three/addons/": "./js/vendor/three/addons/"
-  }
-}
-</script>
 <style>
   /* The canvas is alpha:true, so --paper shows straight through as the
      3D model's backdrop. */
@@ -2122,11 +2114,14 @@
     grid-template-rows: auto minmax(0, 1fr) auto auto;
     justify-items: center;
     gap: clamp(8px, 1.6vh, 16px);
+    height: calc(100vh - var(--proc-top));
     height: calc(100svh - var(--proc-top));
     padding: clamp(22px, 4.2vh, 46px) 0 clamp(14px, 2.6vh, 28px);
     background: radial-gradient(ellipse 62% 54% at 50% 47%, var(--proc-glow) 0%, rgba(51, 67, 59, 0) 74%);
   }
-  .proc-live .procedure__track { height: calc(100svh - var(--proc-top) + 440svh); }
+  /* scroll length: about 73svh per step; the preparation counts 1.6 steps
+     (STEP_WEIGHTS in js/procedure-timeline.js, 6.6 in total) */
+  .proc-live .procedure__track { height: calc(100vh - var(--proc-top) + 484vh); height: calc(100svh - var(--proc-top) + 484svh); }
   .proc-live .procedure__stage { position: sticky; top: var(--proc-top); }
 
   /* the canvas runs edge to edge; the text keeps the page margins */
@@ -2217,8 +2212,10 @@
 </head>
 <body>
 <script>document.documentElement.classList.add('js', 'is-revealed');
-  // the 3D procedure pins and plays with scroll unless motion is reduced
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('proc-live');</script>
+  // the 3D procedure pins and plays with scroll for every visitor, including
+  // phones set to reduce motion (the owner's choice, 2026-09-27); the stills
+  // grid remains for no JS or a failed script load
+  document.documentElement.classList.add('proc-live');</script>
 <header class="top">
   <a class="brand" href="#" aria-label="AIXSMILE – nach oben">
     <span class="brandTag">It&#8217;s time to</span>
@@ -2319,7 +2316,7 @@
       <li><img src="assets/procedure/step-3.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>03</span><h3 data-i18n="procedure.s3t">Digitaler Abdruck</h3><p data-i18n="procedure.s3p">Ein Scanner erfasst die Zähne ganz ohne Abdruckmasse. Daraus fertigt das Labor Ihre Veneers, meist in ein bis zwei Wochen.</p></li>
       <li><img src="assets/procedure/step-4.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>04</span><h3 data-i18n="procedure.s4t">Anprobe</h3><p data-i18n="procedure.s4p">Die hauchdünnen Keramikschalen werden anprobiert und einzeln auf die Zähne gesetzt.</p></li>
       <li><img src="assets/procedure/step-5.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>05</span><h3 data-i18n="procedure.s5t">Befestigung</h3><p data-i18n="procedure.s5p">Ein spezieller Kleber und blaues Licht verbinden Schale und Zahn dauerhaft.</p></li>
-      <li><img src="assets/procedure/step-6.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>06</span><h3 data-i18n="procedure.s6t">Ergebnis</h3><p data-i18n="procedure.s6p">Gleichmäßige Farbe, geschlossene Lücke, ebene Kanten – ein natürliches Lächeln.</p></li>
+      <li><img src="assets/procedure/step-6.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>06</span><h3 data-i18n="procedure.s6t">Ergebnis</h3><p data-i18n="procedure.s6p">Strahlend weiß, lückenlos und gleichmäßig – die unteren Zähne passend aufgehellt.</p></li>
     </ol>
   </section>
 
@@ -2815,7 +2812,7 @@ const I18N = {
       s3t: 'Digitaler Abdruck', s3p: 'Ein Scanner erfasst die Zähne ganz ohne Abdruckmasse. Daraus fertigt das Labor Ihre Veneers, meist in ein bis zwei Wochen.',
       s4t: 'Anprobe', s4p: 'Die hauchdünnen Keramikschalen werden anprobiert und einzeln auf die Zähne gesetzt.',
       s5t: 'Befestigung', s5p: 'Ein spezieller Kleber und blaues Licht verbinden Schale und Zahn dauerhaft.',
-      s6t: 'Ergebnis', s6p: 'Gleichmäßige Farbe, geschlossene Lücke, ebene Kanten – ein natürliches Lächeln.',
+      s6t: 'Ergebnis', s6p: 'Strahlend weiß, lückenlos und gleichmäßig – die unteren Zähne passend aufgehellt.',
     },
     what: {
       h2: 'Eine hauchdünne Keramikschale auf dem eigenen Zahn.',
@@ -3074,7 +3071,7 @@ const I18N = {
       s3t: 'Digital impression', s3p: 'A scanner captures your teeth without any impression paste. The lab makes your veneers from it, usually within one to two weeks.',
       s4t: 'Try-in', s4p: 'The wafer-thin ceramic shells are tried in and placed on the teeth one by one.',
       s5t: 'Bonding', s5p: 'A special adhesive and blue light bond shell and tooth permanently.',
-      s6t: 'Result', s6p: 'Even colour, gap closed, smooth edges – a natural smile.',
+      s6t: 'Result', s6p: 'Bright white, gap-free and even – with the lower teeth whitened to match.',
     },
     what: {
       h2: 'A wafer-thin ceramic shell on your own tooth.',
@@ -3344,7 +3341,7 @@ import(new URL('js/procedure-section.js', document.baseURI).href).then(({ initPr
     section: document.getElementById('veneerExplainer'),
     copy: (lang) => I18N[lang].procedure,
     lang: currentLang,
-    stageUrl: new URL('js/veneer-procedure.js', document.baseURI).href,
+    stageUrl: new URL('js/veneer-procedure.bundle.js', document.baseURI).href,
     modelUrl: new URL('assets/models/dentition.glb', document.baseURI).href,
     stillUrl: (k) => new URL('assets/procedure/step-' + (k + 1) + '.webp', document.baseURI).href,
   });

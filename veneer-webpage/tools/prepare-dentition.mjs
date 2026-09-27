@@ -6,7 +6,8 @@
 // - Roots are dropped: the gums hide them from every camera the page uses.
 // - Each crown is simplified by how close the camera gets to it. The six
 //   upper front teeth that receive veneers keep the most detail because the
-//   page reshapes them at runtime (preparation, chip, shells).
+//   page reshapes them at runtime (preparation, chip, shells); the upper
+//   premolars, which get veneers too, keep a little more than the rest.
 // - Geometry is quantized and meshopt-compressed; the page decodes it with
 //   three's MeshoptDecoder.
 //
@@ -40,7 +41,8 @@ function budget(name) {
   if (!m) return null;
   const [, quadrant, pos] = m.map(Number);
   const upper = quadrant === 1 || quadrant === 2;
-  if (upper && pos <= 3) return { ratio: 0.55, error: 0.001 };  // the six veneer teeth
+  if (upper && pos <= 3) return { ratio: 0.55, error: 0.001 };  // front veneer teeth
+  if (upper && pos <= 5) return { ratio: 0.4, error: 0.002 };   // premolar veneers
   if (pos <= 3) return { ratio: 0.3, error: 0.003 };            // lower front teeth
   if (pos <= 5) return { ratio: 0.2, error: 0.006 };            // premolars
   return { ratio: 0.1, error: 0.01 };                           // molars, far back

@@ -1,34 +1,51 @@
 // The dentition as a stage for the veneer procedure.
 //
-// Takes the loaded assets/models/dentition.glb and rebuilds the six upper
-// front teeth into the pieces the story needs, all derived from the real crown
-// meshes at load time:
-//   flawed    the tooth as the patient arrives (stain, chip, gap, short edge)
-//   layer     the enamel skin the preparation removes (flawed -> prepared)
+// Takes the loaded assets/models/dentition.glb and rebuilds the ten upper
+// teeth that receive veneers (premolar to premolar) into the pieces the story
+// needs, all derived from the real crown meshes at load time:
+//   flawed    the tooth as the patient arrives (stain; on the front teeth a
+//             chip, a gap and a short edge)
+//   layer     the enamel skin the preparation removes: it lights up, lifts
+//             off and fades
 //   prepared  the tooth after ~0.6 mm came off the front
-//   shell     the ceramic veneer: original tooth shape outside, prepared
-//             surface inside, so it closes the gap, restores the chip and
-//             tapers to nothing at its margins
-// plus a scan grid overlay and a blue curing light. apply(state) takes the
-// output of sampleProcedure() and sets every piece; it never allocates.
+//   shell     the ceramic veneer. Outside: the tooth's ideal shape, a little
+//             wider along the arch, longer and fuller, so neighbouring veneers
+//             meet and every gap closes (the "Hollywood" smile). Inside: the
+//             prepared surface. It tapers to nothing where the two meet.
+// plus a scan grid overlay, a blue curing light with a halo, whitening of the
+// untouched teeth and a final shine. apply(state) takes the output of
+// sampleProcedure() and sets every piece; it never allocates.
 //
 // Units are millimetres (the model's own), with +z towards the visitor.
 import { VENEER_TEETH, smooth } from './procedure-timeline.js';
 
 const PREP_DEPTH = 0.6;        // mm taken off the centre of the front face
-const GAP = 0.42;              // mm each central is narrowed on its midline side
+const GAP = 0.7;               // mm each central is narrowed on its midline side
+const CHIP = 3.0;              // mm deep broken corner on 21
+const SHORT = 1.3;             // mm the lateral 22 falls short
 const ARCH_CENTRE_Z = -22;     // front faces point away from this line
 const BITE_OPEN_DEG = 2.4;     // the source opens the jaw 10°; a smile shows a sliver
-const SHELL_TRAVEL = 4.5;      // mm in front of the tooth when a shell first appears
-const CURE_INTENSITY = 90;
+const SHELL_TRAVEL = 9;        // mm in front of the tooth when a shell first appears
+const PEEL = 3.2;              // mm the removed enamel lifts off before it fades
+const CURE_INTENSITY = 220;
+// the veneer shape by position in the quadrant (1 = central … 5 = second premolar)
+const WIDEN = [0, 0.085, 0.08, 0.06, 0.05, 0.045];   // share wider along the arch
+const LENGTHEN = [0, 0.45, 0.3, 0.2, 0.1, 0.1];      // mm longer at the biting edge
+const FULLER = 0.15;                                  // mm the front face stands proud
 
-const STAIN = { 13: 0xe6d8bd, 12: 0xece2cc, 11: 0xe9ddc4, 21: 0xe7dac0, 22: 0xece2cc, 23: 0xe3d4b7 };
-const IVORY = 0xf4efe6;        // teeth that are left alone
-const PORCELAIN = 0xfbf8f1;
-const HIGHLIGHT = 0xe9a07c;    // the enamel layer that is about to go
+const STAIN = {
+  15: 0xdfcfad, 14: 0xe1d1b0, 13: 0xd9c6a0, 12: 0xe3d4b5, 11: 0xe0cfac,
+  21: 0xdecca8, 22: 0xe3d4b5, 23: 0xd9c6a0, 24: 0xe1d1b0, 25: 0xdfcfad,
+};
+const IVORY = 0xf4efe6;        // teeth that are left alone …
+// … and after whitening: slightly cool and above 1, because it multiplies the
+// model's warm cream vertex colour and should come out plain white
+const WHITENED = [1.05, 1.08, 1.17];
+const PORCELAIN = [1.07, 1.07, 1.05]; // the veneers, a touch brighter than white
+const HIGHLIGHT = 0xf0a276;    // the enamel layer that is about to go
 const CURE_BLUE = 0x5aa2ff;
-const SCAN_TINT = [0.62, 0.9, 0.84];
-const DENTIN_TINT = [0.99, 0.95, 0.87]; // multiplies vertex colour where enamel came off
+const SCAN_TINT = [0.45, 0.95, 0.85];
+const DENTIN_TINT = [0.99, 0.94, 0.85]; // multiplies vertex colour where enamel came off
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const band = (x, a, b) => smooth((x - a) / (b - a));
@@ -132,28 +149,32 @@ function bluntTip(pos, upper, depth = 1.4, keep = 0.4) {
 }
 
 function buildTooth(THREE, id, crown, enamel) {
+  const place = Number(id[1]);
   const base = bakedGeometry(THREE, crown);
-  if (id === '13' || id === '23') { bluntTip(base.getAttribute('position').array, true); base.computeVertexNormals(); }
+  if (place === 3) { bluntTip(base.getAttribute('position').array, true); base.computeVertexNormals(); }
   base.computeBoundingBox();
   const bb = base.boundingBox;
   const centre = bb.getCenter(new THREE.Vector3());
-  const L = new THREE.Vector3(centre.x, 0, centre.z - ARCH_CENTRE_Z).normalize();
+  const L = new THREE.Vector3(centre.x, 0, centre.z - ARCH_CENTRE_Z).normalize(); // out of the arch
+  const T = new THREE.Vector3(-L.z, 0, L.x);                                       // along the arch
   const halfW = (bb.max.x - bb.min.x) / 2;
+  const crownH = bb.max.y - bb.min.y;
   const toMid = centre.x < 0 ? 1 : -1;
   const O = base.getAttribute('position').array;
   const N = base.getAttribute('normal').array;
   const colors = base.getAttribute('color').array;
   const count = O.length / 3;
+  const facing = (i) => N[i * 3] * L.x + N[i * 3 + 1] * L.y + N[i * 3 + 2] * L.z;
 
   // how much each vertex belongs to the front face, smoothed over the mesh so
   // the preparation margin is a soft line rather than a ragged one
   const index = base.getIndex().array;
   let w = new Float32Array(count);
-  for (let i = 0; i < count; i++) w[i] = band(N[i * 3] * L.x + N[i * 3 + 1] * L.y + N[i * 3 + 2] * L.z, 0.2, 0.65);
+  for (let i = 0; i < count; i++) w[i] = band(facing(i), 0.2, 0.65);
   w = smoothOverMesh(w, index, 4);
   // smoothing leaks a little weight onto side faces; moving those straight
   // back would push them out through the shell, so only forward faces move
-  for (let i = 0; i < count; i++) w[i] *= band(N[i * 3] * L.x + N[i * 3 + 1] * L.y + N[i * 3 + 2] * L.z, -0.05, 0.3);
+  for (let i = 0; i < count; i++) w[i] *= band(facing(i), -0.05, 0.3);
 
   // the flaws
   const F = O.slice();
@@ -163,10 +184,10 @@ function buildTooth(THREE, id, crown, enamel) {
     const v = y - bb.min.y;                       // mm above the biting edge
     if (id === '11' || id === '21') F[i * 3] -= toMid * GAP * smooth(u);
     if (id === '21') {
-      const depth = 2.3 * clamp01((u - 0.18) / 0.82) + 0.12 * Math.sin(u * 23);
+      const depth = CHIP * clamp01((u - 0.12) / 0.88) + 0.15 * Math.sin(u * 23);
       if (depth > 0 && v < depth) F[i * 3 + 1] = bb.min.y + depth;
     }
-    if (id === '22' && v < 3) F[i * 3 + 1] += 0.85 * Math.pow(1 - v / 3, 1.5);
+    if (id === '22' && v < 3.5) F[i * 3 + 1] += SHORT * Math.pow(1 - v / 3.5, 1.5);
   }
   const flawed = withPositions(THREE, base, F);
 
@@ -183,37 +204,58 @@ function buildTooth(THREE, id, crown, enamel) {
   }
   const prepared = withPositions(THREE, base, P, prepColors);
 
+  // the veneer's outside: the tooth's own shape, wider along the arch (more
+  // towards the biting edge, where the gaps are), a touch longer and fuller.
+  // The tongue side stays put, so the shell remains a veneer, not a crown.
+  const H = O.slice();
+  for (let i = 0; i < count; i++) {
+    const m = band(facing(i), -0.35, 0.15);
+    const along = (O[i * 3] - centre.x) * T.x + (O[i * 3 + 2] - centre.z) * T.z;
+    const v = O[i * 3 + 1] - bb.min.y;
+    const spread = along * WIDEN[place] * (0.55 + 0.45 * (1 - clamp01(v / crownH))) * m;
+    H[i * 3] += T.x * spread + L.x * FULLER * w[i];
+    H[i * 3 + 2] += T.z * spread + L.z * FULLER * w[i];
+    if (v < 2.5) H[i * 3 + 1] -= LENGTHEN[place] * (1 - v / 2.5) * m;
+  }
+  const ideal = withPositions(THREE, base, H);
+
   const layerSel = new Uint8Array(count), shellSel = new Uint8Array(count);
   for (let i = 0; i < count; i++) {
     layerSel[i] = w[i] > 0.01 ? 1 : 0;
-    const dx = O[i * 3] - P[i * 3], dy = O[i * 3 + 1] - P[i * 3 + 1], dz = O[i * 3 + 2] - P[i * 3 + 2];
+    const dx = H[i * 3] - P[i * 3], dy = H[i * 3 + 1] - P[i * 3 + 1], dz = H[i * 3 + 2] - P[i * 3 + 2];
     shellSel[i] = dx * dx + dy * dy + dz * dz > 1e-4 ? 1 : 0;
   }
+  const shellColors = colors.map((c) => c + (1 - c) * 0.65);
   const layer = solidBetween(THREE, index, flawed, prepared, colors, layerSel);
-  const shell = solidBetween(THREE, index, base, prepared, colors, shellSel);
+  const shell = solidBetween(THREE, index, ideal, prepared, shellColors, shellSel);
+  // both move and turn about the tooth's own centre
+  layer.translate(-centre.x, -centre.y, -centre.z);
+  shell.translate(-centre.x, -centre.y, -centre.z);
+  ideal.dispose();
 
   const stain = new THREE.Color(STAIN[id]);
   const flawMat = enamel.clone(); flawMat.color.copy(stain);
   const prepMat = enamel.clone();
-  prepMat.color.copy(stain); prepMat.roughness = 0.42; prepMat.clearcoat = 0.25; prepMat.sheen = 0;
+  prepMat.color.copy(stain); prepMat.roughness = 0.45; prepMat.clearcoat = 0.2; prepMat.sheen = 0;
   const offset = { polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -2 };
   const layerMat = enamel.clone();
   Object.assign(layerMat, offset, { transparent: true });
   layerMat.color.copy(stain); layerMat.emissive = new THREE.Color(HIGHLIGHT);
   const shellMat = new THREE.MeshPhysicalMaterial({
-    color: PORCELAIN, vertexColors: true, roughness: 0.2, clearcoat: 0.85, clearcoatRoughness: 0.08,
-    ior: 1.6, specularIntensity: 0.9, sheen: 0.3, sheenRoughness: 0.5, sheenColor: 0xfff4e6,
+    vertexColors: true, roughness: 0.14, clearcoat: 1, clearcoatRoughness: 0.05,
+    ior: 1.6, specularIntensity: 1, sheen: 0.25, sheenRoughness: 0.45, sheenColor: 0xffffff,
     emissive: CURE_BLUE, emissiveIntensity: 0, transparent: true, ...offset,
   });
+  shellMat.color.setRGB(...PORCELAIN);
 
   const parent = crown.parent;
   parent.remove(crown);
   crown.geometry.dispose();
-  const mk = (geo, mat, order) => { const m = new THREE.Mesh(geo, mat); m.renderOrder = order; parent.add(m); return m; };
   base.dispose();
+  const mk = (geo, mat, order) => { const m = new THREE.Mesh(geo, mat); m.renderOrder = order; parent.add(m); return m; };
 
   return {
-    id, L, centre, stain,
+    id, L, centre, stain, toMid,
     flawed: mk(flawed, flawMat, 0),
     prepared: mk(prepared, prepMat, 0),
     layer: mk(layer, layerMat, 3),
@@ -245,12 +287,33 @@ function scanMaterial(THREE) {
       }
       void main() {
         float scanned = step(vWorld.x, uSweep);
-        float front = exp(-pow((vWorld.x - uSweep) / 1.6, 2.0));
+        float front = exp(-pow((vWorld.x - uSweep) / 2.2, 2.0));
         float grid = max(line(vWorld.x, 0.85), line(vWorld.y, 0.85));
-        float a = scanned * (0.12 + 0.5 * grid) + 0.7 * front;
-        gl_FragColor = vec4(mix(uTint, vec3(1.0), front * 0.6), a * uOpacity);
+        float a = scanned * (0.16 + 0.7 * grid) + front;
+        gl_FragColor = vec4(mix(uTint, vec3(1.0), front * 0.7), clamp(a, 0.0, 1.0) * uOpacity);
       }`,
   });
+}
+
+/** A soft blue glow in front of the tooth being cured. */
+function haloSprite(THREE) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 128;
+  const g = c.getContext('2d');
+  const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.2, 'rgba(190,220,255,0.85)');
+  grad.addColorStop(0.55, 'rgba(90,162,255,0.3)');
+  grad.addColorStop(1, 'rgba(90,162,255,0)');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 128, 128);
+  const map = new THREE.CanvasTexture(c);
+  map.colorSpace = THREE.SRGBColorSpace;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+  sprite.scale.setScalar(13);
+  sprite.renderOrder = 6;
+  sprite.visible = false;
+  return sprite;
 }
 
 export function buildDentitionRig(THREE, gltfScene) {
@@ -280,7 +343,7 @@ export function buildDentitionRig(THREE, gltfScene) {
 
   const teeth = VENEER_TEETH.map((id) => buildTooth(THREE, id, find(new RegExp(`^tooth_${id}_.*_crown$`)), enamel));
 
-  // scan grid over the upper arch: the prepared teeth, their neighbours, the gum
+  // scan grid over the upper arch: the prepared teeth, the molars, the gum
   const scanMat = scanMaterial(THREE);
   const overlays = [];
   const overlay = (geo, parent) => { const m = new THREE.Mesh(geo, scanMat); m.renderOrder = 5; m.visible = false; parent.add(m); overlays.push(m); };
@@ -290,7 +353,11 @@ export function buildDentitionRig(THREE, gltfScene) {
   neighbours.forEach((o) => overlay(o.geometry, o));
 
   const cureLight = new THREE.PointLight(CURE_BLUE, 0, 28, 2);
-  arch.add(cureLight);
+  const halo = haloSprite(THREE);
+  arch.add(cureLight, halo);
+  // the closing shine: a light that sweeps across the finished smile
+  const shine = new THREE.DirectionalLight(0xffffff, 0);
+  root.add(shine);
 
   // camera framing, measured once the bite is set
   gltfScene.updateMatrixWorld(true);
@@ -299,45 +366,61 @@ export function buildDentitionRig(THREE, gltfScene) {
     objects.forEach((o) => box.expandByObject(o));
     return { center: box.getCenter(new THREE.Vector3()), size: box.getSize(new THREE.Vector3()) };
   };
-  const frontCrowns = [];
-  gltfScene.traverse((o) => { if (o.isMesh && /^tooth_[34][1-4]_.*_crown$/.test(o.name)) frontCrowns.push(o); });
+  const lowerFront = [];
+  gltfScene.traverse((o) => { if (o.isMesh && /^tooth_[34][1-4]_.*_crown$/.test(o.name)) lowerFront.push(o); });
   const frames = {
-    close: measure(teeth.map((t) => t.flawed)),
-    wide: measure([...frontCrowns, ...teeth.map((t) => t.flawed)]),
+    close: measure(teeth.filter((t) => Number(t.id[1]) <= 3).map((t) => t.flawed)),
+    wide: measure([...lowerFront, ...teeth.map((t) => t.flawed)]),
   };
 
-  const porcelain = new THREE.Color(PORCELAIN);
+  const white = new THREE.Color(0xffffff);
+  const ivory = new THREE.Color(IVORY);
+  const whitened = new THREE.Color().setRGB(...WHITENED);
   const highlight = new THREE.Color(HIGHLIGHT);
 
   function apply(s) {
     let brightest = -1, peak = 0;
     teeth.forEach((t, i) => {
+      // preparation: the front layer lights up, lifts off and fades
       const prep = s.prep[i];
-      const lit = smooth(prep / 0.45), gone = smooth((prep - 0.45) / 0.55);
+      const lit = smooth(prep / 0.35), lift = smooth((prep - 0.3) / 0.7), fade = smooth((prep - 0.6) / 0.4);
       t.flawed.visible = prep <= 0;
       t.prepared.visible = prep > 0;
-      t.layer.visible = prep > 0 && gone < 1;
-      t.layerMat.color.copy(t.stain).lerp(highlight, lit * 0.8);
-      t.layerMat.emissiveIntensity = 0.3 * lit * (1 - gone);
-      t.layerMat.opacity = 1 - gone;
-      t.layer.position.copy(t.L).multiplyScalar(gone * 1.4);
+      t.layer.visible = prep > 0 && fade < 1;
+      t.layerMat.color.copy(t.stain).lerp(highlight, lit * 0.85);
+      t.layerMat.emissiveIntensity = 0.6 * lit * (1 - fade);
+      t.layerMat.opacity = 1 - fade;
+      t.layer.position.copy(t.centre).addScaledVector(t.L, lift * PEEL);
+      t.layer.rotation.set(-lift * 0.25, 0, 0);
 
+      // try-in: each shell swings in from the front and settles
       const away = 1 - s.seat[i];
       t.shell.visible = s.shellShow > 0.002;
-      t.shell.position.copy(t.L).multiplyScalar(away * SHELL_TRAVEL);
-      t.shell.position.y -= away * 0.8;
-      t.shellMat.opacity = s.shellShow * (0.9 + 0.1 * s.bonded[i]);
-      t.shellMat.emissiveIntensity = 0.5 * s.glow[i];
+      t.shell.position.copy(t.centre).addScaledVector(t.L, away * SHELL_TRAVEL);
+      t.shell.position.y -= away * 1.5;
+      t.shell.rotation.set(away * 0.35, away * 0.5 * t.toMid, 0);
+      t.shellMat.opacity = s.shellShow * (0.92 + 0.08 * s.bonded[i]);
+      t.shellMat.emissiveIntensity = 0.9 * s.glow[i];
       // once bonded, the prepared tooth takes the ceramic's tone, so no seam shows
-      t.prepMat.color.copy(t.stain).lerp(porcelain, s.bonded[i]);
+      t.prepMat.color.copy(t.stain).lerp(white, s.bonded[i]);
       if (s.glow[i] > peak) { peak = s.glow[i]; brightest = i; }
     });
     cureLight.intensity = peak * CURE_INTENSITY;
-    if (brightest >= 0) cureLight.position.copy(teeth[brightest].L).multiplyScalar(7).add(teeth[brightest].centre);
+    halo.visible = peak > 0.01;
+    halo.material.opacity = peak;
+    if (brightest >= 0) {
+      const t = teeth[brightest];
+      cureLight.position.copy(t.centre).addScaledVector(t.L, 7);
+      halo.position.copy(t.centre).addScaledVector(t.L, 4);
+    }
 
     scanMat.uniforms.uSweep.value = -30 + 60 * s.scan.sweep;
     scanMat.uniforms.uOpacity.value = s.scan.opacity;
     overlays.forEach((o) => { o.visible = s.scan.opacity > 0.002; });
+
+    enamel.color.copy(ivory).lerp(whitened, s.whiten);
+    shine.intensity = 2.4 * Math.sin(Math.PI * s.shine);
+    shine.position.set(-70 + 140 * s.shine, 25, 70);
   }
 
   /** Make every piece visible once, so the renderer can compile all shaders up
@@ -345,6 +428,7 @@ export function buildDentitionRig(THREE, gltfScene) {
   function showAll() {
     teeth.forEach((t) => { t.flawed.visible = t.prepared.visible = t.layer.visible = t.shell.visible = true; });
     overlays.forEach((o) => { o.visible = true; });
+    halo.visible = true;
     cureLight.intensity = 1;
   }
 

@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { STEP_COUNT, VENEER_TEETH, sampleProcedure, stepAt, stepAnchor, cameraAt } from '../js/procedure-timeline.js';
+import { STEP_COUNT, VENEER_TEETH, sampleProcedure, stepAt, stepAnchor, stepProgress, cameraAt } from '../js/procedure-timeline.js';
 
 const all = (arr, fn) => arr.every(fn);
 
-test('the story starts untouched and ends with six bonded veneers', () => {
+test('the story starts untouched and ends with every veneer bonded', () => {
   const start = sampleProcedure(0);
   assert.equal(start.step, 0);
   assert.ok(all(start.prep, (v) => v === 0));
@@ -37,7 +37,7 @@ test('every value stays in 0..1 and never runs backwards while scrolling forward
 });
 
 test('each step does its own work: prep, then scan, then shells, then light', () => {
-  const at = (k, local) => sampleProcedure((k + local) / STEP_COUNT);
+  const at = (k, local) => sampleProcedure(stepProgress(k, local));
   assert.ok(all(at(1, 0.9).prep, (v) => v === 1), 'preparation done by the end of step 2');
   assert.equal(at(1, 0.9).shellShow, 0, 'no shells during preparation');
   assert.ok(at(2, 0.5).scan.opacity > 0.9, 'scan grid visible mid step 3');
@@ -69,4 +69,10 @@ test('the camera starts wide, goes close for the work and ends wide', () => {
   assert.equal(cameraAt(0.4).close, 1);
   assert.ok(cameraAt(0.6).az > 10, 'turned to the side during the try-in');
   assert.equal(cameraAt(1).close, 0);
+});
+
+test('the preparation gets more scroll than any other step', () => {
+  const len = (k) => stepProgress(k + 1, 0) - stepProgress(k, 0);
+  for (let k = 0; k < STEP_COUNT; k++) if (k !== 1) assert.ok(len(1) > len(k) * 1.4);
+  assert.equal(stepProgress(STEP_COUNT, 0), 1);
 });
