@@ -35,7 +35,7 @@
       "url": "https://aixsmile.de/",
       "telephone": "+49 241 31202",
       "email": "info@aixsmile.de",
-      "image": "https://veneers-aachen.de/assets/doctor.jpg",
+      "image": "https://veneers-aachen.de/assets/doctor-molaie.jpg",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Großkölnstraße 22–28",
@@ -2208,9 +2208,59 @@
     .procedure__list h3 { font-size: 18px; }
     .procedure__list p { font-size: 13.5px; }
   }
+  /* ===== One heading voice (2026-09-27) =====
+     Every section heading and card title in the hero's serif, one phrase in
+     italics, as in the client's reference. #page (on <body>) outranks the
+     older layers' class-based heading rules; sizes stay as those layers set
+     them. Buttons, labels, FAQ questions and the booking widget stay sans. */
+  #page :is(h2, h3) {
+    font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -.02em;
+  }
+  #page h2 { line-height: 1.04; letter-spacing: -.035em; }
+  #page :is(h2, h3) em { font-style: italic; }
+  /* serif reads smaller than the grotesk it replaces: the timeline titles grow */
+  #page .steps--line h3 { font-size: 20px; }
+
+  /* ===== Doctor (2026-09-27): portrait to the edge, a quote, three facts ===== */
+  #behandler.band--doctor { padding: 0; background: #f7f4ee; }
+  .doctorFeature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: min(92vh, 860px); }
+  .doctorFeature__photo { position: relative; margin: 0; overflow: hidden; background: #ece6dc; }
+  .doctorFeature__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+  .doctorFeature__text { align-self: center; max-width: 640px; padding: clamp(56px, 8vw, 120px) clamp(24px, 6vw, 104px); }
+  .doctorFeature__text .eyebrow { color: #9a7653; }
+  #page .doctorFeature h2 { max-width: none; margin: 0; color: var(--ink); font-size: clamp(34px, 3.6vw, 54px); }
+  .doctorFeature__quote { margin: clamp(22px, 3vw, 34px) 0 0; padding: 0 0 0 20px; border-left: 1px solid rgba(154, 118, 83, .55); }
+  .doctorFeature__quote p { margin: 0; color: var(--ink); font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    font-size: clamp(20px, 1.9vw, 27px); font-style: italic; line-height: 1.3; }
+  .doctorFeature__sign { display: grid; gap: 4px; margin-top: 14px; }
+  .doctorFeature__sign b { color: var(--ink); font-size: 12px; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
+  .doctorFeature__sign span { color: var(--ink-soft); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; }
+  #behandler .doctorFeature__lede { margin: 24px 0 0; color: var(--text); font-size: 16px; line-height: 1.6; }
+  .doctorFeature__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 30px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
+  .doctorFeature__facts div { padding: 0 14px; border-left: 1px solid var(--line); text-align: center; }
+  .doctorFeature__facts div:first-child { padding-left: 0; border-left: 0; }
+  .doctorFeature__facts dt { color: var(--ink); font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif; font-size: clamp(28px, 2.6vw, 38px); line-height: 1; }
+  .doctorFeature__facts dd { margin: 8px 0 0; color: var(--ink-soft); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; line-height: 1.35; text-transform: uppercase; }
+  .doctorFeature__link { display: inline-flex; align-items: center; gap: 10px; margin-top: 30px; padding: 13px 22px; border: 1px solid rgba(38, 51, 45, .5);
+    color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; transition: background-color .2s ease, color .2s ease; }
+  .doctorFeature__link:hover, .doctorFeature__link:focus-visible { background: var(--ink); color: #fff; }
+  @media (max-width: 860px) {
+    .doctorFeature { grid-template-columns: 1fr; min-height: 0; }
+    .doctorFeature__photo { aspect-ratio: 1 / .95; }
+    .doctorFeature__text { max-width: none; padding: 30px 16px 48px; }
+    #page .doctorFeature h2 { font-size: clamp(28px, 8vw, 36px); }
+    .doctorFeature__quote p { font-size: 19px; }
+    #behandler .doctorFeature__lede { font-size: 15px; }
+    .doctorFeature__facts { margin-top: 24px; padding-top: 18px; }
+    .doctorFeature__facts div { padding: 0 8px; }
+    .doctorFeature__facts dd { font-size: 9.5px; letter-spacing: .1em; }
+    .doctorFeature__link { margin-top: 24px; }
+  }
 </style>
 </head>
-<body>
+<body id="page">
 <script>document.documentElement.classList.add('js', 'is-revealed');
   // the 3D procedure pins and plays with scroll for every visitor, including
   // phones set to reduce motion (the owner's choice, 2026-09-27); the stills
@@ -2285,7 +2335,7 @@
       <div class="procedure__stage">
         <div class="procedure__head">
           <p class="procedure__eyebrow" data-i18n="procedure.eyebrow">Die Behandlung in 3D</p>
-          <h2 id="procedureTitle" data-i18n="procedure.h2">So entstehen Ihre Veneers.</h2>
+          <h2 id="procedureTitle" data-i18n="procedure.h2">So entstehen <em>Ihre Veneers</em>.</h2>
           <p class="procedure__hint" data-i18n="procedure.hint">Scrollen Sie weiter – die Behandlung läuft mit.</p>
         </div>
         <div class="procedure__view">
@@ -2323,7 +2373,7 @@
   <section class="veneerTypes" id="typen" aria-labelledby="veneerTypesTitle">
     <div class="inner inner--wide">
       <p class="eyebrow" data-i18n="types.eyebrow">Veneer-Typen</p>
-      <h2 id="veneerTypesTitle" data-i18n="types.h2">Drei Wege zu einer neuen Front.</h2>
+      <h2 id="veneerTypesTitle" data-i18n="types.h2">Drei Wege zu einer <em>neuen Front</em>.</h2>
       <p class="lede" data-i18n="types.lede">Material, Stärke und Vorbereitung entscheiden, wie das Ergebnis wirkt und wie lange es hält.</p>
       <div class="veneerTypeGrid">
         <article class="veneerTypeCard">
@@ -2350,7 +2400,7 @@
     <div class="readGrid">
       <div class="readCol">
         <p class="eyebrow" data-i18n="read.eyebrow">Was ein Veneer ist</p>
-        <h2 data-i18n="read.h2">Aufgeklebt auf den Zahn, nicht im Knochen verankert.</h2>
+        <h2 data-i18n="read.h2">Aufgeklebt auf den Zahn, <em>nicht im Knochen</em> verankert.</h2>
         <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn, es verkleidet ihn. Die hauchfeine Keramikschale wird auf die vorbereitete Zahnoberfläche geklebt. Danach verhalten sich Schale und Zahn wie ein Stück: Die Keramik gibt Form und Glanz, der Zahn trägt weiter die Kaubelastung.</p>
       </div>
       <div class="readCol">
@@ -2388,7 +2438,7 @@
 <section class="band band--material" id="materialien">
   <div class="inner">
     <p class="eyebrow" data-i18n="matRead.eyebrow">Zwei Materialien</p>
-    <h2 data-i18n="matRead.h2">Keramik oder Composite.</h2>
+    <h2 data-i18n="matRead.h2">Keramik <em>oder</em> Composite.</h2>
     <p class="lede" data-i18n="material.p">Welches der beiden Materialien passt, hängt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor etwas geschliffen wird.</p>
     <div class="materialShowcase">
       <figure class="materialVisual"><img src="assets/generated/veneer-types-ceramic.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="material.visualAlt" alt="Sechs Keramikschalen über einem oberen Zahnmodell"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
@@ -2412,7 +2462,7 @@
 <section class="concernGallery" id="moeglichkeiten" aria-labelledby="concernGalleryTitle">
   <div class="inner inner--wide">
     <p class="eyebrow" data-i18n="concerns.eyebrow">Was Veneers optisch verändern können</p>
-    <h2 id="concernGalleryTitle" data-i18n="concerns.h2">Nicht jedes Problem braucht dieselbe Lösung.</h2>
+    <h2 id="concernGalleryTitle" data-i18n="concerns.h2">Nicht jedes Problem braucht <em>dieselbe Lösung</em>.</h2>
     <p class="lede" data-i18n="concerns.lede">Farbe, kleine Lücken, Kanten und Formunterschiede lassen sich ausgleichen. Ob Veneers dafür das richtige Mittel sind, zeigt die Untersuchung.</p>
     <div class="concernGrid">
       <article class="concernCard"><figure><img src="assets/generated/impairment-discoloration.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.discolorationAlt" alt="Ungleichmäßig verfärbte Frontzähne"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure><div><span>01</span><h3 data-i18n="concerns.discolorationTitle">Verfärbung</h3><p data-i18n="concerns.discolorationText">Bei ungleichmäßiger oder tiefer Verfärbung kann eine Keramikschale den Ton ruhig und stabil machen.</p></div></article>
@@ -2425,7 +2475,7 @@
 <section class="beforeAfter" id="beforeAfter">
   <div class="inner">
     <p class="eyebrow" data-i18n="ba.eyebrow">Fälle aus der Praxis</p>
-    <h2 data-i18n="ba.h2">Vier Fälle, vier Ausgangslagen.</h2>
+    <h2 data-i18n="ba.h2">Vier Fälle, <em>vier Ausgangslagen</em>.</h2>
     <p class="lede" data-i18n="ba.p">Echte Fälle aus unserer Praxis, veröffentlicht mit Einverständnis. Jeder Fall ist anders; die Texte erklären die Behandlung, kein Versprechen.</p>
     <div class="cases">
       <article class="caseCard">
@@ -2499,7 +2549,7 @@
   <div class="inner inner--wide">
     <figure class="processVisual"><img src="assets/generated/veneer-types-composite.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="process.visualAlt" alt="Composite in drei Stadien auf einem Frontzahn"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
-    <h2 data-i18n="process.h2">Fünf Schritte, ein Ergebnis.</h2>
+    <h2 data-i18n="process.h2">Fünf Schritte, <em>ein Ergebnis</em>.</h2>
     <p class="lede" data-i18n="process.lede">Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.</p>
     <ol class="steps steps--line" id="stepsRail">
       <li><i>01</i><div data-i18n="process.step1"><h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p></div></li>
@@ -2515,7 +2565,7 @@
   <div class="inner">
     <div class="intro">
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
-      <h2 data-i18n="bk.h2">Ihr Termin für den Scan.</h2>
+      <h2 data-i18n="bk.h2">Ihr Termin <em>für den Scan</em>.</h2>
       <p data-i18n="bk.p">Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts.</p>
     </div>
 
@@ -2613,7 +2663,7 @@
 <section class="band band--kosten" id="kosten">
   <div class="inner">
     <p class="eyebrow" data-i18n="kosten.eyebrow">Kosten</p>
-    <h2 data-i18n="kosten.h2">Was Veneers kosten, und wovon es abhängt.</h2>
+    <h2 data-i18n="kosten.h2">Was Veneers kosten, <em>und wovon es abhängt</em>.</h2>
     <div class="kostenGrid">
       <div class="prose">
         <p data-i18n="kosten.p1">Veneers sind eine Privatleistung nach GOZ plus Labor. Den Preis nennen wir schriftlich im Kostenplan, sobald wir Ihre Zähne gesehen haben; er hängt vor allem von Material und Zahl der Zähne ab.</p>
@@ -2628,16 +2678,24 @@
 </section>
 
 <section class="band band--doctor" id="behandler">
-  <div class="inner">
-    <div class="portrait">
-      <img src="assets/doctor.jpg" loading="lazy" decoding="async" width="274" height="274" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt bei AIXSMILE in Aachen">
-    </div>
-    <div>
+  <div class="doctorFeature">
+    <figure class="doctorFeature__photo">
+      <img src="assets/doctor-molaie.webp" srcset="assets/doctor-molaie-720.webp 720w, assets/doctor-molaie.webp 1120w" sizes="(max-width: 860px) 100vw, 50vw" width="1120" height="1400" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt bei AIXSMILE in Aachen">
+    </figure>
+    <div class="doctorFeature__text">
       <p class="eyebrow" data-i18n="doctor.eyebrow">Ihr Behandler</p>
-      <h2>Novin Molaie</h2>
-      <p class="doctorRole" data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</p>
-      <p data-i18n="doctor.p1">Jedes Veneer beginnt bei uns am Bildschirm: Wir planen die Schalen am digitalen Scan, bevor am Zahn etwas passiert. Sie sehen das Ergebnis vorher, und wir schleifen nur so viel wie nötig.</p>
-      <p data-i18n="doctor.langs">Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.</p>
+      <h2 data-i18n="doctor.h2">Ästhetik mit <em>zahnärztlicher Sorgfalt</em>.</h2>
+      <blockquote class="doctorFeature__quote">
+        <p data-i18n="doctor.quote">„Ein Veneer soll zu Ihrem Gesicht passen – nicht zu einer Schablone.“</p>
+        <div class="doctorFeature__sign"><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
+      </blockquote>
+      <p class="doctorFeature__lede" data-i18n="doctor.p1">Jedes Veneer beginnt bei uns am Bildschirm: Wir planen die Schalen am digitalen Scan, bevor am Zahn etwas passiert. Sie sehen das Ergebnis vorher, und wir schleifen nur so viel wie nötig.</p>
+      <dl class="doctorFeature__facts">
+        <div><dt>5</dt><dd data-i18n="doctor.fact1">Sprachen in der Praxis</dd></div>
+        <div><dt>3D</dt><dd data-i18n="doctor.fact2">Planung vor dem ersten Schliff</dd></div>
+        <div><dt>2–3</dt><dd data-i18n="doctor.fact3">Termine bis zum Ergebnis</dd></div>
+      </dl>
+      <a class="doctorFeature__link" href="#buchen"><span data-i18n="doctor.cta">Beratung vereinbaren</span> <i aria-hidden="true">→</i></a>
     </div>
   </div>
 </section>
@@ -2645,7 +2703,7 @@
 <section class="band band--faq" id="faq">
   <div class="inner">
     <p class="eyebrow" data-i18n="faq.eyebrow">Häufige Fragen</p>
-    <h2 data-i18n="faq.h2">Was Patientinnen und Patienten vor Veneers wissen wollen.</h2>
+    <h2 data-i18n="faq.h2">Was Patientinnen und Patienten <em>vor Veneers</em> wissen wollen.</h2>
     <div class="faq">
       <details><summary data-i18n="faq.q1">Wie lange dauert es, bis meine Veneers fertig sind?</summary><p data-i18n="faq.a1">In der Regel zwei bis drei Termine über etwa zwei bis drei Wochen: Beratung mit Scan, Vorbereitung und Abformung, dann Einprobe und Verklebung. Die Schalen werden dazwischen im Labor gefertigt.</p></details>
       <details><summary data-i18n="faq.q2">Tut die Behandlung weh?</summary><p data-i18n="faq.a2">Die Vorbereitung des Zahns geschieht unter örtlicher Betäubung. Nach dem Termin kann der Zahn ein bis zwei Tage etwas empfindlicher auf Kälte reagieren; das legt sich von selbst.</p></details>
@@ -2671,7 +2729,7 @@
     </a>
     <div class="praxisText">
       <p class="eyebrow" data-i18n="praxis.eyebrow">Die Praxis</p>
-      <h2 data-i18n="praxis.h2">Mitten in Aachen, gut erreichbar aus der ganzen Region.</h2>
+      <h2 data-i18n="praxis.h2">Mitten in Aachen, <em>gut erreichbar</em> aus der ganzen Region.</h2>
       <p class="praxisRegion" data-i18n="praxis.region">Aus Köln mit dem Zug in etwa 35 Minuten, aus Düren in 20; das Parkhaus Großkölnstraße liegt direkt gegenüber. Viele Patientinnen und Patienten kommen aus Köln, Düren, Heinsberg, den Niederlanden und Belgien.</p>
       <dl class="praxisFacts">
         <div><dt data-i18n="praxis.hoursH">Sprechzeiten</dt><dd><span data-i18n="praxis.hoursDays">Mo · Di · Do</span> · <span data-i18n="praxis.hoursTime">9:00 – 16:00 Uhr</span></dd></div>
@@ -2789,7 +2847,7 @@ const I18N = {
     },
     types: {
       eyebrow: 'Veneer-Typen',
-      h2: 'Drei Wege zu einer neuen Front.',
+      h2: 'Drei Wege zu einer <em>neuen Front</em>.',
       lede: 'Material, Stärke und Vorbereitung entscheiden, wie das Ergebnis wirkt und wie lange es hält.',
       ceramicTitle: 'Keramik-Veneers', ceramicText: 'Im Labor gefertigte Schalen mit natürlicher Lichtwirkung, hoher Farbstabilität und einer sehr präzisen Kante.', ceramicAlt: 'Sechs Keramikschalen über einem oberen Zahnmodell',
       compositeTitle: 'Composite-Veneers', compositeText: 'Direkt am Zahn modelliert: schneller, günstiger und gut reparierbar, mit etwas weniger Tiefe und Glanz als Keramik.', compositeAlt: 'Composite in drei Stadien auf einem Frontzahn',
@@ -2797,14 +2855,14 @@ const I18N = {
     },
     concerns: {
       eyebrow: 'Was Veneers optisch verändern können',
-      h2: 'Nicht jedes Problem braucht dieselbe Lösung.',
+      h2: 'Nicht jedes Problem braucht <em>dieselbe Lösung</em>.',
       lede: 'Farbe, kleine Lücken, Kanten und Formunterschiede lassen sich ausgleichen. Ob Veneers dafür das richtige Mittel sind, zeigt die Untersuchung.',
       discolorationTitle: 'Verfärbung', discolorationText: 'Bei ungleichmäßiger oder tiefer Verfärbung kann eine Keramikschale den Ton ruhig und stabil machen.', discolorationAlt: 'Ungleichmäßig verfärbte Frontzähne',
       gapsTitle: 'Kleine Lücken', gapsText: 'Eine kleine Lücke lässt sich über Form und Breite schließen, wenn Biss und Zahnfleisch gesund sind.', gapsAlt: 'Kleine Zahnlücke zwischen den oberen Schneidezähnen',
       chipsTitle: 'Kanten und Form', chipsText: 'Abgenutzte oder leicht abgeplatzte Kanten können wieder eine harmonische Linie bekommen.', chipsAlt: 'Abgenutzte und leicht abgeplatzte Schneidekanten',
     },
     procedure: {
-      eyebrow: 'Die Behandlung in 3D', h2: 'So entstehen Ihre Veneers.',
+      eyebrow: 'Die Behandlung in 3D', h2: 'So entstehen <em>Ihre Veneers</em>.',
       hint: 'Scrollen Sie weiter – die Behandlung läuft mit.',
       tag: 'Schematische Darstellung', cta: 'Beratung buchen', dots: 'Behandlungsschritte',
       s1t: 'Ausgangslage', s1p: 'Verfärbungen, eine abgebrochene Ecke, eine kleine Lücke: typische Gründe für Veneers.',
@@ -2820,7 +2878,7 @@ const I18N = {
       p2: 'Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.',
     },
     material: {
-      h2: 'Keramik oder Composite. Ihr Zahn entscheidet mit.',
+      h2: 'Keramik <em>oder</em> Composite. Ihr Zahn entscheidet mit.',
       visualAlt: 'Sechs Keramikschalen über einem oberen Zahnmodell',
       p: 'Welches der beiden Materialien passt, hängt von Ihrem Zahn, Ihrem Anspruch und Ihrem Budget ab. Wir besprechen das offen, bevor etwas geschliffen wird.',
       m1Name: 'Keramik',
@@ -2829,7 +2887,7 @@ const I18N = {
     },
     process: {
       eyebrow: 'Ablauf',
-      h2: 'Fünf Schritte, ein Ergebnis.',
+      h2: 'Fünf Schritte, <em>ein Ergebnis</em>.',
       lede: 'Jeder Schritt wird erklärt, bevor er passiert. Geschliffen wird erst mit Ihrem Ja.',
       visualAlt: 'Composite in drei Stadien auf einem Frontzahn',
       step1: '<h3>Wunsch und Farbwahl</h3><p>Gespräch über das Ziel, Farbwahl mit Mustern direkt neben Ihren Zähnen.</p>',
@@ -2852,7 +2910,7 @@ const I18N = {
     },
     ba: {
       eyebrow: 'Fälle aus der Praxis',
-      h2: 'Vier Fälle, vier Ausgangslagen.',
+      h2: 'Vier Fälle, <em>vier Ausgangslagen</em>.',
       p: 'Echte Fälle aus unserer Praxis, veröffentlicht mit Einverständnis. Jeder Fall ist anders; die Texte erklären die Behandlung, kein Versprechen.',
       more: 'Mehr lesen', all: 'Alle sieben Fälle ansehen →',
       prev: 'Vorheriger Fall', next: 'Nächster Fall', open: 'Fall vergrößert ansehen', close: 'Schließen',
@@ -2873,10 +2931,10 @@ const I18N = {
       'Bereit, wenn Sie es sind',
     ],
 
-    read: { eyebrow: 'Was ein Veneer ist', h2: 'Aufgeklebt auf den Zahn, nicht im Knochen verankert.', visualAlt: 'Sehr dünne Veneerschale neben einem natürlichen Frontzahn' },
+    read: { eyebrow: 'Was ein Veneer ist', h2: 'Aufgeklebt auf den Zahn, <em>nicht im Knochen</em> verankert.', visualAlt: 'Sehr dünne Veneerschale neben einem natürlichen Frontzahn' },
     crownRead: { h3: 'Veneer oder Krone?' },
     suitRead: { h3: 'Wann Veneers passen' },
-    matRead: { eyebrow: 'Zwei Materialien', h2: 'Keramik oder Composite.' },
+    matRead: { eyebrow: 'Zwei Materialien', h2: 'Keramik <em>oder</em> Composite.' },
     mat: {
       r1: 'Haltbarkeit', r1a: 'Bei guter Pflege häufig 15 Jahre und länger', r1b: 'Kürzer, dafür jederzeit in der Praxis ausbesserbar',
       r2: 'Farbe', r2a: 'Fleckenresistent, verändert sich nicht', r2b: 'Kann mit Kaffee, Tee und Rotwein nachdunkeln',
@@ -2890,7 +2948,7 @@ const I18N = {
     case4: { k: 'Fall 4 · Gesamtbild', h: 'Sechs Fronten als ein Bild.', p: 'Farbe, Kante, Breite zugleich. Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt.', more: 'Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.' },
     kosten: {
       eyebrow: 'Kosten',
-      h2: 'Was Veneers kosten, und wovon es abhängt.',
+      h2: 'Was Veneers kosten, <em>und wovon es abhängt</em>.',
       p1: 'Veneers sind eine Privatleistung nach GOZ plus Labor. Den Preis nennen wir schriftlich im Kostenplan, sobald wir Ihre Zähne gesehen haben; er hängt vor allem von Material und Zahl der Zähne ab.',
       p2: 'Der Preis pro Zahn hängt vor allem vom Material ab, die Summe von der Anzahl der Zähne. Einen Festpreis nennen wir erst, wenn wir Ihre Zähne gesehen haben; dann aber schriftlich, Position für Position, im Heil- und Kostenplan. Den nehmen Sie mit nach Hause und können ihn bei Ihrer Versicherung einreichen.',
       d1k: 'Beratung mit Scan', d1v: 'Untersuchung, Fotos, digitaler Scan, Besprechung. Als Kontrolluntersuchung über die Krankenkasse.',
@@ -2899,6 +2957,10 @@ const I18N = {
     },
     doctor: {
       eyebrow: 'Ihr Behandler',
+      h2: 'Ästhetik mit <em>zahnärztlicher Sorgfalt</em>.',
+      quote: '„Ein Veneer soll zu Ihrem Gesicht passen – nicht zu einer Schablone.“',
+      fact1: 'Sprachen in der Praxis', fact2: 'Planung vor dem ersten Schliff', fact3: 'Termine bis zum Ergebnis',
+      cta: 'Beratung vereinbaren',
       role: 'Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen',
       alt: 'Novin Molaie, Zahnarzt bei AIXSMILE in Aachen',
       p1: 'Jedes Veneer beginnt bei uns am Bildschirm: Wir planen die Schalen am digitalen Scan, bevor am Zahn etwas passiert. Sie sehen das Ergebnis vorher, und wir schleifen nur so viel wie nötig.',
@@ -2907,7 +2969,7 @@ const I18N = {
       },
     faq: {
       eyebrow: 'Häufige Fragen',
-      h2: 'Was Patientinnen und Patienten vor Veneers wissen wollen.',
+      h2: 'Was Patientinnen und Patienten <em>vor Veneers</em> wissen wollen.',
       q1: 'Wie lange dauert es, bis meine Veneers fertig sind?',
       a1: 'In der Regel zwei bis drei Termine über etwa zwei bis drei Wochen: Beratung mit Scan, Vorbereitung und Abformung, dann Einprobe und Verklebung. Die Schalen werden dazwischen im Labor gefertigt.',
       q2: 'Tut die Behandlung weh?',
@@ -2931,7 +2993,7 @@ const I18N = {
     },
     praxis: {
       eyebrow: 'Die Praxis',
-      h2: 'Mitten in Aachen, gut erreichbar aus der ganzen Region.',
+      h2: 'Mitten in Aachen, <em>gut erreichbar</em> aus der ganzen Region.',
       region: 'Aus Köln mit dem Zug in etwa 35 Minuten, aus Düren in 20; das Parkhaus Großkölnstraße liegt direkt gegenüber. Viele Patientinnen und Patienten kommen aus Köln, Düren, Heinsberg, den Niederlanden und Belgien.',
       mapAria: 'Karte: Großkölnstraße 22–28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App', mapGo: 'Route öffnen →',
       addrH: 'Anschrift', hoursH: 'Sprechzeiten', hoursDays: 'Mo · Di · Do', hoursTime: '9:00 – 16:00 Uhr',
@@ -2942,7 +3004,7 @@ const I18N = {
     bk: {
       quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
       eyebrow: 'Termin',
-      h2: 'Ihr Termin für den Scan.',
+      h2: 'Ihr Termin <em>für den Scan</em>.',
       p: 'Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts.',
       fact1: 'Digitaler Scan statt Abdruck, nichts wird geschliffen',
       fact2: 'Schriftlicher Kostenplan, Entscheidung danach in Ruhe',
@@ -3048,7 +3110,7 @@ const I18N = {
     },
     types: {
       eyebrow: 'Veneer types',
-      h2: 'Three routes to a new front.',
+      h2: 'Three routes to a <em>new front</em>.',
       lede: 'Material, thickness and preparation decide how the result looks and how long it lasts.',
       ceramicTitle: 'Ceramic veneers', ceramicText: 'Laboratory-made shells with natural light behaviour, strong colour stability and a very precise edge.', ceramicAlt: 'Six ceramic shells over an upper tooth model',
       compositeTitle: 'Composite veneers', compositeText: 'Sculpted directly onto the tooth: faster, more affordable and easy to repair, with slightly less depth and shine than ceramic.', compositeAlt: 'Composite in three stages on a front tooth',
@@ -3056,14 +3118,14 @@ const I18N = {
     },
     concerns: {
       eyebrow: 'What veneers can change visually',
-      h2: 'Not every concern needs the same solution.',
+      h2: 'Not every concern needs <em>the same solution</em>.',
       lede: 'Colour, small gaps, edges and shape differences can be balanced. The examination shows whether veneers are the right tool.',
       discolorationTitle: 'Discolouration', discolorationText: 'With uneven or deep discolouration, a ceramic shell can create a calm, stable shade.', discolorationAlt: 'Unevenly discoloured front teeth',
       gapsTitle: 'Small gaps', gapsText: 'A small gap can be closed through shape and width when the bite and gums are healthy.', gapsAlt: 'Small gap between the upper front teeth',
       chipsTitle: 'Edges and shape', chipsText: 'Worn or lightly chipped edges can regain a more harmonious line.', chipsAlt: 'Worn and lightly chipped incisal edges',
     },
     procedure: {
-      eyebrow: 'The treatment in 3D', h2: 'How your veneers are made.',
+      eyebrow: 'The treatment in 3D', h2: 'How <em>your veneers</em> are made.',
       hint: 'Keep scrolling – the treatment plays along.',
       tag: 'Schematic illustration', cta: 'Book a consultation', dots: 'Treatment steps',
       s1t: 'Starting point', s1p: 'Discolouration, a chipped corner, a small gap: typical reasons for veneers.',
@@ -3079,7 +3141,7 @@ const I18N = {
       p2: 'Because ceramic is translucent, your own tooth colour shimmers through slightly. That is why the shade is determined on the awake patient in daylight before anything is prepared. Anyone who also wants whiter teeth does so first: once seated, a veneer\'s colour no longer changes.',
     },
     material: {
-      h2: 'Ceramic or composite. Your tooth has a say.',
+      h2: 'Ceramic <em>or</em> composite. Your tooth has a say.',
       visualAlt: 'Six ceramic shells over an upper tooth model',
       p: 'Which of the two materials fits depends on your tooth, your expectations and your budget. We discuss it openly before anything is prepared.',
       m1Name: 'Ceramic',
@@ -3088,7 +3150,7 @@ const I18N = {
     },
     process: {
       eyebrow: 'The process',
-      h2: 'Five steps, one result.',
+      h2: 'Five steps, <em>one result</em>.',
       lede: 'Every step is explained before it happens. Preparation only with your yes.',
       visualAlt: 'Composite in three stages on a front tooth',
       step1: '<h3>Wish and shade</h3><p>A conversation about the goal, shade chosen with samples next to your teeth.</p>',
@@ -3111,7 +3173,7 @@ const I18N = {
     },
     ba: {
       eyebrow: 'Cases from the practice',
-      h2: 'Four cases, four starting points.',
+      h2: 'Four cases, <em>four starting points</em>.',
       p: 'Real cases from our practice, published with consent. Every case is different; the texts explain the treatment, not a promise.',
       more: 'Read more', all: 'See all seven cases →',
       prev: 'Previous case', next: 'Next case', open: 'View case enlarged', close: 'Close',
@@ -3132,10 +3194,10 @@ const I18N = {
       'Ready when you are',
     ],
 
-    read: { eyebrow: 'What a veneer is', h2: 'Bonded onto the tooth, not anchored in the bone.', visualAlt: 'Very thin veneer shell beside a natural front tooth' },
+    read: { eyebrow: 'What a veneer is', h2: 'Bonded onto the tooth, <em>not anchored</em> in the bone.', visualAlt: 'Very thin veneer shell beside a natural front tooth' },
     crownRead: { h3: 'Veneer or crown?' },
     suitRead: { h3: 'When veneers are the right choice' },
-    matRead: { eyebrow: 'Two materials', h2: 'Ceramic or composite.' },
+    matRead: { eyebrow: 'Two materials', h2: 'Ceramic <em>or</em> composite.' },
     mat: {
       r1: 'Durability', r1a: 'Often 15 years and more with good care', r1b: 'Shorter, but repairable in the practice at any time',
       r2: 'Colour', r2a: 'Stain-resistant, does not change', r2b: 'Can darken with coffee, tea and red wine',
@@ -3149,7 +3211,7 @@ const I18N = {
     case4: { k: 'Case 4 · The whole picture', h: 'Six fronts as one picture.', p: 'Colour, edge and width at once. Six shells from canine to canine so the smile works as a whole.', more: 'Why six and not two? Because the eye reads a smile as a surface. If only the two central teeth are treated, the neighbours stand out afterwards. From canine to canine a continuous line emerges; which teeth belong to it is decided by the smile line in the consultation.' },
     kosten: {
       eyebrow: 'Costs',
-      h2: 'What veneers cost, and what it depends on.',
+      h2: 'What veneers cost, <em>and what it depends on</em>.',
       p1: 'Veneers are a private service under the GOZ fee scale plus lab costs. We state the price in writing in the cost plan once we have seen your teeth; it depends mainly on the material and the number of teeth.',
       p2: 'The price per tooth depends mostly on the material, the total on the number of teeth. We only name a fixed price once we have seen your teeth; then in writing, item by item, in the treatment and cost plan. You take it home and can submit it to your insurer.',
       d1k: 'Consultation with scan', d1v: 'Examination, photos, digital scan, discussion. Billed to your health insurer as a routine check-up.',
@@ -3158,6 +3220,10 @@ const I18N = {
     },
     doctor: {
       eyebrow: 'Your dentist',
+      h2: 'Aesthetics with <em>a dentist’s care</em>.',
+      quote: '“A veneer should fit your face – not a template.”',
+      fact1: 'languages in the practice', fact2: 'planning before the first touch', fact3: 'appointments to the result',
+      cta: 'Book a consultation',
       role: 'Dentist · AIXSMILE dental practice, Aachen',
       alt: 'Novin Molaie, dentist at AIXSMILE in Aachen',
       p1: 'Every veneer starts on a screen: we plan the shells on a digital scan before anything happens to the tooth. You see the result first, and we prepare only as much as needed.',
@@ -3166,7 +3232,7 @@ const I18N = {
       },
     faq: {
       eyebrow: 'Common questions',
-      h2: 'What patients want to know before veneers.',
+      h2: 'What patients want to know <em>before veneers</em>.',
       q1: 'How long until my veneers are finished?',
       a1: 'Usually two to three appointments over two to three weeks: consultation with scan, preparation and impression, then try-in and bonding. The shells are made in the lab in between.',
       q2: 'Does the treatment hurt?',
@@ -3190,7 +3256,7 @@ const I18N = {
     },
     praxis: {
       eyebrow: 'The practice',
-      h2: 'In the centre of Aachen, easy to reach from the whole region.',
+      h2: 'In the centre of Aachen, <em>easy to reach</em> from the whole region.',
       region: 'From Cologne by train in about 35 minutes, from Düren in 20; the Großkölnstraße car park is directly opposite. Many patients come from Cologne, Düren, Heinsberg, the Netherlands and Belgium.',
       mapAria: 'Map: Großkölnstraße 22–28, 52062 Aachen. Opens the route in your maps app', mapGo: 'Open route →',
       addrH: 'Address', hoursH: 'Consultation hours', hoursDays: 'Mon · Tue · Thu', hoursTime: '9:00 – 16:00',
@@ -3201,7 +3267,7 @@ const I18N = {
     bk: {
       quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Tap a day on the left. The free times for your scan appointment appear on the right.', taken: 'Someone booked this time in the meantime. Please pick another one.',
       eyebrow: 'Appointment',
-      h2: 'Your appointment for the scan.',
+      h2: 'Your appointment <em>for the scan</em>.',
       p: 'About 60 minutes: photos, digital scan, an honest conversation. Nothing is prepared that day.',
       fact1: 'Digital scan instead of an impression, nothing is prepared',
       fact2: 'Written cost plan, decide afterwards at your own pace',
