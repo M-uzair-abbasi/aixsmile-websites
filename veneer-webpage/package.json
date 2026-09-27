@@ -2,6 +2,7 @@
   "name": "veneers-aachen",
   "private": true,
   "scripts": {
-    "build": "node build-en.mjs"
+    "build": "node build-en.mjs",
+    "test": "node --test tests/*.test.mjs"
   }
 }

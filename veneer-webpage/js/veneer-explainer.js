@@ -1,4 +1,4 @@
-import { buildVeneerModel } from '/js/veneer-model.js';
+import { buildVeneerModel } from './veneer-model.js';
 
 const STATE_ORDER = ['before', 'veneer', 'seated'];
 const STATE_SEATING = { before: 0, veneer: 0.5, seated: 1 };
@@ -190,13 +190,25 @@ export function createVeneerExplainer({ THREE, canvas, fallback, controls, label
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-    if ('toneMapping' in renderer && THREE.ACESFilmicToneMapping) renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    if ('toneMappingExposure' in renderer) renderer.toneMappingExposure = 1.08;
+    // Neutral tone mapping keeps the enamel and porcelain colours true (the
+    // filmic curve pushed them towards yellow-grey).
+    if ('toneMapping' in renderer) renderer.toneMapping = THREE.NeutralToneMapping ?? THREE.ACESFilmicToneMapping;
+    if ('toneMappingExposure' in renderer) renderer.toneMappingExposure = 1.0;
     if ('outputColorSpace' in renderer && THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(29, 1, .001, 2);
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x8da99d, 1.8));
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xd8cfc2, 1.25));
+    // A soft studio environment gives the ceramic and enamel real
+    // reflections; loaded on the side, the model renders without it first.
+    import('./vendor/three/addons/environments/RoomEnvironment.js').then(({ RoomEnvironment }) => {
+      if (!renderer || !scene) return;
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      if ('environmentIntensity' in scene) scene.environmentIntensity = 0.55;
+      pmrem.dispose();
+      scheduleFrame();
+    }).catch(() => {});
     const key = new THREE.DirectionalLight(0xfff8ee, 2.45);
     key.position.set(.14, .24, .18);
     scene.add(key);

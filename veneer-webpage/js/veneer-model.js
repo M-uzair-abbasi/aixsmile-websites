@@ -4,15 +4,23 @@
 // framework and no branding, so it needs no changes for this build.
 
 export function buildVeneerModel(THREE) {
-  const enamel = new THREE.MeshStandardMaterial({ name: 'enamel', color: 0xf0f2ea, roughness: 0.30, metalness: 0.01 });
-  const porcelain = new THREE.MeshStandardMaterial({
-    name: 'porcelain_veneer', color: 0xfffef9, roughness: 0.16, metalness: 0.01, side: THREE.DoubleSide
+  // Physical materials read as tooth and ceramic under the explainer's
+  // studio light: enamel is warm and satin, the porcelain shell cooler and
+  // glossier, so the shell stays the focal point.
+  const enamel = new THREE.MeshPhysicalMaterial({
+    name: 'enamel', color: 0xf1eadc, roughness: 0.36, metalness: 0,
+    clearcoat: 0.3, clearcoatRoughness: 0.35, sheen: 0.35, sheenRoughness: 0.6, sheenColor: 0xfff4e4,
+  });
+  const porcelain = new THREE.MeshPhysicalMaterial({
+    name: 'porcelain_veneer', color: 0xfbfaf6, roughness: 0.12, metalness: 0,
+    clearcoat: 1, clearcoatRoughness: 0.06, side: THREE.DoubleSide,
   });
   // The explainer is intentionally a focused six-tooth smile segment. A full
   // horseshoe made the shells read as tiny props instead of a useful patient
-  // explanation. The sage base recedes; the porcelain remains the focal point.
-  const gingiva = new THREE.MeshStandardMaterial({ name: 'gingiva', color: 0xc99496, roughness: 0.58, metalness: 0.0 });
-  const base = new THREE.MeshStandardMaterial({ name: 'model_base', color: 0xa8bab1, roughness: 0.75, metalness: 0.0 });
+  // explanation. The base is a plain plaster study model, the gum a natural,
+  // slightly moist pink; the porcelain remains the focal point.
+  const gingiva = new THREE.MeshPhysicalMaterial({ name: 'gingiva', color: 0xd4877f, roughness: 0.46, metalness: 0, clearcoat: 0.35, clearcoatRoughness: 0.4 });
+  const base = new THREE.MeshStandardMaterial({ name: 'model_base', color: 0xece6da, roughness: 0.88, metalness: 0.0 });
 
   // Sculpt a sphere into a crown: neck at y=0, biting edge at y=-h.
   function sculpt(geo, w, h, d, o = {}) {

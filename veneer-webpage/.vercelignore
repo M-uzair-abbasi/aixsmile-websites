@@ -2,3 +2,10 @@ viewer.html
 js/three-d-stage.js
 README.md
 .playwright-mcp
+assets/generated/*.png
+js/vendor/three/three.module.js
+js/vendor/three/three.core.js
+human_dentition.glb
+tools
+tests
+docs

@@ -35,6 +35,12 @@ out = out.replace(/data-i18n-aria="([\w.]+)"/g, (m, key) => {
   return `${m} aria-label="${attr(val)}" title="${attr(val)}"`;
 });
 
+// Source paths are relative so index.html also works when opened directly.
+// The generated English page lives one directory deeper, so prefix only
+// project-local asset and module references ("assets/…", "js/…" and the
+// import map's "./js/…"); hash links remain on /en/.
+out = out.replace(/(["'(])(?:\.\/)?((?:assets|js)\/)/g, '$1../$2');
+
 // <head>
 const rep = (a, b) => { if (!out.includes(a)) throw new Error(`head marker missing: ${a.slice(0, 60)}`); out = out.replace(a, b); };
 rep('<html lang="de">', '<html lang="en">');
