@@ -2258,16 +2258,9 @@
   }
 
   /* ===== Polish (2026-09-28) =====
-     Phone layouts that fit one screen per section, the consultation photo in
-     the booking section, calmer cost cards, a compact FAQ, a dark editorial
-     footer, the hero's real case with its photos on phones, and tap areas of
+     Phone layouts that fit one screen per section, calmer cost cards, a
+     compact FAQ, a dark editorial footer, the hero's real case with its photos on phones, and tap areas of
      at least 44px for the small text links. */
-  .bookingPhoto { position: relative; max-width: 420px; margin: 30px 0 0; overflow: hidden; aspect-ratio: 1 / 1.08; border-radius: 22px;
-    background: #e7e2d9; box-shadow: 0 26px 50px -36px rgba(23, 54, 47, .5); }
-  .bookingPhoto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
-  .bookingPhoto figcaption { position: absolute; left: 14px; right: 14px; bottom: 14px; padding: 10px 14px; border-radius: 14px;
-    background: rgba(255, 253, 249, .9); color: var(--ink); font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-    font-size: 17px; font-style: italic; line-height: 1.25; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 
   #kosten .kostenFacts { counter-reset: kosten; gap: 14px; border-top: 0; }
   #kosten .kostenFacts > div { counter-increment: kosten; padding: 22px 22px 24px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255, 255, 255, .7); }
@@ -2322,10 +2315,6 @@
 
     .materialVisual { min-height: 0; height: 190px; }
 
-    .bookingPhoto { max-width: none; aspect-ratio: 5 / 4; margin-top: 18px; }
-    .bookingPhoto img { object-position: 50% 3%; }
-    .bookingPhoto figcaption { right: auto; bottom: 10px; left: 10px; padding: 8px 12px; font-size: 15px; }
-
     #kosten .kostenFacts > div { padding: 16px 18px 18px; }
     #kosten .kostenFacts > div::before { margin-bottom: 8px; }
     #kosten .kostenFacts dt { font-size: 19px; }
@@ -2364,9 +2353,9 @@
     .js .doctorFeature__quote.m-rise.m-in::before { transform: none; }
   }
   @media (prefers-reduced-motion: no-preference) and (hover: hover) {
-    .veneerTypeCard figure img, .concernCard figure img, .caseFig img, .bookingPhoto img, .doctorFeature__photo img {
+    .veneerTypeCard figure img, .concernCard figure img, .caseFig img, .doctorFeature__photo img {
       transition: transform .9s var(--m-out), clip-path 1.25s var(--m-out) var(--m-delay, 0s), scale 1.9s var(--m-out) var(--m-delay, 0s); }
-    .veneerTypeCard:hover figure img, .concernCard:hover figure img, .caseCard:hover .caseFig img, .bookingPhoto:hover img, .doctorFeature__photo:hover img { transform: scale(1.04); }
+    .veneerTypeCard:hover figure img, .concernCard:hover figure img, .caseCard:hover .caseFig img, .doctorFeature__photo:hover img { transform: scale(1.04); }
     .doctorFeature__link i { display: inline-block; transition: translate .3s var(--m-out); }
     .doctorFeature__link:hover i, .doctorFeature__link:focus-visible i { translate: 4px 0; }
     #faq details:not([open]):hover { border-color: var(--line-strong); }
@@ -2728,10 +2717,6 @@
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
       <h2 data-i18n="bk.h2">Ihr Termin <em>für den Scan</em>.</h2>
       <p data-i18n="bk.p">Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts.</p>
-      <figure class="bookingPhoto">
-        <img src="assets/consultation.webp" srcset="assets/consultation-416.webp 416w, assets/consultation.webp 624w" sizes="(max-width: 700px) 100vw, 36vw" width="624" height="1213" loading="lazy" decoding="async" data-i18n-alt="bk.photoAlt" alt="Novin Molaie im Beratungsgespräch">
-        <figcaption data-i18n="bk.photoCap">Persönliche Beratung auf Augenhöhe.</figcaption>
-      </figure>
     </div>
 
     <form class="bk" id="bkForm" novalidate aria-live="polite">
@@ -3173,8 +3158,6 @@ const I18N = {
       eyebrow: 'Termin',
       h2: 'Ihr Termin <em>für den Scan</em>.',
       p: 'Etwa 60 Minuten: Fotos, digitaler Scan, ehrliches Gespräch. Geschliffen wird an diesem Tag nichts.',
-      photoCap: 'Persönliche Beratung auf Augenhöhe.',
-      photoAlt: 'Novin Molaie im Beratungsgespräch',
       fact1: 'Digitaler Scan statt Abdruck, nichts wird geschliffen',
       fact2: 'Schriftlicher Kostenplan, Entscheidung danach in Ruhe',
       fact3: 'Absagen jederzeit über den Link in der Bestätigung',
@@ -3439,8 +3422,6 @@ const I18N = {
       eyebrow: 'Appointment',
       h2: 'Your appointment <em>for the scan</em>.',
       p: 'About 60 minutes: photos, digital scan, an honest conversation. Nothing is prepared that day.',
-      photoCap: 'Personal advice, at eye level.',
-      photoAlt: 'Novin Molaie in a consultation',
       fact1: 'Digital scan instead of an impression, nothing is prepared',
       fact2: 'Written cost plan, decide afterwards at your own pace',
       fact3: 'Cancel any time via the link in the confirmation',
@@ -3960,7 +3941,7 @@ document.getElementById('casesAll').addEventListener('click', (e) => { e.prevent
       '#wissen .readVisual', '#wissen .readCol', '#wissen .readCol li', '.gaugeSlabs .slab', '.gaugeNote',
       '.materialVisual', '.matRow', '.materialNote',
       '.caseCard', '.casesAll',
-      '.bookingPhoto', '.bk',
+      '.bk',
       '.kostenFacts > div',
       '.doctorFeature__photo', '.doctorFeature__text > :not(h2)', '.doctorFeature__facts > div',
       '.faq details',
@@ -3969,7 +3950,7 @@ document.getElementById('casesAll').addEventListener('click', (e) => { e.prevent
     ].join(', ');
     // pictures that wipe up into their frames as they arrive
     var WIPE = [
-      '#wissen .readVisual', '.materialVisual', '.band--ablauf .processVisual', '.bookingPhoto', '.doctorFeature__photo',
+      '#wissen .readVisual', '.materialVisual', '.band--ablauf .processVisual', '.doctorFeature__photo',
       '.veneerTypeCard figure', '.concernCard figure', '.mapTile'
     ].join(', ');
     var items = [].slice.call(document.querySelectorAll(RISE));
