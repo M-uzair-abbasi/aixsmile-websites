@@ -64,11 +64,11 @@ test('a step dot lands inside its own step, after its action', () => {
   }
 });
 
-test('the camera starts wide, goes close for the work and ends wide', () => {
+test('the camera starts wide, goes close for the work and ends framed on the smile', () => {
   assert.equal(cameraAt(0).close, 0);
   assert.equal(cameraAt(0.4).close, 1);
   assert.ok(cameraAt(0.6).az > 10, 'turned to the side during the try-in');
-  assert.equal(cameraAt(1).close, 0);
+  assert.ok(cameraAt(1).zoom < 0.9, 'closer in on the finished smile');
 });
 
 test('the preparation gets more scroll than any other step', () => {

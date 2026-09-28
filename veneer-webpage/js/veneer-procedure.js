@@ -1,6 +1,6 @@
 // The 3D stage of the procedure section: renderer, light, camera and the
 // dentition rig. It never runs a loop of its own; procedure-section.js calls
-// render(progress) when the scroll moves or the canvas resizes, so an idle
+// render(progress) when the playhead moves or the canvas resizes, so an idle
 // page costs nothing.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -76,7 +76,7 @@ export async function createVeneerProcedure({ canvas, modelUrl }) {
   }
 
   // compile every shader now, with all pieces visible, instead of stalling
-  // halfway through a scroll the first time a piece appears
+  // halfway through playback the first time a piece appears
   resize();
   rig.showAll();
   place(sampleProcedure(0).camera);

@@ -63,6 +63,10 @@ for (const viewport of [
 ]) {
   test(`editorial veneers hero works at ${viewport.name} size`, async () => {
     const page = await browser.newPage({ viewport });
+    // The 3D procedure below the hero has its own tests; in headless Chromium
+    // its software-rendered start-up freezes the page for seconds and would
+    // race these timings, so the hero checks run with the section on its still.
+    await page.route(/veneer-procedure\.bundle\.js|dentition\.glb/, (route) => route.abort());
     const pageErrors = [];
     page.on('pageerror', (error) => pageErrors.push(error.message));
     await page.goto(origin, { waitUntil: 'networkidle' });
