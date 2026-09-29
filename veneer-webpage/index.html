@@ -1387,7 +1387,7 @@
   .btn.ghost { background: transparent; border-color: var(--line-strong); color: var(--ink); box-shadow: none; }
   .btn.ghost:hover, .btn.ghost:focus-visible { background: var(--paper-2); border-color: var(--ink); color: var(--ink); }
   .skipLink { background: var(--ink); color: var(--paper); }
-  #splash, #curtain { display: none !important; }
+  #curtain { display: none !important; }
   html.js:not(.is-revealed) #curtain, html.js:not(.is-revealed) .stage3d, html.js:not(.is-revealed) .stagewrap::before,
   html.js:not(.is-revealed) .beat:first-child > *, html.js:not(.is-revealed) .w > span, html.js:not(.is-revealed) .slab i,
   html.js:not(.is-revealed) .gaugeNote i, html.js:not(.is-revealed) .hint { animation-play-state: running; }
@@ -2405,10 +2405,161 @@
     .procedure.is-playing .procedure__playing { transform: none; }
   }
   html:not(.proc-live) :is(.procedure__hold, .procedure__playing) { display: none; }
+
+  /* ===== One section, one screen (2026-09-29): tighter bands, capped media, no AI badges ===== */
+  .aiTag, .heroEditorial__imageTag { display: none !important; }
+  #page .splash { z-index: 2000; background: var(--paper); }
+  .band { padding: clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px); }
+  .beforeAfter { padding: clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px) clamp(40px, 5vh, 64px); }
+  @media (min-width: 901px) {
+    .readGrid + .readGrid { margin-top: 26px; padding-top: 22px; }
+    .processVisual, .processVisual img { max-height: min(62vh, 520px); }
+    .doctorFeature { min-height: 0; max-height: 100vh; }
+    .doctorFeature__text { padding-top: clamp(32px, 5vh, 72px); padding-bottom: clamp(32px, 5vh, 72px); }
+    .doctorFeature__facts { margin-top: 22px; padding-top: 16px; }
+    .concernGallery { padding-top: clamp(44px, 6vh, 76px); padding-bottom: clamp(44px, 6vh, 76px); }
+  }
+  @media (max-width: 900px) {
+    .band, .beforeAfter, .concernGallery { padding: 34px 20px 32px; }
+    .band h2, .beforeAfter h2, #page .band h2 { font-size: clamp(24px, 6.6vw, 30px); line-height: 1.08; margin-bottom: 8px; }
+    .band .eyebrow, .beforeAfter .eyebrow { margin-bottom: 8px; font-size: 11px; }
+    .band p.lede, .beforeAfter p.lede { font-size: 14px; line-height: 1.45; margin-bottom: 12px; }
+    /* media: one short strip, never a full-height picture */
+    .readVisual, .materialVisual, .processVisual { margin: 0 0 12px; min-height: 0 !important; max-height: none; }
+    .readVisual img, .materialVisual img, .processVisual img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; max-height: 150px; min-height: 0 !important; object-fit: cover; }
+    /* wissen */
+    .readGrid { gap: 10px; }
+    .readGrid + .readGrid { margin-top: 12px; padding-top: 12px; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .readCol h3 { font-size: 14.5px; margin: 0 0 4px; }
+    .readCol > p, .checks li { font-size: 12.5px; line-height: 1.4; }
+    .checks { gap: 4px; }
+    .gauge { margin-top: 6px; }
+    /* materialien */
+    .matTable { margin-top: 8px; }
+    .matRow { padding: 7px 0; font-size: 12.5px; line-height: 1.35; gap: 8px; }
+    .matRow--head { font-size: 13px; }
+    .materialNote { margin-top: 10px; font-size: 12.5px; padding: 8px 10px; }
+    /* ablauf */
+    .steps--line { margin-top: 8px; }
+    .steps--line > li { padding-bottom: 9px; }
+    .steps--line h3 { font-size: 15px; }
+    .steps--line p { font-size: 13px; line-height: 1.4; margin-top: 2px; }
+    /* behandler: a portrait band, then the text, all on one screen */
+    .doctorFeature { min-height: 0; }
+    .doctorFeature__photo { height: 220px; }
+    .doctorFeature__photo img { object-position: 50% 16%; }
+    .doctorFeature__text { padding: 20px 20px 26px; }
+    #page .doctorFeature h2 { font-size: clamp(24px, 6.6vw, 30px); }
+    .doctorFeature__quote { margin: 10px 0; }
+    .doctorFeature__quote p { font-size: 15.5px; line-height: 1.35; margin: 0 0 6px; }
+    .doctorFeature__sign { font-size: 10.5px; }
+    .doctorFeature__sign b { font-size: 12px; }
+    .doctorFeature__lede { font-size: 13.5px; line-height: 1.45; margin: 0 0 10px; }
+    .doctorFeature__facts { margin: 0; padding-top: 10px; }
+    .doctorFeature__facts dt { font-size: 22px; }
+    .doctorFeature__facts dd { margin-top: 4px; font-size: 9.5px; }
+    .doctorFeature__link { margin-top: 12px; }
+    /* faq */
+    .band--faq .faq { margin-top: 10px; gap: 6px; }
+    .band--faq details { padding: 8px 12px; border-radius: 10px; }
+    .faq summary { font-size: 14px; padding: 4px 0; grid-template-columns: 1fr 26px; gap: 10px; min-height: 0; }
+    .faq summary::after { width: 26px; height: 26px; }
+    .faq details p { font-size: 13.5px; margin: 4px 0 6px; }
+    /* cases */
+    .cases { margin-top: 12px; gap: 12px 10px; }
+    .caseFig img { aspect-ratio: 4 / 3; }
+    .caseBody { padding: 8px 2px 0; }
+    .caseBody h3 { font-size: 14px; margin-bottom: 4px; }
+    .caseMore summary { font-size: 12.5px; min-height: 26px; }
+    /* praxis */
+    .band--praxis .inner.praxisGrid { gap: 12px; }
+    .band--praxis .mapTile { min-height: 0; aspect-ratio: 16 / 9; max-height: 190px; }
+    .praxisText .praxisRegion { font-size: 13.5px; margin-bottom: 8px; }
+    .praxisFacts { gap: 4px; }
+    .praxisFacts > div { padding: 6px 0; font-size: 13px; gap: 8px; }
+    .praxisText .reviewNote { margin-top: 6px; font-size: 12px; }
+    /* winners over the #page / ol.steps rules above */
+    #page .readVisual, #page .materialVisual, #page .band--ablauf .processVisual { height: auto; min-height: 0; max-height: none; margin: 0 0 12px; }
+    #page .band--ablauf ol.steps.steps--line > li { padding: 0 0 8px; }
+    #page .band--ablauf ol.steps.steps--line h3, #page .steps--line h3 { font-size: 15px; }
+    #page .band--ablauf ol.steps.steps--line p, #page .steps--line p { font-size: 12.5px; line-height: 1.38; margin-top: 1px; }
+    #page .band--faq .faq { margin-top: 10px; gap: 5px; }
+    #page .band--faq details { padding: 4px 12px; border-radius: 10px; }
+    #page .faq summary { font-size: 13.5px; line-height: 1.3; padding: 7px 0; min-height: 0; grid-template-columns: 1fr 24px; gap: 10px; }
+    #page .faq summary::after { width: 24px; height: 24px; background-size: 10px; }
+    #page .faq details p { font-size: 13px; line-height: 1.45; margin: 0 0 8px; }
+    #page .band--faq h2 { font-size: clamp(22px, 6vw, 26px); }
+    #page .band h2, #page .beforeAfter h2 { max-width: none; }
+    #page .readVisual img { aspect-ratio: 16 / 8; max-height: 132px; }
+    #page .readCol h3 { font-size: 15px; margin: 0 0 4px; }
+    #page .readCol > p { font-size: 12.5px; line-height: 1.4; }
+    #page ul.checks { gap: 4px; margin-top: 2px; }
+    #page ul.checks li { grid-template-columns: 12px 1fr; gap: 8px; font-size: 12.5px; line-height: 1.38; }
+    #page .gauge { margin-top: 8px; padding-top: 10px; }
+    #page .gaugeNote { margin-top: 6px; font-size: 11.5px; }
+    #page .doctorFeature { grid-template-columns: 1fr; }
+    #page .doctorFeature__photo { height: 240px; }
+    #page .doctorFeature__photo img { position: absolute; inset: 0; height: 100%; width: 100%; object-fit: cover; object-position: 50% 14%; }
+    #page .doctorFeature__photo { aspect-ratio: auto; width: 100%; }
+    /* buchen, kosten */
+    .band--buchen .intro { margin-bottom: 10px; }
+    .kostenFacts > div { padding: 10px 0; }
+  }
 </style>
 </head>
 <body id="page">
-<script>document.documentElement.classList.add('js', 'is-revealed');
+<!-- First-load splash: a prepared tooth, a thin ceramic shell slides on and
+     bonds, a shine runs across it. One full loop always plays; the page's own
+     landing choreography starts when the splash lifts. Never shown without JS. -->
+<div class="splash" id="splash" aria-hidden="true">
+  <svg viewBox="0 0 120 140" class="splashTooth" fill="none">
+    <defs>
+      <clipPath id="spClip"><path d="M60 10c-15 0-27 8-31 22-3 12-1 24 2 36 2 8 3 16 6 24 3 9 6 20 10 28 3 6 8 6 10 0 2-7 1-16 3-24 1 8 0 17 3 24 2 6 7 6 10 0 4-8 7-19 10-28 3-8 4-16 6-24 3-12 5-24 2-36C87 18 75 10 60 10Z"/></clipPath>
+      <linearGradient id="spPrep" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2d6c4"/><stop offset="1" stop-color="#c8b8a0"/></linearGradient>
+      <linearGradient id="spCeramic" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f7f4ee"/><stop offset="1" stop-color="#e6dfd3"/></linearGradient>
+      <linearGradient id="spSweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <radialGradient id="spHalo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#9a4322" stop-opacity=".16"/><stop offset="1" stop-color="#9a4322" stop-opacity="0"/></radialGradient>
+    </defs>
+    <circle class="spHaloC" cx="60" cy="66" r="58" fill="url(#spHalo)"/>
+    <g class="spBody">
+      <g clip-path="url(#spClip)">
+        <rect x="0" y="0" width="120" height="140" fill="url(#spPrep)"/>
+        <path class="spShell" d="M60 12c-13 0-24 7-27 20-3 11-1 22 2 34 1 5 2 10 4 15 6-3 13-4 21-4s15 1 21 4c2-5 3-10 4-15 3-12 5-23 2-34C84 19 73 12 60 12Z" fill="url(#spCeramic)"/>
+        <rect class="spSweepR" x="-60" y="0" width="60" height="140" fill="url(#spSweep)" transform="skewX(-14)"/>
+      </g>
+      <path class="spShellLine" d="M60 12c-13 0-24 7-27 20-3 11-1 22 2 34 1 5 2 10 4 15 6-3 13-4 21-4s15 1 21 4c2-5 3-10 4-15 3-12 5-23 2-34C84 19 73 12 60 12Z" stroke="#9a4322" stroke-width="1.4" stroke-opacity=".7" stroke-linejoin="round"/>
+    </g>
+    <path class="spOutline" pathLength="1" stroke="#9a4322" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M60 10c-15 0-27 8-31 22-3 12-1 24 2 36 2 8 3 16 6 24 3 9 6 20 10 28 3 6 8 6 10 0 2-7 1-16 3-24 1 8 0 17 3 24 2 6 7 6 10 0 4-8 7-19 10-28 3-8 4-16 6-24 3-12 5-24 2-36C87 18 75 10 60 10Z"/>
+    <g class="spSpark" transform="translate(94 22)"><path fill="#9a4322" d="M0-10C1.8-2.7 2.7-1.8 10 0 2.7 1.8 1.8 2.7 0 10-1.8 2.7-2.7 1.8-10 0-2.7-1.8-1.8-2.7 0-10Z"/></g>
+    <g class="spSpark spSpark--2" transform="translate(108 42)"><path fill="#c9866a" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+  </svg>
+  <p class="splashText"><span data-l="de">Wird geladen …</span><span data-l="en">Loading …</span></p>
+</div>
+<noscript><style>.splash { display: none !important; }</style></noscript>
+<script>
+  // Splash release: page loaded, at least one full 3.4 s loop, lift at the end of a loop.
+  (function () {
+    var el = document.getElementById('splash'); if (!el) return;
+    var t0 = performance.now(), done = false, LOOP = 3400, LIFT_AT = 0.9;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function leave(force) {
+      if (done) return; done = true;
+      var elapsed = performance.now() - t0, wait;
+      if (reduce || force) wait = Math.max(0, 200 - elapsed);
+      else { var loop = Math.max(1, Math.ceil((elapsed + 50) / LOOP)); var lift = (loop - 1) * LOOP + LOOP * LIFT_AT; if (lift < elapsed) lift += LOOP; wait = lift - elapsed; }
+      setTimeout(function () {
+        el.classList.add('is-leaving');
+        document.documentElement.classList.add('is-revealed');
+        window.dispatchEvent(new CustomEvent('aixsmile:revealed'));
+        setTimeout(function () { el.remove(); }, 500);
+      }, wait);
+    }
+    var onLoad = function () { leave(false); }; // never pass the Event in as `force`
+    if (document.readyState === 'complete') onLoad(); else window.addEventListener('load', onLoad, { once: true });
+    setTimeout(function () { leave(true); }, 6500); // failsafe: lift at once, whatever the loop is doing
+  })();
+</script>
+<script>document.documentElement.classList.add('js');
   // every visitor gets the 3D procedure stage (press and hold to play); the
   // stills grid remains for no JS or a failed script load
   document.documentElement.classList.add('proc-live');</script>
@@ -2455,7 +2606,6 @@
     </div>
     <figure class="heroEditorial__portrait">
       <img src="assets/generated/hero-smile-editorial.webp" width="1120" height="1400" fetchpriority="high" decoding="async" data-i18n-alt="hero.portraitAlt" alt="Illustrative Darstellung einer lächelnden Frau">
-      <figcaption class="heroEditorial__imageTag" data-i18n="hero.portraitTag">Illustrative Darstellung · KI-generiert</figcaption>
       <aside class="heroEditorial__proof" data-i18n-aria="hero.proofAria" aria-label="Echter Vorher-Nachher-Fall aus der AIXSMILE Praxis">
         <div class="heroEditorial__proofHead"><strong data-i18n="hero.proofKicker">Echter Fall aus unserer Praxis</strong><span data-i18n="hero.proofTitle">Farbe &amp; Form</span></div>
         <div class="heroEditorial__proofImages">
