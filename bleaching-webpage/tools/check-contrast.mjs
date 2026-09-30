@@ -21,7 +21,9 @@ function audit() {
   };
   const bgOf = (el, textColor) => {
     const layers = [];
-    for (let e = el; e; e = e.parentElement) {
+    // text inside the 3D view sits over a picture (teeth, gums): stop at the view and
+    // judge against the worst case under whatever is translucent
+    for (let e = el; e && !e.classList.contains('procedure__view'); e = e.parentElement) {
       const c = parse(getComputedStyle(e).backgroundColor);
       if (c && c[3] > 0) { layers.push(c); if (c[3] >= 1) break; }
     }
@@ -69,6 +71,7 @@ try {
     await page.evaluate(() => document.fonts.ready);
     // every booking pane, a picked day and time, the error and info notes
     await page.evaluate(() => {
+      document.querySelectorAll('.m-rise, .m-wipe').forEach((e) => e.classList.add('m-in'));
       document.querySelector('#bkDays .day')?.click();
       ['bkPane1', 'bkPane2', 'bkPane3', 'bkUnavailable', 'bkTaken', 'bkNoteWrap'].forEach((id) => { const e = document.getElementById(id); if (e) e.hidden = false; });
       const err = document.getElementById('bkError'); err.textContent = 'Bitte füllen Sie die Pflichtfelder aus.'; err.hidden = false;
@@ -77,7 +80,7 @@ try {
       const pf = document.getElementById('priceFrom'); pf.textContent = 'Bleaching in der Praxis ab 290 €.'; pf.hidden = false;
       document.querySelectorAll('.faq details').forEach((d) => { d.open = true; });
     });
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(1200);
     for (const lang of ['de', 'en']) {
       if (lang === 'en') { await page.click('#langToggle'); await page.waitForTimeout(150); }
       const { checked, fails } = await page.evaluate(audit);

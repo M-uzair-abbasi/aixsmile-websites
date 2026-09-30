@@ -4,3 +4,7 @@ tools
 assets/photos/ai/incoming
 human-jaw.glb
 js/src
+docs
+tests
+.env*
+.vercel

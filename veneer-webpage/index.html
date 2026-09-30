@@ -1701,10 +1701,7 @@
     .proofStrip li:nth-child(n+3) { border-top: 1px solid rgba(255, 255, 255, .12); }
   }
 
-  /* -- AI images carry a visible label -- */
   .veneerTypeCard figure, .concernCard figure, .readVisual, .materialVisual, .processVisual, .praxisVisual { position: relative; }
-  .aiTag { position: absolute; z-index: 2; right: 10px; bottom: 10px; padding: 4px 9px; border-radius: 999px; background: rgba(23, 54, 47, .74);
-    color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .02em; line-height: 1.3; pointer-events: none; }
 
   /* -- layout fixes -- */
   .veneerTypes, .concernGallery { padding-inline: clamp(18px, 5vw, 88px); }
@@ -1983,20 +1980,6 @@
     pointer-events: none;
   }
   .heroEditorial__portrait::after { display: none; }
-  .heroEditorial__imageTag {
-    position: absolute;
-    z-index: 3;
-    top: 22px;
-    right: 22px;
-    padding: 7px 10px;
-    border: 1px solid rgba(255, 255, 255, .5);
-    border-radius: 999px;
-    background: rgba(38, 51, 45, .68);
-    color: #fff;
-    font-size: 10px;
-    letter-spacing: .08em;
-    backdrop-filter: blur(8px);
-  }
   .heroEditorial__proof {
     position: absolute;
     z-index: 4;
@@ -2060,7 +2043,6 @@
     .heroEditorial__trust span { font-size: 9.8px; }
     .heroEditorial__portrait { inset: 64px 0 auto; height: 50%; }
     .heroEditorial__portrait > img { object-position: 52% 60%; transform: scale(1.08); }
-    .heroEditorial__imageTag { top: 11px; right: 11px; padding: 5px 8px; font-size: 8.5px; }
     .heroEditorial__proof { top: 11px; right: auto; left: 11px; width: 166px; padding: 8px 9px; border-radius: 13px; }
     .heroEditorial__proofHead { display: block; margin: 0; }
     .heroEditorial__proofHead strong { display: block; font-size: 9.5px; }
@@ -2406,8 +2388,7 @@
   }
   html:not(.proc-live) :is(.procedure__hold, .procedure__playing) { display: none; }
 
-  /* ===== One section, one screen (2026-09-29): tighter bands, capped media, no AI badges ===== */
-  .aiTag, .heroEditorial__imageTag { display: none !important; }
+  /* ===== One section, one screen (2026-09-29): tighter bands, capped media ===== */
   #page .splash { z-index: 2000; background: var(--paper); }
   .band { padding: clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px); }
   .beforeAfter { padding: clamp(44px, 6vh, 76px) clamp(28px, 5vw, 88px) clamp(40px, 5vh, 64px); }
@@ -2677,15 +2658,15 @@
       <p class="lede" data-i18n="types.lede">Material, Stärke und Vorbereitung bestimmen Wirkung und Haltbarkeit.</p>
       <div class="veneerTypeGrid">
         <article class="veneerTypeCard">
-          <figure><img src="assets/generated/veneer-types-ceramic.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="types.ceramicAlt" alt="Sechs Keramikschalen über einem oberen Zahnmodell"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
+          <figure><img src="assets/generated/veneer-types-ceramic.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="types.ceramicAlt" alt="Sechs Keramikschalen über einem oberen Zahnmodell"></figure>
           <div class="veneerTypeCard__body"><span>01</span><h3 data-i18n="types.ceramicTitle">Keramik-Veneers</h3><p data-i18n="types.ceramicText">Im Labor gefertigt: natürliche Lichtwirkung, farbstabil, präzise Kante.</p></div>
         </article>
         <article class="veneerTypeCard">
-          <figure><img src="assets/generated/veneer-types-composite.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="types.compositeAlt" alt="Composite in drei Stadien auf einem Frontzahn"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
+          <figure><img src="assets/generated/veneer-types-composite.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="types.compositeAlt" alt="Composite in drei Stadien auf einem Frontzahn"></figure>
           <div class="veneerTypeCard__body"><span>02</span><h3 data-i18n="types.compositeTitle">Composite-Veneers</h3><p data-i18n="types.compositeText">Direkt am Zahn modelliert: schneller, günstiger, gut reparierbar.</p></div>
         </article>
         <article class="veneerTypeCard">
-          <figure><img src="assets/generated/veneer-types-no-prep.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="types.noPrepAlt" alt="Sehr dünne No-prep-Schale neben einem natürlichen Frontzahn"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
+          <figure><img src="assets/generated/veneer-types-no-prep.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="types.noPrepAlt" alt="Sehr dünne No-prep-Schale neben einem natürlichen Frontzahn"></figure>
           <div class="veneerTypeCard__body"><span>03</span><h3 data-i18n="types.noPrepTitle">No-prep / minimalinvasiv</h3><p data-i18n="types.noPrepText">Hauchdünn und schonend, wenn Form und Platz es zulassen.</p></div>
         </article>
       </div>
@@ -2704,7 +2685,7 @@
         <p data-i18n="what.p1">Ein Veneer ersetzt keinen Zahn, es verkleidet ihn: Die hauchdünne Keramikschale wird aufgeklebt und bildet mit dem Zahn eine Einheit.</p>
       </div>
       <div class="readCol">
-        <figure class="readVisual"><img src="assets/generated/veneer-types-no-prep.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="read.visualAlt" alt="Sehr dünne Veneerschale neben einem natürlichen Frontzahn"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
+        <figure class="readVisual"><img src="assets/generated/veneer-types-no-prep.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="read.visualAlt" alt="Sehr dünne Veneerschale neben einem natürlichen Frontzahn"></figure>
         <div class="gauge">
         <p class="gaugeTitle"><span data-i18n="hero.gaugeTitle">Wie d&uuml;nn ist d&uuml;nn?</span> <span class="gaugeMag" id="gaugeMag">20-fach vergr&ouml;&szlig;ert</span></p>
         <div class="gaugeSlabs">
@@ -2741,7 +2722,7 @@
     <h2 data-i18n="matRead.h2">Keramik <em>oder</em> Composite.</h2>
     <p class="lede" data-i18n="material.p">Was passt, hängt von Zahn, Anspruch und Budget ab – wir besprechen es offen.</p>
     <div class="materialShowcase">
-      <figure class="materialVisual"><img src="assets/generated/veneer-types-ceramic.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="material.visualAlt" alt="Sechs Keramikschalen über einem oberen Zahnmodell"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
+      <figure class="materialVisual"><img src="assets/generated/veneer-types-ceramic.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="material.visualAlt" alt="Sechs Keramikschalen über einem oberen Zahnmodell"></figure>
       <div class="matTable" role="table">
       <div class="matRow matRow--head" role="row">
         <span role="columnheader"></span>
@@ -2765,9 +2746,9 @@
     <h2 id="concernGalleryTitle" data-i18n="concerns.h2">Nicht jedes Problem braucht <em>dieselbe Lösung</em>.</h2>
     <p class="lede" data-i18n="concerns.lede">Farbe, Lücken, Kanten, Form – ob Veneers das richtige Mittel sind, zeigt die Untersuchung.</p>
     <div class="concernGrid">
-      <article class="concernCard"><figure><img src="assets/generated/impairment-discoloration.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.discolorationAlt" alt="Ungleichmäßig verfärbte Frontzähne"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure><div><span>01</span><h3 data-i18n="concerns.discolorationTitle">Verfärbung</h3><p data-i18n="concerns.discolorationText">Ungleichmäßige oder tiefe Verfärbung wird ruhig und gleichmäßig.</p></div></article>
-      <article class="concernCard"><figure><img src="assets/generated/impairment-gaps.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.gapsAlt" alt="Kleine Zahnlücke zwischen den oberen Schneidezähnen"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure><div><span>02</span><h3 data-i18n="concerns.gapsTitle">Kleine Lücken</h3><p data-i18n="concerns.gapsText">Kleine Lücken schließen sich über Form und Breite.</p></div></article>
-      <article class="concernCard"><figure><img src="assets/generated/impairment-chips.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.chipsAlt" alt="Abgenutzte und leicht abgeplatzte Schneidekanten"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure><div><span>03</span><h3 data-i18n="concerns.chipsTitle">Kanten und Form</h3><p data-i18n="concerns.chipsText">Abgenutzte oder abgeplatzte Kanten bekommen wieder eine harmonische Linie.</p></div></article>
+      <article class="concernCard"><figure><img src="assets/generated/impairment-discoloration.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.discolorationAlt" alt="Ungleichmäßig verfärbte Frontzähne"></figure><div><span>01</span><h3 data-i18n="concerns.discolorationTitle">Verfärbung</h3><p data-i18n="concerns.discolorationText">Ungleichmäßige oder tiefe Verfärbung wird ruhig und gleichmäßig.</p></div></article>
+      <article class="concernCard"><figure><img src="assets/generated/impairment-gaps.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.gapsAlt" alt="Kleine Zahnlücke zwischen den oberen Schneidezähnen"></figure><div><span>02</span><h3 data-i18n="concerns.gapsTitle">Kleine Lücken</h3><p data-i18n="concerns.gapsText">Kleine Lücken schließen sich über Form und Breite.</p></div></article>
+      <article class="concernCard"><figure><img src="assets/generated/impairment-chips.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="concerns.chipsAlt" alt="Abgenutzte und leicht abgeplatzte Schneidekanten"></figure><div><span>03</span><h3 data-i18n="concerns.chipsTitle">Kanten und Form</h3><p data-i18n="concerns.chipsText">Abgenutzte oder abgeplatzte Kanten bekommen wieder eine harmonische Linie.</p></div></article>
     </div>
   </div>
 </section>
@@ -2847,7 +2828,7 @@
      nothing to swap, so nothing to click. -->
 <section class="band band--ablauf" id="ablauf">
   <div class="inner inner--wide">
-    <figure class="processVisual"><img src="assets/generated/veneer-types-composite.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="process.visualAlt" alt="Composite in drei Stadien auf einem Frontzahn"><span class="aiTag" data-i18n="ai.tag">KI-generiert</span></figure>
+    <figure class="processVisual"><img src="assets/generated/veneer-types-composite.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="process.visualAlt" alt="Composite in drei Stadien auf einem Frontzahn"></figure>
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
     <h2 data-i18n="process.h2">Fünf Schritte, <em>ein Ergebnis</em>.</h2>
     <p class="lede" data-i18n="process.lede">Jeder Schritt wird erklärt – geschliffen wird erst mit Ihrem Ja.</p>
@@ -3092,7 +3073,6 @@
 // innerHTML replaced from I18N[lang].a.b on load and on toggle.
 const I18N = {
   de: {
-    ai: { tag: 'KI-generiert' },
     title: 'Veneers Aachen – Kosten, Ablauf & Vorher-Nachher | AIXSMILE',
     metaDescription: 'Veneers in Aachen bei AIXSMILE, Zahnarztpraxis in der Innenstadt, auch für Patienten aus Köln, Düren und der Euregio: Keramik oder Composite, ehrliche Kosten, echte Vorher-nachher-Fälle. Jetzt Beratung buchen.',
     nav: { book: 'Termin buchen', call: 'Anrufen', veneer: 'Veneers', cases: 'Fälle', process: 'Ablauf', contact: 'Kontakt' },
@@ -3115,7 +3095,6 @@ const I18N = {
       trustGentle: 'Echte Praxisfälle',
       trustAria: 'Vorteile von Veneers',
       portraitAlt: 'Illustrative Darstellung einer lächelnden Frau',
-      portraitTag: 'Illustrative Darstellung · KI-generiert',
       proofAria: 'Echter Vorher-Nachher-Fall aus der AIXSMILE Praxis',
       proofKicker: 'Echter Fall aus unserer Praxis',
       proofTitle: 'Farbe &amp; Form',
@@ -3356,7 +3335,6 @@ const I18N = {
     },
   },
   en: {
-    ai: { tag: 'AI-generated' },
     title: 'Veneers in Aachen – Cost, Process & Before-After | AIXSMILE',
     metaDescription: 'Veneers in Aachen at AIXSMILE, a dental practice in the city centre, also for patients from Cologne, Düren and the Euregio: ceramic or composite, honest costs, real before-and-after cases. Book a consultation now.',
     nav: { book: 'Book appointment', call: 'Call', veneer: 'Veneers', cases: 'Cases', process: 'Process', contact: 'Contact' },
@@ -3379,7 +3357,6 @@ const I18N = {
       trustGentle: 'Real practice cases',
       trustAria: 'Benefits of veneers',
       portraitAlt: 'Illustrative image of a smiling woman',
-      portraitTag: 'Illustrative image · AI-generated',
       proofAria: 'A real before-and-after case from the AIXSMILE practice',
       proofKicker: 'A real case from our practice',
       proofTitle: 'Shade &amp; shape',

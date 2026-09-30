@@ -39,6 +39,8 @@ const WIDEN_LOWER = [0, 0.04, 0.04, 0.03];
 const LENGTHEN = [0, 0.45, 0.3, 0.2, 0.1, 0.1];      // mm longer at the biting edge
 const LENGTHEN_LOWER = [0, 0.15, 0.15, 0.1];         // lower veneers: they must still clear the upper ones
 const FULLER = 0.15;                                  // mm the front face stands proud
+const MIDLINE = 0.04;          // mm each upper central stays clear of the midline: a fine contact line, not a gap
+const MESIAL_ROLL = 0.35;      // mm the centrals' front face turns back towards the midline, so the contact reads
 const EDGE_BAND = 3.4;         // mm above the biting edge that follow a redrawn edge
 const EDGE_ROUND = 0.35;       // mm: how round a shortened edge is
 
@@ -226,7 +228,9 @@ function buildTooth(THREE, id, crown, enamel) {
     const m = band(facing(i), -0.35, 0.15);
     const along = (O[i * 3] - centre.x) * T.x + (O[i * 3 + 2] - centre.z) * T.z;
     const v = (O[i * 3 + 1] - edgeY) * dir;   // mm from the biting edge towards the gum
-    const spread = along * (upper ? WIDEN : WIDEN_LOWER)[place] * (0.55 + 0.45 * (1 - clamp01(v / crownH))) * m;
+    // the upper centrals already touch at the midline: they widen away from it only
+    const mesial = upper && place === 1 && toMid * (O[i * 3] - centre.x) > 0;
+    const spread = mesial ? 0 : along * (upper ? WIDEN : WIDEN_LOWER)[place] * (0.55 + 0.45 * (1 - clamp01(v / crownH))) * m;
     H[i * 3] += T.x * spread + L.x * FULLER * w[i];
     H[i * 3 + 2] += T.z * spread + L.z * FULLER * w[i];
     if (v < 2.5) H[i * 3 + 1] -= dir * longer * (1 - v / 2.5) * m;
@@ -294,13 +298,14 @@ const cuspEdge = (base, at, m, d, r = 0.14) => {
   const km = slope(-1, m), kd = slope(1, d);
   return (u) => base + (u < at ? km : kd) * (Math.hypot(u - at, r) - r);
 };
-// The designed smile line: dominant centrals with near-square inner corners,
+// The designed smile line: dominant centrals whose inner corners round off
+// just enough to open a small V between them (square ones read as one block),
 // laterals 1 mm shorter and rounder, canines coming back down to a point
 // almost as long as the centrals (the corners of the smile), premolar cusps
 // stepping up behind them. The corners open small V-shaped gaps between the
 // biting edges, so every tooth reads on its own.
 const UPPER_EDGE = [null,
-  flatEdge(0, 0.15, 0.9),
+  flatEdge(0, 0.55, 0.9, 0.3),
   flatEdge(1.2, 0.45, 1.3, 0.45),
   cuspEdge(-0.25, -0.15, 2.6, 3.4, 0.08),
   cuspEdge(1.3, 0, 0.9, 1.1, 0.2),
@@ -443,9 +448,23 @@ function sculpt(t) {
     } else if (place <= 2) {
       const lobes = Math.exp(-(((u[i] - 0.34) / 0.13) ** 2)) + Math.exp(-(((u[i] + 0.34) / 0.13) ** 2));
       out = -0.05 * lobes * clamp01((vv - 0.12) * 3) * (1 - clamp01((vv - 0.72) * 4));
+      // the upper centrals round back towards the midline (u = -1), as real
+      // centrals do, so the light breaks along their contact
+      if (place === 1 && t.upper) out -= MESIAL_ROLL * sq((-u[i] - 0.68) / 0.32);
     }
     H[i * 3] += L.x * out * w[i];
     H[i * 3 + 2] += L.z * out * w[i];
+  }
+}
+
+/** Keep an upper central on its own side of the midline (x = 0; its twin is
+ *  its mirror image there), with a softly rounded approach instead of a cut. */
+function clearMidline(t) {
+  const { H, count, toMid } = t;
+  const R = 0.3;
+  for (let i = 0; i < count; i++) {
+    const d = -MIDLINE - toMid * H[i * 3];      // mm still to go before the limit
+    if (d < R) H[i * 3] = toMid * (-MIDLINE - R * Math.exp(d / R - 1));
   }
 }
 
@@ -454,14 +473,17 @@ function sculpt(t) {
  *  canines a shade warmer than the incisors, as natural canines are. */
 function shade(t) {
   const { count, place, shellColors } = t;
-  const { v, height } = measure(t);
+  const { u, v, height } = measure(t);
   const tone = place === 3 ? [1, 0.982, 0.955] : place >= 4 ? [1, 0.99, 0.972] : [1, 1, 1];
+  const centralUp = place === 1 && t.upper;
   for (let i = 0; i < count; i++) {
     const edge = 1 - smooth(v[i] / 1.8);
     const gum = smooth((v[i] / height - 0.62) / 0.38);
-    shellColors[i * 3] = (1 - 0.11 * edge) * (1 - 0.015 * gum) * tone[0];
-    shellColors[i * 3 + 1] = (1 - 0.08 * edge) * (1 - 0.035 * gum) * tone[1];
-    shellColors[i * 3 + 2] = (1 - 0.02 * edge) * (1 - 0.07 * gum) * tone[2];
+    // a breath of shadow where the upper centrals meet
+    const contact = centralUp ? 1 - 0.07 * smooth((-u[i] - 0.82) / 0.18) : 1;
+    shellColors[i * 3] = (1 - 0.11 * edge) * (1 - 0.015 * gum) * tone[0] * contact;
+    shellColors[i * 3 + 1] = (1 - 0.08 * edge) * (1 - 0.035 * gum) * tone[1] * contact;
+    shellColors[i * 3 + 2] = (1 - 0.02 * edge) * (1 - 0.07 * gum) * tone[2] * (0.4 + 0.6 * contact);
   }
 }
 
@@ -566,7 +588,11 @@ export function buildDentitionRig(THREE, gltfScene) {
     side.forEach((t) => polish(t));            // smooth the natural bumps first …
     side.forEach((t) => levelEdge(t, edgeFor(t.place, yc)));   // … then draw the edge
     alignToArch(side);
-    side.forEach((t) => { polish(t, 2, true); sculpt(t); shade(t); });
+    side.forEach((t) => {
+      polish(t, 2, true); sculpt(t);
+      if (t.upper && t.place === 1) clearMidline(t);
+      shade(t);
+    });
     right.push(...side);
   }
   const designed = {}, finished = {};

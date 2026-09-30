@@ -12,3 +12,5 @@ human_dentition.glb
 tools
 tests
 docs
+.env*
+.vercel

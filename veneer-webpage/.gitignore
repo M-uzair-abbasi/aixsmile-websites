@@ -1,3 +1,4 @@
 .vercel
 en/
 node_modules
+.env*

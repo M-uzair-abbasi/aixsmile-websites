@@ -11,8 +11,6 @@ const VIEWS = [
   { name: 'laptop', width: 1280, height: 800, mobile: false },
   { name: 'phone', width: 390, height: 844, mobile: true },
 ];
-const SECTIONS = ['top', 'bleaching', 'wann', 'was-passiert', 'messen', 'ablauf', 'zwei-wege', 'faelle', 'buchen', 'kosten', 'behandler', 'faq', 'praxis', 'footer'];
-
 const srv = await serve();
 const browser = await launch();
 const log = [];
@@ -26,7 +24,10 @@ try {
     await mockApi(page);
     await page.goto(srv.url, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
-    await page.waitForTimeout(1800);
+    // the splash lifts at the end of its tooth loop; shoot once the page is revealed
+    await page.waitForFunction(() => document.documentElement.classList.contains('is-revealed'), null, { timeout: 10000 }).catch(() => {});
+    await page.waitForTimeout(700);
+    const SECTIONS = await page.evaluate(() => ['top', ...[...document.querySelectorAll('main > section[id]')].map((s) => s.id), 'footer']);
     for (const [i, id] of SECTIONS.entries()) {
       await toSection(page, id);
       await cdpShot(page, path.join(out, `${v.name}-${String(i).padStart(2, '0')}-${id}.png`));

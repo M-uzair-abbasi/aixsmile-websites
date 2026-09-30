@@ -7,14 +7,14 @@ Aachen, meant for `bleaching-aachen.de`. It is the second satellite after
 AIXSMILE named openly, one booking system. Design spec:
 `../docs/superpowers/specs/2026-09-24-bleaching-satellite-design.md`.
 
-**The idea:** colour has a number. The hero asks "Welche Nummer hat Ihr
-Weiß?"; the page explains that the shade is measured with a shade guide before
-and after. Redesign 2026-09-24 (second pass): light porcelain page with ice-blue
-bands and one mineral-teal accent, a single navy band for the real before/after
-photos, Source Serif 4 headings with Figtree text, no AI imagery, no
-scroll-driven animation. The first pass had been (kept here for the record): the
-headline on the left with one framed image beside it, then sections
-alternating dark and warm cream, and no scroll-driven animation.
+**The look (redesign 2026-09-28):** the client's own mock of this page —
+near-black bands, warm cream and stone sections, bronze buttons, headings in
+the veneer page's serif (Iowan/Palatino) with one italic phrase, Figtree for
+text. The hero is a smile close-up with the promise „Ein helleres Lächeln –
+gemessen, nicht geschätzt.“; the page keeps its honest idea that the shade is
+measured before and after. Nothing moves with the scroll position; sections
+arrive once. Spec: `docs/superpowers/specs/2026-09-28-bleaching-redesign-design.md`;
+plan: `docs/superpowers/plans/2026-09-28-bleaching-redesign.md`.
 
 ## What's here
 
@@ -23,14 +23,15 @@ alternating dark and warm cream, and no scroll-driven animation.
 | `index.html` | The page: markup, inline CSS, JSON-LD, all German copy |
 | `js/i18n.js` | English strings, runtime strings in both languages, the DE/EN switch, `PRICE_FROM` |
 | `js/booking.js` | The embedded booking widget; `API_BASE`, `SERVICE`, `VIA` at the top |
-| `js/treatment.js` | The hero slider's treatment timeline: steps, shades, tooth colours |
-| `js/hero-stage.js` | The hero slider: step caption, shade readout, loads the 3D jaw after the page |
-| `js/teeth-stage.js` | The 3D jaw with three.js, bundled and minified (built from `js/src/`, do not edit) |
-| `assets/models/jaw.glb` | The jaw model, compressed (built from `human-jaw.glb`, which is not deployed) |
-| `assets/fonts/` | Source Serif 4 + Figtree, self-hosted (no request to Google) |
-| `assets/photos/` | Shade-guide photo, two consented cases, the dentist's portrait |
+| `js/bleach-timeline.js` | The treatment as one number p (0..1): steps, shades, barrier, gel, camera — read by the 3D, the section script, the stills tool and the tests |
+| `js/treatment-section.js` | The 3D section: press-and-hold playback, step dots, captions (read from the section's step list), shade readout, loading and stills fallback |
+| `js/bleach-stage.js` | The 3D stage with three.js, bundled and minified (built from `js/src/bleach-stage.js` + `js/src/bleach-rig.js`, do not edit) |
+| `assets/models/dentition.glb` | The dentition model, copied from the veneer page (32 crowns, gums, bite hinge) |
+| `assets/treatment/` | The five step stills (poster, no-WebGL and no-JS fallback) |
+| `assets/fonts/` | Figtree, self-hosted (headings use the system serif stack) |
+| `assets/photos/` | Two consented cases (+ the hero's case pair), the doctor's portrait (`doctor-molaie*`), the map; `ai/` holds the labelled AI images in use |
 | `assets/tooth-mark.png` | Favicon |
-| `assets/photos/ai/` | Removed 2026-09-24: the page shows no AI images any more. Real practice photos (shade guide in the dentist's hand, lamp, trays, team) are still wanted; drop them into `assets/photos/` |
+| `tests/` | `node --test tests/*.test.mjs`: the timeline and the rig (`site-esm.mjs` lets Node read the site's `.js` as ES modules) |
 | `robots.txt`, `sitemap.xml` | For the real domain |
 | `vercel.json` | Headers; **noindex while on the Vercel preview URL** |
 | `tools/` | Checks and screenshots (not deployed) |
@@ -62,65 +63,49 @@ vercel --prod
 
 `.vercelignore` keeps `tools/` and this README out of the upload.
 
-## The 3D jaw in the hero (2026-09-25)
+## The 3D treatment (2026-09-28)
 
-The hero shows a 3D jaw model (`human-jaw.glb`, made by the owner) with
-full-yellow teeth, in place of the treatment-room photo. One slider walks
-through the treatment: the starting shade is measured, the gums get the blue
-barrier, the gel goes on and works while the teeth lighten, then gel and
-barrier come off and the new shade is measured. A readout shows the shade
-(A3.5 to BL4, the page's own scale), and the frame is labelled
-"Symbolbild · kein Behandlungsergebnis". Dragging across the model moves the
-slider too; the arrow keys, Home and End work on the slider. The real case
-card sits right under the slider. The photo's warm-to-clear entrance is gone:
-the slider is the bleaching moment now.
+Section `#behandlung`: the bleaching on the veneer page's realistic dentition,
+colour only (tooth shapes never change). Five steps: measure A3.5, protect
+the gums, apply the gel, let it work (A3 → B1), gel off and measure BL4. The
+visitor presses and holds the right side of the view to play it (about
+12 s); letting go pauses; the dots jump to a step; scrolling changes nothing.
+Every visitor with WebGL gets the live 3D; it loads when the section comes
+near (bundle ~160 KB + model ~915 KB gzipped). Without WebGL (or when a phone
+drops the context) the dots switch between five stills; without JS the stills
+show as a list. Labelled "Symbolbild · kein Behandlungsergebnis".
 
-The page paints first with a still of the yellow jaw; the 3D code and the
-model load after the page (about 270 KB gzipped) and draw only when the
-slider moves. Without WebGL, with Data Saver on, or if loading fails, the
-slider blends that still into a white one instead. On phones the stage comes
-right after the headline, in a wider 3:2 frame with its own stills.
-
-When the model changes, from this folder:
+After editing `js/src/*` or `js/bleach-timeline.js`, from this folder:
 
 ```
-node tools/compress-model.mjs            # human-jaw.glb -> assets/models/jaw.glb (meshopt, ~250 KB)
-node tools/render-teeth.mjs --posters    # the yellow and white stills in assets/photos/
+node tools/build-3d.mjs              # js/bleach-stage.js
+node tools/render-teeth.mjs          # test frames into tools/shots/
+node tools/render-teeth.mjs --stills # assets/treatment/step-N.webp
+node --test tests/*.test.mjs
 ```
 
-After editing `js/src/teeth-stage.js`, rebuild the bundle with
-`node tools/build-3d.mjs`. All three borrow esbuild, three.js (0.184) and
-gltf-transform from the main app's `node_modules` (found the same way as
-Playwright, `AIXSMILE_DIR` wins), so this folder still has no `package.json`
-and Vercel serves plain files. `node tools/render-teeth.mjs` without
-`--posters` writes test frames along the slider into `tools/shots/`, and
-`node tools/shoot-hero.mjs` screenshots the live hero on laptop, tablet and
-phone. `human-jaw.glb` and `js/src/` are in `.vercelignore`.
+Both tools borrow esbuild, three.js (0.184) and Playwright from the main app's
+`node_modules` (`AIXSMILE_DIR` wins), so this folder still has no
+`package.json` and Vercel serves plain files. `human-jaw.glb` (the old jaw's
+source) and `js/src/` are in `.vercelignore`.
 
-## The AI images (no longer on the page)
+## The AI images
 
-> Since 2026-09-24 the page carries no AI imagery. The section below documents the earlier setup in case real photos are ever replaced by illustrations again.
+In use, all dental and labelled "KI-generiert": `hero.webp` (the hero's
+placeholder until the final smile close-up arrives), `shade-fan.webp`
+(measuring band), `in-office.webp`, `at-home.webp`, `gel.webp` (methods) and
+the six `stain-*.webp` (when it helps). None is shown as a result; results
+come only from the two real cases.
 
-The page needs five AI images; the brief with ready prompts is
-`../docs/superpowers/specs/2026-09-24-bleaching-image-brief.md`. Until they
-arrive the page shows labelled placeholders at the right size and shape.
-
-1. Put the originals in `assets/photos/ai/incoming/`, named `hero`,
-   `smile`, `gel`, `in-office`, `at-home` (JPG, PNG or WebP; ChatGPT's
-   tall 1024 × 1536 is enough).
-2. Run `python3 tools/prepare_images.py`. It crops, resizes and writes the
-   WebP files the page loads. `incoming/` is not uploaded and not committed.
-3. Run `node tools/check-images.mjs` to confirm no placeholder is left.
-
-All images were supplied on 2026-09-24: `hero`, `smile`, `gel`, `in-office`,
-`at-home`, the six `stain-*` illustrations, `shade-steps`, and an extra
-`shade-fan` (the shade guide as a still life) beside the heading of the
-four-step section. `--placeholders` never replaces a real image.
-
-Every AI image carries a "KI-generiert" label on the page. The images are
-dental (a shade check, a natural smile, the gel, the chair, the trays) with
-natural tooth shades, no dentist faces, and none of them is shown as a result;
-results come only from the two real cases.
+**Swapping in the final hero image:** save the owner's ChatGPT image as
+`assets/photos/ai/incoming/hero-smile.png`; write `hero-smile.webp` (2400 px
+wide, quality 82) and `hero-smile-phone.webp` (a 1200×900 crop centred on the
+smile) with PIL; point the hero `<img>` and the `<link rel="preload">` at them
+(a `<picture>` with a `(max-width: 900px)` source for the phone crop); change
+the German alt text to „Nahaufnahme eines natürlichen, hellen Lächelns
+(KI-generiertes Bild)“ and `EN.hero.imgAlt` to "A natural, bright smile in
+close-up (AI-generated image)"; add `"hero-smile.webp": "real-image"` to
+`tools/placeholders.json`; run the checks.
 
 ## Before going live
 
@@ -140,12 +125,14 @@ results come only from the two real cases.
 
 ## Sign-off still needed
 
-- **Clinician:** the hero's five treatment steps and the shade path A3.5 to
-  BL4 on the 3D model (labelled "Symbolbild · kein Behandlungsergebnis"),
-  the section texts (what happens, when it helps, measuring,
-  the four steps, the two routes) and the nine FAQ answers, plus the one AI
-  shade-step comparison ("Symbolbild, kein Behandlungsergebnis"), which the
-  user chose to include. Claims to confirm, besides those below: grey or
+- **Doctor:** the quote from the client's mock attributed to him („Ein
+  strahlendes Lächeln ist mehr als Ästhetik – es ist ein Stück
+  Lebensfreude.“); the facts „2× gemessen“ and „1–3 Jahre“.
+- **Clinician:** that a combined route („Kombiniert“) is offered.
+- **Clinician:** the five 3D steps and captions and the shade path A3.5 to
+  BL4 on the dentition model (labelled "Symbolbild · kein Behandlungsergebnis"),
+  the section texts (when it helps, measuring, the three methods) and the ten
+  FAQ answers. Claims to confirm, besides those below: grey or
   banded discolouration lightens more modestly; a single dark tooth after a
   root canal needs a different approach. Claims to confirm: yellowish discolouration responds better than grey;
   teeth look lighter straight after treatment and settle over one to two weeks;
@@ -167,11 +154,12 @@ from `~/aixsmile`, and answer the booking API from fixtures, so nothing
 reaches the live API.
 
 ```
+node --test tests/*.test.mjs   # the timeline and the rig
 node tools/check-i18n.mjs      # every element has English, runtime strings match
 node tools/check-fresh.mjs     # no 8-word run shared with the veneers page or aixsmile.de's bleaching text
 node tools/check-schema.mjs    # JSON-LD valid, practice details identical to the veneers page, FAQ = visible FAQ
 node tools/check-contrast.mjs  # WCAG AA for all text, laptop and phone, DE and EN
-node tools/check-page.mjs      # weight, images load, third parties, overflow, language, 3D hero and its fallback, no scroll animation, no-JS, widget flows
+node tools/check-page.mjs      # weight, images, third parties, overflow (DE+EN), language, sections, the 3D and its fallbacks, one-time arrivals, no-JS, widget flows (SKIP_3D=1 skips the slow live-3D blocks)
 node tools/check-images.mjs    # which AI images are still placeholders
 node tools/shoot.mjs           # screenshots of every section, laptop and phone, into tools/shots/
 npx html-validate@9 index.html # markup

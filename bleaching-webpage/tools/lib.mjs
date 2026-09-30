@@ -81,14 +81,14 @@ export function slotsFixture() {
 }
 
 /** Route the booking API to fixtures. `book` decides the POST answer.
- *  Unless `live3d`, the hero's 3D bundle is swapped for a stub that fails
- *  cleanly, so the hero keeps its still images: software WebGL in headless
- *  Chromium is slow, and most checks are not about the 3D. */
+ *  Unless `live3d`, the 3D bundles are swapped for stubs that fail cleanly,
+ *  so the page keeps its stills: software WebGL in headless Chromium is
+ *  slow, and most checks are not about the 3D. */
 export async function mockApi(page, { book = { ok: true }, slots = slotsFixture(), fail = false, live3d = false } = {}) {
   const posts = [];
   if (!live3d) {
-    await page.route('**/js/teeth-stage.js', (route) => route.fulfill({ status: 200, contentType: 'text/javascript',
-      body: "export async function createTeethStage() { throw new Error('3D off in this check'); }" }));
+    await page.route('**/js/bleach-stage.js', (route) => route.fulfill({ status: 200, contentType: 'text/javascript',
+      body: "export async function createBleachStage() { throw new Error('3D off in this check'); }" }));
   }
   await page.route('**/api/public/slots/**', (route) => fail
     ? route.fulfill({ status: 503, body: 'down' })
@@ -127,7 +127,7 @@ export async function loadI18n() {
 }
 
 /** Import one of the page's own ES modules that has no imports of its own
- *  (js/treatment.js), the same way as loadI18n. */
+ *  (js/bleach-timeline.js), the same way as loadI18n. */
 export async function loadPageModule(rel) {
   const src = fs.readFileSync(path.join(ROOT, rel), 'utf8');
   return import(`data:text/javascript;base64,${Buffer.from(src).toString('base64')}`);
