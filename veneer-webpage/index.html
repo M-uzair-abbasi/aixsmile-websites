@@ -79,7 +79,7 @@
         "alternateName": ["Veneers Aachen", "Keramik-Veneers", "Composite-Veneers", "Verblendschalen", "Dental veneers"],
         "procedureType": "https://schema.org/NoninvasiveProcedure",
         "bodyLocation": "Frontzähne",
-        "description": "Dünne Schalen aus Keramik oder Composite auf der Vorderseite der Frontzähne, am digitalen Scan geplant. Zwei bis drei Termine, Kostenplan vorab schriftlich.",
+        "description": "Dünne Schalen aus Keramik oder Composite auf der Vorderseite der Frontzähne, am digitalen Scan geplant. Auf Wunsch an einem Tag, sonst zwei bis drei Termine innerhalb einer Woche. Kostenplan vorab schriftlich.",
         "howPerformed": "Beratung mit Fotos und digitalem Scan, Entwurf am Bildschirm, Vorbereitung des Zahns unter Betäubung, Einprobe und Verklebung, Kontrolle nach ein bis zwei Wochen.",
         "url": "https://veneers-aachen.de/"
       }
@@ -108,7 +108,7 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Wie lange dauert es, bis meine Veneers fertig sind?", "acceptedAnswer": { "@type": "Answer", "text": "In der Regel zwei bis drei Termine über etwa zwei bis drei Wochen: Beratung mit Scan, Vorbereitung und Abformung, dann Einprobe und Verklebung. Die Schalen werden dazwischen im Labor gefertigt." } },
+        { "@type": "Question", "name": "Wie lange dauert es, bis meine Veneers fertig sind?", "acceptedAnswer": { "@type": "Answer", "text": "Auf Wunsch an einem einzigen Tag: Beratung, Vorbereitung, Scan und Einsetzen in einem Termin. Das ist vor allem für Patientinnen und Patienten aus Köln, Düren oder der Euregio praktisch, die nicht zwei- oder dreimal anreisen möchten. Sonst verteilen wir die Schritte auf zwei bis drei Termine innerhalb einer Woche." } },
         { "@type": "Question", "name": "Tut die Behandlung weh?", "acceptedAnswer": { "@type": "Answer", "text": "Die Vorbereitung des Zahns geschieht unter örtlicher Betäubung. Nach dem Termin kann der Zahn ein bis zwei Tage etwas empfindlicher auf Kälte reagieren; das legt sich von selbst." } },
         { "@type": "Question", "name": "Wie lange halten Veneers?", "acceptedAnswer": { "@type": "Answer", "text": "Keramik-Veneers halten bei guter Pflege häufig 15 Jahre und länger. Composite-Veneers sind kürzer haltbar, lassen sich dafür aber direkt in der Praxis ausbessern." } },
         { "@type": "Question", "name": "Muss mein Zahn beschliffen werden?", "acceptedAnswer": { "@type": "Answer", "text": "Meist wird nur eine hauchdünne Schicht Schmelz abgetragen, etwa so dick wie die spätere Schale. In geeigneten Fällen geht es mit No-prep-Veneers auch ganz ohne Beschleifen." } },
@@ -117,7 +117,7 @@
         { "@type": "Question", "name": "Kann ich meine Zähne vor den Veneers aufhellen?", "acceptedAnswer": { "@type": "Answer", "text": "Ja, und das ist die richtige Reihenfolge: Erst bleichen, dann die Veneer-Farbe an das Ergebnis anpassen. Einmal verklebt, verändert sich die Farbe einer Keramikschale nicht mehr." } },
         { "@type": "Question", "name": "Wie pflege ich Veneers im Alltag?", "acceptedAnswer": { "@type": "Answer", "text": "Wie eigene Zähne: zweimal täglich putzen, Zahnseide, regelmäßige professionelle Zahnreinigung. Nicht mit den Zähnen an Flaschen oder Nägeln ziehen; wer nachts knirscht, trägt eine Schiene." } },
         { "@type": "Question", "name": "Was passiert, wenn ein Veneer abplatzt?", "acceptedAnswer": { "@type": "Answer", "text": "Ein einzelnes Veneer lässt sich ersetzen, ohne die Nachbarzähne anzufassen. Kleine Absplitterungen an Composite werden direkt in der Praxis repariert." } },
-        { "@type": "Question", "name": "Lohnt sich die Anfahrt aus Köln oder Düren für Veneers?", "acceptedAnswer": { "@type": "Answer", "text": "Ja, gerade bei Veneers: Es sind nur zwei bis drei Termine, keine wöchentlichen Besuche. Aus Köln erreichen Sie Aachen mit dem Zug ab etwa 35 Minuten, aus Düren in rund 20 Minuten. Die Praxis liegt in der Großkölnstraße mitten in der Innenstadt, eine Viertelstunde zu Fuß vom Hauptbahnhof, mit mehreren Parkhäusern in Gehweite." } },
+        { "@type": "Question", "name": "Lohnt sich die Anfahrt aus Köln oder Düren für Veneers?", "acceptedAnswer": { "@type": "Answer", "text": "Ja, gerade bei Veneers: Auf Wunsch machen wir alles an einem Tag, dann reicht eine einzige Anreise. Sonst sind es zwei bis drei Termine innerhalb einer Woche, keine wöchentlichen Besuche über Monate. Aus Köln erreichen Sie Aachen mit dem Zug ab etwa 35 Minuten, aus Düren in rund 20 Minuten. Die Praxis liegt in der Großkölnstraße mitten in der Innenstadt, eine Viertelstunde zu Fuß vom Hauptbahnhof, mit mehreren Parkhäusern in Gehweite." } },
         { "@type": "Question", "name": "Wie sehe ich zwischen den Terminen aus?", "acceptedAnswer": { "@type": "Answer", "text": "Nach der Vorbereitung bekommen Sie Provisorien aus Kunststoff, die Form und Farbe der späteren Schalen schon zeigen. Damit essen, sprechen und lächeln Sie normal, bis die Keramik aus dem Labor kommt." } }
       ]
     }
@@ -2625,6 +2625,7 @@
     #page .proofStrip { gap: 2px 0; padding: 8px 0; }
     #page .proofStrip li { padding: 4px 10px; font-size: 12.5px; }
     #page .proofStrip li:nth-child(3) { border-left: 0; }
+    #page .proofStrip li { flex: 0 1 auto; }
     #page .proofStrip svg { width: 14px; height: 14px; }
   }
   /* ===== Hero on phones: one headline, one line, one button, no overlays ===== */
@@ -2757,6 +2758,7 @@
     <ul class="proofStrip">
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Großkölnstraße 22–28, Aachen</span></li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 6.5h15v9h-8l-4.5 3.5v-3.5h-2.5z"/></svg><span><span data-i18n="proof.langs">Wir sprechen</span> DE · EN · FA · TR · AR</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="proof.oneDay">Auf Wunsch an einem Tag</span></li>
       <li><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5l2.3 4.7 5.2.8-3.8 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.8-3.6 5.2-.8z"/></svg><span data-i18n="proof.reviews">Bewertungen bei Google</span></a></li>
     </ul>
   </section>
@@ -2799,7 +2801,7 @@
     <ol class="procedure__list">
       <li><img src="/assets/procedure/step-1.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>01</span><h3 data-i18n="procedure.s1t">Ausgangslage</h3><p data-i18n="procedure.s1p">Verfärbungen, eine abgebrochene Ecke, eine kleine Lücke: typische Gründe für Veneers.</p></li>
       <li><img src="/assets/procedure/step-2.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>02</span><h3 data-i18n="procedure.s2t">Vorbereitung</h3><p data-i18n="procedure.s2p">Unter örtlicher Betäubung werden vorne etwa 0,3–0,7 mm Zahnschmelz abgetragen, weniger als die Dicke einer Kreditkarte.</p></li>
-      <li><img src="/assets/procedure/step-3.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>03</span><h3 data-i18n="procedure.s3t">Digitaler Abdruck</h3><p data-i18n="procedure.s3p">Ein Scanner erfasst die Zähne ganz ohne Abdruckmasse. Daraus fertigt das Labor Ihre Veneers, meist in ein bis zwei Wochen.</p></li>
+      <li><img src="/assets/procedure/step-3.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>03</span><h3 data-i18n="procedure.s3t">Digitaler Abdruck</h3><p data-i18n="procedure.s3p">Ein Scanner erfasst die Zähne ganz ohne Abdruckmasse. Daraus entstehen Ihre Veneers, auf Wunsch noch am selben Tag.</p></li>
       <li><img src="/assets/procedure/step-4.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>04</span><h3 data-i18n="procedure.s4t">Anprobe</h3><p data-i18n="procedure.s4p">Die fertigen Keramikschalen werden anprobiert und einzeln auf die Zähne gesetzt.</p></li>
       <li><img src="/assets/procedure/step-5.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>05</span><h3 data-i18n="procedure.s5t">Befestigung</h3><p data-i18n="procedure.s5p">Ein spezieller Kleber und blaues Licht verbinden Schale und Zahn dauerhaft.</p></li>
       <li><img src="/assets/procedure/step-6.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>06</span><h3 data-i18n="procedure.s6t">Ergebnis</h3><p data-i18n="procedure.s6p">Strahlend weiß, lückenlos und gleichmäßig, oben wie unten.</p></li>
@@ -2887,7 +2889,7 @@
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r1">Haltbarkeit</span><span data-i18n="mat.r1a">Oft 15 Jahre und länger</span><span data-i18n="mat.r1b">Kürzer, aber reparierbar</span></div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r2">Farbe</span><span data-i18n="mat.r2a">Fleckenresistent</span><span data-i18n="mat.r2b">Kann nachdunkeln</span></div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r3">Wirkung</span><span data-i18n="mat.r3a">Lichtdurchlässig wie Schmelz</span><span data-i18n="mat.r3b">Gut, etwas flacher</span></div>
-      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r4">Termine</span><span data-i18n="mat.r4a">Zwei bis drei</span><span data-i18n="mat.r4b">Oft in einer Sitzung</span></div>
+      <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r4">Termine</span><span data-i18n="mat.r4a">An einem Tag möglich</span><span data-i18n="mat.r4b">Eine Sitzung</span></div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r5">Kosten</span><span data-i18n="mat.r5a">Höher, Labor inklusive</span><span data-i18n="mat.r5b">Deutlich günstiger</span></div>
       </div>
     </div>
@@ -2991,11 +2993,11 @@
     <figure class="processVisual"><img src="/assets/generated/veneer-types-composite.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="process.visualAlt" alt="Composite in drei Stadien auf einem Frontzahn"></figure>
     <p class="eyebrow" data-i18n="process.eyebrow">Ablauf</p>
     <h2 data-i18n="process.h2">So läuft die <em>Behandlung</em> ab.</h2>
-    <p class="lede" data-i18n="process.lede">Drei Termine über zwei bis drei Wochen. Geschliffen wird erst, wenn Sie den Entwurf gesehen haben und einverstanden sind.</p>
+    <p class="lede" data-i18n="process.lede">Auf Wunsch alles an einem Tag, sonst in zwei bis drei Terminen innerhalb einer Woche. Geschliffen wird erst, wenn Sie den Entwurf gesehen haben und einverstanden sind.</p>
     <ol class="steps steps--line" id="stepsRail">
       <li><i>01</i><div data-i18n="process.step1"><h3>Beratung und Scan</h3><p>Etwa eine Stunde. Fotos, digitaler Scan, Farbwahl bei Tageslicht. Den Kostenplan nehmen Sie mit nach Hause.</p></div></li>
       <li><i>02</i><div data-i18n="process.step2"><h3>Entwurf am Bildschirm</h3><p>Die neue Form wird am Scan geplant. Auf Wunsch tragen Sie sie vorab als Kunststoff-Probe im Mund.</p></div></li>
-      <li><i>03</i><div data-i18n="process.step3"><h3>Vorbereitung</h3><p>Unter Betäubung wird eine dünne Schmelzschicht abgetragen. Bis zur Einprobe tragen Sie Provisorien.</p></div></li>
+      <li><i>03</i><div data-i18n="process.step3"><h3>Vorbereitung</h3><p>Unter Betäubung wird eine dünne Schmelzschicht abgetragen. Folgt die Einprobe an einem anderen Tag, tragen Sie bis dahin Provisorien.</p></div></li>
       <li><i>04</i><div data-i18n="process.step4"><h3>Einprobe und Verklebung</h3><p>Sitz und Farbe prüfen, dann Schale für Schale verkleben und mit Licht aushärten.</p></div></li>
       <li><i>05</i><div data-i18n="process.step5"><h3>Kontrolle</h3><p>Nach ein bis zwei Wochen: Biss prüfen, Ränder polieren, Pflege besprechen. Wer knirscht, bekommt eine Schiene.</p></div></li>
     </ol>
@@ -3147,7 +3149,7 @@
     <p class="eyebrow" data-i18n="faq.eyebrow">Häufige Fragen</p>
     <h2 data-i18n="faq.h2">Fragen vor dem <em>ersten Termin</em>.</h2>
     <div class="faq">
-      <details><summary data-i18n="faq.q1">Wie lange dauert es, bis meine Veneers fertig sind?</summary><p data-i18n="faq.a1">In der Regel zwei bis drei Termine über etwa zwei bis drei Wochen: Beratung mit Scan, Vorbereitung und Abformung, dann Einprobe und Verklebung. Die Schalen werden dazwischen im Labor gefertigt.</p></details>
+      <details><summary data-i18n="faq.q1">Wie lange dauert es, bis meine Veneers fertig sind?</summary><p data-i18n="faq.a1">Auf Wunsch an einem einzigen Tag: Beratung, Vorbereitung, Scan und Einsetzen in einem Termin. Das ist vor allem für Patientinnen und Patienten aus Köln, Düren oder der Euregio praktisch, die nicht zwei- oder dreimal anreisen möchten. Sonst verteilen wir die Schritte auf zwei bis drei Termine innerhalb einer Woche.</p></details>
       <details><summary data-i18n="faq.q2">Tut die Behandlung weh?</summary><p data-i18n="faq.a2">Die Vorbereitung des Zahns geschieht unter örtlicher Betäubung. Nach dem Termin kann der Zahn ein bis zwei Tage etwas empfindlicher auf Kälte reagieren; das legt sich von selbst.</p></details>
       <details><summary data-i18n="faq.q3">Wie lange halten Veneers?</summary><p data-i18n="faq.a3">Keramik-Veneers halten bei guter Pflege häufig 15 Jahre und länger. Composite-Veneers sind kürzer haltbar, lassen sich dafür aber direkt in der Praxis ausbessern.</p></details>
       <details><summary data-i18n="faq.q4">Muss mein Zahn beschliffen werden?</summary><p data-i18n="faq.a4">Meist wird nur eine hauchdünne Schicht Schmelz abgetragen, etwa so dick wie die spätere Schale. In geeigneten Fällen geht es mit No-prep-Veneers auch ganz ohne Beschleifen.</p></details>
@@ -3156,7 +3158,7 @@
       <details><summary data-i18n="faq.q7">Kann ich meine Zähne vor den Veneers aufhellen?</summary><p data-i18n="faq.a7">Ja, und das ist die richtige Reihenfolge: Erst bleichen, dann die Veneer-Farbe an das Ergebnis anpassen. Einmal verklebt, verändert sich die Farbe einer Keramikschale nicht mehr.</p></details>
       <details><summary data-i18n="faq.q8">Wie pflege ich Veneers im Alltag?</summary><p data-i18n="faq.a8">Wie eigene Zähne: zweimal täglich putzen, Zahnseide, regelmäßige professionelle Zahnreinigung. Nicht mit den Zähnen an Flaschen oder Nägeln ziehen; wer nachts knirscht, trägt eine Schiene.</p></details>
       <details><summary data-i18n="faq.q9">Was passiert, wenn ein Veneer abplatzt?</summary><p data-i18n="faq.a9">Ein einzelnes Veneer lässt sich ersetzen, ohne die Nachbarzähne anzufassen. Kleine Absplitterungen an Composite werden direkt in der Praxis repariert.</p></details>
-      <details><summary data-i18n="faq.q10">Lohnt sich die Anfahrt aus Köln oder Düren für Veneers?</summary><p data-i18n="faq.a10">Ja, gerade bei Veneers: Es sind nur zwei bis drei Termine, keine wöchentlichen Besuche. Aus Köln erreichen Sie Aachen mit dem Zug ab etwa 35 Minuten, aus Düren in rund 20 Minuten. Die Praxis liegt in der Großkölnstraße mitten in der Innenstadt, eine Viertelstunde zu Fuß vom Hauptbahnhof, mit mehreren Parkhäusern in Gehweite.</p></details>
+      <details><summary data-i18n="faq.q10">Lohnt sich die Anfahrt aus Köln oder Düren für Veneers?</summary><p data-i18n="faq.a10">Ja, gerade bei Veneers: Auf Wunsch machen wir alles an einem Tag, dann reicht eine einzige Anreise. Sonst sind es zwei bis drei Termine innerhalb einer Woche, keine wöchentlichen Besuche über Monate. Aus Köln erreichen Sie Aachen mit dem Zug ab etwa 35 Minuten, aus Düren in rund 20 Minuten. Die Praxis liegt in der Großkölnstraße mitten in der Innenstadt, eine Viertelstunde zu Fuß vom Hauptbahnhof, mit mehreren Parkhäusern in Gehweite.</p></details>
       <details><summary data-i18n="faq.q11">Wie sehe ich zwischen den Terminen aus?</summary><p data-i18n="faq.a11">Nach der Vorbereitung bekommen Sie Provisorien aus Kunststoff, die Form und Farbe der späteren Schalen schon zeigen. Damit essen, sprechen und lächeln Sie normal, bis die Keramik aus dem Labor kommt.</p></details>
     </div>
   </div>
@@ -3278,7 +3280,7 @@ const I18N = {
       lead: 'Sechs Schalen, geplant für ein ruhiges und natürliches Ergebnis.',
     },
     proof: {
-      langs: 'Wir sprechen', reviews: 'Bewertungen bei Google',
+      langs: 'Wir sprechen', reviews: 'Bewertungen bei Google', oneDay: 'Auf Wunsch an einem Tag',
       title: 'Veneers beginnen mit einem Plan.', text: 'Scan, Farbwahl und ein ehrlicher Blick auf das, was zu Ihren Zähnen passt.',
       fact1: 'Digitaler Scan', fact2: 'Echte Vorher-Nachher-Fälle', fact3: 'Beratung in Aachen',
     },
@@ -3310,7 +3312,7 @@ const I18N = {
       hold: 'Gedrückt halten', playing: 'Abspielen', holdAria: 'Behandlung abspielen: gedrückt halten',
       s1t: 'Ausgangslage', s1p: 'Verfärbungen, eine abgebrochene Ecke, eine kleine Lücke: typische Gründe für Veneers.',
       s2t: 'Vorbereitung', s2p: 'Unter örtlicher Betäubung werden vorne etwa 0,3–0,7 mm Zahnschmelz abgetragen, weniger als die Dicke einer Kreditkarte.',
-      s3t: 'Digitaler Abdruck', s3p: 'Ein Scanner erfasst die Zähne ganz ohne Abdruckmasse. Daraus fertigt das Labor Ihre Veneers, meist in ein bis zwei Wochen.',
+      s3t: 'Digitaler Abdruck', s3p: 'Ein Scanner erfasst die Zähne ganz ohne Abdruckmasse. Daraus entstehen Ihre Veneers, auf Wunsch noch am selben Tag.',
       s4t: 'Anprobe', s4p: 'Die fertigen Keramikschalen werden anprobiert und einzeln auf die Zähne gesetzt.',
       s5t: 'Befestigung', s5p: 'Ein spezieller Kleber und blaues Licht verbinden Schale und Zahn dauerhaft.',
       s6t: 'Ergebnis', s6p: 'Strahlend weiß, lückenlos und gleichmäßig, oben wie unten.',
@@ -3333,11 +3335,11 @@ const I18N = {
     process: {
       eyebrow: 'Ablauf',
       h2: 'So läuft die <em>Behandlung</em> ab.',
-      lede: 'Drei Termine über zwei bis drei Wochen. Geschliffen wird erst, wenn Sie den Entwurf gesehen haben und einverstanden sind.',
+      lede: 'Auf Wunsch alles an einem Tag, sonst in zwei bis drei Terminen innerhalb einer Woche. Geschliffen wird erst, wenn Sie den Entwurf gesehen haben und einverstanden sind.',
       visualAlt: 'Composite in drei Stadien auf einem Frontzahn',
       step1: '<h3>Beratung und Scan</h3><p>Etwa eine Stunde. Fotos, digitaler Scan, Farbwahl bei Tageslicht. Den Kostenplan nehmen Sie mit nach Hause.</p>',
       step2: '<h3>Entwurf am Bildschirm</h3><p>Die neue Form wird am Scan geplant. Auf Wunsch tragen Sie sie vorab als Kunststoff-Probe im Mund.</p>',
-      step3: '<h3>Vorbereitung</h3><p>Unter Betäubung wird eine dünne Schmelzschicht abgetragen. Bis zur Einprobe tragen Sie Provisorien.</p>',
+      step3: '<h3>Vorbereitung</h3><p>Unter Betäubung wird eine dünne Schmelzschicht abgetragen. Folgt die Einprobe an einem anderen Tag, tragen Sie bis dahin Provisorien.</p>',
       step4: '<h3>Einprobe und Verklebung</h3><p>Sitz und Farbe prüfen, dann Schale für Schale verkleben und mit Licht aushärten.</p>',
       step5: '<h3>Kontrolle</h3><p>Nach ein bis zwei Wochen: Biss prüfen, Ränder polieren, Pflege besprechen. Wer knirscht, bekommt eine Schiene.</p>',
     },
@@ -3384,7 +3386,7 @@ const I18N = {
       r1: 'Haltbarkeit', r1a: 'Oft 15 Jahre und länger', r1b: 'Kürzer, aber reparierbar',
       r2: 'Farbe', r2a: 'Fleckenresistent', r2b: 'Kann nachdunkeln',
       r3: 'Wirkung', r3a: 'Lichtdurchlässig wie Schmelz', r3b: 'Gut, etwas flacher',
-      r4: 'Termine', r4a: 'Zwei bis drei', r4b: 'Oft in einer Sitzung',
+      r4: 'Termine', r4a: 'An einem Tag möglich', r4b: 'Eine Sitzung',
       r5: 'Kosten', r5a: 'Höher, Labor inklusive', r5b: 'Deutlich günstiger',
     },
     case1: { k: 'Fall 1 · Lücke und Kanten', h: 'Geschlossene Lücke, ruhige Kante.', p: 'Abgenutzte Kanten und ein kleiner Spalt. Keramikschalen schließen beides.', more: 'Bei Lücken und abgenutzten Kanten ist ein Veneer oft die schonendste Lösung: Der Zahn selbst wird kaum verändert, die Schale übernimmt Länge und Kontur. Wichtig ist die Bissprüfung vorab, damit die neue Kante beim Zubeißen nicht überlastet wird. Wer nachts knirscht, bekommt eine Schiene dazu.' },
@@ -3416,7 +3418,7 @@ const I18N = {
       eyebrow: 'Häufige Fragen',
       h2: 'Fragen vor dem <em>ersten Termin</em>.',
       q1: 'Wie lange dauert es, bis meine Veneers fertig sind?',
-      a1: 'In der Regel zwei bis drei Termine über etwa zwei bis drei Wochen: Beratung mit Scan, Vorbereitung und Abformung, dann Einprobe und Verklebung. Die Schalen werden dazwischen im Labor gefertigt.',
+      a1: 'Auf Wunsch an einem einzigen Tag: Beratung, Vorbereitung, Scan und Einsetzen in einem Termin. Das ist vor allem für Patientinnen und Patienten aus Köln, Düren oder der Euregio praktisch, die nicht zwei- oder dreimal anreisen möchten. Sonst verteilen wir die Schritte auf zwei bis drei Termine innerhalb einer Woche.',
       q2: 'Tut die Behandlung weh?',
       a2: 'Die Vorbereitung des Zahns geschieht unter örtlicher Betäubung. Nach dem Termin kann der Zahn ein bis zwei Tage etwas empfindlicher auf Kälte reagieren; das legt sich von selbst.',
       q3: 'Wie lange halten Veneers?',
@@ -3434,7 +3436,7 @@ const I18N = {
       q9: 'Was passiert, wenn ein Veneer abplatzt?',
       a9: 'Ein einzelnes Veneer lässt sich ersetzen, ohne die Nachbarzähne anzufassen. Kleine Absplitterungen an Composite werden direkt in der Praxis repariert.',
       q10: 'Lohnt sich die Anfahrt aus Köln oder Düren für Veneers?',
-      a10: 'Ja, gerade bei Veneers: Es sind nur zwei bis drei Termine, keine wöchentlichen Besuche. Aus Köln erreichen Sie Aachen mit dem Zug ab etwa 35 Minuten, aus Düren in rund 20 Minuten. Die Praxis liegt in der Großkölnstraße mitten in der Innenstadt, eine Viertelstunde zu Fuß vom Hauptbahnhof, mit mehreren Parkhäusern in Gehweite.',
+      a10: 'Ja, gerade bei Veneers: Auf Wunsch machen wir alles an einem Tag, dann reicht eine einzige Anreise. Sonst sind es zwei bis drei Termine innerhalb einer Woche, keine wöchentlichen Besuche über Monate. Aus Köln erreichen Sie Aachen mit dem Zug ab etwa 35 Minuten, aus Düren in rund 20 Minuten. Die Praxis liegt in der Großkölnstraße mitten in der Innenstadt, eine Viertelstunde zu Fuß vom Hauptbahnhof, mit mehreren Parkhäusern in Gehweite.',
       q11: 'Wie sehe ich zwischen den Terminen aus?', a11: 'Nach der Vorbereitung bekommen Sie Provisorien aus Kunststoff, die Form und Farbe der späteren Schalen schon zeigen. Damit essen, sprechen und lächeln Sie normal, bis die Keramik aus dem Labor kommt.',
     },
     praxis: {
@@ -3453,7 +3455,7 @@ const I18N = {
       eyebrow: 'Termin',
       h2: 'Beratungstermin <em>buchen</em>.',
       p: 'Etwa eine Stunde in der Praxis. Wir schauen uns Ihre Zähne an, machen Fotos und den Scan und besprechen, was möglich ist. Geschliffen wird an diesem Tag nichts.',
-      fact1: 'Digitaler Scan statt Abdruck, nichts wird geschliffen',
+      fact1: 'Digitaler Scan statt Abdruck; auf Wunsch Behandlung noch am selben Tag',
       fact2: 'Schriftlicher Kostenplan, Entscheidung danach in Ruhe',
       fact3: 'Absagen jederzeit über den Link in der Bestätigung',
       unavailable: 'Die Terminübersicht ist gerade nicht erreichbar.', unavailableLink: 'Rufen Sie uns an: 0241 31202',
@@ -3544,7 +3546,7 @@ const I18N = {
       lead: 'Six shells, planned for a calm and natural result.',
     },
     proof: {
-      langs: 'We speak', reviews: 'Reviews on Google',
+      langs: 'We speak', reviews: 'Reviews on Google', oneDay: 'In one day if you wish',
       title: 'Veneers start with a plan.', text: 'Scan, shade selection and an honest look at what fits your teeth.',
       fact1: 'Digital scan', fact2: 'Real before-and-after cases', fact3: 'Consultation in Aachen',
     },
@@ -3576,7 +3578,7 @@ const I18N = {
       hold: 'Press & hold', playing: 'Playing', holdAria: 'Play the treatment: press and hold',
       s1t: 'Starting point', s1p: 'Discolouration, a chipped corner, a small gap: typical reasons for veneers.',
       s2t: 'Preparation', s2p: 'Under local anaesthetic, about 0.3–0.7 mm of enamel is removed from the front, less than the thickness of a credit card.',
-      s3t: 'Digital impression', s3p: 'A scanner captures your teeth without any impression paste. The lab makes your veneers from it, usually within one to two weeks.',
+      s3t: 'Digital impression', s3p: 'A scanner captures your teeth without any impression paste. Your veneers are made from it, on the same day if you wish.',
       s4t: 'Try-in', s4p: 'The wafer-thin ceramic shells are tried in and placed on the teeth one by one.',
       s5t: 'Bonding', s5p: 'A special adhesive and blue light bond shell and tooth permanently.',
       s6t: 'Result', s6p: 'Bright white, gap-free and even, top and bottom.',
@@ -3600,11 +3602,11 @@ const I18N = {
     process: {
       eyebrow: 'The process',
       h2: 'How the <em>treatment</em> goes.',
-      lede: 'Three visits over two to three weeks. Nothing is prepared until you have seen the design and agreed to it.',
+      lede: 'Everything in one day if you wish, otherwise two to three visits within a week. Nothing is prepared until you have seen the design and agreed to it.',
       visualAlt: 'Composite in three stages on a front tooth',
       step1: '<h3>Consultation and scan</h3><p>About an hour. Photos, digital scan, shade chosen in daylight. You take the cost plan home.</p>',
       step2: '<h3>Design on screen</h3><p>The new shape is planned on the scan. On request you wear it in your mouth first as a resin trial.</p>',
-      step3: '<h3>Preparation</h3><p>Under anaesthetic a thin layer of enamel is removed. You wear temporaries until the try-in.</p>',
+      step3: '<h3>Preparation</h3><p>Under anaesthetic a thin layer of enamel is removed. If the try-in is on another day, you wear temporaries until then.</p>',
       step4: '<h3>Try-in and bonding</h3><p>Check fit and colour, then bond shell by shell and cure with light.</p>',
       step5: '<h3>Check-up</h3><p>After one to two weeks: check the bite, polish the margins, talk through care. Grinders get a night guard.</p>',
     },
@@ -3651,7 +3653,7 @@ const I18N = {
       r1: 'Durability', r1a: 'Often 15 years and more', r1b: 'Shorter, but repairable',
       r2: 'Colour', r2a: 'Stain-resistant', r2b: 'Can darken over time',
       r3: 'Look', r3a: 'Translucent like enamel', r3b: 'Good, slightly flatter',
-      r4: 'Appointments', r4a: 'Two to three', r4b: 'Often in a single session',
+      r4: 'Appointments', r4a: 'Possible in one day', r4b: 'One session',
       r5: 'Cost', r5a: 'Higher, lab included', r5b: 'Considerably lower',
     },
     case1: { k: 'Case 1 · Gap and edges', h: 'A closed gap, a calm edge.', p: 'Worn edges and a small gap. Ceramic shells close both.', more: 'For gaps and worn edges a veneer is often the gentlest solution: the tooth itself is barely changed, the shell takes over length and contour. The bite is checked beforehand so the new edge is not overloaded when biting. Anyone who grinds at night gets a splint as well.' },
@@ -3683,7 +3685,7 @@ const I18N = {
       eyebrow: 'Common questions',
       h2: 'Questions before the <em>first visit</em>.',
       q1: 'How long until my veneers are finished?',
-      a1: 'Usually two to three appointments over two to three weeks: consultation with scan, preparation and impression, then try-in and bonding. The shells are made in the lab in between.',
+      a1: 'In a single day if you wish: consultation, preparation, scan and fitting in one visit. That suits patients from Cologne, Düren or the Euregio who do not want to travel two or three times. Otherwise we spread the steps over two to three visits within one week.',
       q2: 'Does the treatment hurt?',
       a2: 'The tooth is prepared under local anaesthetic. For a day or two afterwards it may be slightly more sensitive to cold; that settles on its own.',
       q3: 'How long do veneers last?',
@@ -3701,7 +3703,7 @@ const I18N = {
       q9: 'What if a veneer chips?',
       a9: 'A single veneer can be replaced without touching the neighbouring teeth. Small chips in composite are repaired directly in the practice.',
       q10: 'Is the trip from Cologne or Düren worth it for veneers?',
-      a10: 'Yes, especially for veneers: it takes only two or three appointments, not weekly visits. From Cologne you reach Aachen by train in about 35 minutes, from Düren in around 20. The practice is on Großkölnstraße in the city centre, a fifteen-minute walk from the main station, with several car parks within walking distance.',
+      a10: 'Yes, especially for veneers: if you wish we do everything in one day, so a single trip is enough. Otherwise it is two or three visits within a week, not weekly appointments for months. From Cologne you reach Aachen by train in about 35 minutes, from Düren in around 20. The practice is on Großkölnstraße in the city centre, a fifteen-minute walk from the main station, with several car parks within walking distance.',
       q11: 'What do I look like between appointments?', a11: 'After preparation you get resin temporaries that already show the shape and shade of the final shells. You eat, speak and smile normally with them until the ceramic comes back from the lab.',
     },
     praxis: {
@@ -3720,7 +3722,7 @@ const I18N = {
       eyebrow: 'Appointment',
       h2: 'Book a <em>consultation</em>.',
       p: 'About an hour at the practice. We look at your teeth, take photos and the scan, and talk through what is possible. Nothing is prepared that day.',
-      fact1: 'Digital scan instead of an impression, nothing is prepared',
+      fact1: 'Digital scan instead of an impression; treatment on the same day if you wish',
       fact2: 'Written cost plan, decide afterwards at your own pace',
       fact3: 'Cancel any time via the link in the confirmation',
       unavailable: 'The slot overview is not reachable right now.', unavailableLink: 'Call us: 0241 31202',
