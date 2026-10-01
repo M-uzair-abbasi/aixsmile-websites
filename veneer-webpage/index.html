@@ -2537,6 +2537,17 @@
     #page .band--ablauf p.lede { margin-bottom: 4px; }
     #page .steps--line h3 { margin: 6px 0 4px; }
   }
+
+  /* ===== Behandler: the consultation scene carries the section; the formal portrait becomes the signature ===== */
+  #page .doctorFeature__photo img { object-position: 62% 28%; }
+  #page .doctorFeature__sign { display: grid; grid-template-columns: 52px 1fr; grid-template-rows: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; margin-top: 16px; }
+  #page .doctorFeature__avatar { grid-row: 1 / span 2; width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; border: 2px solid var(--card); box-shadow: 0 6px 16px -8px rgba(23, 54, 47, .5); }
+  @media (max-width: 900px) {
+    #page .doctorFeature__photo { height: 300px; }
+    #page .doctorFeature__photo img { object-position: 64% 24%; }
+    #page .doctorFeature__text { padding-top: 18px; }
+    #page .doctorFeature__quote { margin-top: 8px; }
+  }
 </style>
 </head>
 <body id="page">
@@ -3012,14 +3023,14 @@
 <section class="band band--doctor" id="behandler">
   <div class="doctorFeature">
     <figure class="doctorFeature__photo">
-      <img src="/assets/doctor-molaie.webp" srcset="/assets/doctor-molaie-720.webp 720w, /assets/doctor-molaie.webp 1120w" sizes="(max-width: 860px) 100vw, 50vw" width="1120" height="1400" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt bei AIXSMILE in Aachen">
+      <img src="/assets/doctor-consult.webp" srcset="/assets/doctor-consult-720.webp 720w, /assets/doctor-consult.webp 1296w" sizes="(max-width: 860px) 100vw, 50vw" width="1296" height="1213" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie im Beratungsgespräch in der AIXSMILE Praxis in Aachen">
     </figure>
     <div class="doctorFeature__text">
       <p class="eyebrow" data-i18n="doctor.eyebrow">Ihr Behandler</p>
       <h2 data-i18n="doctor.h2">Ihr Zahnarzt <em>in Aachen</em>.</h2>
       <blockquote class="doctorFeature__quote">
         <p data-i18n="doctor.quote">„Ein Veneer soll zu Ihrem Gesicht passen, nicht zu einer Schablone.“</p>
-        <div class="doctorFeature__sign"><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
+        <div class="doctorFeature__sign"><img class="doctorFeature__avatar" src="/assets/doctor-molaie-720.webp" width="56" height="56" loading="lazy" decoding="async" alt=""><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
       </blockquote>
       <p class="doctorFeature__lede" data-i18n="doctor.p1">Novin Molaie plant jede Schale am Scan, bevor er einen Zahn anfasst. Sie sehen den Entwurf vorher. Und wenn ein Bleaching oder eine Spange Ihr Ziel besser erreicht, hören Sie das von ihm zuerst.</p>
       <dl class="doctorFeature__facts">
@@ -3295,7 +3306,7 @@ const I18N = {
       fact1: 'Sprachen in der Praxis', fact2: 'Planung vor dem ersten Schliff', fact3: 'Termine bis zum Ergebnis',
       cta: 'Beratung vereinbaren',
       role: 'Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen',
-      alt: 'Novin Molaie, Zahnarzt bei AIXSMILE in Aachen',
+      alt: 'Novin Molaie im Beratungsgespräch in der AIXSMILE Praxis in Aachen',
       p1: 'Novin Molaie plant jede Schale am Scan, bevor er einen Zahn anfasst. Sie sehen den Entwurf vorher. Und wenn ein Bleaching oder eine Spange Ihr Ziel besser erreicht, hören Sie das von ihm zuerst.',
       p2: 'Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.',
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.',
@@ -3558,7 +3569,7 @@ const I18N = {
       fact1: 'languages in the practice', fact2: 'planning before the first touch', fact3: 'appointments to the result',
       cta: 'Book a consultation',
       role: 'Dentist · AIXSMILE dental practice, Aachen',
-      alt: 'Novin Molaie, dentist at AIXSMILE in Aachen',
+      alt: 'Novin Molaie in a consultation at the AIXSMILE practice in Aachen',
       p1: 'Novin Molaie plans every shell on the scan before he touches a tooth. You see the design first. And if whitening or braces would reach your goal better, you hear it from him first.',
       p2: 'In the consultation we tell you plainly what we recommend. If whitening, Composhaping or braces would get you there better, we say so, even if it is the cheaper treatment.',
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
