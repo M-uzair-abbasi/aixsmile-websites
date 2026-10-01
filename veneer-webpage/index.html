@@ -2538,15 +2538,41 @@
     #page .steps--line h3 { margin: 6px 0 4px; }
   }
 
-  /* ===== Behandler: the consultation scene carries the section; the formal portrait becomes the signature ===== */
-  #page .doctorFeature__photo img { object-position: 62% 28%; }
-  #page .doctorFeature__sign { display: grid; grid-template-columns: 52px 1fr; grid-template-rows: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; margin-top: 16px; }
-  #page .doctorFeature__avatar { grid-row: 1 / span 2; width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; border: 2px solid var(--card); box-shadow: 0 6px 16px -8px rgba(23, 54, 47, .5); }
+  /* ===== Behandler: the portrait shown whole, never cropped ===== */
+  #page .doctorFeature { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: stretch; min-height: 0; max-height: none; }
+  #page .doctorFeature__photo { position: relative; aspect-ratio: 4 / 5; height: auto; max-height: 100vh; }
+  #page .doctorFeature__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+  #page .doctorFeature__sign { display: grid; gap: 2px; margin-top: 14px; }
   @media (max-width: 900px) {
-    #page .doctorFeature__photo { height: 300px; }
-    #page .doctorFeature__photo img { object-position: 64% 24%; }
-    #page .doctorFeature__text { padding-top: 18px; }
-    #page .doctorFeature__quote { margin-top: 8px; }
+    /* magazine layout: the portrait sits in the text, whole, with the heading and quote beside it */
+    #page .doctorFeature { display: block; padding: 22px 20px 26px; }
+    #page .doctorFeature__photo { float: left; width: 42%; aspect-ratio: 4 / 5; height: auto; margin: 4px 16px 6px 0; border-radius: 14px; overflow: hidden; box-shadow: 0 16px 30px -22px rgba(23, 54, 47, .5); }
+    #page .doctorFeature__text { padding: 0; }
+    #page .doctorFeature__text::after { content: ''; display: block; clear: both; }
+    #page .doctorFeature__quote { margin: 8px 0; padding-left: 12px; }
+    #page .doctorFeature__quote p { font-size: 15px; }
+    #page .doctorFeature__lede { clear: none; }
+  }
+  /* ===== Buchen: the consultation scene, always shown whole (its own 1296:1213 ratio, never cropped) ===== */
+  .bkPhoto { margin: 22px 0 0; width: min(100%, 320px); aspect-ratio: 1296 / 1213; border-radius: 18px; overflow: hidden; background: var(--paper-2); box-shadow: 0 22px 46px -34px rgba(23, 54, 47, .45); }
+  .bkPhoto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 900px) {
+    /* phone: eyebrow and heading on the left, the whole photo on the right, the paragraph below both */
+    .band--buchen .intro { display: grid; grid-template-columns: minmax(0, 1fr) 44%; grid-template-areas: 'eyebrow photo' 'h2 photo' 'p p'; column-gap: 14px; align-items: start; }
+    .band--buchen .intro > p { grid-area: p; margin-top: 10px; }
+    .band--buchen .intro > .eyebrow { grid-area: eyebrow; }
+    .band--buchen .intro > h2 { grid-area: h2; margin-bottom: 0; }
+    .band--buchen .intro > .bkPhoto { grid-area: photo; width: 100%; margin: 0; border-radius: 14px; }
+  }
+  /* Behandler desktop: the portrait column keeps its own 4:5 box, so nothing is cut */
+  #page .doctorFeature__photo { align-self: start; }
+  /* no reveal zoom on the two people photos: they are shown whole, from the first frame */
+  #page .doctorFeature__photo img, #page .bkPhoto img { scale: 1 !important; transform: none !important; }
+  @media (max-width: 900px) {
+    #page .band--buchen { padding-top: 28px; }
+    #page .band--buchen .intro > p { font-size: 14px; line-height: 1.45; margin-top: 8px; }
+    #page .band--buchen .intro { margin-bottom: 4px; }
+    #page .band--buchen .bk { margin-top: 10px; }
   }
 </style>
 </head>
@@ -2910,6 +2936,7 @@
       <p class="eyebrow" data-i18n="bk.eyebrow">Termin</p>
       <h2 data-i18n="bk.h2">Beratungstermin <em>buchen</em>.</h2>
       <p data-i18n="bk.p">Etwa eine Stunde in der Praxis. Wir schauen uns Ihre Zähne an, machen Fotos und den Scan und besprechen, was möglich ist. Geschliffen wird an diesem Tag nichts.</p>
+      <figure class="bkPhoto"><img src="/assets/doctor-consult-720.webp" srcset="/assets/doctor-consult-720.webp 720w, /assets/doctor-consult.webp 1296w" sizes="(max-width: 900px) 40vw, 32vw" width="1296" height="1213" loading="lazy" decoding="async" data-i18n-alt="bk.photoAlt" alt="Novin Molaie im Beratungsgespräch in der AIXSMILE Praxis in Aachen"></figure>
     </div>
 
     <form class="bk" id="bkForm" novalidate aria-live="polite">
@@ -3023,14 +3050,14 @@
 <section class="band band--doctor" id="behandler">
   <div class="doctorFeature">
     <figure class="doctorFeature__photo">
-      <img src="/assets/doctor-consult.webp" srcset="/assets/doctor-consult-720.webp 720w, /assets/doctor-consult.webp 1296w" sizes="(max-width: 860px) 100vw, 50vw" width="1296" height="1213" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie im Beratungsgespräch in der AIXSMILE Praxis in Aachen">
+      <img src="/assets/doctor-molaie.webp" srcset="/assets/doctor-molaie-720.webp 720w, /assets/doctor-molaie.webp 1120w" sizes="(max-width: 860px) 42vw, 40vw" width="1120" height="1400" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt bei AIXSMILE in Aachen">
     </figure>
     <div class="doctorFeature__text">
       <p class="eyebrow" data-i18n="doctor.eyebrow">Ihr Behandler</p>
       <h2 data-i18n="doctor.h2">Ihr Zahnarzt <em>in Aachen</em>.</h2>
       <blockquote class="doctorFeature__quote">
         <p data-i18n="doctor.quote">„Ein Veneer soll zu Ihrem Gesicht passen, nicht zu einer Schablone.“</p>
-        <div class="doctorFeature__sign"><img class="doctorFeature__avatar" src="/assets/doctor-molaie-720.webp" width="56" height="56" loading="lazy" decoding="async" alt=""><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
+        <div class="doctorFeature__sign"><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
       </blockquote>
       <p class="doctorFeature__lede" data-i18n="doctor.p1">Novin Molaie plant jede Schale am Scan, bevor er einen Zahn anfasst. Sie sehen den Entwurf vorher. Und wenn ein Bleaching oder eine Spange Ihr Ziel besser erreicht, hören Sie das von ihm zuerst.</p>
       <dl class="doctorFeature__facts">
@@ -3306,7 +3333,7 @@ const I18N = {
       fact1: 'Sprachen in der Praxis', fact2: 'Planung vor dem ersten Schliff', fact3: 'Termine bis zum Ergebnis',
       cta: 'Beratung vereinbaren',
       role: 'Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen',
-      alt: 'Novin Molaie im Beratungsgespräch in der AIXSMILE Praxis in Aachen',
+      alt: 'Novin Molaie, Zahnarzt bei AIXSMILE in Aachen',
       p1: 'Novin Molaie plant jede Schale am Scan, bevor er einen Zahn anfasst. Sie sehen den Entwurf vorher. Und wenn ein Bleaching oder eine Spange Ihr Ziel besser erreicht, hören Sie das von ihm zuerst.',
       p2: 'Im Beratungsgespräch sagen wir Ihnen offen, was wir empfehlen. Wenn ein Bleaching, Composhaping oder eine Zahnspange Ihr Ziel besser erreicht, sagen wir das auch, selbst wenn es die günstigere Behandlung ist.',
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, Türkisch und Arabisch.',
@@ -3347,6 +3374,7 @@ const I18N = {
       visualAlt: 'Abgenutzte und leicht abgeplatzte Schneidekanten',
     },
     bk: {
+      photoAlt: 'Novin Molaie im Beratungsgespräch in der AIXSMILE Praxis in Aachen',
       quickH: 'Nächste freie Termine', calPrev: 'Voriger Monat', calNext: 'Nächster Monat', calHint: 'Markierte Tage haben freie Zeiten, bis sechs Monate im Voraus.', timesEmpty: 'Tag wählen, dann erscheinen hier die freien Uhrzeiten.', taken: 'Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.',
       eyebrow: 'Termin',
       h2: 'Beratungstermin <em>buchen</em>.',
@@ -3569,7 +3597,7 @@ const I18N = {
       fact1: 'languages in the practice', fact2: 'planning before the first touch', fact3: 'appointments to the result',
       cta: 'Book a consultation',
       role: 'Dentist · AIXSMILE dental practice, Aachen',
-      alt: 'Novin Molaie in a consultation at the AIXSMILE practice in Aachen',
+      alt: 'Novin Molaie, dentist at AIXSMILE in Aachen',
       p1: 'Novin Molaie plans every shell on the scan before he touches a tooth. You see the design first. And if whitening or braces would reach your goal better, you hear it from him first.',
       p2: 'In the consultation we tell you plainly what we recommend. If whitening, Composhaping or braces would get you there better, we say so, even if it is the cheaper treatment.',
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
@@ -3610,6 +3638,7 @@ const I18N = {
       visualAlt: 'Worn and lightly chipped incisal edges',
     },
     bk: {
+      photoAlt: 'Novin Molaie in a consultation at the AIXSMILE practice in Aachen',
       quickH: 'Next open appointments', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times, up to six months ahead.', timesEmpty: 'Tap a day on the left. The free times for your scan appointment appear on the right.', taken: 'Someone booked this time in the meantime. Please pick another one.',
       eyebrow: 'Appointment',
       h2: 'Book a <em>consultation</em>.',
