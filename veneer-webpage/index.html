@@ -2643,6 +2643,19 @@
     #page .heroEditorial__actions { margin-top: 16px; flex-direction: row; align-items: center; gap: 10px 18px; }
     #page .heroEditorial__actions .btn { flex: 0 1 auto; min-height: 46px; }
   }
+  /* Ablauf back on one screen after the one-day copy */
+  @media (min-width: 901px) {
+    #page .band--ablauf { padding-top: clamp(30px, 4vh, 48px); padding-bottom: clamp(30px, 4vh, 48px); }
+    #page .band--ablauf .processVisual, #page .band--ablauf .processVisual img { max-height: min(52vh, 430px); }
+    #page .band--ablauf ol.steps.steps--line > li { padding-bottom: 6px; }
+  }
+  @media (max-width: 900px) {
+    #page .band--ablauf { padding-top: 28px; padding-bottom: 26px; }
+    #page .band--ablauf .processVisual img { max-height: 120px; }
+    #page .band--ablauf ol.steps.steps--line p, #page .steps--line p { font-size: 12px; line-height: 1.35; }
+    #page .band--ablauf ol.steps.steps--line > li { padding-bottom: 6px; }
+    #page .band--buchen .intro > p { font-size: 13.5px; }
+  }
 </style>
 </head>
 <body id="page">
