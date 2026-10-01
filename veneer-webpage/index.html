@@ -2574,6 +2574,37 @@
     #page .band--buchen .intro { margin-bottom: 4px; }
     #page .band--buchen .bk { margin-top: 10px; }
   }
+
+  /* ===== Materialien: the headers open a picture of each material ===== */
+  .matPeek { display: inline-flex; align-items: center; gap: 8px; padding: 2px 4px 2px 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; border-radius: 8px; }
+  .matPeek svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: .55; transition: opacity .2s; }
+  .matPeek:hover svg, .matPeek:focus-visible svg { opacity: 1; }
+  .matPeek:hover span, .matPeek:focus-visible span { text-decoration: underline; text-underline-offset: 3px; }
+  .matPeek:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .matDialog { width: min(92vw, 720px); padding: 0; border: 0; border-radius: 20px; overflow: hidden; background: var(--card); color: var(--ink); box-shadow: 0 40px 90px -40px rgba(23, 54, 47, .6); }
+  .matDialog::backdrop { background: rgba(23, 28, 26, .62); backdrop-filter: blur(4px); }
+  .matDialog img { display: block; width: 100%; height: auto; max-height: 62vh; object-fit: cover; background: var(--paper-2); }
+  .matDialog__text { padding: 18px 22px 22px; }
+  .matDialog__text h3 { margin: 0 0 6px; font-size: 19px; }
+  .matDialog__text p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--text); }
+  .matDialog__close { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(250, 248, 244, .92); color: var(--ink); cursor: pointer; display: grid; place-items: center; box-shadow: 0 8px 20px -10px rgba(0,0,0,.5); }
+  .matDialog__close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+  .matDialog[open] { animation: matIn .32s cubic-bezier(.2,.7,.2,1); }
+  @keyframes matIn { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+  @media (max-width: 900px) {
+    .matDialog { width: calc(100vw - 24px); }
+    .matDialog img { max-height: 48vh; }
+    .matDialog__text { padding: 14px 16px 18px; }
+    .matDialog__text h3 { font-size: 17px; } .matDialog__text p { font-size: 14px; }
+    .matPeek svg { width: 13px; height: 13px; }
+  }
+  /* the model photo is a portrait: let it fill the column at its own ratio, capped */
+  /* the figure takes the table's height, never the portrait's; the crop keeps eyes and smile */
+  #page .materialShowcase { align-items: stretch; }
+  #page .materialVisual { height: auto; min-height: 0; max-height: 350px; align-self: start; aspect-ratio: 4 / 3; }
+  #page .materialShowcase { margin-top: 18px; }
+  #page .materialVisual img { height: 100%; min-height: 100%; object-position: 50% 36%; }
+  @media (max-width: 900px) { #page .materialVisual { max-height: none; } #page .materialVisual img { aspect-ratio: 16 / 10; max-height: 190px; object-position: 50% 40%; } }
 </style>
 </head>
 <body id="page">
@@ -2810,12 +2841,12 @@
     <h2 data-i18n="matRead.h2">Keramik <em>oder</em> Composite.</h2>
     <p class="lede" data-i18n="material.p">Was passt, hängt von Zahn, Anspruch und Budget ab. Wir besprechen es offen.</p>
     <div class="materialShowcase">
-      <figure class="materialVisual"><img src="/assets/generated/veneer-types-ceramic.webp" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="material.visualAlt" alt="Sechs Keramikschalen über einem oberen Zahnmodell"></figure>
+      <figure class="materialVisual"><img src="/assets/materials/model-smile.webp" width="900" height="1350" loading="lazy" decoding="async" data-i18n-alt="material.visualAlt" alt="Lächelnde Patientin nach der Veneer-Behandlung"></figure>
       <div class="matTable" role="table">
       <div class="matRow matRow--head" role="row">
         <span role="columnheader"></span>
-        <span role="columnheader"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span></span>
-        <span role="columnheader"><i class="swatch swatch--composite" aria-hidden="true"></i><span data-i18n="material.m2Name">Composite</span></span>
+        <span role="columnheader"><button type="button" class="matPeek" data-mat="ceramic" data-i18n-aria="material.peekCeramic" aria-label="Keramik-Veneers ansehen"><i class="swatch swatch--ceramic" aria-hidden="true"></i><span data-i18n="material.m1Name">Keramik</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg></button></span>
+        <span role="columnheader"><button type="button" class="matPeek" data-mat="composite" data-i18n-aria="material.peekComposite" aria-label="Composite-Veneers ansehen"><i class="swatch swatch--composite" aria-hidden="true"></i><span data-i18n="material.m2Name">Composite</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg></button></span>
       </div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r1">Haltbarkeit</span><span data-i18n="mat.r1a">Oft 15 Jahre und länger</span><span data-i18n="mat.r1b">Kürzer, aber reparierbar</span></div>
       <div class="matRow" role="row"><span role="rowheader" data-i18n="mat.r2">Farbe</span><span data-i18n="mat.r2a">Fleckenresistent</span><span data-i18n="mat.r2b">Kann nachdunkeln</span></div>
@@ -2891,6 +2922,11 @@
 <div class="baStage" id="baStage" hidden aria-hidden="true">
   <img src="/assets/before-after/1.jpg" alt=""><img src="/assets/before-after/2.jpg" alt=""><img src="/assets/before-after/3.jpg" alt=""><img src="/assets/before-after/4.jpg" alt=""><img src="/assets/before-after/5.jpg" alt=""><img src="/assets/before-after/6.jpg" alt=""><img src="/assets/before-after/7.jpg" alt="">
 </div>
+<dialog class="matDialog" id="matDialog" aria-labelledby="matDialogTitle">
+  <button type="button" class="matDialog__close" id="matDialogClose" data-i18n-aria="material.close" aria-label="Schließen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <img id="matDialogImg" src="" alt="" width="1200" height="800">
+  <div class="matDialog__text"><h3 id="matDialogTitle"></h3><p id="matDialogText"></p></div>
+</dialog>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="lbTop">
     <span class="lbTitle" data-i18n="ba.h2">Vorher und nachher.</span>
@@ -3249,8 +3285,10 @@ const I18N = {
       p2: 'Weil Keramik lichtdurchlässig ist, schimmert die eigene Zahnfarbe leicht hindurch. Deshalb wird der Farbton am wachen Patienten bei Tageslicht bestimmt, bevor überhaupt etwas geschliffen wird. Wer zusätzlich aufhellen möchte, tut dies vorher: Einmal gesetzt, verändert sich die Farbe eines Veneers nicht mehr.',
     },
     material: {
+      visualAlt: 'Lächelnde Patientin nach der Veneer-Behandlung',
+      peekCeramic: 'Keramik-Veneers ansehen', peekComposite: 'Composite-Veneers ansehen', close: 'Schließen',
+      peek: { ceramic: { t: 'Keramik-Veneers', p: 'Im Labor gebrannte Schalen, etwa 0,4 Millimeter dünn. Keramik lässt Licht durch wie Zahnschmelz und behält ihre Farbe über Jahre.' }, composite: { t: 'Composite-Veneers', p: 'Composite wird Schicht für Schicht direkt auf dem Zahn aufgebaut und in einer Sitzung geformt. Günstiger, kürzer haltbar und in der Praxis reparierbar.' } },
       h2: 'Keramik <em>oder</em> Composite. Ihr Zahn entscheidet mit.',
-      visualAlt: 'Sechs Keramikschalen über einem oberen Zahnmodell',
       p: 'Was passt, hängt von Zahn, Anspruch und Budget ab. Wir besprechen es offen.',
       m1Name: 'Keramik',
       m2Name: 'Composite',
@@ -3513,6 +3551,9 @@ const I18N = {
       p2: 'Because ceramic is translucent, your own tooth colour shimmers through slightly. That is why the shade is determined on the awake patient in daylight before anything is prepared. Anyone who also wants whiter teeth does so first: once seated, a veneer\'s colour no longer changes.',
     },
     material: {
+      visualAlt: 'Smiling patient after veneer treatment',
+      peekCeramic: 'See ceramic veneers', peekComposite: 'See composite veneers', close: 'Close',
+      peek: { ceramic: { t: 'Ceramic veneers', p: 'Shells fired in the lab, about 0.4 millimetres thin. Ceramic lets light through like enamel and keeps its colour for years.' }, composite: { t: 'Composite veneers', p: 'Composite is built up layer by layer directly on the tooth and shaped in one visit. Cheaper, shorter-lived and repairable in the practice.' } },
       h2: 'Ceramic <em>or</em> composite. Your tooth has a say.',
       visualAlt: 'Six ceramic shells over an upper tooth model',
       p: 'What fits depends on your tooth, expectations and budget. We discuss it openly.',
@@ -3902,6 +3943,20 @@ document.querySelectorAll('.caseFig[data-case]').forEach((btn) => {
   btn.addEventListener('click', () => { const i = Number(btn.dataset.case) || 0; baSet(i); lbOpen(i, btn); });
 });
 document.getElementById('casesAll').addEventListener('click', (e) => { e.preventDefault(); lbOpen(0); });
+
+// Materialien: a tap on "Keramik" or "Composite" opens a picture of that material
+(function () {
+  const dlg = document.getElementById('matDialog'); if (!dlg || !dlg.showModal) return;
+  const img = document.getElementById('matDialogImg'), h = document.getElementById('matDialogTitle'), t = document.getElementById('matDialogText');
+  const SRC = { ceramic: '/assets/materials/keramik.webp', composite: '/assets/materials/composite-layers.webp' };
+  document.querySelectorAll('.matPeek').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.mat, d = (I18N[currentLang].material.peek || {})[k]; if (!d) return;
+    img.src = SRC[k]; img.alt = d.t; h.textContent = d.t; t.textContent = d.p;
+    dlg.showModal();
+  }));
+  document.getElementById('matDialogClose').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+})();
 
 // The old pinned scroll-story runtime is intentionally disabled. The page now
 // uses native scrolling and the contained explainer owns its own interaction.
