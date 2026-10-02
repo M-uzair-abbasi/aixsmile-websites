@@ -1945,7 +1945,10 @@
   }
   .heroEditorial h1 em { color: var(--hero-bronze); font-style: normal; }
   @media (min-width: 981px) {
-    .heroEditorial h1 { max-width: none; white-space: nowrap; }
+    /* the headline wraps inside its column, so a longer line never runs onto
+       the portrait (2026-10-02: "Zähne, die aussehen wie Ihre." did, with nowrap) */
+    .heroEditorial h1 { max-width: none; font-size: clamp(46px, min(4.8vw, 9.4vh), 78px); }
+    .heroEditorial__content { padding-right: clamp(24px, 3vw, 48px); }
   }
   .heroEditorial__lead {
     max-width: 33rem;
@@ -2486,7 +2489,7 @@
     #page .band--faq .faq { margin-top: 10px; gap: 5px; }
     #page .band--faq details { padding: 4px 12px; border-radius: 10px; }
     #page .faq summary { font-size: 13.5px; line-height: 1.3; padding: 7px 0; min-height: 0; grid-template-columns: 1fr 24px; gap: 10px; }
-    #page .faq summary::after { width: 24px; height: 24px; background-size: 10px; }
+    #page .faq summary::after { width: 24px; height: 24px; background-size: 10px 1.5px, 1.5px 10px; }
     #page .faq details p { font-size: 13px; line-height: 1.45; margin: 0 0 8px; }
     #page .band--faq h2 { font-size: clamp(22px, 6vw, 26px); }
     #page .band h2, #page .beforeAfter h2 { max-width: none; }
@@ -2655,6 +2658,34 @@
     #page .band--ablauf ol.steps.steps--line p, #page .steps--line p { font-size: 12px; line-height: 1.35; }
     #page .band--ablauf ol.steps.steps--line > li { padding-bottom: 6px; }
     #page .band--buchen .intro > p { font-size: 13.5px; }
+  }
+
+  /* ===== Smile bands (2026-10-02) =====
+     The client wanted a smiling face with a perfect smile every few sections:
+     four full-width picture bands (after Wissen, Ablauf, Behandler and FAQ).
+     The person sits on one side, a short serif line on the calm wall beside
+     them. Mood pictures (AI, see the alt text), never shown as patients or
+     results and never beside the real cases. On phones: a square crop on the
+     person, the line underneath. */
+  .smileBand { position: relative; height: clamp(340px, 44vw, 620px); margin: 0; overflow: hidden; background: #ebe5dc; }
+  .smileBand picture, .smileBand img { display: block; width: 100%; height: 100%; }
+  .smileBand img { object-fit: cover; object-position: 50% var(--smile-y, 5%); }
+  .smileBand__text { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding-inline: max(clamp(18px, 5vw, 88px), calc((100% - 75rem) / 2)); }
+  .smileBand--left .smileBand__text { padding-left: 54%; }
+  .smileBand__line { max-width: 13em; margin: 0; color: var(--ink, #17362f);
+    font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    font-size: clamp(30px, 3.5vw, 52px); font-weight: 400; line-height: 1.08; letter-spacing: -.012em; text-wrap: balance; }
+  .smileBand__line::before { content: ''; display: block; width: 44px; height: 2px; margin-bottom: 22px; background: #b07a4f; }
+  .smileBand__cta { margin-top: 26px; }
+  @media (max-width: 700px) {
+    .smileBand { height: auto; background: var(--paper, #f7f4ee); }
+    .smileBand picture, .smileBand img { height: auto; aspect-ratio: 1 / 1; }
+    .smileBand img { object-position: 50% 50%; }
+    .smileBand__text, .smileBand--left .smileBand__text { position: static; padding: 22px 20px 36px; }
+    .smileBand__line { max-width: none; font-size: 27px; }
+    .smileBand__line::before { margin-bottom: 14px; }
+    .smileBand__cta { margin-top: 18px; }
   }
 </style>
 </head>
@@ -2886,6 +2917,16 @@
   </div>
 </section>
 
+<figure class="smileBand smileBand--right" id="smile1">
+  <picture>
+    <source media="(max-width: 700px)" srcset="/assets/generated/smile-band-1-sq.webp" width="800" height="800">
+    <img src="/assets/generated/smile-band-1.webp" srcset="/assets/generated/smile-band-1-960.webp 960w, /assets/generated/smile-band-1.webp 1536w" sizes="100vw" width="1536" height="1024" loading="lazy" decoding="async" data-i18n-alt="smile.alt1" alt="Illustrative Darstellung: lachender Mann mit hellen, gleichmäßigen Zähnen">
+  </picture>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l1">Ein Lächeln, das zu Ihrem Gesicht passt.</p>
+  </figcaption>
+</figure>
+
 <section class="band band--material" id="materialien">
   <div class="inner">
     <p class="eyebrow" data-i18n="matRead.eyebrow">Zwei Materialien</p>
@@ -3016,6 +3057,16 @@
     </ol>
   </div>
 </section>
+
+<figure class="smileBand smileBand--left" id="smile2">
+  <picture>
+    <source media="(max-width: 700px)" srcset="/assets/generated/smile-band-2-sq.webp" width="800" height="800">
+    <img src="/assets/generated/smile-band-2.webp" srcset="/assets/generated/smile-band-2-960.webp 960w, /assets/generated/smile-band-2.webp 1536w" sizes="100vw" width="1536" height="1024" loading="lazy" decoding="async" data-i18n-alt="smile.alt2" alt="Illustrative Darstellung: lächelnde Frau mit grauem Haar und gepflegten Zähnen">
+  </picture>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l2">Hell und gleichmäßig, und trotzdem natürlich.</p>
+  </figcaption>
+</figure>
 
 <section class="band band--buchen" id="buchen">
   <div class="inner">
@@ -3157,6 +3208,16 @@
   </div>
 </section>
 
+<figure class="smileBand smileBand--right" id="smile3">
+  <picture>
+    <source media="(max-width: 700px)" srcset="/assets/generated/smile-band-3-sq.webp" width="800" height="800">
+    <img src="/assets/generated/smile-band-3.webp" srcset="/assets/generated/smile-band-3-960.webp 960w, /assets/generated/smile-band-3.webp 1536w" sizes="100vw" width="1536" height="1024" loading="lazy" decoding="async" data-i18n-alt="smile.alt3" alt="Illustrative Darstellung: lachende Frau mit hellen, gleichmäßigen Zähnen">
+  </picture>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l3">Lachen, ohne an die Zähne zu denken.</p>
+  </figcaption>
+</figure>
+
 <section class="band band--faq" id="faq">
   <div class="inner">
     <p class="eyebrow" data-i18n="faq.eyebrow">Häufige Fragen</p>
@@ -3176,6 +3237,17 @@
     </div>
   </div>
 </section>
+
+<figure class="smileBand smileBand--left" id="smile4">
+  <picture>
+    <source media="(max-width: 700px)" srcset="/assets/generated/smile-band-4-sq.webp" width="800" height="800">
+    <img src="/assets/generated/smile-band-4.webp" srcset="/assets/generated/smile-band-4-960.webp 960w, /assets/generated/smile-band-4.webp 1536w" sizes="100vw" width="1536" height="1024" loading="lazy" decoding="async" data-i18n-alt="smile.alt4" alt="Illustrative Darstellung: lächelnder Mann mit Bart und gepflegten Zähnen">
+  </picture>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l4">Der erste Schritt ist ein Gespräch.</p>
+    <a class="btn smileBand__cta" href="#buchen" data-cta="book" data-i18n="smile.cta">Beratung buchen</a>
+  </figcaption>
+</figure>
 
 <section class="band band--praxis" id="praxis">
   <div class="inner inner--wide praxisGrid">
@@ -3505,6 +3577,17 @@ const I18N = {
       monthsLong: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
     },
     cookie: { text: 'Diese Seite setzt keine Cookies und kein Tracking. <a href="/datenschutz/">Datenschutz</a>', close: 'Hinweis schließen' },
+    smile: {
+      l1: 'Ein Lächeln, das zu Ihrem Gesicht passt.',
+      l2: 'Hell und gleichmäßig, und trotzdem natürlich.',
+      l3: 'Lachen, ohne an die Zähne zu denken.',
+      l4: 'Der erste Schritt ist ein Gespräch.',
+      cta: 'Beratung buchen',
+      alt1: 'Illustrative Darstellung: lachender Mann mit hellen, gleichmäßigen Zähnen',
+      alt2: 'Illustrative Darstellung: lächelnde Frau mit grauem Haar und gepflegten Zähnen',
+      alt3: 'Illustrative Darstellung: lachende Frau mit hellen, gleichmäßigen Zähnen',
+      alt4: 'Illustrative Darstellung: lächelnder Mann mit Bart und gepflegten Zähnen',
+    },
     footer: {
       langs: 'Wir sprechen Deutsch, Englisch, Farsi, T\u00fcrkisch und Arabisch.',
       hoursDays: 'Mo \u00b7 Di \u00b7 Do',
@@ -3772,6 +3855,17 @@ const I18N = {
       monthsLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     },
     cookie: { text: 'This page sets no cookies and runs no tracking. <a href="/datenschutz/">Privacy</a>', close: 'Dismiss' },
+    smile: {
+      l1: 'A smile that suits your face.',
+      l2: 'Bright and even, and still natural.',
+      l3: 'Laugh without thinking about your teeth.',
+      l4: 'The first step is a conversation.',
+      cta: 'Book a consultation',
+      alt1: 'Illustration: a laughing man with bright, even teeth',
+      alt2: 'Illustration: a smiling woman with grey hair and well-kept teeth',
+      alt3: 'Illustration: a laughing woman with bright, even teeth',
+      alt4: 'Illustration: a smiling bearded man with well-kept teeth',
+    },
     footer: {
       langs: 'We speak German, English, Farsi, Turkish and Arabic.',
       hoursDays: 'Mon \u00b7 Tue \u00b7 Thu',
@@ -4273,12 +4367,13 @@ document.getElementById('casesAll').addEventListener('click', (e) => { e.prevent
       '.doctorFeature__photo', '.doctorFeature__text > :not(h2)', '.doctorFeature__facts > div',
       '.faq details',
       '.praxisFacts > div',
-      'body > footer .colophon > *'
+      'body > footer .colophon > *',
+      '.smileBand__text > *'
     ].join(', ');
     // pictures that wipe up into their frames as they arrive
     var WIPE = [
       '#wissen .readVisual', '.materialVisual', '.band--ablauf .processVisual', '.doctorFeature__photo',
-      '.veneerTypeCard figure', '.concernCard figure', '.mapTile'
+      '.veneerTypeCard figure', '.concernCard figure', '.mapTile', '.smileBand'
     ].join(', ');
     var items = [].slice.call(document.querySelectorAll(RISE));
     items.forEach(function (el) { el.classList.add('m-rise'); });
