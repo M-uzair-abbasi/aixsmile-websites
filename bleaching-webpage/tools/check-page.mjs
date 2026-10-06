@@ -155,17 +155,21 @@ try {
     await ctx.close();
   }
 
-  // ---- phone: stain types in one column; costs as numbered cards ----
+  // ---- phone: stain images stay readable; costs remain a three-step path ----
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const page = await ctx.newPage(); await mockApi(page);
     await page.goto(srv.url, { waitUntil: 'load' });
     const c = await page.evaluate(() => ({
       whenCols: getComputedStyle(document.querySelector('.whenCols')).gridTemplateColumns.split(' ').length,
+      thumbs: [...document.querySelectorAll('#wann .frame--thumb')].map((el) => {
+        const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) };
+      }),
       cards: document.querySelectorAll('.costCards li').length,
       afterMethods: document.getElementById('methoden').nextElementSibling?.id,
     }));
-    ok('phone: stain types in one column, three cost cards, "when" follows the methods', c.whenCols === 1 && c.cards === 3 && c.afterMethods === 'wann', JSON.stringify(c));
+    ok('phone: stain images are readable, groups use one column, and the three cost steps remain',
+      c.whenCols === 1 && c.thumbs.length === 6 && c.thumbs.every((r) => r.w >= 140 && r.h >= 100) && c.cards === 3 && c.afterMethods === 'wann', JSON.stringify(c));
     await ctx.close();
   }
 
@@ -177,11 +181,16 @@ try {
     const b = await page.evaluate(() => ({
       dark: document.getElementById('buchen').classList.contains('tone-night'),
       faqCols: getComputedStyle(document.querySelector('.faq')).gridTemplateColumns.split(' ').length,
+      whenThumbs: [...document.querySelectorAll('#wann .frame--thumb')].map((el) => {
+        const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) };
+      }),
       facts: document.querySelectorAll('.praxisFacts > div').length,
       lead: document.querySelector('.colophonLead')?.textContent.trim(),
       mini: !!document.getElementById('miniToggle') && !!document.getElementById('miniSlots'),
     }));
-    ok('booking band dark, FAQ two columns, three practice facts, footer lead, mini slots intact', b.dark && b.faqCols === 2 && b.facts === 3 && b.lead === 'It’s time to smile.' && b.mini, JSON.stringify(b));
+    ok('lower page: large stain images, dark booking, two-column FAQ, practice facts and footer intact',
+      b.dark && b.faqCols === 2 && b.whenThumbs.length === 6 && b.whenThumbs.every((r) => r.w >= 180 && r.h >= 130)
+        && b.facts === 3 && b.lead === 'It’s time to smile.' && b.mini, JSON.stringify(b));
     await ctx.close();
   }
 

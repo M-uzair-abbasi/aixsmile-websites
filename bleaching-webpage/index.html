@@ -20,7 +20,8 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" type="image/png" href="assets/tooth-mark.png?v=1" sizes="any">
 <link rel="preload" href="assets/fonts/figtree-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/photos/ai/hero.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/photos/ai/hero-smile-960.webp" media="(max-width: 900px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/photos/ai/hero-smile.webp" media="(min-width: 901px)" fetchpriority="high">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <script type="application/ld+json">
 {
@@ -926,7 +927,8 @@
   /* ===== Hero (2026-09-28): dark; the smile on the right, the promise on the left ===== */
   .hero { position: relative; display: flex; align-items: center; min-height: max(600px, 100svh); overflow: hidden; }
   .heroMedia { position: absolute; top: 0; right: 0; bottom: 0; width: 58%; margin: 0; overflow: hidden; }   /* the settle-in zoom stays inside the fade */
-  .heroMedia img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 30%; }
+  .heroMedia picture { display: contents; }
+  .heroMedia img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 42%; }
   .heroMedia::after { content: ''; position: absolute; inset: 0; pointer-events: none;
     background: linear-gradient(90deg, var(--night) 0%, rgba(11, 12, 13, .72) 18%, rgba(11, 12, 13, 0) 52%),
       linear-gradient(0deg, rgba(11, 12, 13, .55) 0%, rgba(11, 12, 13, 0) 30%); }
@@ -968,7 +970,7 @@
   @media (max-width: 900px) {
     .hero { display: block; min-height: 0; }
     .heroMedia { position: relative; width: 100%; height: 42svh; min-height: 250px; }
-    .heroMedia img { object-position: 60% 35%; }
+    .heroMedia img { object-position: 58% 42%; }
     .heroMedia::after { background: linear-gradient(0deg, var(--night) 0%, rgba(11, 12, 13, 0) 45%); }
     .heroMedia .aiTag { top: calc(var(--hdr) + 10px); right: 12px; }
     .heroInner { margin-top: -28px; padding-top: 0; padding-bottom: 28px; }
@@ -1055,87 +1057,175 @@
     .method h3 { font-size: 20px; }
     .method p:last-child { font-size: 15px; }
   }
-  /* ===== When it helps (2026-09-28): two groups; one column on phones ===== */
-  .whenCols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 72px); }
-  .verdict { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-family: var(--sans); font-size: 12px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--heading); }
-  .verdict::before { content: ''; flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; }
-  .verdict--good::before { background: var(--accent); }
-  .verdict--limit::before { border: 1.5px solid var(--accent); }
-  .whenList { list-style: none; margin: 0; padding: 0; }
-  .whenList li { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 0; border-top: 1px solid var(--line); }
-  .frame--thumb { aspect-ratio: 1; border-radius: 3px; }
-  .whenList h4 { margin: 0 0 4px; font-family: var(--serif); font-size: 20px; font-weight: 400; line-height: 1.25; color: var(--heading); }
-  .whenList p { margin: 0; font-size: 15.5px; line-height: 1.5; }
-  /* ===== Costs (2026-09-28): numbered cards as on the veneer page ===== */
-  .costCards { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); margin: 0; padding: 0; }
-  .costCards li { padding: 26px 24px 24px; border: 1px solid var(--line); border-radius: 3px; background: #fff; }
-  .costNum { display: block; margin-bottom: 18px; font-size: 12px; font-weight: 650; letter-spacing: .16em; color: var(--accent); }
-  .costCards h3 { margin: 0 0 8px; font-size: 21px; }
-  .costCards p { margin: 0; font-size: 15.5px; }
-  .costFactors { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: 8px clamp(24px, 4vw, 56px); margin-top: clamp(32px, 4vw, 48px); }
-  .costFactors h3 { font-size: 21px; }
-  .factors { list-style: none; margin: 0; padding: 0; }
-  .factors li { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15.5px; }
+  /* ===== Lower page redesign (2026-10-06) ===== */
+  #wann .sectionHead, #kosten .sectionHead { max-width: none; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(18rem, .75fr);
+    column-gap: clamp(36px, 7vw, 104px); align-items: end; }
+  #wann .sectionHead .eyebrow, #kosten .sectionHead .eyebrow { grid-column: 1 / -1; }
+  #wann .sectionHead h2, #kosten .sectionHead h2 { margin: 0; }
+  #wann .sectionHead .lede, #kosten .sectionHead .lede { justify-self: end; }
+
+  /* The six 4:3 images are the evidence here, not thumbnail decoration. */
+  .whenCols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(34px, 5vw, 72px); }
+  .whenGroup { min-width: 0; }
+  .verdict { display: flex; align-items: center; gap: 12px; min-height: 38px; margin: 0; font-family: var(--sans); font-size: 12px;
+    font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--heading); }
+  .verdict::before { content: ''; flex: 0 0 auto; width: 24px; height: 24px; border: 1px solid var(--accent); border-radius: 50%; }
+  .verdict--good::before { background: var(--accent); box-shadow: inset 0 0 0 7px var(--stone); }
+  .verdict--limit::before { background: linear-gradient(135deg, transparent 46%, var(--accent) 47% 53%, transparent 54%); }
+  .whenList { list-style: none; display: grid; margin: 12px 0 0; padding: 0; }
+  .whenList li { display: grid; grid-template-columns: minmax(164px, 42%) minmax(0, 1fr); gap: clamp(16px, 2.2vw, 24px); align-items: center;
+    padding: 20px 0; border-top: 1px solid var(--line); }
+  .frame--thumb { aspect-ratio: 4 / 3; border-radius: 3px; box-shadow: 0 18px 38px -30px rgba(23, 24, 26, .55); }
+  .frame--thumb img { transition: transform .65s var(--ease); }
+  .whenList li:hover .frame--thumb img { transform: scale(1.025); }
+  .whenList h4 { margin: 0 0 7px; font-family: var(--serif); font-size: clamp(19px, 1.75vw, 23px); font-weight: 400; line-height: 1.18; color: var(--heading); }
+  .whenList p { margin: 0; font-size: 15px; line-height: 1.48; }
+
+  /* Costs read as one calm three-step path, followed by one decision panel. */
+  .costCards { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0;
+    border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); }
+  .costCards li { position: relative; min-height: 250px; padding: 30px clamp(22px, 3vw, 38px) 32px; border: 0; border-left: 1px solid var(--line);
+    border-radius: 0; background: transparent; }
+  .costCards li:first-child { border-left: 0; padding-left: 0; }
+  .costCards li:last-child { padding-right: 0; }
+  .costNum { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 32px; border: 1px solid var(--accent); border-radius: 50%;
+    font-size: 11px; font-weight: 700; letter-spacing: .13em; color: var(--accent); }
+  .costCards h3 { margin: 0 0 10px; font-size: clamp(21px, 2vw, 26px); text-wrap: balance; }
+  .costCards p { max-width: 27rem; margin: 0; font-size: 15.5px; line-height: 1.55; }
+  .costFactors { display: grid; grid-template-columns: minmax(12rem, .72fr) minmax(0, 1.28fr); gap: 18px clamp(32px, 6vw, 88px);
+    margin-top: clamp(34px, 5vw, 60px); padding: clamp(28px, 4vw, 48px); border-top: 2px solid var(--bronze); background: var(--stone); }
+  .costFactors h3 { margin: 0; font-size: clamp(25px, 2.3vw, 32px); text-wrap: balance; }
+  .factors { list-style: none; margin: 0; padding: 0; counter-reset: factor; }
+  .factors li { counter-increment: factor; display: grid; grid-template-columns: 2rem 8rem minmax(0, 1fr); gap: 14px; padding: 14px 0;
+    border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.5; }
+  .factors li::before { content: '0' counter(factor); padding-top: 1px; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: var(--accent); }
   .factors li:last-child { border-bottom: 1px solid var(--line); }
-  .factors b { color: var(--heading); font-weight: 600; }
-  .priceFrom { grid-column: 2; margin: 14px 0 0; padding: 12px 16px; border-radius: 3px; background: var(--bronze-tint); color: var(--heading); }
-  @media (max-width: 900px) {
-    .whenCols { grid-template-columns: minmax(0, 1fr); gap: 22px; }
-    .whenList li { grid-template-columns: 60px minmax(0, 1fr); gap: 12px; padding: 12px 0; }
-    .whenList h4 { font-size: 17px; }
-    .whenList p { font-size: 14.5px; }
-    .costCards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-    .costCards li { padding: 18px 18px 16px; }
-    .costNum { margin-bottom: 8px; }
-    .costCards h3 { font-size: 18px; }
-    .costCards p { font-size: 14.5px; }
-    .costFactors { grid-template-columns: minmax(0, 1fr); margin-top: 24px; }
-    .factors li { grid-template-columns: minmax(0, 1fr); gap: 2px; font-size: 14.5px; }
-    .priceFrom { grid-column: auto; }
-  }
-  /* ===== FAQ (2026-09-28): compact, two columns on laptops ===== */
-  .faqIntro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 32px; align-items: end; margin-bottom: clamp(24px, 3vw, 36px); }
-  .faqIntro .eyebrow, .faqIntro h2, .faqIntro .faqAside { grid-column: 1; }
-  .faqIntro h2 { max-width: 22ch; margin: 0; }
-  .faqAside { max-width: 34rem; margin: 10px 0 0; font-size: 16px; color: var(--soft); }
-  .faqIntro .cta { grid-column: 2; grid-row: 2 / span 2; margin: 0; }
-  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; align-items: start; }
-  .faq details { border: 1px solid var(--line); border-radius: 3px; background: #fff; }
-  .faq summary { display: grid; grid-template-columns: minmax(0, 1fr) 30px; gap: 12px; align-items: center; min-height: 56px; padding: 12px 14px 12px 18px;
-    cursor: pointer; list-style: none; font-size: 15.5px; font-weight: 600; line-height: 1.35; color: var(--heading); }
+  .factors b { color: var(--heading); font-weight: 650; }
+  .priceFrom { grid-column: 2; margin: 0; padding: 14px 18px; border-left: 2px solid var(--bronze); border-radius: 0; background: var(--bronze-tint); color: var(--heading); }
+
+  /* Booking: a focused consultation stage, with the working widget untouched. */
+  #buchen { position: relative; isolation: isolate; overflow: hidden; border-block: 1px solid rgba(201, 176, 138, .18);
+    background: radial-gradient(circle at 8% 12%, rgba(128, 106, 72, .17), transparent 28%),
+      radial-gradient(circle at 88% 86%, rgba(201, 176, 138, .08), transparent 32%), var(--night); }
+  #buchen::before { content: ''; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(50% - 1px); width: 1px;
+    background: linear-gradient(transparent, rgba(201, 176, 138, .22) 16% 84%, transparent); pointer-events: none; }
+  .band--buchen .inner { grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(46px, 7vw, 104px); }
+  .band--buchen .intro { padding-top: clamp(12px, 2vw, 26px); }
+  .band--buchen h2 { max-width: 15ch; font-size: clamp(38px, 4vw, 58px); }
+  .band--buchen .intro > p:not(.eyebrow) { max-width: 34rem; color: var(--text); }
+  .introFacts { display: grid; gap: 0; margin-top: 30px; border-top: 1px solid var(--line); }
+  .introFacts li { grid-template-columns: 26px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+  .introFacts li::before { content: '✓'; display: grid; place-items: center; width: 20px; height: 20px; margin-top: 3px; border: 1px solid var(--accent);
+    border-radius: 50%; background: transparent; color: var(--accent); font-size: 11px; }
+  .bk { padding: clamp(20px, 2.6vw, 30px); border-radius: 4px; border-color: rgba(201, 176, 138, .3);
+    background: #fcfbf8; box-shadow: 0 48px 100px -56px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .04); }
+  .bkSteps { counter-reset: booking-step; gap: 0; margin-bottom: 22px; }
+  .bkSteps li { counter-increment: booking-step; display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 8px; padding-bottom: 12px; }
+  .bkSteps li::before { content: counter(booking-step); display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--line);
+    border-radius: 50%; font-size: 11px; font-weight: 700; }
+  .bkSteps li.on::before, .bkSteps li.done::before { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+  /* FAQ keeps the efficient two-column scan, but loses the generic card wall. */
+  .faqIntro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(17rem, .65fr); gap: 10px clamp(40px, 8vw, 116px);
+    align-items: start; margin-bottom: clamp(34px, 5vw, 62px); }
+  .faqIntro .eyebrow { grid-column: 1 / -1; }
+  .faqIntro h2 { grid-column: 1; grid-row: 2 / span 2; max-width: 18ch; margin: 0; }
+  .faqAside { grid-column: 2; grid-row: 2; max-width: 30rem; margin: 4px 0 0; font-size: 16px; color: var(--soft); }
+  .faqIntro .cta { grid-column: 2; grid-row: 3; margin: 16px 0 0; }
+  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(30px, 5vw, 72px); align-items: start; counter-reset: faq; }
+  .faq details { counter-increment: faq; margin-bottom: -1px; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    border-radius: 0; background: transparent; transition: background-color .25s ease; }
+  .faq details[open] { background: color-mix(in srgb, var(--bronze-tint) 50%, transparent); }
+  .faq summary { display: grid; grid-template-columns: 34px minmax(0, 1fr) 34px; gap: 12px; align-items: center; min-height: 78px;
+    padding: 14px 8px 14px 0; cursor: pointer; list-style: none; font-size: 16px; font-weight: 600; line-height: 1.35; color: var(--heading); }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: ''; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line-strong);
+  .faq summary::before { content: counter(faq, decimal-leading-zero); font-size: 10.5px; font-weight: 700; letter-spacing: .12em; color: var(--accent); }
+  .faq summary::after { content: ''; width: 32px; height: 32px; border: 1px solid var(--line-strong); border-radius: 50%;
     background: linear-gradient(var(--accent), var(--accent)) center / 10px 1.5px no-repeat, linear-gradient(var(--accent), var(--accent)) center / 1.5px 10px no-repeat;
-    transition: transform .3s var(--ease); }
-  .faq details[open] summary::after { transform: rotate(45deg); }
+    transition: transform .3s var(--ease), border-color .2s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); border-color: var(--accent); }
   .faq summary:hover { color: var(--accent-hover); }
-  .faq details p { margin: 0; padding: 0 18px 16px; font-size: 15px; line-height: 1.55; }
-  /* ===== Practice (2026-09-28): text and facts beside the map, as on the veneer page ===== */
-  .praxisGrid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
-  .praxisText h2 { max-width: 20ch; }
-  .praxisSoft { max-width: 34rem; font-size: 16px; color: var(--soft); }
-  .praxisFacts { margin: 22px 0 0; }
-  .praxisFacts > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .faq details p { margin: 0; padding: 0 50px 22px 46px; font-size: 15px; line-height: 1.62; }
+
+  /* Practice: more map, quieter facts, and a stronger final destination. */
+  .praxisGrid { display: grid; grid-template-columns: minmax(0, .88fr) minmax(360px, 1.12fr); gap: clamp(42px, 7vw, 104px); align-items: stretch; }
+  .praxisText { align-self: center; padding: 12px 0; }
+  .praxisText h2 { max-width: 17ch; }
+  .praxisSoft { max-width: 32rem; font-size: 16px; color: var(--soft); }
+  .praxisFacts { margin: 28px 0 0; }
+  .praxisFacts > div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 20px; padding: 17px 0; border-top: 1px solid var(--line); }
   .praxisFacts > div:last-child { border-bottom: 1px solid var(--line); }
-  .praxisFacts dt { padding-top: 3px; font-size: 12px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
+  .praxisFacts dt { padding-top: 3px; font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--soft); }
   .praxisFacts dd { margin: 0; font-size: 15.5px; color: var(--heading); }
-  .reviewNote { margin: 14px 0 0; font-size: 14px; color: var(--soft); }
-  .mapTile { border-radius: 3px; }
+  .reviewNote { max-width: 32rem; margin: 16px 0 0; font-size: 13.5px; color: var(--soft); }
+  .mapTile { min-height: 500px; aspect-ratio: auto; border-radius: 3px; box-shadow: 0 36px 70px -44px rgba(23, 24, 26, .5); }
+  .mapLabel { left: 18px; right: 18px; bottom: 18px; padding: 14px 16px; border-radius: 3px; }
   /* ===== Footer (2026-09-28): the veneer page's editorial colophon ===== */
   footer { padding: clamp(56px, 8vw, 96px) var(--gutter) 48px; }
   .colophon { max-width: 74rem; margin: 0 auto; }
   .colophonMark { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .42em; color: var(--heading); }
   .colophonLead { margin: 14px 0 30px; font-family: var(--serif); font-size: clamp(40px, 6vw, 84px); line-height: 1; letter-spacing: -.02em; color: var(--heading); }
   @media (max-width: 900px) {
-    .faqIntro { grid-template-columns: minmax(0, 1fr); }
-    .faqIntro .cta { grid-column: 1; grid-row: auto; margin-top: 12px; }
-    .faq { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-    .faq summary { min-height: 48px; padding: 10px 12px 10px 14px; font-size: 15px; }
-    .faq details p { padding: 0 14px 14px; font-size: 14.5px; }
-    .praxisGrid { grid-template-columns: minmax(0, 1fr); }
-    .praxisFacts > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-    .mapTile { aspect-ratio: 16 / 10; }
+    #wann .sectionHead, #kosten .sectionHead { display: block; }
+    #wann .sectionHead h2, #kosten .sectionHead h2 { margin-bottom: 12px; }
+    #wann .sectionHead .lede, #kosten .sectionHead .lede { max-width: 42rem; }
+    .whenCols { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .whenList li { grid-template-columns: minmax(170px, 38%) minmax(0, 1fr); }
+    .whenList h4 { font-size: 21px; }
+    .costCards { grid-template-columns: minmax(0, 1fr); border: 0; }
+    .costCards li, .costCards li:first-child, .costCards li:last-child { display: grid; grid-template-columns: 50px minmax(0, 1fr); gap: 4px 18px;
+      min-height: 0; padding: 22px 0; border: 0; border-top: 1px solid var(--line); }
+    .costCards li:last-child { border-bottom: 1px solid var(--line); }
+    .costNum { grid-row: 1 / span 2; margin: 0; }
+    .costCards h3 { grid-column: 2; max-width: none; font-size: 21px; }
+    .costCards p { grid-column: 2; font-size: 15px; }
+    .costFactors { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 32px; padding: 26px 22px; }
+    .costFactors h3 { max-width: none; }
+    .priceFrom { grid-column: auto; }
+    #buchen::before { display: none; }
+    .band--buchen .inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .band--buchen .intro { padding-top: 0; }
+    .band--buchen h2 { max-width: 18ch; font-size: clamp(32px, 7vw, 46px); }
+    .introFacts { display: grid; margin-top: 22px; }
+    .bk { width: 100%; }
+    .faqIntro { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .faqIntro .eyebrow, .faqIntro h2, .faqAside, .faqIntro .cta { grid-column: 1; grid-row: auto; }
+    .faqAside { margin-top: 12px; }
+    .faqIntro .cta { margin-top: 18px; }
+    .faq { grid-template-columns: minmax(0, 1fr); }
+    .faq summary { min-height: 68px; }
+    .praxisGrid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .praxisText { padding: 0; }
+    .praxisFacts > div { grid-template-columns: minmax(7rem, .36fr) minmax(0, 1fr); gap: 16px; }
+    .mapTile { min-height: 0; aspect-ratio: 16 / 10; }
     .colophonLead { margin-bottom: 22px; font-size: clamp(34px, 11vw, 48px); }
+  }
+  @media (max-width: 600px) {
+    .whenCols { gap: 34px; }
+    .whenList { margin-top: 8px; }
+    .whenList li { grid-template-columns: minmax(124px, 44%) minmax(0, 1fr); gap: 13px; padding: 14px 0; }
+    .whenList h4 { margin-bottom: 5px; font-size: 17px; }
+    .whenList p { font-size: 13.5px; line-height: 1.42; }
+    .costCards li, .costCards li:first-child, .costCards li:last-child { grid-template-columns: 44px minmax(0, 1fr); gap: 4px 14px; padding: 18px 0; }
+    .costNum { width: 40px; height: 40px; }
+    .costCards h3 { font-size: 18px; }
+    .costCards p { font-size: 14px; }
+    .costFactors { margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+    .factors li { grid-template-columns: 1.7rem minmax(0, 1fr); gap: 3px 10px; font-size: 14px; }
+    .factors li::before { grid-row: 1 / span 2; }
+    .factors b, .factors span { grid-column: 2; }
+    .band--buchen .inner { gap: 22px; }
+    .introFacts li { font-size: 14px; }
+    .bk { padding: 16px 14px 18px; }
+    .bkSteps li { grid-template-columns: 24px minmax(0, 1fr); gap: 5px; font-size: 11.5px; }
+    .bkSteps li::before { width: 21px; height: 21px; font-size: 10px; }
+    .faqIntro { margin-bottom: 28px; }
+    .faq summary { grid-template-columns: 28px minmax(0, 1fr) 32px; gap: 8px; min-height: 64px; padding-right: 2px; font-size: 14.5px; }
+    .faq summary::after { width: 30px; height: 30px; }
+    .faq details p { padding: 0 34px 18px 36px; font-size: 14px; }
+    .praxisFacts > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .mapTile { aspect-ratio: 4 / 3; }
+    .mapLabel { left: 10px; right: 10px; bottom: 10px; padding: 11px 12px; font-size: 12.5px; }
   }
   /* ===== Arrivals (2026-09-28, ported from the veneer page) =====
      Headings, cards, rows and pictures rise or wipe into place once, the
@@ -1162,6 +1252,42 @@
     .js.m-calm .m-rise.m-in { opacity: 1; }
     .js.m-calm .m-wipe img { opacity: 0; transition: opacity .9s ease var(--m-delay, 0s); }
     .js.m-calm .m-wipe.m-in img { opacity: 1; }
+  }
+  /* ===== Smile bands ===== */
+  .smileBand { --smile-edge: max(var(--gutter), calc((100vw - 74rem) / 2 + var(--gutter))); position: relative; height: clamp(340px, 44vw, 700px); margin: 0; overflow: hidden; isolation: isolate; background-color: var(--night); color: #f4efe6; }
+  .smileBand--light { background-color: var(--stone); color: var(--ink); }
+  .smileBand picture, .smileBand picture img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .smileBand picture { z-index: 0; }
+  .smileBand picture img { object-fit: cover; object-position: var(--smile-x, 50%) var(--smile-y, 50%); }
+  .smileBand::after { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(11, 12, 13, .98) 0%, rgba(11, 12, 13, .88) 37%, rgba(11, 12, 13, 0) 65%); }
+  .smileBand--left::after { background: linear-gradient(270deg, rgba(11, 12, 13, .98) 0%, rgba(11, 12, 13, .88) 37%, rgba(11, 12, 13, 0) 65%); }
+  .smileBand--light::after { background: linear-gradient(90deg, rgba(239, 235, 228, .98) 0%, rgba(239, 235, 228, .9) 37%, rgba(239, 235, 228, 0) 65%); }
+  .smileBand__text { position: absolute; z-index: 2; inset-block: 0; display: flex; flex-direction: column; justify-content: center; margin: 0; }
+  .smileBand--right .smileBand__text { left: var(--smile-edge); right: 54%; align-items: flex-start; }
+  .smileBand--left .smileBand__text { left: 54%; right: var(--smile-edge); align-items: flex-start; }
+  .smileBand__text::before { content: ''; width: 44px; height: 2px; margin-bottom: 22px; background: var(--bronze-light); }
+  .smileBand--light .smileBand__text::before { background: var(--bronze); }
+  .smileBand__line { max-width: 13em; margin: 0; font-family: var(--serif); font-size: clamp(30px, 3.2vw, 48px); line-height: 1.1; letter-spacing: -.025em; text-wrap: balance; }
+  .smileBand__line em { font-weight: 400; }
+  .smileBand__text .btn { margin-top: 28px; }
+  .smileBand > .aiTag { z-index: 3; bottom: 14px; }
+  .smileBand--right > .aiTag { right: var(--gutter); }
+  .smileBand--left > .aiTag { right: auto; left: var(--gutter); }
+  #smile1 { --smile-y: 30%; }
+  #smile2 { --smile-y: 26%; }
+  #smile3 { --smile-y: 26%; }
+  @media (max-width: 700px) {
+    .smileBand { height: auto; }
+    .smileBand::after { display: none; }
+    .smileBand picture { position: relative; display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; }
+    .smileBand picture img { object-position: 50% 50%; }
+    .smileBand__text, .smileBand--right .smileBand__text, .smileBand--left .smileBand__text { position: relative; inset: auto; display: flex; min-height: 0; padding: 22px 20px 34px; }
+    .smileBand__text::before { margin-bottom: 16px; }
+    .smileBand__line { font-size: 27px; line-height: 1.12; }
+    .smileBand__text .btn { align-self: flex-start; min-height: 46px; margin-top: 20px; padding-inline: 18px; }
+    .smileBand > .aiTag { top: 12px; bottom: auto; }
+    .smileBand--right > .aiTag { right: auto; left: 12px; }
+    .smileBand--left > .aiTag { right: 12px; left: auto; }
   }
 </style>
 </head>
@@ -1226,7 +1352,10 @@
 
 <section class="hero tone-night" aria-labelledby="heroH">
   <figure class="heroMedia">
-    <img src="assets/photos/ai/hero.webp" width="1000" height="1250" decoding="async" fetchpriority="high" data-i18n-alt="hero.imgAlt" alt="Ein Lächeln in Nahaufnahme; eine behandschuhte Hand hält einen Musterzahn der Farbskala an die Frontzähne (KI-generiertes Bild)">
+    <picture>
+      <source media="(max-width: 900px)" srcset="assets/photos/ai/hero-smile-960.webp">
+      <img src="assets/photos/ai/hero-smile.webp" width="1600" height="1600" decoding="async" fetchpriority="high" data-i18n-alt="hero.imgAlt" alt="Nahaufnahme eines natürlich hellen Lächelns (KI-generiertes Bild)">
+    </picture>
     <span class="aiTag" aria-hidden="true" data-i18n="ai.symbol">KI-generiert · Symbolbild</span>
   </figure>
   <div class="wrap heroInner">
@@ -1347,6 +1476,18 @@
   </div>
 </section>
 
+<figure class="smileBand smileBand--right smileBand--light" id="smile1">
+  <picture>
+    <source media="(max-width: 700px)" srcset="assets/photos/ai/smile-band-1-sq.webp">
+    <source media="(max-width: 1100px)" srcset="assets/photos/ai/smile-band-1-960.webp">
+    <img src="assets/photos/ai/smile-band-1.webp" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="smile.alt1" alt="Eine junge Frau lacht, mit hellen, natürlichen Zähnen (KI-generiertes Bild)">
+  </picture>
+  <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l1">Heller – und trotzdem <em>Ihr eigenes Lächeln.</em></p>
+  </figcaption>
+</figure>
+
 <section class="section tone-night band--measure" id="messen" aria-labelledby="s2H">
   <div class="wrap measure">
     <figure class="media measurePhoto">
@@ -1406,7 +1547,7 @@
       <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt. Das klären wir bei der Untersuchung.</p>
     </div>
     <div class="whenCols">
-      <div>
+      <div class="whenGroup">
         <h3 class="verdict verdict--good" data-i18n="when.goodH">Spricht gut an</h3>
         <ul class="whenList">
         <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-coffee.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h4><p data-i18n="when.p1">Die häufigste Verfärbung – und die, die am besten anspricht.</p></div></li>
@@ -1414,7 +1555,7 @@
         <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-smoking.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t3">Verfärbungen durch Rauchen</h4><p data-i18n="when.p3">Die Reinigung nimmt die Beläge, das Bleaching das Eingelagerte.</p></div></li>
         </ul>
       </div>
-      <div>
+      <div class="whenGroup">
         <h3 class="verdict verdict--limit" data-i18n="when.limitH">Stößt an Grenzen</h3>
         <ul class="whenList">
         <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-grey.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t4">Grau, oft durch Medikamente</h4><p data-i18n="when.p4">Etwa nach Antibiotika in der Kindheit: hellt zurückhaltender und ungleichmäßiger auf.</p></div></li>
@@ -1425,6 +1566,18 @@
     </div>
   </div>
 </section>
+
+<figure class="smileBand smileBand--left" id="smile2">
+  <picture>
+    <source media="(max-width: 700px)" srcset="assets/photos/ai/smile-band-2-sq.webp">
+    <source media="(max-width: 1100px)" srcset="assets/photos/ai/smile-band-2-960.webp">
+    <img src="assets/photos/ai/smile-band-2.webp" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="smile.alt2" alt="Ein Mann um die 40 lächelt, mit hellen Zähnen (KI-generiertes Bild)">
+  </picture>
+  <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l2">Lachen, ohne <em>die Hand vor dem Mund.</em></p>
+  </figcaption>
+</figure>
 
 <section class="section" id="kosten" aria-labelledby="kostenH">
   <div class="wrap">
@@ -1576,6 +1729,19 @@
   </div>
 </section>
 
+<figure class="smileBand smileBand--right" id="smile3">
+  <picture>
+    <source media="(max-width: 700px)" srcset="assets/photos/ai/smile-band-3-sq.webp">
+    <source media="(max-width: 1100px)" srcset="assets/photos/ai/smile-band-3-960.webp">
+    <img src="assets/photos/ai/smile-band-3.webp" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="smile.alt3" alt="Eine Frau mit silbernem Haar lächelt, mit hellen Zähnen (KI-generiertes Bild)">
+  </picture>
+  <span class="aiTag" aria-hidden="true" data-i18n="ai.tag">KI-generiert</span>
+  <figcaption class="smileBand__text">
+    <p class="smileBand__line" data-i18n="smile.l3">Der erste Schritt: <em>Ihre Zahnfarbe messen.</em></p>
+    <a class="btn" href="#buchen" data-cta="book" data-i18n="smile.cta">Beratungstermin buchen</a>
+  </figcaption>
+</figure>
+
 <section class="section tone-stone band--praxis" id="praxis" aria-labelledby="praxisH">
   <div class="wrap praxisGrid">
     <div class="praxisText">
@@ -1683,9 +1849,9 @@
       '.costCards li', '.costFactors',
       '.band--buchen .intro > *', '.bk',
       '.faqIntro > *', '.faq details',
-      '.praxisText > *', 'body > footer .colophon > *'
+      '.praxisText > *', '.smileBand__text > *', 'body > footer .colophon > *'
     ].join(', ');
-    var WIPE = ['.doctorFeature__photo', '.measurePhoto', '.frame--method', '.mapTile'].join(', ');
+    var WIPE = ['.doctorFeature__photo', '.measurePhoto', '.frame--method', '.mapTile', '.smileBand'].join(', ');
     var items = [].slice.call(document.querySelectorAll(RISE));
     items.forEach(function (el) { el.classList.add('m-rise'); });
     var wipes = [].slice.call(document.querySelectorAll(WIPE));

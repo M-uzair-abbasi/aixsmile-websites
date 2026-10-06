@@ -91,21 +91,15 @@ source) and `js/src/` are in `.vercelignore`.
 
 ## The AI images
 
-In use, all dental and labelled "KI-generiert": `hero.webp` (the hero's
-placeholder until the final smile close-up arrives), `shade-fan.webp`
-(measuring band), `in-office.webp`, `at-home.webp`, `gel.webp` (methods) and
-the six `stain-*.webp` (when it helps). None is shown as a result; results
-come only from the two real cases.
-
-**Swapping in the final hero image:** save the owner's ChatGPT image as
-`assets/photos/ai/incoming/hero-smile.png`; write `hero-smile.webp` (2400 px
-wide, quality 82) and `hero-smile-phone.webp` (a 1200×900 crop centred on the
-smile) with PIL; point the hero `<img>` and the `<link rel="preload">` at them
-(a `<picture>` with a `(max-width: 900px)` source for the phone crop); change
-the German alt text to „Nahaufnahme eines natürlichen, hellen Lächelns
-(KI-generiertes Bild)“ and `EN.hero.imgAlt` to "A natural, bright smile in
-close-up (AI-generated image)"; add `"hero-smile.webp": "real-image"` to
-`tools/placeholders.json`; run the checks.
+In use, all dental and labelled "KI-generiert": `hero-smile.webp` and
+`hero-smile-960.webp`; `smile-band-1.webp`, `smile-band-1-960.webp`,
+`smile-band-1-sq.webp`, `smile-band-2.webp`, `smile-band-2-960.webp`,
+`smile-band-2-sq.webp`, `smile-band-3.webp`, `smile-band-3-960.webp` and
+`smile-band-3-sq.webp`; `shade-fan.webp` (measuring band); `in-office.webp`,
+`at-home.webp`, `gel.webp` (methods); and the six `stain-*.webp` files (when it
+helps). The hero and all three smile-band portraits were generated specifically
+for this bleaching page and were not taken from or adapted from the veneer
+page. None is shown as a result; results come only from the two real cases.
 
 ## Before going live
 
