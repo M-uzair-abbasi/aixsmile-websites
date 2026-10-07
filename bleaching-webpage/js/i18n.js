@@ -20,7 +20,6 @@ export const EN = {
     home: 'AIXSMILE – back to top', book: 'Book a consultation', call: 'Call: 0241 31202',
     sections: 'Page sections', behandlung: 'Treatment', faelle: 'Cases', methoden: 'Methods', kosten: 'Costs', faq: 'Questions',
   },
-  ai: { tag: 'AI-generated', symbol: 'AI-generated · illustration' },
   proc: {
     eyebrow: 'The treatment in 3D',
     h2: 'How <em>whitening works.</em>',
@@ -142,7 +141,7 @@ export const EN = {
     taken: 'Someone booked this time in the meantime. Please pick another one.',
     daysAria: 'Days', morning: 'Morning', afternoon: 'Afternoon',
     quickH: 'Fastest', calPrev: 'Previous month', calNext: 'Next month', calHint: 'Marked days have open times. Bookable up to six months ahead.',
-    timesH: 'Time', timesEmpty: 'Pick a day on the left and the open times appear here.',
+    timesH: 'Time', timesEmpty: 'Pick a day and the open times appear here.',
     noDays: 'No time is open online at the moment. On the phone we usually still find one.',
     change: 'Change',
     first: 'First name *', last: 'Last name *', phone: 'Phone *', email: 'Email *',

@@ -91,7 +91,9 @@ source) and `js/src/` are in `.vercelignore`.
 
 ## The AI images
 
-In use, all dental and labelled "KI-generiert": `hero-smile.webp` and
+In use, no longer with a visible "KI-generiert" label (removed at the owner's
+request on 2026-10-07; the alt texts and the Impressum still say they are
+AI-generated): `hero-smile.webp` and
 `hero-smile-960.webp`; `smile-band-1.webp`, `smile-band-1-960.webp`,
 `smile-band-1-sq.webp`, `smile-band-2.webp`, `smile-band-2-960.webp`,
 `smile-band-2-sq.webp`, `smile-band-3.webp`, `smile-band-3-960.webp` and

@@ -97,7 +97,7 @@ try {
     await ctx.close();
   }
 
-  // ---- hero: two buttons, the image labelled ----
+  // ---- hero: two buttons, no visible AI label (removed at the owner's request, 2026-10-07) ----
   {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await ctx.newPage(); await mockApi(page);
@@ -105,11 +105,11 @@ try {
     const h = await page.evaluate(() => ({
       book: document.querySelector('.heroCta .btn[data-cta="book"]')?.getAttribute('href'),
       cases: document.querySelector('.heroCta .btn.ghost')?.getAttribute('href'),
-      tag: document.querySelector('.heroMedia .aiTag')?.textContent,
+      labels: document.querySelectorAll('.aiTag').length,
       em: !!document.querySelector('.hero h1 em'),
     }));
     ok('hero: a book button to #buchen and a cases button to #faelle', h.book === '#buchen' && h.cases === '#faelle', JSON.stringify(h));
-    ok('hero: the image is labelled as AI-generated and the headline has its italic phrase', /KI-generiert/.test(h.tag || '') && h.em, h.tag);
+    ok('hero: no visible AI labels on the page, and the headline has its italic phrase', h.labels === 0 && h.em, JSON.stringify(h));
     await ctx.close();
   }
 
@@ -188,8 +188,9 @@ try {
       lead: document.querySelector('.colophonLead')?.textContent.trim(),
       mini: !!document.getElementById('miniToggle') && !!document.getElementById('miniSlots'),
     }));
-    ok('lower page: large stain images, dark booking, two-column FAQ, practice facts and footer intact',
-      b.dark && b.faqCols === 2 && b.whenThumbs.length === 6 && b.whenThumbs.every((r) => r.w >= 180 && r.h >= 130)
+    // the stain pictures stay readable (140x100, as on phones) while the section fits one laptop screen
+    ok('lower page: readable stain images, dark booking, two-column FAQ, practice facts and footer intact',
+      b.dark && b.faqCols === 2 && b.whenThumbs.length === 6 && b.whenThumbs.every((r) => r.w >= 140 && r.h >= 100)
         && b.facts === 3 && b.lead === 'It’s time to smile.' && b.mini, JSON.stringify(b));
     await ctx.close();
   }

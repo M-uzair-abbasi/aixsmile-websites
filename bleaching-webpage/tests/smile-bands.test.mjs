@@ -23,7 +23,7 @@ test('responsive hero and three localized smile bands appear in the agreed order
       id: band.id,
       line: band.querySelector('.smileBand__line')?.textContent.trim(),
       alt: band.querySelector('img')?.alt,
-      tag: band.querySelector('.aiTag')?.textContent.trim(),
+      tag: band.querySelector('.aiTag'),
     })),
     cta: document.querySelector('#smile3 [data-cta="book"]')?.textContent.trim(),
   }));
@@ -34,7 +34,8 @@ test('responsive hero and three localized smile bands appear in the agreed order
   assert.deepEqual(de.bands.map(({ id }) => id), ['smile1', 'smile2', 'smile3']);
   assert.match(de.bands[0].line, /Heller/);
   assert.match(de.bands[2].line, /Der erste Schritt/);
-  assert.ok(de.bands.every(({ alt, tag }) => /KI-generiert/.test(alt) && tag === 'KI-generiert'));
+  // no visible AI label (owner's request, 2026-10-07); the alt text still says what the picture is
+  assert.ok(de.bands.every(({ alt, tag }) => /KI-generiert/.test(alt) && tag === null));
   assert.equal(de.cta, 'Beratungstermin buchen');
 
   await page.click('#langToggle');
