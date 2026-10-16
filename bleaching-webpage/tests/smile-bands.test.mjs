@@ -28,8 +28,8 @@ test('responsive hero and three localized smile bands appear in the agreed order
     cta: document.querySelector('#smile3 [data-cta="book"]')?.textContent.trim(),
   }));
 
-  assert.equal(de.heroDesktop, 'assets/photos/ai/hero-smile.webp');
-  assert.equal(de.heroMobile, 'assets/photos/ai/hero-smile-960.webp');
+  assert.equal(de.heroDesktop, 'assets/photos/ai/smile-band-1.webp');
+  assert.equal(de.heroMobile, 'assets/photos/ai/smile-band-1-sq.webp');
   assert.deepEqual(de.order, ['smile1', 'smile2', 'smile3']);
   assert.deepEqual(de.bands.map(({ id }) => id), ['smile1', 'smile2', 'smile3']);
   assert.match(de.bands[0].line, /Heller/);
@@ -45,7 +45,7 @@ test('responsive hero and three localized smile bands appear in the agreed order
     alts: [...document.querySelectorAll('.smileBand img')].map((img) => img.alt),
     cta: document.querySelector('#smile3 [data-cta="book"]')?.textContent.trim(),
   }));
-  assert.match(en.lines[0], /Brighter/);
+  assert.match(en.lines[0], /Lighter/);
   assert.match(en.lines[1], /Laughing/);
   assert.match(en.lines[2], /first step/);
   assert.ok(en.alts.every((alt) => /AI-generated image/.test(alt)));

@@ -87,7 +87,7 @@ try {
     const before = await page.evaluate(() => ({ h1: document.querySelector('h1').innerHTML, title: document.title }));
     await page.click('#langToggle');
     const en = await page.evaluate(() => ({ h1: document.querySelector('h1').textContent, title: document.title, lang: document.documentElement.lang}));
-    ok('English applies to headline, title and html lang', /measured, not guessed/.test(en.h1) && /whitening/i.test(en.title) && en.lang === 'en', `${en.h1} | ${en.lang}`);
+    ok('English applies to headline, title and html lang', /whitening in Aachen, measured before and after/.test(en.h1) && /whitening/i.test(en.title) && en.lang === 'en', `${en.h1} | ${en.lang}`);
     await page.reload({ waitUntil: 'load' });
     const kept = await page.evaluate(() => document.documentElement.lang);
     ok('the language choice survives a reload', kept === 'en', kept);
@@ -106,10 +106,11 @@ try {
       book: document.querySelector('.heroCta .btn[data-cta="book"]')?.getAttribute('href'),
       cases: document.querySelector('.heroCta .btn.ghost')?.getAttribute('href'),
       labels: document.querySelectorAll('.aiTag').length,
-      em: !!document.querySelector('.hero h1 em'),
+      plain: !document.querySelector('h1 em, h2 em, main .eyebrow'),
     }));
     ok('hero: a book button to #buchen and a cases button to #faelle', h.book === '#buchen' && h.cases === '#faelle', JSON.stringify(h));
-    ok('hero: no visible AI labels on the page, and the headline has its italic phrase', h.labels === 0 && h.em, JSON.stringify(h));
+    // plain voice (2026-10-15): upright headings without an italic phrase, no labels above them
+    ok('hero: no visible AI labels, headings upright and without section labels', h.labels === 0 && h.plain, JSON.stringify(h));
     await ctx.close();
   }
 
@@ -122,7 +123,7 @@ try {
       next: document.querySelector('main > section.hero').nextElementSibling?.id,
       photo: document.querySelector('.doctorFeature__photo img')?.getAttribute('src'),
       quote: document.querySelector('.doctorFeature__quote p')?.textContent,
-      facts: document.querySelectorAll('.doctorFeature__facts > div').length,
+      facts: document.querySelectorAll('.doctorFeature__facts > span').length,
     }));
     ok('doctor: follows the hero, suit portrait, quote and three facts', d.next === 'behandler' && /doctor-molaie/.test(d.photo || '') && /Lebensfreude/.test(d.quote || '') && d.facts === 3, JSON.stringify(d));
     await ctx.close();
@@ -141,7 +142,7 @@ try {
     await ctx.close();
   }
 
-  // ---- methods: three cards, and the nav points at sections that exist ----
+  // ---- methods: three rows of one comparison table, and the nav points at sections that exist ----
   {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await ctx.newPage(); await mockApi(page);
@@ -151,11 +152,11 @@ try {
       missing: [...document.querySelectorAll('.navLinks a')].map((a) => a.getAttribute('href')).filter((h) => !document.querySelector(h)),
       old: !!document.getElementById('zwei-wege') || !!document.getElementById('ablauf'),
     }));
-    ok('methods: three cards; every nav link has its section; the old routes and Ablauf are gone', m.cards === 3 && m.missing.length === 0 && !m.old, JSON.stringify(m));
+    ok('methods: three rows in one table; every nav link has its section; the old routes and Ablauf are gone', m.cards === 3 && m.missing.length === 0 && !m.old, JSON.stringify(m));
     await ctx.close();
   }
 
-  // ---- phone: stain images stay readable; costs remain a three-step path ----
+  // ---- phone: stain images stay readable; costs are plain sentences plus three price factors ----
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const page = await ctx.newPage(); await mockApi(page);
@@ -165,11 +166,12 @@ try {
       thumbs: [...document.querySelectorAll('#wann .frame--thumb')].map((el) => {
         const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) };
       }),
-      cards: document.querySelectorAll('.costCards li').length,
+      plan: !!document.querySelector('#kosten [data-i18n="kosten.plan"]'),
+      factors: document.querySelectorAll('#kosten .factors li').length,
       afterMethods: document.getElementById('methoden').nextElementSibling?.id,
     }));
-    ok('phone: stain images are readable, groups use one column, and the three cost steps remain',
-      c.whenCols === 1 && c.thumbs.length === 6 && c.thumbs.every((r) => r.w >= 140 && r.h >= 100) && c.cards === 3 && c.afterMethods === 'wann', JSON.stringify(c));
+    ok('phone: stain images are readable, groups use one column, costs keep the plan sentence and three factors',
+      c.whenCols === 1 && c.thumbs.length === 6 && c.thumbs.every((r) => r.w >= 140 && r.h >= 100) && c.plan && c.factors === 3 && c.afterMethods === 'wann', JSON.stringify(c));
     await ctx.close();
   }
 
