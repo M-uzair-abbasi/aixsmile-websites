@@ -80,7 +80,9 @@ try {
       const pf = document.getElementById('priceFrom'); pf.textContent = 'Bleaching in der Praxis ab 290 €.'; pf.hidden = false;
       document.querySelectorAll('.faq details').forEach((d) => { d.open = true; });
     });
-    await page.waitForTimeout(1200);
+    // wait until every fade-in has finished (a fixed wait missed slow first paints)
+    await page.waitForFunction(() => [...document.querySelectorAll('.m-rise, .m-wipe img')].every((e) => Number(getComputedStyle(e).opacity) > 0.99), null, { timeout: 15000 }).catch(() => {});
+    await page.waitForTimeout(300);
     for (const lang of ['de', 'en']) {
       if (lang === 'en') { await page.click('#langToggle'); await page.waitForTimeout(150); }
       const { checked, fails } = await page.evaluate(audit);

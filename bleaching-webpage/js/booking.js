@@ -335,17 +335,19 @@ if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
   mapTile.href = 'https://maps.apple.com/?q=Zahnarztpraxis%20AIXSMILE&address=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe%2022-28%2C%2052062%20Aachen&ll=50.7768518,6.085097';
 }
 
-// Case photos: tap the expand button (or the photo) to see it large.
+// Case photos: tap the expand button to see the whole photo large.
 const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
 if (lb && lbImg) {
   let last = null;
   const open = (src, alt, from) => { lbImg.src = src; lbImg.alt = alt || ''; lb.hidden = false; document.body.style.overflow = 'hidden'; last = from; document.getElementById('lbClose').focus(); };
   const close = () => { lb.hidden = true; lbImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; document.body.style.overflow = ''; if (last) last.focus(); };
   document.querySelectorAll('.caseFrame').forEach((f) => {
-    const btn = f.querySelector('.expand'), img = f.querySelector('img');
-    const go = (e) => { e.preventDefault(); open(btn.dataset.expand, img.alt, btn); };
+    const btn = f.querySelector('.expand'), img = f.querySelector('img'), title = f.parentNode.querySelector('.caseBody b');
+    if (!btn) return;   // the hero's slider has no full-photo button
+    const go = (e) => { e.preventDefault(); open(btn.dataset.expand, title ? title.textContent : img.alt, btn); };
     btn.addEventListener('click', go);
-    img.addEventListener('click', go);
+    // on a compare slider a click moves the divider; only the button opens the photo
+    if (!f.classList.contains('compare')) img.addEventListener('click', go);
   });
   lb.addEventListener('click', (e) => { if (e.target !== lbImg) close(); });
   document.getElementById('lbClose').addEventListener('click', close);

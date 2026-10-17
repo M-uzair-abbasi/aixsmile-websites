@@ -20,6 +20,7 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" type="image/png" href="assets/tooth-mark.png?v=1" sizes="any">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/petrona-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/photos/ai/smile-band-1-sq.webp" media="(max-width: 900px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/photos/ai/smile-band-1.webp" media="(min-width: 901px)" fetchpriority="high">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
@@ -128,7 +129,7 @@
   .splash.is-leaving { opacity: 0; pointer-events: none; }
   html:not(.js) .splash { display: none; }
   .splashTooth { width: 96px; height: 112px; overflow: visible; }
-  .splashText { margin: 0; font-size: 11.5px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: #a39b8f; }
+  .splashText { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: #a39b8f; }
   .splashText [data-l="en"] { display: none; }
   html[lang="en"] .splashText [data-l="de"] { display: none; }
   html[lang="en"] .splashText [data-l="en"] { display: inline; }
@@ -203,7 +204,7 @@
   .langToggle { position: relative; display: inline-flex; align-items: center; padding: 3px; border: 1px solid var(--line-strong);
     border-radius: 999px; background: transparent; cursor: pointer; font: inherit; }
   .langToggle span { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 26px; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; color: var(--text); transition: color .3s ease; }
+    width: 32px; height: 26px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--text); transition: color .3s ease; }
   .langToggle::before { content: ''; position: absolute; top: 3px; left: 3px; width: 32px; height: 26px; border-radius: 999px;
     background: var(--ink); transition: transform .3s var(--ease); }
   .langToggle[data-active="en"]::before { transform: translateX(32px); }
@@ -501,7 +502,7 @@
   .quickBtn { display: grid; gap: 1px; text-align: left; padding: 8px 10px; min-height: 52px; border: 1px solid var(--line); border-radius: 12px;
     background: var(--paper-2); font: inherit; color: var(--ink); cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
   .quickBtn:hover { border-color: var(--accent); background: var(--foam); }
-  .quickBtn small { font-size: 11.5px; font-weight: 600; color: var(--accent); }
+  .quickBtn small { font-size: 12px; font-weight: 600; color: var(--accent); }
   .quickBtn b { font-size: 13.5px; font-weight: 600; line-height: 1.25; }
   /* the month calendar */
   /* constant height: the card never grows or shrinks between steps or when times appear */
@@ -580,7 +581,7 @@
   .doneNext { margin: 0 0 16px; padding: 0; list-style: none; counter-reset: dn; display: grid; gap: 8px; }
   .doneNext li { counter-increment: dn; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; font-size: 14.5px; color: var(--text); }
   .doneNext li::before { content: counter(dn); display: grid; place-items: center; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%;
-    background: var(--foam); color: var(--accent); font-size: 11.5px; font-weight: 700; }
+    background: var(--foam); color: var(--accent); font-size: 12px; font-weight: 700; }
   .doneActions { display: flex; flex-wrap: wrap; gap: 8px; }
   .doneActions .btn { min-height: 44px; padding: 0 18px; font-size: 14.5px; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
@@ -993,7 +994,7 @@
   .doctorFeature__quote p { margin: 0; color: var(--heading); font-family: var(--serif); font-size: clamp(20px, 1.7vw, 25px); font-style: italic; line-height: 1.35; }
   .doctorFeature__sign { display: grid; gap: 4px; margin-top: 14px; }
   .doctorFeature__sign b { color: var(--heading); font-size: 12px; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; }
-  .doctorFeature__sign span { color: var(--soft); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; }
+  .doctorFeature__sign span { color: var(--soft); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
   .doctorFeature__lede { margin: 24px 0 0; font-size: 16.5px; line-height: 1.6; }
   .doctorFeature__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 30px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
   .doctorFeature__facts div { padding: 0 14px; border-left: 1px solid var(--line); text-align: center; }
@@ -1216,7 +1217,7 @@
     .band--buchen .inner { gap: 22px; }
     .introFacts li { font-size: 14px; }
     .bk { padding: 16px 14px 18px; }
-    .bkSteps li { grid-template-columns: 24px minmax(0, 1fr); gap: 5px; font-size: 11.5px; }
+    .bkSteps li { grid-template-columns: 24px minmax(0, 1fr); gap: 5px; font-size: 12px; }
     .bkSteps li::before { width: 21px; height: 21px; font-size: 10px; }
     .faqIntro { margin-bottom: 28px; }
     .faq summary { grid-template-columns: 28px minmax(0, 1fr) 32px; gap: 8px; min-height: 64px; padding-right: 2px; font-size: 14.5px; }
@@ -1575,9 +1576,9 @@
     background: radial-gradient(circle at 39% 11%, rgba(255, 255, 255, .95), rgba(255, 255, 255, 0) 416px),
       linear-gradient(118deg, #fffdf9 0%, #f7f4ee 48%, #dfd0c0 100%); }
   .hero > .heroInner { grid-column: 1; grid-row: 1; align-self: center; width: auto; max-width: none; margin: 0;
-    padding: clamp(28px, 5vh, 56px) clamp(24px, 4vw, 64px) clamp(28px, 5vh, 56px) var(--hero-left); }
+    padding: clamp(28px, 5vh, 56px) clamp(20px, 2.5vw, 40px) clamp(28px, 5vh, 56px) var(--hero-left); }
   .heroCopy { max-width: 34rem; }
-  .hero h1 { margin: 0 0 20px; font-size: clamp(42px, 4.8vw, 69px); line-height: .94; letter-spacing: -.05em; color: var(--v-ink); }
+  .hero h1 { margin: 0 0 20px; font-size: clamp(42px, 4.6vw, 66px); line-height: .96; letter-spacing: -.03em; color: var(--v-ink); }
   .hero h1 .hl { color: var(--v-brown); }
   .lead { max-width: 30rem; font-size: 16.5px; line-height: 1.6; color: #4d625b; }
   .heroCta { align-items: center; gap: 22px; margin-top: 28px; }
@@ -1611,13 +1612,13 @@
     .heroMedia img { object-position: 50% 42%; }
     .hero > .heroInner { grid-column: 1; grid-row: 2; padding: 20px var(--gutter) 18px; }
     .heroCopy { max-width: none; }
-    .hero h1 { margin-bottom: 12px; font-size: clamp(34px, 9.4vw, 44px); line-height: .98; letter-spacing: -.04em; }
+    .hero h1 { margin-bottom: 12px; font-size: clamp(34px, 9.4vw, 44px); line-height: .98; letter-spacing: -.025em; }
     .lead { font-size: 15.5px; line-height: 1.55; }
     .heroCta { gap: 16px 22px; margin-top: 18px; }
     .heroCta .btn:not(.ghost) { min-height: 48px; }
     .heroTrust { display: none; }   /* on phones the practice strip and the case card say it */
     .heroCase { grid-column: 1; grid-row: 3; justify-self: stretch; width: auto; margin: 0 var(--gutter) 20px; }
-    .proofStrip { grid-row: 4; justify-content: flex-start; font-size: 11.5px; }
+    .proofStrip { grid-row: 4; justify-content: flex-start; font-size: 12px; }
     .proofStrip li { padding: 0 10px; }
     .proofStrip li:first-child { padding-left: 0; }
   }
@@ -1651,7 +1652,7 @@
   #faelle .caseFrame { aspect-ratio: 1 / 1; max-width: none; border: 0; border-radius: 0; background: var(--v-mint); }
   #faelle .caseFrame img { height: 100%; object-fit: cover; }
   #faelle .caseBody { display: flex; flex-direction: column; justify-content: center; gap: 8px; margin: 0; padding: 22px clamp(18px, 2vw, 28px); font-size: 14.5px; line-height: 1.5; }
-  #faelle .caseKicker { font-size: 11.5px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--v-copper-ink); }
+  #faelle .caseKicker { font-size: 12px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--v-copper-ink); }
   #faelle .caseBody b { margin: 0; font-family: var(--serif); font-size: clamp(21px, 1.9vw, 26px); font-weight: 400; line-height: 1.12; color: var(--v-green); }
   @media (max-width: 900px) {
     #faelle .case { grid-template-columns: minmax(0, 1fr); }
@@ -1764,6 +1765,8 @@
   body > footer.tone-night { --bg: var(--v-green); --heading: #f6f2ea; --text: #c9d6d0; --soft: #a9bdb5; --accent: #e6b9a4; --accent-hover: #f3d1c1; --line: rgba(246, 242, 234, .16);
     background: var(--v-green); color: var(--text); border-top: 0; }
   .colophonMark { color: #e6b9a4; }
+  /* the footer text starts on the same line as every section above it */
+  body > footer .colophon { max-width: calc(74rem - 2 * var(--gutter)); }
 
   /* one soft, matte grade for the generated portraits and method photos, so
      they read as one photo series; the stain close-ups and the shade guide
@@ -1773,6 +1776,659 @@
   /* the reference sections sit a little tighter on laptops */
   @media (min-width: 901px) { #methoden, #kosten, #faq { padding-block: clamp(40px, 6vh, 72px); } }
   @media (max-width: 600px) { .costFactors { margin-inline: 0; } }
+
+  /* ===== Cases: drag to compare (2026-10-16) =====
+     each real case is one photo pair under a divider the visitor drags with
+     the mouse, a finger or the arrow keys; nothing moves on its own */
+  #faelle .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); align-items: start; }
+  #faelle .case { grid-template-columns: minmax(0, 1fr); }
+  #faelle .caseFrame.compare { --pos: 50%; position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #2b1f1d;
+    cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  #faelle .compare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; cursor: inherit; -webkit-user-drag: none; }
+  .compareBefore { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .compareHandle { position: absolute; z-index: 1; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: #fff;
+    box-shadow: 0 0 0 1px rgba(23, 54, 47, .14); pointer-events: none; }
+  .compareHandle i { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; display: grid; place-items: center;
+    border-radius: 50%; background: #fff; color: var(--v-green); box-shadow: 0 8px 22px -8px rgba(0, 0, 0, .55); transition: transform .2s var(--ease); }
+  .compareHandle svg { width: 20px; height: 20px; }
+  .compare.is-dragging .compareHandle i { transform: scale(1.08); }
+  .compareRange { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); border: 0; opacity: 0; }
+  .compareRange:focus-visible + .compareHandle i { outline: 3px solid var(--v-copper); outline-offset: 3px; }
+  #faelle .compare .caseTag { top: 12px; transition: opacity .25s ease; }
+  #faelle .compare .caseTag--before { left: 12px; right: auto; }
+  #faelle .compare .caseTag--after { left: auto; right: 12px; }
+  #faelle .compare.is-touched .caseTag { transition-delay: 0s !important; }
+  #faelle .compare.hide-before .caseTag--before, #faelle .compare.hide-after .caseTag--after { opacity: 0 !important; }
+  #faelle .compare .expand { z-index: 2; cursor: zoom-in; }
+  #faelle .caseBody { justify-content: flex-start; gap: 6px; padding: 18px clamp(18px, 2vw, 24px) 20px; }
+  #faelle .caseBody b { font-size: clamp(21px, 1.7vw, 24px); }
+  @media (prefers-reduced-motion: no-preference) {
+    .js #faelle .caseFrame.m-wipe .compareHandle { opacity: 0; transition: opacity .5s ease; }
+    .js #faelle .caseFrame.m-wipe.m-in .compareHandle { opacity: 1; transition-delay: .5s; }
+  }
+  @media (max-width: 700px) {
+    #faelle .cases { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    #faelle .caseFrame.compare { aspect-ratio: 2 / 1; }
+    #faelle .compare .caseTag { top: 8px; }
+    #faelle .compare .caseTag--before { left: 8px; } #faelle .compare .caseTag--after { right: 8px; }
+    .compareHandle i { width: 38px; height: 38px; margin: -19px 0 0 -19px; }
+    #faelle .caseBody { gap: 3px; padding: 11px 14px 13px; }
+    #faelle .caseBody b { font-size: 19px; }
+  }
+  @media (max-width: 380px) and (max-height: 820px) { #faelle .caseBody { padding: 9px 14px 10px; } }
+
+  /* ===== Redesign · Farbskala (2026-10-17) =====
+     The owner still found the page "very AI" and not eye-catching. Same
+     greens, copper and content; more presence: a real headline serif
+     (Petrona, self-hosted; "Iowan" only exists on Apple devices, so most
+     visitors saw a default book face), much larger type, the page's own idea
+     (the shade guide) as its graphic motif and one tappable moment, a real
+     case to drag in the hero, plain big statements for the costs, and fewer
+     boxes and shadows. Motion stays one-time or visitor-driven; nothing
+     follows the scroll. */
+  :root {
+    --serif: 'Petrona', 'Iowan Old Style', Georgia, serif;
+    --r-ivory: #f5eee1; --r-cream: #f8f3ea; --r-paper: #fbf8f2; --r-white: #fffefb;
+    --r-green: #17362f; --r-green-2: #21473e; --r-ink: #172723; --r-text: #384a43; --r-soft: #4f6159;
+    --e-out: cubic-bezier(.23, 1, .32, 1); --e-io: cubic-bezier(.77, 0, .175, 1);
+    --shade-strip: linear-gradient(90deg, #c9a66c 0%, #d9bf8e 16%, #e6d4ad 34%, #efe3c9 52%, #f6efe0 70%, #fbf8f1 86%, #ffffff 100%);
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .09 0 0 0 0 .21 0 0 0 0 .18 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --heading: var(--r-green); --text: var(--r-text); --soft: var(--r-soft); --v-soft-ink: var(--r-soft); --v-text: var(--r-text);
+    --radius: 22px; --m-out: var(--e-out);
+  }
+  @property --pos { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+
+  /* type: Petrona for every headline, larger and heavier; Inter for text */
+  body { background: var(--r-paper); }
+  h1, h2, h3, h4, .smileBand__line, .colophonLead, .costBig, .shadeCode, .doctorFeature__facts b { font-family: var(--serif); font-optical-sizing: auto; }
+  h2 { font-size: clamp(36px, 4.1vw, 58px); font-weight: 560; line-height: .98; letter-spacing: -.035em; text-wrap: balance; }
+  h3, h4 { font-weight: 600; letter-spacing: -.015em; }
+  .lede { font-size: 16.5px; line-height: 1.6; color: var(--r-text); text-wrap: pretty; }
+  p { text-wrap: pretty; }
+
+  /* surfaces: warm at the top, whiter further down (the page brightens the way the teeth do);
+     a fine grain so the light bands do not look like flat screen colour */
+  /* (the grain itself is on the hero only: it shows most there and costs a paint everywhere else) */
+  #behandler { --bg: #f2eadc; }
+  #behandler .doctorFeature { background: transparent; }
+  #faelle { --bg: var(--r-cream); background-color: var(--r-cream); }
+  #methoden { --bg: var(--r-paper); }
+  #wann { --bg: var(--r-white); }
+  #kosten { --bg: var(--r-paper); background-color: var(--r-paper); }
+  #buchen { --bg: var(--r-cream); background: var(--r-cream); }
+  #faq { --bg: var(--r-white); }
+  #praxis { --bg: var(--r-cream); }
+  /* where two light bands meet, a thin strip of the shade guide marks the seam */
+  #wann, #faq { background: var(--shade-strip) top / 100% 5px no-repeat, var(--bg); }
+
+  /* header: quieter links, the copper button stays the one loud thing */
+  header.top { background: rgba(250, 246, 238, .82); }
+  .navLinks a { color: var(--r-ink); font-weight: 500; transition: color .2s ease; }
+  .navLinks a:hover { color: var(--v-copper-ink); }
+
+  /* buttons answer the press; hover lifts only where there is a mouse */
+  .btn, .doctorFeature__link, .heroCaseText a { transition: transform .16s var(--e-out), background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+  .btn:active, .doctorFeature__link:active { transform: scale(.97); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:not(.ghost):hover { transform: translateY(-1px); }
+    .btn:not(.ghost):hover:active { transform: scale(.97); }
+  }
+
+  /* ---- hero ---- */
+  @media (min-width: 901px) { .hero { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); } }
+  .hero {
+    background: var(--grain), radial-gradient(110% 85% at 16% 6%, #fffdf8 0%, rgba(255, 253, 248, 0) 58%),
+      linear-gradient(112deg, #faf5eb 0%, var(--r-ivory) 50%, #e8dac6 100%); }
+  .heroCopy { max-width: 41rem; }
+  .hero h1 { margin: 0 0 26px; font-size: clamp(44px, 5.25vw, 82px); font-weight: 620; line-height: .95; letter-spacing: -.035em; color: var(--r-green); }
+  .hero h1 .hl { position: relative; display: inline-block; color: #9b6a37; }
+  /* "gemessen" sits on a short run of the shade guide, dark to light */
+  .hero h1 .hl::after { content: ''; position: absolute; left: .03em; right: .03em; bottom: -.05em; height: .085em; border-radius: 99px;
+    background: var(--shade-strip); box-shadow: inset 0 0 0 1px rgba(23, 54, 47, .14); transform-origin: left center; }
+  .lead { max-width: 33rem; font-size: 18px; line-height: 1.55; color: var(--r-text); }
+  .heroCta { margin-top: 30px; }
+  .heroCta .btn:not(.ghost) { min-height: 54px; padding-inline: 26px; font-size: 16px; }
+  .heroCta .btn.ghost { font-size: 15.5px; border-bottom-color: #c9a66c; }
+  .heroTrust { grid-template-columns: repeat(3, auto); gap: 10px 26px; margin-top: 34px; padding-top: 0; border-top: 0; }
+  .heroTrust li, .heroTrust li:first-child { display: flex; align-items: center; gap: 9px; padding: 0; border: 0; font-size: 13.5px; font-weight: 500; line-height: 1.3; color: var(--r-ink); }
+  .heroTrust li::before { content: ''; flex: 0 0 20px; height: 20px; border-radius: 50%;
+    background: #dfe9e2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2317362f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 11px no-repeat; }
+  .heroMedia { border-radius: 50% 0 0 0 / 16% 0 0 0; }
+
+  /* the real case, live: drag it, or watch it move once */
+  .heroCase { gap: 8px; width: min(430px, 86%); padding: 9px; border: 0; border-radius: 26px; color: var(--r-ink);
+    background: rgba(255, 254, 251, .95); box-shadow: 0 34px 70px -36px rgba(23, 39, 35, .6), 0 0 0 1px rgba(23, 54, 47, .08); }
+  .heroCase:hover { transform: none; border-color: transparent; }
+  .heroCompare { position: relative; aspect-ratio: 16 / 8.4; overflow: hidden; border-radius: 18px; background: #2b1f1d;
+    cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+  .heroCase .heroCompare img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 0; pointer-events: none; -webkit-user-drag: none; }
+  .heroCompare .caseTag { top: 10px; padding: 4px 9px; border-radius: 8px; font-size: 12px; transition: opacity .25s ease; }
+  .heroCompare .caseTag--before { left: 10px; right: auto; }
+  .heroCompare .caseTag--after { left: auto; right: 10px; }
+  .heroCompare.hide-before .caseTag--before, .heroCompare.hide-after .caseTag--after { opacity: 0; }
+  .heroCaseText { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0; padding: 3px 8px 4px; font-size: 13.5px; white-space: nowrap; }
+  .heroCaseText b { font-weight: 600; color: var(--r-ink); }
+  .heroCaseText a { color: var(--v-copper-ink); font-weight: 600; text-decoration: none; }
+  .heroCaseText a span::after { content: none; }
+  .heroCaseText a i { display: inline-block; font-style: normal; transition: transform .2s var(--e-out); }
+  .heroCaseText a:hover i { transform: translateX(3px); }
+  @keyframes compareNudge { 0% { --pos: 50%; } 28% { --pos: 26%; } 64% { --pos: 72%; } 100% { --pos: 50%; } }
+  @media (prefers-reduced-motion: no-preference) {
+    html.is-revealed .heroCompare.is-nudge { animation: compareNudge 2.4s var(--e-io) 1.9s 1 backwards; }
+    html.js .hero h1 .hl::after { transform: scaleX(0); }
+    html.js.is-revealed .hero h1 .hl::after { transform: scaleX(1); transition: transform 1.2s var(--e-io) .75s; }
+  }
+  @media (max-width: 900px) {
+    .hero h1 { margin-bottom: 14px; font-size: clamp(38px, 10.4vw, 50px); line-height: .95; letter-spacing: -.035em; }
+    .lead { font-size: 16px; }
+    .heroCta { margin-top: 20px; }
+    .heroCase { width: auto; padding: 7px; border-radius: 22px; }
+    .heroCompare { aspect-ratio: 2 / 1; border-radius: 16px; }
+    .heroCaseText { font-size: 12.5px; padding: 2px 6px 3px; }
+  }
+  @media (max-width: 900px) and (max-height: 760px) {
+    .hero h1 { margin-bottom: 10px; font-size: clamp(30px, 8.4vw, 38px); }
+    .lead { font-size: 15px; line-height: 1.5; }
+    .heroCta { margin-top: 14px; }
+  }
+
+  /* ---- doctor: the quote larger, the three facts as figures ---- */
+  .doctorFeature__quote p { font-style: normal; font-size: clamp(22px, 2vw, 31px); font-weight: 400; line-height: 1.3; letter-spacing: -.01em; color: var(--r-green); }
+  .doctorFeature__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: clamp(20px, 3vh, 30px); padding-top: 18px; border-top: 1px solid var(--line); }
+  .doctorFeature__facts span { display: grid; align-content: start; gap: 6px; }
+  .doctorFeature__facts span:not(:last-child)::after { content: none; }
+  .doctorFeature__facts b { font-size: clamp(36px, 3.4vw, 54px); font-weight: 600; line-height: .9; letter-spacing: -.04em; color: var(--r-green); }
+  .doctorFeature__facts i { font-style: normal; font-size: 13.5px; line-height: 1.35; color: var(--r-text); }
+  @media (max-width: 700px) {
+    .doctorFeature__facts { gap: 12px; padding-top: 12px; }
+    .doctorFeature__facts b { font-size: 34px; }
+    .doctorFeature__facts i { font-size: 12.5px; }
+  }
+
+  /* ---- cases: no boxes, the photos carry it ---- */
+  #faelle .case { border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; }
+  #faelle .caseFrame.compare { border-radius: var(--radius); box-shadow: 0 30px 60px -40px rgba(23, 39, 35, .55); }
+  #faelle .caseBody { padding: 16px 4px 0; gap: 4px; }
+  #faelle .caseKicker { font-size: 12.5px; font-weight: 600; letter-spacing: .04em; text-transform: none; }
+  #faelle .caseBody b { font-size: clamp(25px, 2.3vw, 34px); font-weight: 600; letter-spacing: -.025em; }
+  @media (max-width: 700px) {
+    #faelle .caseBody { padding: 10px 2px 0; gap: 2px; }
+    #faelle .caseBody b { font-size: 21px; }
+  }
+
+  /* ---- smile bands: the line is the picture's headline ---- */
+  .smileBand__line { max-width: 11em; font-size: clamp(40px, 4.5vw, 70px); font-weight: 560; line-height: 1; letter-spacing: -.035em; }
+  .smileBand__text::before { width: 76px; height: 6px; border-radius: 99px; background: var(--shade-strip); }
+  @media (max-width: 700px) { .smileBand__line { font-size: clamp(30px, 8.6vw, 36px); line-height: 1.04; } }
+
+  /* ---- the shade guide, on deep green, to tap ---- */
+  #messen { --bg: var(--r-green); --heading: #f7f3ea; --text: #d2ded8; --soft: #b2c5bc; --line: rgba(246, 242, 234, .18);
+    background: var(--r-green); color: var(--text); }
+  #messen h2 { color: #f7f3ea; }
+  #messen .scaleIntro, #messen .scaleNote { color: var(--text); }
+  #messen .scaleNote { color: var(--soft); }
+  .frame--measure { background: #10291f; box-shadow: 0 40px 80px -50px rgba(0, 0, 0, .8); }
+  .shadePrompt { margin: 18px 0 0; font-size: 15px; font-weight: 600; color: #f3d9cb; }
+  #messen .scaleTabs { gap: clamp(6px, .9vw, 12px); margin-top: 8px; }
+  #messen .tab { position: relative; display: grid; justify-items: center; gap: 9px; padding: 26px 0 0; border: 0; background: none; cursor: pointer;
+    font: 600 13px/1 var(--sans); color: var(--text); -webkit-tap-highlight-color: transparent; }
+  #messen .tab i { width: 100%; max-width: 62px; border-radius: 14px 14px 22px 22px;
+    box-shadow: inset 0 -10px 16px rgba(120, 90, 30, .14), inset 0 0 0 1px rgba(255, 255, 255, .25), 0 16px 24px -16px rgba(0, 0, 0, .7);
+    transition: transform .35s var(--e-out), box-shadow .35s ease; }
+  #messen .tab span { transition: color .2s ease; }
+  #messen .tab[aria-pressed="true"] i { transform: translateY(-12px); box-shadow: 0 0 0 2px #f7f3ea, 0 26px 30px -16px rgba(0, 0, 0, .75); }
+  #messen .tab[aria-pressed="true"] span { color: #f7f3ea; }
+  #messen .tab:focus-visible { outline: 2px solid #f3d1c1; outline-offset: 4px; border-radius: 12px; }
+  #messen .tab:active i { transform: translateY(-4px) scale(.97); }
+  @media (hover: hover) and (pointer: fine) { #messen .tab:hover i { transform: translateY(-8px); } #messen .tab[aria-pressed="true"]:hover i { transform: translateY(-12px); } }
+  .tabMark { position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 12px; font-weight: 600; color: #f3d1c1; white-space: nowrap; transition: opacity .25s ease; }
+  /* until a visitor picks, the example stands: A3 and B1 raised */
+  #messen:not(.is-picking) .tab--a3 i, #messen:not(.is-picking) .tab--b1 i { transform: translateY(-10px); }
+  #messen.is-picking .tabMark { opacity: 0; }
+  #messen .scaleAxis { color: var(--soft); }
+  .shadeRead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 18px; margin: 16px 0 0; min-height: 1.2em; }
+  .shadeCode { font-size: clamp(38px, 3.8vw, 58px); font-weight: 600; line-height: 1; letter-spacing: -.03em; color: #f7f3ea; white-space: nowrap; }
+  .shadeNote { max-width: 22rem; font-size: 14.5px; line-height: 1.45; color: var(--text); }
+  @media (max-width: 700px) {
+    .shadePrompt { margin-top: 12px; font-size: 14px; }
+    #messen .tab { padding-top: 22px; font-size: 12px; gap: 7px; }
+    #messen .tab i { border-radius: 10px 10px 16px 16px; }
+    .tabMark { font-size: 12px; }
+    .shadeRead { margin-top: 10px; gap: 4px 14px; }
+    .shadeCode { font-size: 34px; }
+    .shadeNote { font-size: 13.5px; }
+  }
+
+  /* ---- methods: larger names, square thumbnails ---- */
+  .method h3 { font-size: clamp(20px, 1.7vw, 25px); font-weight: 600; letter-spacing: -.02em; }
+  @media (min-width: 901px) { .method h3 { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 10px; } }
+  .methodThumb { width: 46px; height: 46px; border-radius: 13px; }
+  .methodsHead { font-size: 13px; color: var(--r-soft); }
+  .methodFacts dd { font-size: 15px; color: var(--r-text); }
+  @media (max-width: 900px) { .method h3 { font-size: 21px; } .methodThumb { width: 40px; height: 40px; border-radius: 11px; } }
+
+  /* ---- discolourations: pictures and words, no boxes ---- */
+  #wann .whenList li { border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; }
+  #wann .whenList .frame--thumb { border-radius: 16px; overflow: hidden; }
+  #wann .whenList li > div:last-child { padding: 12px 2px 0; }
+  #wann .whenList h4 { font-size: clamp(19px, 1.6vw, 23px); font-weight: 600; }
+  #wann .whenList p { color: var(--r-text); }
+  #wann .verdict { font-size: 15px; }
+  @media (max-width: 900px) { #wann .whenList li > div:last-child { padding: 8px 2px 0; } #wann .whenList h4 { font-size: 16px; } }
+
+  /* ---- costs: what the insurance pays, what you pay, in two sentences ---- */
+  #kosten .sectionHead { align-items: end; }
+  .costPlan { margin: 0; }
+  .costSplit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 18px); margin-top: clamp(22px, 3.4vh, 38px); }
+  .costSide { display: grid; align-content: space-between; gap: 18px; min-height: clamp(150px, 20vh, 210px); padding: clamp(22px, 2.6vw, 34px); border-radius: var(--radius);
+    background: var(--r-white); box-shadow: 0 0 0 1px var(--line); }
+  .costSide--privat { background: var(--r-green); box-shadow: none; }
+  .costLabel { font-size: 14px; font-weight: 600; color: var(--v-copper-ink); }
+  .costSide--privat .costLabel { color: #f3d1c1; }
+  .costBig { margin: 0; font-size: clamp(30px, 3.2vw, 48px); font-weight: 600; line-height: 1; letter-spacing: -.035em; color: var(--r-green); text-wrap: balance; }
+  .costSide--privat .costBig { color: #f7f3ea; }
+  #kosten .costFactors { margin-top: clamp(20px, 3vh, 32px); }
+  #kosten .costFactors h3 { font-size: 21px; }
+  .factors b { font-weight: 600; }
+  @media (max-width: 700px) {
+    .costSplit { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 16px; }
+    .costSide { min-height: 0; gap: 8px; padding: 16px 18px; border-radius: 18px; }
+    .costLabel { font-size: 13px; }
+    .costBig { font-size: clamp(25px, 7vw, 30px); }
+    #kosten .costFactors { margin-top: 14px; gap: 6px; }
+    #kosten .costFactors h3 { font-size: 18px; }
+  }
+
+  /* ---- booking, FAQ, practice, footer: the new type does most of the work ---- */
+  .faq summary { font-weight: 500; }
+  .faq details { transition: border-color .2s ease, box-shadow .2s ease; }
+  @media (hover: hover) and (pointer: fine) { .faq details:hover { border-color: var(--line-strong); } }
+  .colophonLead { font-weight: 560; letter-spacing: -.035em; }
+
+  /* arrivals keep their one-time rise, on the stronger curve */
+  .js .m-rise { transition-timing-function: var(--e-out); }
+
+  /* ---- FAQ: an open list on hairlines, not a stack of boxes ---- */
+  .faq { row-gap: 0; }
+  .faq details, .faq details[open] { margin: 0; border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; background: none; }
+  .faq details:last-child { border-bottom: 1px solid var(--line-strong); }
+  @media (min-width: 901px) { .faq details:nth-last-child(2) { border-bottom: 1px solid var(--line-strong); } }
+  .faq summary { min-height: 60px; padding: 14px 2px; font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -.01em; color: var(--r-green); transition: color .2s ease; }
+  .faq summary::after { width: 30px; height: 30px; border-color: var(--line-strong); transition: transform .3s var(--e-out), background-color .2s ease, border-color .2s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); border-color: var(--r-green);
+    background: linear-gradient(#fff, #fff) center / 10px 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 10px no-repeat, var(--r-green); }
+  @media (hover: hover) and (pointer: fine) { .faq summary:hover { color: var(--v-copper-ink); } .faq summary:hover::after { border-color: var(--v-copper-ink); } }
+  .faq details p { padding: 0 46px 18px 2px; font-size: 15px; color: var(--r-text); }
+  @media (max-width: 700px) {
+    .faq summary { grid-template-columns: minmax(0, 1fr) 26px; min-height: 46px; padding: 8px 0; font-size: 15.5px; }
+    .faq summary::after { width: 26px; height: 26px; }
+    .faq details p { padding: 0 30px 12px 0; font-size: 14px; }
+  }
+
+  /* ---- small motion: the stain photos lean in under a mouse (no clip-path on arriving
+     text: the arrival observer never sees a fully clipped element, so it would stay hidden) ---- */
+  @media (hover: hover) and (pointer: fine) {
+    #wann .whenList .frame--thumb img { transition: transform .6s var(--e-out); }
+    #wann .whenList li:hover .frame--thumb img { transform: scale(1.05); }
+  }
+
+  /* sizes that keep every band to one screen with the larger type */
+  @media (min-width: 901px) { #praxis h2 { font-size: clamp(34px, 3.3vw, 50px); } }
+  @media (max-width: 700px) {
+    h2 { font-size: clamp(27px, 7.6vw, 32px); line-height: 1.02; letter-spacing: -.03em; }
+    .smileBand__line { font-size: clamp(28px, 8vw, 34px); }
+    .doctorFeature__quote p { font-size: 20px; line-height: 1.3; }
+    .doctorFeature__facts b { font-size: 30px; }
+    .method h3 { font-size: 19px; }
+    .methodFacts dd { font-size: inherit; }
+    #faelle .caseBody b { font-size: 20px; }
+  }
+
+  /* ===== First look (2026-10-17) =====
+     The owner wants a first look that makes people stop. The portrait
+     loses its frame: it runs to the edge and up under the header, and fades
+     into its own wall, so the headline sits on the photograph. The first
+     seconds are filmed once: the picture settles like a camera coming to
+     rest, the headline rises out of a slot, the shade line draws, the real
+     case arrives and sweeps. With a mouse, the before/after divider follows
+     the pointer. Nothing follows the scroll. */
+  .hero { background: var(--grain), linear-gradient(90deg, #f4efe7 0%, #ebe5dc 34%, #ddd7ce 62%, #d9d2c8 100%); }
+  .heroMedia { border-radius: 0; background: none; }
+  .hero h1 .hl { color: #8a5c2e; }   /* a shade deeper on the greige wall */
+  @media (min-width: 901px) {
+    .heroMedia { grid-column: 1 / -1; justify-self: end; width: 64%; height: calc(100% + var(--hdr)); margin-top: calc(-1 * var(--hdr));
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .55) 17%, #000 36%); mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .55) 17%, #000 36%); }
+    .heroMedia img { object-position: 100% 30%; }
+  }
+  @media (min-width: 901px) and (max-width: 1180px) {
+    .heroMedia { width: 56%; }
+    .heroCopy { max-width: 32rem; }
+    .lead { max-width: 25rem; }
+  }
+  /* narrow laptops: her hair reaches the copy, so the second link goes under the button */
+  @media (min-width: 901px) and (max-width: 1040px) {
+    .lead { max-width: 22rem; }
+    .heroCta { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .heroTrust { max-width: 24rem; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 16px; }
+    .heroCaseText { flex-wrap: wrap; gap: 2px 10px; white-space: normal; }   /* the card stays inside its column */
+  }
+  @media (max-width: 900px) {
+    .hero { background: var(--grain), linear-gradient(180deg, #ddd6cc 0%, #ebe5dc 46%, #f4efe7 100%); }
+    .heroMedia { margin: calc(-1 * var(--hdr)) 0 0; height: min(58svh, 520px); aspect-ratio: auto;
+      -webkit-mask-image: linear-gradient(180deg, #000 58%, transparent 98%); mask-image: linear-gradient(180deg, #000 58%, transparent 98%); }
+    .heroMedia img { object-position: 62% 24%; }
+    .hero > .heroInner { position: relative; z-index: 1; margin-top: -76px; }
+  }
+  @media (max-width: 900px) and (max-height: 820px) { .heroMedia { height: 54svh; } }
+  @media (max-width: 900px) and (max-height: 760px) {
+    .heroMedia { height: 50svh; }
+    .hero > .heroInner { margin-top: -56px; }
+  }
+
+  /* the entrance, after the splash */
+  @keyframes heroFilm { from { opacity: 0; transform: scale(1.14) translateX(2.5%); } 35% { opacity: 1; } to { opacity: 1; transform: none; } }
+  @keyframes heroSlot { from { opacity: 0; transform: translateY(.45em); clip-path: inset(0 0 100% 0); }
+    to { opacity: 1; transform: none; clip-path: inset(-.3em -.3em -.45em -.3em); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero .heroMedia img { animation: heroFilm 2.8s var(--e-out) backwards; }
+    .hero h1 { animation: heroSlot 1.2s var(--e-out) .2s backwards; }
+    .heroCopy > :nth-child(2) { animation-delay: .5s; }
+    .heroCopy > :nth-child(3) { animation-delay: .62s; }
+    .heroCopy > :nth-child(4) { animation-delay: .74s; }
+    html.js.is-revealed .hero h1 .hl::after { transition-delay: 1.05s; }
+    .heroCase { animation: caseIn 1s var(--e-out) 1s backwards; }
+    html.is-revealed .heroCompare.is-nudge { animation-delay: 2.1s; }
+  }
+  @keyframes caseIn { from { opacity: 0; transform: translateY(26px) scale(.97); } to { opacity: 1; transform: none; } }
+
+  /* the splash lifts like a curtain onto the hero, instead of fading */
+  @media (prefers-reduced-motion: no-preference) {
+    .splash { transition: clip-path .9s var(--e-io), opacity .35s ease .6s; }
+    .splash.is-leaving { clip-path: inset(0 0 100% 0); }
+  }
+
+  /* a tapped shade tooth: the code changes with a short blur, not a jump */
+  @keyframes codeSwap { from { opacity: 0; filter: blur(6px); transform: translateY(.16em); } to { opacity: 1; filter: none; transform: none; } }
+  @media (prefers-reduced-motion: no-preference) { .shadeCode.is-swap { animation: codeSwap .45s var(--e-out); } }
+
+  /* methods (laptop): the picture shows the way the mouse points at; the names line up */
+  .methodVisualName { display: none; }
+  @media (min-width: 901px) {
+    .method h3 { justify-content: flex-start; }
+    .methodVisual { position: relative; }
+    .methodVisual img { position: absolute; inset: 0; opacity: 0; transform: scale(1.05); transition: opacity .55s ease, transform 1.2s var(--e-out); }
+    .methodShowcase:not([data-show]) .methodVisual img:nth-child(1), .methodShowcase[data-show="1"] .methodVisual img:nth-child(1),
+    .methodShowcase[data-show="2"] .methodVisual img:nth-child(2), .methodShowcase[data-show="3"] .methodVisual img:nth-child(3) { opacity: 1; transform: none; }
+    .methodVisualName { position: absolute; left: 14px; bottom: 14px; display: block; padding: 7px 13px; border-radius: 99px;
+      background: rgba(255, 254, 251, .92); font-size: 13px; font-weight: 600; color: var(--r-green); }
+    .methodVisualName span { display: none; }
+    .methodShowcase:not([data-show]) .methodVisualName span:nth-child(1), .methodShowcase[data-show="1"] .methodVisualName span:nth-child(1),
+    .methodShowcase[data-show="2"] .methodVisualName span:nth-child(2), .methodShowcase[data-show="3"] .methodVisualName span:nth-child(3) { display: inline; }
+    .method :is(h3, dd) { transition: opacity .3s ease; }
+    .methodShowcase.is-pointing .method:not(.is-on) :is(h3, dd) { opacity: .42; }
+  }
+
+  /* before/after: with a mouse the divider follows the pointer, eased; a press still drags */
+  .compare.is-follow:not(.is-dragging) { transition: --pos .45s var(--e-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .compare:hover .compareHandle i { transform: scale(1.1); }
+  }
+
+  /* ===== Quiet hero, the ways, the stain samples (2026-10-17, later) =====
+     The owner found the hero crowded, its case card too big, and the methods
+     table and the stain cards machine-made. The hero keeps the photo, the
+     headline, one sentence and two ways in; the real case is a small proof
+     in the corner (the practice strip and the three ticks repeated what the
+     practice band, the footer and the costs already say). The methods are a
+     frameless photo from the page edge beside three plain rows; the stains
+     are teeth-only samples in two columns, one group at a time on phones. */
+
+  /* hero: a small real case, one link under it */
+  .heroCase { width: min(276px, 48%); gap: 5px; padding: 6px; border-radius: 18px; }
+  .heroCompare { aspect-ratio: 2 / 1; border-radius: 13px; }
+  .heroCompare .caseTag { top: 7px; padding: 3px 7px; border-radius: 6px; font-size: 11px; }
+  .heroCompare .caseTag--before { left: 7px; }
+  .heroCompare .caseTag--after { right: 7px; }
+  .heroCompare .compareHandle i { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
+  .heroCaseText { display: block; padding: 1px 6px 2px; font-size: 12.5px; white-space: normal; }
+  .heroCaseText a { color: var(--r-ink); }
+  .heroCaseText a span { color: inherit; }
+  .heroCaseText a i { color: var(--v-copper-ink); }
+  /* the copy sits a little above the middle, clear of her hair */
+  @media (min-width: 901px) { .heroCase { margin: 0 var(--gutter) 36px 0; } .hero > .heroInner { padding-bottom: clamp(56px, 11vh, 110px); } }
+  /* on wide laptops the last headline line ends before her hair (the full stop sat on it at 1440) */
+  @media (min-width: 1181px) { .hero h1 { font-size: clamp(44px, 4.9vw, 82px); } }
+  @media (max-width: 900px) {
+    .heroCase { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: center; gap: 14px; width: auto; margin: 4px var(--gutter) 30px; padding: 0;
+      border-radius: 0; background: none; box-shadow: none; }
+    .heroCompare { border-radius: 12px; }
+    .heroCaseText { padding: 0; font-size: 13.5px; line-height: 1.35; }
+  }
+
+  /* methods: a frameless photo from the page edge, three plain rows beside it */
+  .waysPhoto { margin: 0; }
+  .waysPhoto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .waysPhotoName, .wayPhoto { display: none; }
+  .way h3 { margin: 0 0 6px; font-size: clamp(22px, 2vw, 30px); font-weight: 600; line-height: 1.08; letter-spacing: -.02em; color: var(--r-green); }
+  .wayFit { margin: 0 0 10px; font-size: 16px; line-height: 1.45; color: var(--r-ink); }
+  .wayFit b { font-weight: 600; color: var(--v-copper-ink); }
+  .wayFacts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 14px; margin: 0; font-size: 14px; line-height: 1.45; }
+  .wayFacts > div { display: contents; }
+  .wayFacts dt { color: var(--r-soft); }
+  .wayFacts dd { margin: 0; color: var(--r-text); }
+  @media (min-width: 901px) {
+    #methoden { position: relative; }
+    .waysPhoto { position: absolute; top: 0; bottom: 0; left: 0; overflow: hidden;
+      width: calc(max(0px, (100% - 74rem) / 2) + var(--gutter) + (min(100%, 74rem) - 2 * var(--gutter)) * .4); }
+    .ways { display: grid; grid-template-columns: 40% minmax(0, 1fr); column-gap: clamp(40px, 5vw, 80px); }
+    .ways > * { grid-column: 2; }
+    .ways .sectionHead { display: block; margin-bottom: clamp(18px, 3vh, 30px); }
+    .ways .sectionHead .lede { margin-top: 12px; }
+    .waysList { border-top: 1px solid var(--line); }
+    .way { padding: clamp(14px, 2.2vh, 22px) 0; border-bottom: 1px solid var(--line); transition: opacity .3s ease; }
+    .waysPhoto img { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); transition: opacity .55s ease, transform 1.2s var(--e-out); }
+    .waysPhoto:not([data-show]) img:first-of-type, .waysPhoto[data-show="1"] img:nth-of-type(1),
+    .waysPhoto[data-show="2"] img:nth-of-type(2), .waysPhoto[data-show="3"] img:nth-of-type(3) { opacity: 1; transform: none; }
+    .waysPhotoName { position: absolute; left: max(var(--gutter), calc(50vw - 37rem + var(--gutter))); bottom: 20px; display: block; padding: 7px 13px; border-radius: 99px;
+      background: rgba(255, 254, 251, .92); font-size: 13px; font-weight: 600; color: var(--r-green); }
+    .waysPhotoName span { display: none; }
+    .waysPhoto:not([data-show]) .waysPhotoName span:first-child, .waysPhoto[data-show="1"] .waysPhotoName span:nth-child(1),
+    .waysPhoto[data-show="2"] .waysPhotoName span:nth-child(2), .waysPhoto[data-show="3"] .waysPhotoName span:nth-child(3) { display: inline; }
+    .waysList.is-pointing .way:not(.is-on) { opacity: .4; }
+  }
+  @media (max-width: 900px) {
+    .waysPhoto { display: none; }
+    .waysList { display: grid; grid-auto-flow: column; grid-auto-columns: min(80%, 330px); gap: 14px; margin: 20px calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter) 6px;
+      overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+    .waysList::-webkit-scrollbar { display: none; }
+    .way { scroll-snap-align: start; }
+    .wayPhoto { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; margin-bottom: 14px; border-radius: 16px; object-fit: cover; }
+    .way h3 { font-size: 22px; }
+    .wayFit { margin-bottom: 8px; font-size: 15px; }
+    .wayFacts { font-size: 13.5px; }
+  }
+
+  /* discolourations: teeth-only samples beside a few words; the two little
+     shade tabs say "lightens a lot" and "lightens a little" without a number */
+  .stains { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(36px, 5vw, 80px); }
+  .stainVerdict { display: flex; align-items: center; gap: 12px; margin: 0; padding: 0 0 14px; border-bottom: 1px solid var(--line);
+    font-family: inherit; font-size: 15px; font-weight: 600; letter-spacing: 0; line-height: 1.3; color: var(--r-green); }
+  .shadeShift { position: relative; display: inline-flex; flex: 0 0 auto; align-items: center; gap: 18px; }
+  .shadeShift i { width: 13px; height: 19px; border: 1px solid rgba(0, 0, 0, .12); border-radius: 4px 4px 7px 7px; }
+  .shadeShift::after { content: '→'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); font-size: 11px; font-weight: 600; line-height: 1; color: var(--r-soft); }
+  .shadeShift--good i:first-child { background: #d7be8e; }
+  .shadeShift--good i:last-child { background: #f7f2e6; }
+  .shadeShift--limit i:first-child { background: #a29f96; }
+  .shadeShift--limit i:last-child { background: #b7b4aa; }
+  .stainList { margin: 0; padding: 0; list-style: none; }
+  .stainList li { display: grid; grid-template-columns: clamp(136px, 13vw, 176px) minmax(0, 1fr); gap: clamp(14px, 1.6vw, 22px); align-items: center;
+    padding: clamp(12px, 1.8vh, 16px) 0; border-bottom: 1px solid var(--line); }
+  .stainSample { display: block; aspect-ratio: 11 / 5; overflow: hidden; border-radius: 10px; background: #e7ded2; }
+  .stainSample img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 33%; transform: scale(1.5); transform-origin: 50% 36%; }
+  .stainList h4 { margin: 0 0 3px; font-size: clamp(17px, 1.35vw, 20px); font-weight: 600; line-height: 1.15; letter-spacing: -.01em; color: var(--r-green); }
+  .stainList p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--r-text); }
+  @media (hover: hover) and (pointer: fine) {
+    .stainSample img { transition: transform .6s var(--e-out); }
+    .stainList li:hover .stainSample img { transform: scale(1.62); }
+  }
+  @media (max-width: 900px) {
+    .stains { grid-template-columns: minmax(0, 1fr); row-gap: 22px; }
+    .stainList li { grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 11px 0; }
+    .stainSample { aspect-ratio: 2 / 1; border-radius: 9px; }
+    .stainList h4 { font-size: 16px; }
+    .stainList p { font-size: 13px; line-height: 1.4; }
+  }
+
+  /* ===== Cost plan and stain explorer (2026-10-17, later still) =====
+     The owner found the costs (two boxes + three factor columns) and the
+     discolourations (a list of six near-identical mouths) machine-made. The
+     costs now show the thing the text promises, the written cost plan, as a
+     sheet of practice paper; the discolourations show one large picture and
+     six teeth samples to pick from, the way a shade guide is used. */
+
+  /* the explorer (JS adds .is-lab; without it the two-column list stays) */
+  .stainPick { display: block; width: 100%; padding: 0; border: 0; border-radius: 10px; background: none; color: inherit; font: inherit; cursor: pointer; }
+  html:not(.js) .stainPick { cursor: default; }
+  .stainStage[hidden] { display: none; }
+  .stainLab.is-lab { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: stretch; }
+  .stainStage { position: relative; min-height: 300px; margin: 0; overflow: hidden; border-radius: 22px; background: #e7ded2; }
+  .stainStage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; opacity: 0; transform: scale(1.22); transform-origin: 50% 32%;
+    transition: opacity .45s ease, transform 1.1s var(--e-out); }
+  .stainStage img.is-on { opacity: 1; transform: scale(1.14); }
+  .stainStageTag { position: absolute; left: 14px; top: 14px; z-index: 1; padding: 7px 13px; border-radius: 99px; background: rgba(255, 254, 251, .93); font-size: 13px; font-weight: 600; color: var(--r-green); }
+  .stainStageTag > span { display: none; align-items: center; gap: 10px; }
+  .stainStage[data-group="good"] .stainStageTag > [data-group="good"], .stainStage[data-group="limit"] .stainStageTag > [data-group="limit"] { display: inline-flex; }
+  .is-lab .stains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: "text text text" "good good good" "g1 g2 g3" "limit limit limit" "l1 l2 l3";
+    gap: 10px; align-content: end; }
+  .is-lab .stainGroup, .is-lab .stainList, .is-lab .stainList li { display: contents; }
+  .is-lab .stainText { grid-area: text; align-self: end; padding-bottom: clamp(10px, 2vh, 20px); opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+  .is-lab li.is-on .stainText { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+  .is-lab .stainText h4 { margin-bottom: 8px; font-size: clamp(24px, 2.3vw, 34px); line-height: 1.05; letter-spacing: -.02em; }
+  .is-lab .stainText p { max-width: 28rem; font-size: 15.5px; line-height: 1.5; }
+  .is-lab .stainVerdict { padding: 8px 0 0; border: 0; font-size: 13.5px; }
+  .is-lab [data-group="good"] .stainVerdict { grid-area: good; }
+  .is-lab [data-group="limit"] .stainVerdict { grid-area: limit; }
+  .is-lab [data-group="good"] li:nth-child(1) .stainPick { grid-area: g1; }
+  .is-lab [data-group="good"] li:nth-child(2) .stainPick { grid-area: g2; }
+  .is-lab [data-group="good"] li:nth-child(3) .stainPick { grid-area: g3; }
+  .is-lab [data-group="limit"] li:nth-child(1) .stainPick { grid-area: l1; }
+  .is-lab [data-group="limit"] li:nth-child(2) .stainPick { grid-area: l2; }
+  .is-lab [data-group="limit"] li:nth-child(3) .stainPick { grid-area: l3; }
+  .is-lab .stainSample { aspect-ratio: 2 / 1; border-radius: 10px; transition: transform .25s var(--e-out); }
+  .is-lab .stainPick[aria-pressed="true"] .stainSample { outline: 2px solid var(--r-green); outline-offset: 3px; }
+  .stainPick:focus-visible { outline: none; }
+  .stainPick:focus-visible .stainSample { outline: 2px solid var(--v-copper); outline-offset: 3px; }
+  .stainPick:active .stainSample { transform: scale(.97); }
+  @media (hover: hover) and (pointer: fine) { .is-lab .stainPick:hover .stainSample { transform: translateY(-2px); } }
+  @media (max-width: 900px) {
+    .stainLab.is-lab { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .stainStage { min-height: 0; aspect-ratio: 16 / 9; border-radius: 18px; }
+    .stainStageTag { left: 10px; top: 10px; padding: 5px 11px; font-size: 12.5px; }
+    .is-lab .stains { gap: 8px; }
+    .is-lab .stainText { padding-bottom: 4px; }
+    .is-lab .stainText h4 { margin-bottom: 5px; font-size: 21px; }
+    .is-lab .stainText p { font-size: 14px; line-height: 1.45; }
+    .is-lab .stainVerdict { padding-top: 4px; font-size: 12.5px; }
+  }
+
+  /* costs: the written cost plan itself, a sheet on a small stack of paper */
+  .costWrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .costText { grid-column: 1; grid-row: 1; align-self: center; }
+  .costWrap::before, .costSheet { align-self: stretch; }
+  .costText .costPlan { max-width: 30rem; margin: 18px 0 0; }
+  .costBook.btn.ghost { min-height: 0; margin-top: 26px; padding: 0 0 3px; border: 0; border-bottom: 1px solid #c9a66c; border-radius: 0; background: none; color: var(--r-ink); font-size: 15.5px; }
+  .costWrap::before { content: ''; grid-column: 2; grid-row: 1; border-radius: 4px; background: #f3eee5; box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 12px 26px -16px rgba(0, 0, 0, .22); rotate: 2.4deg; translate: 8px 6px; }
+  .costSheet { grid-column: 2; grid-row: 1; padding: clamp(24px, 3.4vh, 38px) clamp(24px, 3vw, 44px); border-radius: 4px; background: #fffefb;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04), 0 3px 6px rgba(0, 0, 0, .04), 0 18px 36px -16px rgba(0, 0, 0, .2), 0 44px 70px -44px rgba(0, 0, 0, .3);
+    rotate: -1.3deg; transition: rotate .6s var(--e-out), translate .6s var(--e-out); }
+  @media (hover: hover) and (pointer: fine) { .costSheet:hover { rotate: -.3deg; translate: 0 -4px; } }
+  .costSheetHead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; margin: 0 0 clamp(14px, 2.6vh, 26px); padding-bottom: 12px;
+    border-bottom: 1px solid var(--line); font-size: 12px; color: var(--r-soft); }
+  .costSheetMark { font-family: var(--sans); font-size: 15px; font-weight: 700; letter-spacing: .01em; color: var(--r-green); }
+  .costSheetMark b { font-weight: 700; color: var(--v-copper-ink); }
+  .costSheetTitle { margin: 0 0 6px; font-size: clamp(24px, 2.2vw, 32px); font-weight: 600; line-height: 1.1; letter-spacing: -.02em; color: var(--r-green); }
+  .costRows { margin: 0; }
+  .costRows > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 13.5rem); align-items: baseline; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .costRows dt { font-size: 16px; font-weight: 500; line-height: 1.35; color: var(--r-ink); }
+  .costRows dd { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.35; text-align: right; color: var(--r-green); }
+  .costRows > div + div dd { color: var(--v-copper-ink); }
+  .costSheet .priceFrom { grid-column: auto; margin: 12px 0 0; padding: 0; border: 0; background: none; font-size: 14px; color: var(--r-ink); }
+  .costSheetFactors { margin-top: clamp(14px, 2.4vh, 24px); }
+  .costSheetFactors h4 { margin: 0 0 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--r-soft); }
+  .costSheet .factors { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin: 0; padding: 0; border: 0; list-style: none; }
+  .costSheet .factors li, .costSheet .factors li:last-child { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 12px; padding: 0; border: 0; font-size: 13.5px; line-height: 1.45; color: var(--r-text); }
+  .costSheet .factors li::before { content: none; }
+  .costSheet .factors b, .costSheet .factors span { grid-column: auto; }
+  .costSheet .factors b { font-family: var(--sans); font-size: inherit; font-weight: 600; color: var(--r-ink); }
+  @media (max-width: 900px) {
+    .costWrap { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .costWrap::before, .costSheet { grid-column: 1; grid-row: 2; }
+    .costBook.btn.ghost { display: none; }
+    .costSheet { padding: 18px 18px 16px; rotate: -.8deg; }
+    .costWrap::before { rotate: 1.6deg; translate: 4px 4px; }
+    .costSheetHead { margin-bottom: 10px; padding-bottom: 9px; font-size: 11.5px; }
+    .costSheetTitle { font-size: 21px; }
+    .costRows > div { grid-template-columns: minmax(0, 1fr) minmax(0, 10rem); gap: 12px; padding: 9px 0; }
+    .costRows dt { font-size: 14.5px; }
+    .costRows dd { font-size: 13px; }
+    .costSheetFactors { margin-top: 12px; }
+    .costSheetFactors h4 { margin-bottom: 6px; font-size: 12.5px; }
+    .costSheet .factors { gap: 5px; }
+    .costSheet .factors li, .costSheet .factors li:last-child { display: block; position: static; padding: 0; font-size: 12.5px; line-height: 1.4; }
+    .costSheet .factors b { margin: 0; }
+    .costSheet .factors b::after { content: ' · '; font-weight: 400; color: var(--r-soft); }
+  }
+
+  /* ===== Cinematic (2026-10-17, evening) =====
+     Asked what "wow" should feel like, the owner picked cinematic: big
+     full-screen photo moments, fewer words, slow elegant fades. The three
+     smile bands become full-screen scenes; the shade-guide photo runs to the
+     page edge like the methods photo; arrivals become slow fades (text drifts
+     up a little and comes into focus, pictures settle like a camera coming to
+     rest). Still once per element and never tied to the scroll position. */
+
+  /* smile bands: one screen each, the line larger */
+  @media (min-width: 701px) {
+    .smileBand { height: calc(100svh - var(--hdr) - 2px); min-height: 520px; max-height: 920px; }
+    .smileBand__line { max-width: 10em; font-size: clamp(46px, 5.6vw, 92px); line-height: .98; }
+  }
+  @media (max-width: 700px) {
+    .smileBand { height: calc(100svh - var(--hdr) - 2px); min-height: 480px; max-height: 860px; }
+    .smileBand::after { display: block; background: linear-gradient(0deg, rgba(11, 12, 13, .96) 0%, rgba(11, 12, 13, .82) 30%, rgba(11, 12, 13, 0) 58%); }
+    .smileBand picture { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; }
+    .smileBand picture img { object-position: var(--smile-px, 50%) 50%; }
+    .smileBand__text, .smileBand--right .smileBand__text, .smileBand--left .smileBand__text { position: absolute; inset: auto 0 0 0; z-index: 2; padding: 0 22px 96px; }
+    .smileBand__line { font-size: clamp(34px, 10vw, 44px); line-height: 1; }
+    #smile1 { --smile-px: 38%; } #smile2 { --smile-px: 40%; } #smile3 { --smile-px: 44%; }
+  }
+
+  /* the shade guide's photo runs from the page edge, full height, no frame */
+  @media (min-width: 901px) {
+    #messen { position: relative; overflow: hidden; }
+    #messen .measure { grid-template-columns: 40% minmax(0, 1fr); }
+    #messen .measurePhoto { position: absolute; top: 0; bottom: 0; left: 0; margin: 0;
+      width: calc(max(0px, (100% - 74rem) / 2) + var(--gutter) + (min(100%, 74rem) - 2 * var(--gutter)) * .4); }
+    #messen .frame--measure { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
+    #messen .frame--measure img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+    #messen .measureText { grid-column: 2; }
+  }
+
+  /* slow fades */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .m-rise { transform: translateY(16px); transition: opacity 1.4s cubic-bezier(.22, .8, .2, 1) var(--m-delay, 0s), transform 1.8s cubic-bezier(.16, 1, .3, 1) var(--m-delay, 0s), filter 1.4s ease var(--m-delay, 0s); }
+    .js :is(h2, .smileBand__line, .costSheetTitle).m-rise:not(.m-in), .js .sectionHead > h2.m-rise:not(.m-in) { filter: blur(6px); }
+    .js .m-rise.m-in { filter: none; }
+    .js .m-rise img { scale: 1.06; transition: scale 2.6s cubic-bezier(.16, 1, .3, 1) var(--m-delay, 0s), transform .6s var(--m-out); }
+    .js .m-wipe img, .js .caseFrame.m-wipe img { clip-path: none; opacity: 0; scale: 1.1;
+      transition: opacity 1.6s ease var(--m-delay, 0s), scale 3s cubic-bezier(.16, 1, .3, 1) var(--m-delay, 0s), transform .9s var(--m-out); }
+    .js .m-wipe.m-in img, .js .caseFrame.m-wipe.m-in img { clip-path: none; opacity: 1; scale: 1; }
+    /* a smile band opens like a scene: the picture first, the line after it */
+    .js .smileBand.m-wipe .smileBand__line, .js .smileBand.m-wipe .smileBand__text .btn { opacity: 0; transform: translateY(18px); filter: blur(6px);
+      transition: opacity 1.4s ease .7s, transform 1.8s cubic-bezier(.16, 1, .3, 1) .7s, filter 1.4s ease .7s; }
+    .js .smileBand.m-wipe .smileBand__text .btn { transition-delay: 1.1s; }
+    .js .smileBand.m-wipe.m-in .smileBand__line, .js .smileBand.m-wipe.m-in .smileBand__text .btn { opacity: 1; transform: none; filter: none; }
+    .js .smileBand.m-wipe .smileBand__text::before { transition-duration: 1.4s; transition-delay: 1.2s; }
+  }
 </style>
 </head>
 <body>
@@ -1844,31 +2500,24 @@
   <div class="wrap heroInner">
     <div class="heroCopy">
       <h1 id="heroH" data-i18n="hero.h1">Zahnbleaching in Aachen, vorher und nachher <span class="hl">gemessen</span>.</h1>
-      <p class="lead" data-i18n="hero.lead">Wir halten vor und nach der Behandlung dieselbe Farbskala an Ihre Zähne. So sehen Sie schwarz auf weiß, was sich verändert hat.</p>
+      <p class="lead" data-i18n="hero.lead">Dieselbe Farbskala vor und nach der Behandlung zeigt Ihnen schwarz auf weiß, was sich verändert hat.</p>
       <div class="cta heroCta">
         <a class="btn" href="#buchen" data-cta="book" data-i18n="hero.book">Beratungstermin buchen</a>
         <a class="btn ghost" href="#faelle"><span data-i18n="hero.cases">Echte Fälle ansehen</span> <span aria-hidden="true">↓</span></a>
       </div>
-      <ul class="heroTrust">
-        <li data-i18n="hero.t1">Farbe vorher und nachher gemessen</li>
-        <li data-i18n="hero.t2">Erster Termin über die Kasse</li>
-        <li data-i18n="hero.t3">Schriftlicher Kostenplan</li>
-      </ul>
     </div>
   </div>
-  <a class="heroCase" href="#faelle">
-    <span class="heroCaseText"><b data-i18n="hero.caseB">Echter Fall aus unserer Praxis</b><span data-i18n="hero.caseS">Fall 1 ansehen</span></span>
-    <span class="heroCasePair">
-      <span><img src="assets/photos/case-1-before.webp" width="480" height="182" decoding="async" data-i18n-alt="hero.caseAlt" alt="Fall 1 aus unserer Praxis: links vorher, rechts nachher"><i data-i18n="ba.before">Vorher</i></span>
-      <span><img src="assets/photos/case-1-after.webp" width="480" height="182" decoding="async" alt=""><i data-i18n="ba.after">Nachher</i></span>
-    </span>
-  </a>
-  <ul class="proofStrip">
-    <li data-i18n="hero.s1">Großkölnstraße 22–28, Aachen</li>
-    <li data-i18n="hero.s2">Wir sprechen DE · EN · FA · TR · AR</li>
-    <li data-i18n="hero.s3">Mo, Di, Do 9–16 Uhr</li>
-    <li><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="hero.s4">Bewertungen bei Google</a></li>
-  </ul>
+  <div class="heroCase">
+    <div class="caseFrame compare heroCompare is-nudge">
+      <img class="compareAfter" src="assets/photos/case-1-cmp-after.webp" width="960" height="400" decoding="async" data-i18n-alt="hero.caseAltA" alt="Fall 1 aus unserer Praxis, nach dem Bleaching">
+      <div class="compareBefore"><img src="assets/photos/case-1-cmp-before.webp" width="960" height="400" decoding="async" data-i18n-alt="hero.caseAltB" alt="Fall 1 aus unserer Praxis, vor dem Bleaching"></div>
+      <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
+      <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
+      <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="hero.caseRange" aria-label="Echter Fall: vorher und nachher vergleichen">
+      <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+    </div>
+    <p class="heroCaseText"><a href="#faelle"><span data-i18n="hero.caseB">Echter Fall aus unserer Praxis</span> <i aria-hidden="true">→</i></a></p>
+  </div>
 </section>
 
 <section class="band--doctor" id="behandler" aria-labelledby="docH">
@@ -1883,7 +2532,7 @@
         <div class="doctorFeature__sign"><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
       </blockquote>
       <p class="doctorFeature__lede" data-i18n="doctor.p1">Wir sagen Ihnen offen, welches Weiß bei Ihren Zähnen realistisch ist – und wenn Füllungen oder Kronen nicht mit aufhellen, welche Wege es sonst gibt.</p>
-      <p class="doctorFeature__facts"><span data-i18n="doctor.fact1">Fünf Sprachen in der Praxis</span><span data-i18n="doctor.fact2">Farbe zweimal gemessen</span><span data-i18n="doctor.fact3">Ergebnis hält meist 1–3 Jahre</span></p>
+      <p class="doctorFeature__facts"><span><b data-count>5</b><i data-i18n="doctor.fact1">Sprachen in der Praxis</i></span><span><b data-count>2×</b><i data-i18n="doctor.fact2">Farbe gemessen, vorher und nachher</i></span><span><b>1–3</b><i data-i18n="doctor.fact3">Jahre hält das Ergebnis meist</i></span></p>
       <a class="doctorFeature__link" href="#buchen" data-cta="book"><span data-i18n="doctor.cta">Beratung vereinbaren</span> <i aria-hidden="true">→</i></a>
     </div>
   </div>
@@ -1937,24 +2586,30 @@
       <h2 id="baH" data-i18n="ba.h2">Zwei Fälle aus unserer Praxis.</h2>
       <p class="lede" data-i18n="ba.lede">Mit Einwilligung veröffentlicht. Licht und Kamera waren vorher und nachher nicht gleich – genauer als jedes Foto misst die Farbskala.</p>
     </div>
-    <div class="cases swipeRow">
+    <div class="cases">
       <figure class="case case--1">
-        <div class="caseFrame">
-          <img src="assets/photos/case-1.jpg" width="1070" height="882" loading="lazy" decoding="async" data-i18n-alt="ba.alt1" alt="Fall 1: oben die Zähne vor dem Bleaching, unten danach">
+        <div class="caseFrame compare">
+          <img class="compareAfter" src="assets/photos/case-1-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altA1" alt="Fall 1 nach dem Bleaching">
+          <div class="compareBefore"><img src="assets/photos/case-1-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altB1" alt="Fall 1 vor dem Bleaching"></div>
           <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
           <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
-          <button type="button" class="expand" data-expand="assets/photos/case-1.jpg" data-i18n-aria="ba.expand" aria-label="Fall 1 groß ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+          <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="ba.range1" aria-label="Fall 1: vorher und nachher vergleichen">
+          <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+          <button type="button" class="expand" data-expand="assets/photos/case-1.jpg" data-i18n-aria="ba.expand1" aria-label="Ganzes Foto von Fall 1 ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
         </div>
-        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case1">Fall 1</span> · <span data-i18n="ba.k1">In der Praxis</span></span><b data-i18n="ba.t1">Gelbliche Verfärbung</b><span data-i18n="ba.cap1">Oben vorher, unten nachher.</span></figcaption>
+        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case1">Fall 1</span> · <span data-i18n="ba.k1">In der Praxis</span></span><b data-i18n="ba.t1">Gelbliche Verfärbung</b><span data-i18n="ba.cap1">Links vorher, rechts nachher.</span></figcaption>
       </figure>
       <figure class="case case--2">
-        <div class="caseFrame">
-          <img src="assets/photos/case-2.jpg" width="1000" height="1000" loading="lazy" decoding="async" data-i18n-alt="ba.alt2" alt="Fall 2: oben die Zähne vor dem Bleaching, unten danach">
+        <div class="caseFrame compare">
+          <img class="compareAfter" src="assets/photos/case-2-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altA2" alt="Fall 2 nach dem Bleaching">
+          <div class="compareBefore"><img src="assets/photos/case-2-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altB2" alt="Fall 2 vor dem Bleaching"></div>
           <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
           <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
-          <button type="button" class="expand" data-expand="assets/photos/case-2.jpg" data-i18n-aria="ba.expand" aria-label="Fall 2 groß ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+          <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="ba.range2" aria-label="Fall 2: vorher und nachher vergleichen">
+          <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+          <button type="button" class="expand" data-expand="assets/photos/case-2.jpg" data-i18n-aria="ba.expand2" aria-label="Ganzes Foto von Fall 2 ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
         </div>
-        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case2">Fall 2</span> · <span data-i18n="ba.k2">In der Praxis</span></span><b data-i18n="ba.t2">Nachgedunkelte Frontzähne</b><span data-i18n="ba.cap2">Oben vorher, unten nachher.</span></figcaption>
+        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case2">Fall 2</span> · <span data-i18n="ba.k2">In der Praxis</span></span><b data-i18n="ba.t2">Nachgedunkelte Frontzähne</b><span data-i18n="ba.cap2">Links vorher, rechts nachher.</span></figcaption>
       </figure>
     </div>
   </div>
@@ -1980,50 +2635,52 @@
     <div class="measureText">
       <h2 id="s2H" data-i18n="s2.h2">Vorher ein Wert, nachher ein Wert.</h2>
       <p class="scaleIntro" data-i18n="s2.cardP">Neben Ihre Zähne halten wir Musterzähne mit Kürzeln wie A2 oder BL3. Der Abstand zwischen den beiden Werten zeigt, wie viel heller Ihre Zähne geworden sind.</p>
-      <div class="scaleTabs" role="img" data-i18n-aria="s2.scaleAria" aria-label="Vereinfachte Farbskala mit acht Musterzähnen, von A3 bis BL1">
-        <span class="tab tab--a3"><i></i>A3</span><span class="tab tab--a2"><i></i>A2</span><span class="tab tab--a1"><i></i>A1</span><span class="tab tab--b1"><i></i>B1</span><span class="tab tab--bl4"><i></i>BL4</span><span class="tab tab--bl3"><i></i>BL3</span><span class="tab tab--bl2"><i></i>BL2</span><span class="tab tab--bl1"><i></i>BL1</span>
+      <p class="shadePrompt" data-i18n="s2.prompt">Welcher Musterzahn kommt Ihren Zähnen am nächsten? Tippen Sie ihn an.</p>
+      <div class="scaleTabs" role="group" data-i18n-aria="s2.scaleAria" aria-label="Vereinfachte Farbskala mit acht Musterzähnen, von A3 bis BL1">
+        <button type="button" class="tab tab--a3" data-code="A3" aria-pressed="false"><em class="tabMark" data-i18n="ba.before">Vorher</em><i></i><span>A3</span></button><button type="button" class="tab tab--a2" data-code="A2" aria-pressed="false"><i></i><span>A2</span></button><button type="button" class="tab tab--a1" data-code="A1" aria-pressed="false"><i></i><span>A1</span></button><button type="button" class="tab tab--b1" data-code="B1" aria-pressed="false"><em class="tabMark" data-i18n="ba.after">Nachher</em><i></i><span>B1</span></button><button type="button" class="tab tab--bl4" data-code="BL4" aria-pressed="false"><i></i><span>BL4</span></button><button type="button" class="tab tab--bl3" data-code="BL3" aria-pressed="false"><i></i><span>BL3</span></button><button type="button" class="tab tab--bl2" data-code="BL2" aria-pressed="false"><i></i><span>BL2</span></button><button type="button" class="tab tab--bl1" data-code="BL1" aria-pressed="false"><i></i><span>BL1</span></button>
       </div>
       <p class="scaleAxis" aria-hidden="true"><span data-i18n="s2.darker">← dunkler</span><span data-i18n="s2.lighter">heller →</span></p>
+      <p class="shadeRead" aria-live="polite"><b class="shadeCode">A3 → B1</b><span class="shadeNote shadeNote--example" data-i18n="s2.exampleNote">Ein Beispiel: vorher A3, nachher B1.</span><span class="shadeNote shadeNote--picked" data-i18n="s2.pickedNote" hidden>Ihre Schätzung. Genau messen wir in der Praxis, bei Tageslicht.</span></p>
       <p class="scaleNote" data-i18n="s2.scaleNote">Vereinfacht. Die echte Skala hat mehr Stufen; gemessen wird im Mund, bei Tageslicht.</p>
     </div>
   </div>
 </section>
 
 <section class="section" id="methoden" aria-labelledby="methodsH">
-  <div class="wrap">
+  <figure class="waysPhoto"><img src="assets/photos/ai/in-office.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt1" alt="Eine Person im Behandlungsstuhl mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)"><figcaption class="waysPhotoName" aria-hidden="true"><span data-i18n="methods.t1">In der Praxis</span><span data-i18n="methods.t2">Zu Hause mit Schienen</span><span data-i18n="methods.t3">Kombiniert</span></figcaption></figure>
+  <div class="wrap ways">
     <div class="sectionHead">
       <h2 id="methodsH" data-i18n="methods.h2">In der Praxis, zu Hause oder beides.</h2>
-      <p class="lede" data-i18n="methods.lede">Welcher Weg zu Ihren Zähnen, Ihrer Zeit und Ihrer Empfindlichkeit passt, klären wir in der Beratung.</p>
+      <p class="lede" data-i18n="methods.lede">Welcher Weg zu Ihnen passt, klären wir in der Beratung.</p>
     </div>
-    <div class="methodShowcase">
-      <figure class="methodVisual"><img class="methodVisualImg" src="assets/photos/ai/in-office.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt1" alt="Eine Person im Behandlungsstuhl mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)"></figure>
-      <div class="methodsTable">
-        <div class="methodsHead" aria-hidden="true"><span></span><span data-i18n="methods.colHow">Ablauf</span><span data-i18n="methods.colGel">Das Gel</span><span data-i18n="methods.colFit">Passt, wenn …</span></div>
-        <article class="method">
-          <h3><img class="methodThumb" src="assets/photos/ai/in-office.webp" width="96" height="96" loading="lazy" decoding="async" alt=""><span data-i18n="methods.t1">In der Praxis</span></h3>
-          <dl class="methodFacts">
-            <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how1">Ein Termin, unter unserer Aufsicht</dd></div>
-            <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel1">Stärker dosiert, von uns überwacht</dd></div>
-            <div><dt data-i18n="methods.colFit">Passt, wenn …</dt><dd data-i18n="methods.fit1">Sie das Ergebnis am selben Tag sehen möchten</dd></div>
-          </dl>
-        </article>
-        <article class="method">
-          <h3><img class="methodThumb" src="assets/photos/ai/at-home.webp" width="96" height="96" loading="lazy" decoding="async" data-i18n-alt="methods.alt2" alt="Eine Hand hält durchsichtige Bleaching-Schienen und eine kleine Gelspritze (KI-generiertes Bild)"><span data-i18n="methods.t2">Zu Hause mit Schienen</span></h3>
-          <dl class="methodFacts">
-            <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how2">Mehrere Tage, mit dünnen Schienen nach Maß</dd></div>
-            <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel2">Milder, in den Schienen getragen</dd></div>
-            <div><dt data-i18n="methods.colFit">Passt, wenn …</dt><dd data-i18n="methods.fit2">Ihre Zähne empfindlich sind</dd></div>
-          </dl>
-        </article>
-        <article class="method">
-          <h3><img class="methodThumb" src="assets/photos/ai/gel.webp" width="96" height="96" loading="lazy" decoding="async" data-i18n-alt="methods.alt3" alt="Aufhellungsgel wird auf die Frontzähne aufgetragen, das Zahnfleisch ist abgedeckt (KI-generiertes Bild)"><span data-i18n="methods.t3">Kombiniert</span></h3>
-          <dl class="methodFacts">
-            <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how3">Erst in der Praxis, dann zu Hause</dd></div>
-            <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel3">Erst stärker, dann milder</dd></div>
-            <div><dt data-i18n="methods.colFit">Passt, wenn …</dt><dd data-i18n="methods.fit3">Sie später auffrischen möchten</dd></div>
-          </dl>
-        </article>
-      </div>
+    <div class="waysList">
+      <article class="way">
+        <img class="wayPhoto" src="assets/photos/ai/in-office.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt1" alt="Eine Person im Behandlungsstuhl mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)">
+        <h3 data-i18n="methods.t1">In der Praxis</h3>
+        <p class="wayFit"><b data-i18n="methods.colFit">Passt, wenn</b> <span data-i18n="methods.fit1">Sie das Ergebnis am selben Tag sehen möchten</span>.</p>
+        <dl class="wayFacts">
+          <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how1">Ein Termin, unter unserer Aufsicht</dd></div>
+          <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel1">Stärker dosiert, von uns überwacht</dd></div>
+        </dl>
+      </article>
+      <article class="way">
+        <img class="wayPhoto" src="assets/photos/ai/at-home.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt2" alt="Eine Hand hält durchsichtige Bleaching-Schienen und eine kleine Gelspritze (KI-generiertes Bild)">
+        <h3 data-i18n="methods.t2">Zu Hause mit Schienen</h3>
+        <p class="wayFit"><b data-i18n="methods.colFit">Passt, wenn</b> <span data-i18n="methods.fit2">Ihre Zähne empfindlich sind</span>.</p>
+        <dl class="wayFacts">
+          <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how2">Mehrere Tage, mit dünnen Schienen nach Maß</dd></div>
+          <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel2">Milder, in den Schienen getragen</dd></div>
+        </dl>
+      </article>
+      <article class="way">
+        <img class="wayPhoto" src="assets/photos/ai/gel.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt3" alt="Aufhellungsgel wird auf die Frontzähne aufgetragen, das Zahnfleisch ist abgedeckt (KI-generiertes Bild)">
+        <h3 data-i18n="methods.t3">Kombiniert</h3>
+        <p class="wayFit"><b data-i18n="methods.colFit">Passt, wenn</b> <span data-i18n="methods.fit3">Sie später auffrischen möchten</span>.</p>
+        <dl class="wayFacts">
+          <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how3">Erst in der Praxis, dann zu Hause</dd></div>
+          <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel3">Erst stärker, dann milder</dd></div>
+        </dl>
+      </article>
     </div>
   </div>
 </section>
@@ -2032,24 +2689,27 @@
   <div class="wrap">
     <div class="sectionHead">
       <h2 id="whenH" data-i18n="when.h2">Welche Verfärbungen sich aufhellen lassen.</h2>
-      <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt. Das klären wir bei der Untersuchung.</p>
+      <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt.</p>
     </div>
-    <div class="whenCols">
-      <div class="whenGroup">
-        <h3 class="verdict verdict--good" data-i18n="when.goodH">Spricht gut an</h3>
-        <ul class="whenList">
-        <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-coffee.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h4><p data-i18n="when.p1">Die häufigste Verfärbung – und die, die am besten anspricht.</p></div></li>
-        <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-age.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a2" alt="Nahaufnahme von Zähnen, die mit dem Alter nachgedunkelt sind (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t2">Mit den Jahren nachgedunkelt</h4><p data-i18n="when.p2">Mit dem Alter eingelagerte Farbe hellt ein Bleaching meist gut auf.</p></div></li>
-        <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-smoking.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t3">Verfärbungen durch Rauchen</h4><p data-i18n="when.p3">Die Reinigung nimmt die Beläge, das Bleaching das Eingelagerte.</p></div></li>
-        </ul>
-      </div>
-      <div class="whenGroup">
-        <h3 class="verdict verdict--limit" data-i18n="when.limitH">Stößt an Grenzen</h3>
-        <ul class="whenList">
-        <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-grey.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t4">Grau, oft durch Medikamente</h4><p data-i18n="when.p4">Etwa nach Antibiotika in der Kindheit: hellt zurückhaltender und ungleichmäßiger auf.</p></div></li>
-        <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-single.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a5" alt="Nahaufnahme, ein Frontzahn ist deutlich dunkler als die übrigen (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t5">Ein einzelner dunkler Zahn</h4><p data-i18n="when.p5">Oft nach einer Wurzelbehandlung; hier braucht es ein anderes Vorgehen.</p></div></li>
-        <li><div class="frame frame--thumb"><img src="assets/photos/ai/stain-restorations.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a6" alt="Nahaufnahme, eine Krone hat einen anderen Farbton als die Nachbarzähne (KI-generiertes Symbolbild)"></div><div><h4 data-i18n="when.t6">Füllungen, Kronen und Veneers</h4><p data-i18n="when.p6">Sie behalten ihre Farbe – liegen sie vorn, planen wir die Anpassung mit ein.</p></div></li>
-        </ul>
+    <div class="stainLab">
+      <figure class="stainStage" aria-hidden="true" hidden><figcaption class="stainStageTag"><span data-group="good"><span class="shadeShift shadeShift--good" aria-hidden="true"><i></i><i></i></span><span data-i18n="when.goodH">Spricht gut an</span></span><span data-group="limit"><span class="shadeShift shadeShift--limit" aria-hidden="true"><i></i><i></i></span><span data-i18n="when.limitH">Stößt an Grenzen</span></span></figcaption></figure>
+      <div class="stains">
+        <div class="stainGroup" data-group="good">
+          <h3 class="stainVerdict"><span class="shadeShift shadeShift--good" aria-hidden="true"><i></i><i></i></span><span data-i18n="when.goodH">Spricht gut an</span></h3>
+          <ul class="stainList">
+            <li><button type="button" class="stainPick" aria-pressed="false"><span class="stainSample"><img src="assets/photos/ai/stain-coffee.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)"></span></button><div class="stainText"><h4 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h4><p data-i18n="when.p1">Die häufigste Verfärbung – und die, die am besten anspricht.</p></div></li>
+            <li><button type="button" class="stainPick" aria-pressed="false"><span class="stainSample"><img src="assets/photos/ai/stain-age.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a2" alt="Nahaufnahme von Zähnen, die mit dem Alter nachgedunkelt sind (KI-generiertes Symbolbild)"></span></button><div class="stainText"><h4 data-i18n="when.t2">Mit den Jahren nachgedunkelt</h4><p data-i18n="when.p2">Mit dem Alter eingelagerte Farbe hellt ein Bleaching meist gut auf.</p></div></li>
+            <li><button type="button" class="stainPick" aria-pressed="false"><span class="stainSample"><img src="assets/photos/ai/stain-smoking.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)"></span></button><div class="stainText"><h4 data-i18n="when.t3">Verfärbungen durch Rauchen</h4><p data-i18n="when.p3">Die Reinigung nimmt die Beläge, das Bleaching das Eingelagerte.</p></div></li>
+          </ul>
+        </div>
+        <div class="stainGroup" data-group="limit">
+          <h3 class="stainVerdict"><span class="shadeShift shadeShift--limit" aria-hidden="true"><i></i><i></i></span><span data-i18n="when.limitH">Stößt an Grenzen</span></h3>
+          <ul class="stainList">
+            <li><button type="button" class="stainPick" aria-pressed="false"><span class="stainSample"><img src="assets/photos/ai/stain-grey.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)"></span></button><div class="stainText"><h4 data-i18n="when.t4">Grau, oft durch Medikamente</h4><p data-i18n="when.p4">Etwa nach Antibiotika in der Kindheit: hellt zurückhaltender und ungleichmäßiger auf.</p></div></li>
+            <li><button type="button" class="stainPick" aria-pressed="false"><span class="stainSample"><img src="assets/photos/ai/stain-single.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a5" alt="Nahaufnahme, ein Frontzahn ist deutlich dunkler als die übrigen (KI-generiertes Symbolbild)"></span></button><div class="stainText"><h4 data-i18n="when.t5">Ein einzelner dunkler Zahn</h4><p data-i18n="when.p5">Oft nach einer Wurzelbehandlung; hier braucht es ein anderes Vorgehen.</p></div></li>
+            <li><button type="button" class="stainPick" aria-pressed="false"><span class="stainSample"><img src="assets/photos/ai/stain-restorations.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.a6" alt="Nahaufnahme, eine Krone hat einen anderen Farbton als die Nachbarzähne (KI-generiertes Symbolbild)"></span></button><div class="stainText"><h4 data-i18n="when.t6">Füllungen, Kronen und Veneers</h4><p data-i18n="when.p6">Sie behalten ihre Farbe – liegen sie vorn, planen wir die Anpassung mit ein.</p></div></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -2067,22 +2727,28 @@
 </figure>
 
 <section class="section" id="kosten" aria-labelledby="kostenH">
-  <div class="wrap">
-    <div class="sectionHead">
+  <div class="wrap costWrap">
+    <div class="costText">
       <h2 id="kostenH" data-i18n="kosten.h2">Was ein Bleaching kostet.</h2>
-      <div class="costText">
-        <p class="lede" data-i18n="kosten.p1">Untersuchung und Farbbestimmung laufen über Ihre Krankenkasse. Bezahlt wird nur die Aufhellung selbst, als Privatleistung nach der GOZ.</p>
-        <p class="lede" data-i18n="kosten.plan">Vorher bekommen Sie einen schriftlichen Kostenplan mit allen Positionen. Den nehmen Sie mit nach Hause und entscheiden ohne Zeitdruck. Privatversicherte reichen die Untersuchung wie gewohnt ein.</p>
-      </div>
+      <p class="lede costPlan" data-i18n="kosten.plan">Vorher bekommen Sie einen schriftlichen Kostenplan mit allen Positionen. Den nehmen Sie mit nach Hause und entscheiden ohne Zeitdruck.</p>
+      <a class="btn ghost costBook" href="#buchen" data-cta="book" data-i18n="hero.book">Beratungstermin buchen</a>
     </div>
-    <div class="costFactors">
-      <h3 data-i18n="kosten.factorsH">Der Preis hängt ab von</h3>
-      <ul class="factors">
-        <li><b data-i18n="kosten.f1k">Verfahren</b><span data-i18n="kosten.f1v">In der Praxis in einer Sitzung oder zu Hause mit individuell angefertigten Schienen.</span></li>
-        <li><b data-i18n="kosten.f2k">Vorbereitung</b><span data-i18n="kosten.f2v">Die professionelle Zahnreinigung vorab, und ob zusätzlich eine kleine Behandlung nötig ist.</span></li>
-        <li><b data-i18n="kosten.f3k">Ausgangslage</b><span data-i18n="kosten.f3v">Wie ausgeprägt die Verfärbung ist und wie viele Zähne im sichtbaren Bereich dazugehören.</span></li>
-      </ul>
+    <div class="costSheet" role="group" aria-labelledby="costSheetH">
+      <p class="costSheetHead" aria-hidden="true"><span class="costSheetMark">AIX<b>SMILE</b></span><span>Großkölnstraße 22–28 · 52062 Aachen</span></p>
+      <h3 class="costSheetTitle" id="costSheetH" data-i18n="kosten.sheet">Ihr Kostenplan</h3>
+      <dl class="costRows">
+        <div><dt data-i18n="kosten.r1">Untersuchung und Farbbestimmung</dt><dd data-i18n="kosten.kasseK">Über Ihre Krankenkasse</dd></div>
+        <div><dt data-i18n="kosten.r2">Die Aufhellung selbst</dt><dd data-i18n="kosten.privK">Privatleistung nach der GOZ</dd></div>
+      </dl>
       <p class="priceFrom" id="priceFrom" hidden></p>
+      <div class="costSheetFactors">
+        <h4 data-i18n="kosten.factorsH">Der Preis hängt ab von</h4>
+        <ul class="factors">
+            <li><b data-i18n="kosten.f1k">Verfahren</b><span data-i18n="kosten.f1v">In der Praxis in einer Sitzung oder zu Hause mit individuell angefertigten Schienen.</span></li>
+            <li><b data-i18n="kosten.f2k">Vorbereitung</b><span data-i18n="kosten.f2v">Die professionelle Zahnreinigung vorab, und ob zusätzlich eine kleine Behandlung nötig ist.</span></li>
+            <li><b data-i18n="kosten.f3k">Ausgangslage</b><span data-i18n="kosten.f3v">Wie ausgeprägt die Verfärbung ist und wie viele Zähne im sichtbaren Bereich dazugehören.</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -2304,7 +2970,7 @@
         el.classList.add('is-leaving');
         document.documentElement.classList.add('is-revealed');
         window.dispatchEvent(new CustomEvent('aixsmile:revealed'));
-        setTimeout(function () { el.remove(); }, 500);
+        setTimeout(function () { el.remove(); }, 1000);
       }, wait);
     }
     var onLoad = function () { leave(false); }; // never pass the Event in as `force`
@@ -2325,8 +2991,7 @@
     var RISE = [
       '.sectionHead > *', '.procedure__head > *',
       '.doctorFeature__text > :not(h2)', '.doctorFeature__facts > div',
-      '.case', '.measureText > *', '.method', '.whenCols .verdict', '.whenList li',
-      '.costCards li', '.costFactors',
+      '.case', '.measureText > *', '.way', '.stainVerdict', '.stainPick', '.stainStage', '.costText > *', '.costSheet',
       '.band--buchen .intro > *', '.bk',
       '.faqIntro > *', '.faq details',
       '.praxisText > *', '.smileBand__text > *', 'body > footer .colophon > *'
@@ -2360,7 +3025,7 @@
         var el = en.target;
         io.unobserve(el);
         if (counts.indexOf(el) > -1) { countUp(el); return; }
-        el.style.setProperty('--m-delay', (Math.min(i++, 7) * 0.08).toFixed(2) + 's');
+        el.style.setProperty('--m-delay', (Math.min(i++, 7) * 0.12).toFixed(2) + 's');
         el.classList.add('m-in');
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
@@ -2376,6 +3041,137 @@
       });
     }, { rootMargin: '1200px 0px' });
     wipes.forEach(function (el) { ahead.observe(el); });
+  })();
+</script>
+<script>
+  // Cases: drag the divider (mouse, finger or arrow keys) to compare before
+  // and after; a tap moves it there. With a mouse it also follows the
+  // pointer without a press. A vertical swipe still scrolls the page.
+  (function () {
+    var fine = matchMedia('(hover: hover) and (pointer: fine)');
+    [].forEach.call(document.querySelectorAll('.compare'), function (frame) {
+      var range = frame.querySelector('.compareRange'), id = null, x0 = 0, moved = false;
+      function set(v) {
+        v = Math.max(0, Math.min(100, v));
+        frame.style.setProperty('--pos', v.toFixed(2) + '%');
+        range.value = Math.round(v);
+        frame.classList.toggle('hide-before', v < 16);
+        frame.classList.toggle('hide-after', v > 84);
+      }
+      function at(e) { var r = frame.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 100; }
+      function stop() { id = null; frame.classList.remove('is-dragging'); }
+      range.addEventListener('input', function () { frame.classList.add('is-touched'); set(+range.value); });
+      frame.addEventListener('pointerdown', function (e) {
+        if (e.button > 0 || e.target.closest('.expand')) return;
+        id = e.pointerId; x0 = e.clientX; moved = e.pointerType === 'mouse';
+        frame.classList.add('is-touched');
+        if (moved) { e.preventDefault(); set(at(e)); frame.classList.add('is-dragging'); try { frame.setPointerCapture(id); } catch (err) {} }
+      });
+      frame.addEventListener('pointermove', function (e) {
+        if (id === null && e.pointerType === 'mouse' && fine.matches) {
+          frame.classList.add('is-touched', 'is-follow');
+          set(at(e));
+          return;
+        }
+        if (e.pointerId !== id) return;
+        if (!moved) {
+          if (Math.abs(e.clientX - x0) < 4) return;
+          moved = true; frame.classList.add('is-dragging');
+          try { frame.setPointerCapture(id); } catch (err) {}
+        }
+        set(at(e));
+      });
+      frame.addEventListener('pointerup', function (e) {
+        if (e.pointerId !== id) return;
+        if (!moved) set(at(e));
+        stop();
+      });
+      frame.addEventListener('pointercancel', stop);
+      frame.addEventListener('lostpointercapture', stop);
+    });
+  })();
+</script>
+<script>
+  // The shade guide in "Vorher ein Wert": tap the sample tooth closest to
+  // your own and the readout shows its code; the example (A3 to B1) gives way.
+  (function () {
+    var sec = document.getElementById('messen'), box = sec && sec.querySelector('.scaleTabs');
+    if (!box) return;
+    var code = sec.querySelector('.shadeCode'), ex = sec.querySelector('.shadeNote--example'), mine = sec.querySelector('.shadeNote--picked');
+    box.addEventListener('click', function (e) {
+      var tab = e.target.closest('.tab');
+      if (!tab) return;
+      [].forEach.call(box.querySelectorAll('.tab'), function (t) { t.setAttribute('aria-pressed', String(t === tab)); });
+      sec.classList.add('is-picking');
+      code.textContent = tab.getAttribute('data-code');
+      code.classList.remove('is-swap'); void code.offsetWidth; code.classList.add('is-swap');
+      ex.hidden = true; mine.hidden = false;
+    });
+  })();
+  // Methods, with a mouse: pointing at a way shows its picture beside the
+  // list and quiets the other two; leaving the list brings them back. The two
+  // extra pictures are only added where a mouse can ask for them.
+  (function () {
+    var fig = document.querySelector('.waysPhoto'), list = document.querySelector('.waysList');
+    if (!fig || !list || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    ['at-home', 'gel'].forEach(function (name) {
+      var img = document.createElement('img');
+      img.width = 900; img.height = 1125; img.alt = '';
+      img.loading = 'lazy'; img.decoding = 'async'; img.setAttribute('aria-hidden', 'true');
+      img.src = 'assets/photos/ai/' + name + '.webp';
+      fig.insertBefore(img, fig.querySelector('.waysPhotoName'));
+    });
+    var ways = [].slice.call(list.querySelectorAll('.way'));
+    ways.forEach(function (w, i) {
+      w.addEventListener('mouseenter', function () {
+        fig.setAttribute('data-show', String(i + 1));
+        list.classList.add('is-pointing');
+        ways.forEach(function (o) { o.classList.toggle('is-on', o === w); });
+      });
+    });
+    list.addEventListener('mouseleave', function () { list.classList.remove('is-pointing'); });
+  })();
+  // Discolourations: one large picture and six teeth samples to pick from.
+  // Pointing at a sample (mouse) or tapping it shows it large with its words.
+  // The large pictures are made here, so without JS the plain list stays.
+  (function () {
+    var lab = document.querySelector('.stainLab');
+    if (!lab) return;
+    var stage = lab.querySelector('.stainStage'), tag = stage.querySelector('.stainStageTag');
+    var items = [].slice.call(lab.querySelectorAll('.stainList li'));
+    var big = items.map(function (li) {
+      var img = document.createElement('img');
+      img.width = 1000; img.height = 750; img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+      img.src = li.querySelector('img').getAttribute('src');
+      stage.insertBefore(img, tag);
+      return img;
+    });
+    function pick(i) {
+      items.forEach(function (li, k) {
+        li.classList.toggle('is-on', k === i);
+        li.querySelector('.stainPick').setAttribute('aria-pressed', String(k === i));
+        big[k].classList.toggle('is-on', k === i);
+      });
+      stage.setAttribute('data-group', items[i].closest('.stainGroup').getAttribute('data-group'));
+    }
+    var fine = matchMedia('(hover: hover) and (pointer: fine)');
+    items.forEach(function (li, i) {
+      var b = li.querySelector('.stainPick');
+      b.addEventListener('click', function () { pick(i); });
+      b.addEventListener('mouseenter', function () { if (fine.matches) pick(i); });
+    });
+    stage.hidden = false; lab.classList.add('is-lab'); pick(0);
+  })();
+  // The hero slider shows once that it moves, after the page appears; any touch stops it.
+  (function () {
+    var f = document.querySelector('.heroCompare');
+    if (!f) return;
+    var stop = function () { f.classList.remove('is-nudge'); };
+    f.addEventListener('pointerdown', stop);
+    f.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') stop(); });
+    f.addEventListener('animationend', stop);
+    var r = f.querySelector('.compareRange');
+    if (r) r.addEventListener('keydown', stop);
   })();
 </script>
 <script type="module">

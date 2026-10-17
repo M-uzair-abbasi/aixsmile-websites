@@ -52,7 +52,8 @@ test('responsive hero and three localized smile bands appear in the agreed order
   assert.equal(en.cta, 'Book a consultation');
 });
 
-test('phone smile bands use square photos with captions below and fit below the header', async (t) => {
+// cinematic since 2026-10-17: on phones each band is one screen of photo, the line at its foot
+test('phone smile bands fill one screen with the photo, the line at the bottom clear of the booking bar', async (t) => {
   const server = await serve();
   const browser = await launch();
   t.after(async () => { await browser.close(); await server.close(); });
@@ -61,19 +62,25 @@ test('phone smile bands use square photos with captions below and fit below the 
   await mockApi(page);
   await page.goto(server.url, { waitUntil: 'load' });
 
-  const bands = await page.evaluate(() => [...document.querySelectorAll('.smileBand')].map((band) => {
-    const picture = band.querySelector('picture').getBoundingClientRect();
-    const caption = band.querySelector('figcaption').getBoundingClientRect();
-    const whole = band.getBoundingClientRect();
-    return {
-      squareDelta: Math.abs(picture.width - picture.height),
-      captionBelow: caption.top >= picture.bottom - 1,
-      height: whole.height,
-    };
+  const { bands, usable } = await page.evaluate(() => ({
+    usable: innerHeight - document.querySelector('.top').getBoundingClientRect().height,
+    // (the line has not faded in yet, so it still sits 18px low: measuring now is the strict case)
+    bands: [...document.querySelectorAll('.smileBand')].map((band) => {
+      const picture = band.querySelector('picture').getBoundingClientRect();
+      // the visible words (line, and the button on band 3), not the caption's padded box
+      const parts = [...band.querySelectorAll('figcaption > *')].map((el) => el.getBoundingClientRect());
+      const caption = { top: Math.min(...parts.map((r) => r.top)), bottom: Math.max(...parts.map((r) => r.bottom)) };
+      const whole = band.getBoundingClientRect();
+      return {
+        coverDelta: Math.abs(picture.height - whole.height) + Math.abs(picture.width - whole.width),
+        captionInside: caption.top >= whole.top && caption.bottom <= whole.bottom - document.getElementById('mbar').getBoundingClientRect().height,
+        height: whole.height,
+      };
+    }),
   }));
 
   assert.equal(bands.length, 3);
-  assert.ok(bands.every(({ squareDelta }) => squareDelta <= 1));
-  assert.ok(bands.every(({ captionBelow }) => captionBelow));
-  assert.ok(bands.every(({ height }) => height <= 780));
+  assert.ok(bands.every(({ coverDelta }) => coverDelta <= 2), JSON.stringify(bands));
+  assert.ok(bands.every(({ captionInside }) => captionInside), JSON.stringify(bands));
+  assert.ok(bands.every(({ height }) => height >= usable * 0.9 && height <= usable), JSON.stringify({ usable, bands }));
 });

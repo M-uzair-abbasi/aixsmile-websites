@@ -7,6 +7,32 @@ Aachen, meant for `bleaching-aachen.de`. It is the second satellite after
 AIXSMILE named openly, one booking system. Design spec:
 `../docs/superpowers/specs/2026-09-24-bleaching-satellite-design.md`.
 
+**The look now (2026-10-17):** the veneer page's greens and copper, headlines in
+Petrona (self-hosted; the old system-serif stack fell back to a default book
+face on everything but Apple devices), Inter for text. The page's idea, the
+shade guide, is its motif: a shade-gradient underline under „gemessen“, thin
+shade strips between light bands, and a tappable guide in „Vorher ein Wert“.
+The hero carries a real case as a drag slider that sweeps once by itself;
+both cases are sliders; the costs are two plain statements (insurance /
+private). Motion is one-time or visitor-driven, never scroll-linked.
+Since the "first look" pass the hero portrait has no frame: it runs to the
+edge (on phones under the header), fades into its own wall, and the
+headline sits on it; the splash lifts like a curtain, the picture settles,
+the headline rises out of a slot. With a mouse, the before/after dividers
+follow the pointer, and the methods photo switches to the way you point at.
+Later the same day the hero was quieted: photo, headline, one sentence, two
+ways in, and the real case as a small proof in the corner (the practice
+strip and the three ticks repeated the practice band, footer and costs).
+The methods are a frameless photo from the page edge beside three plain
+rows (swipeable photo cards on phones); the discolourations are one large
+picture with six teeth samples to pick from (the plain list without JS); the
+costs show the written cost plan itself as a sheet of practice paper.
+Then, asked what "wow" should feel like, the owner chose cinematic: the three
+smile bands are full-screen scenes (on phones the photo fills the screen and
+the line sits at the bottom), the shade-guide photo runs to the page edge,
+and arrivals are slow fades: text drifts up and comes into focus, pictures
+settle like a camera coming to rest.
+
 **The look (redesign 2026-09-28):** the client's own mock of this page —
 near-black bands, warm cream and stone sections, bronze buttons, headings in
 the veneer page's serif (Iowan/Palatino) with one italic phrase, Figtree for
@@ -28,7 +54,7 @@ plan: `docs/superpowers/plans/2026-09-28-bleaching-redesign.md`.
 | `js/bleach-stage.js` | The 3D stage with three.js, bundled and minified (built from `js/src/bleach-stage.js` + `js/src/bleach-rig.js`, do not edit) |
 | `assets/models/dentition.glb` | The dentition model, copied from the veneer page (32 crowns, gums, bite hinge) |
 | `assets/treatment/` | The five step stills (poster, no-WebGL and no-JS fallback) |
-| `assets/fonts/` | Figtree, self-hosted (headings use the system serif stack) |
+| `assets/fonts/` | Inter (text), Petrona (headlines), Figtree (legal pages), all self-hosted |
 | `assets/photos/` | Two consented cases (+ the hero's case pair), the doctor's portrait (`doctor-molaie*`), the map; `ai/` holds the labelled AI images in use |
 | `assets/tooth-mark.png` | Favicon |
 | `tests/` | `node --test tests/*.test.mjs`: the timeline and the rig (`site-esm.mjs` lets Node read the site's `.js` as ES modules) |
@@ -139,7 +165,11 @@ page. None is shown as a result; results come only from the two real cases.
   band in both languages. Leave it `null` to show no price.
 - **Photos:** the two cases are the practice's consented images. Case 1 was
   cropped only to remove the baked-in "Vorher"/"Nacher" labels; the page sets
-  its own labels. The result smile from the main site (`ergebnis.jpg`) is not
+  its own labels. The page shows each case as a drag-to-compare slider: the
+  `case-{1,2}-cmp-{before,after}.webp` pairs (960×400) are cut from the two
+  originals and aligned tooth on tooth (case 2's crop leaves out the practice
+  logo on the seam); the expand button still opens the whole original photo.
+  The result smile from the main site (`ergebnis.jpg`) is not
   used: it may show veneers rather than bleaching, and a bleaching page must
   not suggest otherwise.
 
@@ -167,7 +197,7 @@ refused for any non-localhost URL.
 
 ## Image rule (2026-09-24)
 
-`case-1.jpg`, `case-1-pair.webp` and `case-2.jpg` are the same two cases that
+`case-1.jpg`, `case-1-pair.webp`, `case-2.jpg` and their `-cmp-` crops are the same two cases that
 aixsmile.de shows on its bleaching page. That is a known duplicate-image
 signal, accepted for now for the conversion value; swap them for cases that
 are NOT on the main site as soon as the practice supplies any. The former

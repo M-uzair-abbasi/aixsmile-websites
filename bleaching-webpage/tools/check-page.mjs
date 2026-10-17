@@ -129,49 +129,125 @@ try {
     await ctx.close();
   }
 
-  // ---- phone: cases and methods are swipe rows that do not widen the page ----
+  // ---- phone: the cases are drag-to-compare sliders, stacked, inside the page ----
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const page = await ctx.newPage(); await mockApi(page);
     await page.goto(srv.url, { waitUntil: 'load' });
-    const rows = await page.evaluate(() => [...document.querySelectorAll('.swipeRow')].map((r) => ({
-      id: r.closest('section').id, scrolls: r.scrollWidth > r.clientWidth + 10, snap: getComputedStyle(r).scrollSnapType,
-    })));
+    await page.waitForFunction(() => document.documentElement.classList.contains('is-revealed'), null, { timeout: 30000 }).catch(() => {});
+    await page.evaluate(() => { const el = document.getElementById('faelle'); scrollTo(0, el.getBoundingClientRect().top + scrollY - 58); });
+    await page.waitForTimeout(1500);
+    const pos = () => page.evaluate(() => parseFloat(document.querySelectorAll('#faelle .compare')[1].style.getPropertyValue('--pos')) || 50);
+    const setup = await page.evaluate(() => {
+      const f = [...document.querySelectorAll('#faelle .compare')];
+      const r = f.map((el) => el.getBoundingClientRect());
+      return { n: f.length, stacked: r.length === 2 && r[1].top >= r[0].bottom, labels: f.every((el) => (el.querySelector('.compareRange')?.getAttribute('aria-label') || '').length > 5),
+        pairs: f.every((el) => /cmp-after/.test(el.querySelector('img.compareAfter')?.src) && /cmp-before/.test(el.querySelector('.compareBefore img')?.src)) };
+    });
+    const box = await page.locator('#faelle .compare').nth(1).boundingBox();
+    const cdp = await ctx.newCDPSession(page);
+    const touch = async (pts) => {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: pts[0][0], y: pts[0][1] }] });
+      for (const [x, y] of pts.slice(1)) { await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] }); await page.waitForTimeout(16); }
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      await page.waitForTimeout(300);
+    };
+    const cx = box.x + box.width / 2, cy = box.y + box.height / 2;
+    await touch(Array.from({ length: 13 }, (_, k) => [cx - k * box.width * 0.03, cy]));
+    const afterDrag = await pos();
+    const y0 = await page.evaluate(() => scrollY);
+    await touch(Array.from({ length: 13 }, (_, k) => [cx + 20, cy + 40 - k * 25]));
+    const afterSwipe = { pos: await pos(), scrolled: (await page.evaluate(() => scrollY)) - y0 };
     const wider = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-    ok('phone: cases (and methods) swipe sideways inside their row, the page does not', rows.length >= 1 && rows.every((r) => r.scrolls && /x/.test(r.snap)) && wider <= 0, JSON.stringify(rows));
+    ok('phone: cases stack as two before/after sliders with labels', setup.n === 2 && setup.stacked && setup.labels && setup.pairs, JSON.stringify(setup));
+    ok('phone: a sideways drag moves the divider, an upward swipe still scrolls the page, which does not widen',
+      afterDrag < 25 && Math.abs(afterSwipe.pos - afterDrag) < 1 && afterSwipe.scrolled > 100 && wider <= 0, JSON.stringify({ afterDrag, afterSwipe, wider }));
     await ctx.close();
   }
 
-  // ---- methods: three rows of one comparison table, and the nav points at sections that exist ----
+  // ---- laptop: the hero's real case moves once by itself; the shade guide answers a tap ----
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await ctx.newPage(); await mockApi(page);
+    const errors = []; page.on('pageerror', (e) => errors.push(String(e)));
+    await page.goto(srv.url, { waitUntil: 'load' });
+    await page.waitForFunction(() => document.documentElement.classList.contains('is-revealed'), null, { timeout: 30000 }).catch(() => {});
+    const seen = new Set();
+    for (let i = 0; i < 16; i++) { await page.waitForTimeout(250); seen.add(await page.evaluate(() => Math.round(parseFloat(getComputedStyle(document.querySelector('.heroCompare')).getPropertyValue('--pos'))))); }
+    const hero = await page.evaluate(() => ({ src: document.querySelector('.heroCompare img.compareAfter')?.getAttribute('src'), link: document.querySelector('.heroCaseText a')?.getAttribute('href') }));
+    ok('hero: the real case slider sweeps once on its own and links to the cases', [...seen].some((v) => v < 40) && [...seen].some((v) => v > 60) && /case-1-cmp-after/.test(hero.src || '') && hero.link === '#faelle', JSON.stringify({ seen: [...seen], ...hero }));
+    await page.evaluate(() => { const el = document.getElementById('messen'); scrollTo(0, el.getBoundingClientRect().top + scrollY - 64); });
+    await page.waitForTimeout(1200);
+    const start = await page.evaluate(() => document.querySelector('.shadeCode')?.textContent);
+    await page.click('#messen .tab--bl3');
+    const picked = await page.evaluate(() => ({ code: document.querySelector('.shadeCode')?.textContent, note: !document.querySelector('.shadeNote--picked')?.hidden, pressed: document.querySelectorAll('#messen .tab[aria-pressed="true"]').length }));
+    ok('shade guide: the example shows first, a tapped sample tooth shows its own code', /A3.*B1/.test(start || '') && picked.code === 'BL3' && picked.note && picked.pressed === 1, JSON.stringify({ start, ...picked }));
+    ok('no script errors with the hero slider and the shade guide', errors.length === 0, errors.join(' | '));
+    await ctx.close();
+  }
+
+  // ---- laptop: the slider answers the keyboard, and only its button opens the whole photo ----
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await ctx.newPage(); await mockApi(page);
+    await page.goto(srv.url, { waitUntil: 'load' });
+    await page.waitForFunction(() => document.documentElement.classList.contains('is-revealed'), null, { timeout: 30000 }).catch(() => {});
+    await page.evaluate(() => { const el = document.getElementById('faelle'); scrollTo(0, el.getBoundingClientRect().top + scrollY - 64); });
+    await page.waitForTimeout(1500);
+    const box = await page.locator('#faelle .compare').first().boundingBox();
+    await page.mouse.click(box.x + box.width * 0.3, box.y + box.height * 0.5);
+    const lbAfterClick = await page.evaluate(() => document.getElementById('lightbox').hidden);
+    const clickPos = await page.evaluate(() => parseFloat(document.querySelector('#faelle .compare').style.getPropertyValue('--pos')));
+    await page.focus('#faelle .compare .compareRange');
+    await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
+    const keyPos = await page.evaluate(() => parseFloat(document.querySelector('#faelle .compare').style.getPropertyValue('--pos')));
+    await page.locator('#faelle .compare .expand').first().click();
+    const lb = await page.evaluate(() => ({ open: !document.getElementById('lightbox').hidden, src: document.getElementById('lbImg').getAttribute('src') }));
+    ok('laptop: a click moves the divider, arrow keys step it, the button opens the whole photo',
+      lbAfterClick && Math.abs(clickPos - 30) < 2 && Math.abs(keyPos - clickPos - 2) < 1.5 && lb.open && /case-1\.jpg/.test(lb.src), JSON.stringify({ lbAfterClick, clickPos, keyPos, lb }));
+    await ctx.close();
+  }
+
+  // ---- methods: three ways beside one photo, and the nav points at sections that exist ----
   {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await ctx.newPage(); await mockApi(page);
     await page.goto(srv.url, { waitUntil: 'load' });
     const m = await page.evaluate(() => ({
-      cards: document.querySelectorAll('#methoden .method').length,
+      cards: document.querySelectorAll('#methoden .way').length,
       missing: [...document.querySelectorAll('.navLinks a')].map((a) => a.getAttribute('href')).filter((h) => !document.querySelector(h)),
       old: !!document.getElementById('zwei-wege') || !!document.getElementById('ablauf'),
     }));
-    ok('methods: three rows in one table; every nav link has its section; the old routes and Ablauf are gone', m.cards === 3 && m.missing.length === 0 && !m.old, JSON.stringify(m));
+    ok('methods: three ways beside one photo; every nav link has its section; the old routes and Ablauf are gone', m.cards === 3 && m.missing.length === 0 && !m.old, JSON.stringify(m));
     await ctx.close();
   }
 
-  // ---- phone: stain images stay readable; costs are plain sentences plus three price factors ----
+  // ---- phone: the stain explorer shows one large picture and six samples to tap; costs are a cost-plan sheet with three price factors ----
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const page = await ctx.newPage(); await mockApi(page);
     await page.goto(srv.url, { waitUntil: 'load' });
+    const state = () => page.evaluate(() => {
+      const stage = document.querySelector('.stainStage').getBoundingClientRect();
+      const on = [...document.querySelectorAll('.stainStage img')].map((i) => i.classList.contains('is-on'));
+      const text = [...document.querySelectorAll('.stainText')].map((t) => getComputedStyle(t).visibility === 'visible');
+      const samples = [...document.querySelectorAll('#wann .stainPick .stainSample')].map((el) => { const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; });
+      return { stageW: Math.round(stage.width), on: on.indexOf(true), shown: text.indexOf(true), nShown: text.filter(Boolean).length, samples };
+    });
+    const first = await state();
+    await page.evaluate(() => document.querySelectorAll('#wann .stainPick')[4].click());
+    await page.waitForTimeout(600);   // the old words fade out over .35 s
+    const second = await state();
     const c = await page.evaluate(() => ({
-      whenCols: getComputedStyle(document.querySelector('.whenCols')).gridTemplateColumns.split(' ').length,
-      thumbs: [...document.querySelectorAll('#wann .frame--thumb')].map((el) => {
-        const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) };
-      }),
       plan: !!document.querySelector('#kosten [data-i18n="kosten.plan"]'),
+      sheet: !!document.querySelector('#kosten .costSheet'),
       factors: document.querySelectorAll('#kosten .factors li').length,
       afterMethods: document.getElementById('methoden').nextElementSibling?.id,
     }));
-    ok('phone: stain images are readable, groups use one column, costs keep the plan sentence and three factors',
-      c.whenCols === 1 && c.thumbs.length === 6 && c.thumbs.every((r) => r.w >= 140 && r.h >= 100) && c.plan && c.factors === 3 && c.afterMethods === 'wann', JSON.stringify(c));
+    ok('phone: the stain explorer shows one large picture and its words, a tap on a sample switches both; costs are a cost-plan sheet with three factors',
+      first.stageW >= 340 && first.on === 0 && first.shown === 0 && first.nShown === 1 && second.on === 4 && second.shown === 4 && second.nShown === 1
+        && first.samples.length === 6 && first.samples.every((r) => r.w >= 90 && r.h >= 45)
+        && c.plan && c.sheet && c.factors === 3 && c.afterMethods === 'wann', JSON.stringify({ first, second, ...c }));
     await ctx.close();
   }
 
@@ -183,16 +259,16 @@ try {
     const b = await page.evaluate(() => ({
       dark: document.getElementById('buchen').classList.contains('tone-night'),
       faqCols: getComputedStyle(document.querySelector('.faq')).gridTemplateColumns.split(' ').length,
-      whenThumbs: [...document.querySelectorAll('#wann .frame--thumb')].map((el) => {
+      whenThumbs: [...document.querySelectorAll('#wann .stainSample')].map((el) => {
         const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) };
       }),
       facts: document.querySelectorAll('.praxisFacts > div').length,
       lead: document.querySelector('.colophonLead')?.textContent.trim(),
       mini: !!document.getElementById('miniToggle') && !!document.getElementById('miniSlots'),
     }));
-    // the stain pictures stay readable (140x100, as on phones) while the section fits one laptop screen
-    ok('lower page: readable stain images, dark booking, two-column FAQ, practice facts and footer intact',
-      b.dark && b.faqCols === 2 && b.whenThumbs.length === 6 && b.whenThumbs.every((r) => r.w >= 140 && r.h >= 100)
+    // the teeth samples stay readable (cropped to the teeth, at least 110x55) beside the large picture, and the section fits one laptop screen
+    ok('lower page: readable teeth samples, dark booking, two-column FAQ, practice facts and footer intact',
+      b.dark && b.faqCols === 2 && b.whenThumbs.length === 6 && b.whenThumbs.every((r) => r.w >= 110 && r.h >= 55)
         && b.facts === 3 && b.lead === 'It’s time to smile.' && b.mini, JSON.stringify(b));
     await ctx.close();
   }
@@ -235,16 +311,54 @@ try {
     ok(`hero ${w}x${h}: both buttons sit above the sticky booking bar`, f.buttons.length === 2 && f.buttons.every((b) => b <= f.limit), JSON.stringify(f));
     await ctx.close();
   }
-  for (const w of [901, 1000, 1100, 1280, 1440]) {
-    const ctx = await browser.newContext({ viewport: { width: w, height: 800 } });
+  // the portrait fades in behind the copy (2026-10-17), so measure what the eye
+  // gets: hide the text, photograph the hero, and hold every line of copy
+  // against the pixels actually behind it (2nd percentile, so grain is no excuse)
+  for (const [w, h, lang] of [[901, 800, 'de'], [1000, 800, 'de'], [1100, 800, 'de'], [1280, 800, 'de'], [1440, 900, 'de'], [390, 844, 'de'], [360, 800, 'de'], [375, 667, 'de'],
+    [901, 800, 'en'], [1440, 900, 'en'], [360, 800, 'en']]) {
+    const phone = w < 700;
+    const ctx = await browser.newContext({ viewport: { width: w, height: h }, isMobile: phone, hasTouch: phone, reducedMotion: 'reduce' });
     const page = await ctx.newPage(); await mockApi(page);
+    if (lang === 'en') await page.addInitScript(() => { try { localStorage.setItem('aixsmileLang', 'en'); } catch (e) {} });
     await page.goto(srv.url, { waitUntil: 'load' });
-    const g = await page.evaluate(() => {
-      const copy = document.querySelector('.heroCopy').getBoundingClientRect(), media = document.querySelector('.heroMedia').getBoundingClientRect();
-      // the fade still holds ~72 % black at 18 % of the photo's width
-      return { copyRight: Math.round(copy.right), limit: Math.round(media.left + media.width * 0.18) };
+    await page.waitForFunction(() => !document.getElementById('splash'), null, { timeout: 15000 }).catch(() => {});
+    const lines = await page.evaluate(() => {
+      // only what is on screen above the phone booking bar; the screenshot holds nothing else
+      const bar = document.getElementById('mbar'), floor = innerHeight - (bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().height : 0);
+      const out = [], walk = document.createTreeWalker(document.querySelector('.heroCopy'), NodeFilter.SHOW_TEXT);
+      for (let n; (n = walk.nextNode());) {
+        const el = n.parentElement;
+        if (!n.textContent.trim() || el.closest('.btn:not(.ghost)')) continue;   // filled buttons carry their own background
+        const cs = getComputedStyle(el), px = parseFloat(cs.fontSize), large = px >= 24 || (px >= 18.66 && +cs.fontWeight >= 700);
+        const r = document.createRange(); r.selectNodeContents(n);
+        for (const q of r.getClientRects()) if (q.bottom <= floor) out.push({ x: q.left, y: q.top, w: q.width, h: q.height, color: cs.color, need: large ? 3 : 4.5, text: n.textContent.trim().slice(0, 24) });
+      }
+      return out;
     });
-    ok(`hero ${w}px: the copy stays on the dark side of the photo's fade`, g.copyRight <= g.limit + 1, JSON.stringify(g));
+    if (!phone) {
+      const card = await page.evaluate(() => Math.round(document.querySelector('.heroCase').getBoundingClientRect().right));
+      ok(`hero ${w}x${h} ${lang}: the real-case card stays on screen`, card <= w - 16, `right=${card}`);
+    }
+    await page.addStyleTag({ content: '.heroCopy, .heroCopy * { color: transparent !important; } .heroCopy .hl::after { visibility: hidden; } .cookieChip { display: none !important; }' });   // the cookie note leaves after a few seconds
+    const cdp = await page.context().newCDPSession(page);
+    const { data } = await cdp.send('Page.captureScreenshot', { format: 'png' }); await cdp.detach();
+    const res = await page.evaluate(async ({ data, lines }) => {
+      const img = new Image(); img.src = 'data:image/png;base64,' + data; await img.decode();
+      const cv = document.createElement('canvas'); cv.width = img.width; cv.height = img.height;
+      const cx = cv.getContext('2d'); cx.drawImage(img, 0, 0);
+      const k = img.width / innerWidth;   // screenshot pixels per CSS pixel
+      const lum = (r, g, b) => [r, g, b].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+      return lines.map((l) => {
+        const lt = lum(...l.color.match(/[\d.]+/g).slice(0, 3).map(Number));
+        const d = cx.getImageData(Math.max(0, Math.floor(l.x * k)), Math.max(0, Math.floor(l.y * k)), Math.max(1, Math.ceil(l.w * k)), Math.max(1, Math.ceil(l.h * k))).data, ratios = [];
+        for (let i = 0; i < d.length; i += 4) { const lb = lum(d[i], d[i + 1], d[i + 2]); ratios.push((Math.max(lt, lb) + 0.05) / (Math.min(lt, lb) + 0.05)); }
+        ratios.sort((a, b) => a - b);
+        return { text: l.text, need: l.need, ratio: +ratios[Math.floor(ratios.length * 0.02)].toFixed(2) };
+      });
+    }, { data, lines });
+    const bad = res.filter((r) => r.ratio < r.need);
+    ok(`hero ${w}x${h} ${lang}: every line of copy keeps its contrast on the photo behind it`, res.length >= 5 && bad.length === 0,
+      JSON.stringify(bad.length ? bad : { lines: res.length, lowest: Math.min(...res.map((r) => r.ratio)) }));
     await ctx.close();
   }
   {
