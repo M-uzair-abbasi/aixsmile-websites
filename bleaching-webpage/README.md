@@ -32,6 +32,10 @@ smile bands are full-screen scenes (on phones the photo fills the screen and
 the line sits at the bottom), the shade-guide photo runs to the page edge,
 and arrivals are slow fades: text drifts up and comes into focus, pictures
 settle like a camera coming to rest.
+The loading screen shows the page's idea: under the AIXSMILE wordmark the
+eight teeth of a shade guide fill one after the other, A3 to BL1, while a
+marker walks along under them („Wir messen die Farbe …"); then the curtain
+lifts.
 
 **The look (redesign 2026-09-28):** the client's own mock of this page —
 near-black bands, warm cream and stone sections, bronze buttons, headings in
