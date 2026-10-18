@@ -34,8 +34,12 @@ and arrivals are slow fades: text drifts up and comes into focus, pictures
 settle like a camera coming to rest.
 The loading screen shows the page's idea: under the AIXSMILE wordmark the
 eight teeth of a shade guide fill one after the other, A3 to BL1, while a
-marker walks along under them („Wir messen die Farbe …"); then the curtain
-lifts.
+copper line fills under them („Wir messen die Farbe …"); then the curtain
+lifts. After the hero's entrance the portrait keeps moving towards her very
+slowly (6 % over 26 s), like a film's opening shot, then rests. The hero headline
+comes into focus line by line (wrapped by a script under the splash and
+unwrapped after the entrance), and the two real cases sweep their divider
+once when they come into view, so people see they can drag it.
 
 **The look (redesign 2026-09-28):** the client's own mock of this page —
 near-black bands, warm cream and stone sections, bronze buttons, headings in
