@@ -2457,13 +2457,18 @@
      After the entrance the portrait keeps moving towards her, very slowly
      (6 % over 26 s), like the opening shot of a film, then rests. It waits
      for the reveal like the entrance does, and is skipped for reduced motion.
-     Hero copy contrast was measured at the end state (1.06) at 901–1920 px
-     and on phones: all lines still pass. */
+     It moves the faded frame, not the picture inside it: moving the picture
+     made the browser re-apply the colour grade and the fade on every frame
+     (in a profile that starved the page for seconds). On laptops the frame
+     grows from its left edge, so the fade never creeps towards the headline;
+     hero copy contrast was measured at the end state (1.06) at 901–1920 px
+     and on phones, German and English: all lines pass. */
   @keyframes heroPush { from { transform: none; } to { transform: scale(1.06); } }
   @media (prefers-reduced-motion: no-preference) {
-    .hero .heroMedia img { transform-origin: 60% 38%; animation: heroFilm 2.8s var(--e-out) backwards, heroPush 26s cubic-bezier(.33, 0, .3, 1) 2.8s forwards; }
+    .hero .heroMedia { transform-origin: 0% 38%; animation: heroPush 26s cubic-bezier(.33, 0, .3, 1) 2.8s forwards; }
+    html.js:not(.is-revealed) .hero .heroMedia { animation-play-state: paused; }
   }
-  @media (prefers-reduced-motion: no-preference) and (max-width: 900px) { .hero .heroMedia img { transform-origin: 50% 32%; } }
+  @media (prefers-reduced-motion: no-preference) and (max-width: 900px) { .hero .heroMedia { transform-origin: 50% 32%; } }
 
   /* ===== Line by line, and cases that show they slide (2026-10-18) =====
      The hero headline comes into focus one line after another (the script
@@ -2480,6 +2485,32 @@
     .heroCopy.is-lines > :nth-child(3) { animation-delay: 1s; }
     html.js.is-revealed .hero h1.is-lines .hl::after { transition-delay: 1.15s; }
     #faelle .compare.is-nudge { animation: compareNudge 2.4s var(--e-io) 1 backwards; }
+  }
+
+  /* ===== Phone fixes (2026-10-18) =====
+     The owner: "fix mobile layout now". On phones the hero's case card peeked
+     out half-hidden behind the booking bar (the same case follows in #faelle),
+     the ghost link drew its underline across the whole width, the methods'
+     swipe cards cut the next card's text mid-word, and the tilted cost sheet
+     read as a crooked box. Phones get: no hero card, a link-width underline,
+     three stacked method rows (photo left, words right), a straight sheet. */
+  @media (max-width: 700px) {
+    .hero .heroCase { display: none; }
+    .heroCta .btn.ghost { flex: 0 0 auto; width: auto; margin-inline: auto; }
+
+    .waysList { display: grid; grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: minmax(0, 1fr); gap: 0; margin: 16px 0 0; padding: 0; overflow: visible;
+      scroll-snap-type: none; border-top: 1px solid var(--line); }
+    .way { display: grid; grid-template-columns: 92px minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 14px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .wayPhoto { grid-column: 1; grid-row: 1 / span 3; width: 92px; height: 116px; aspect-ratio: auto; margin: 0; border-radius: 12px; }
+    .way h3, .wayFit, .wayFacts { grid-column: 2; }
+    .way h3 { margin: 0 0 4px; font-size: 20px; }
+    .wayFit { margin: 0 0 6px; font-size: 14px; line-height: 1.4; }
+    .wayFacts { gap: 1px 10px; font-size: 12.5px; line-height: 1.4; }
+
+    .costWrap::before { display: none; }
+    .costSheet { rotate: none; box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 14px 30px -18px rgba(0, 0, 0, .28); }
+
+    .stainStageTag .shadeShift { display: none; }
   }
 </style>
 </head>

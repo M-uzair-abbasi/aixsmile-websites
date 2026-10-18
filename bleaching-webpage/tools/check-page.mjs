@@ -84,6 +84,8 @@ try {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await ctx.newPage(); await mockApi(page);
     await page.goto(srv.url, { waitUntil: 'load' });
+    // the entrance wraps the headline's lines for a few seconds (2026-10-18); take the authored text once it is plain again
+    await page.waitForFunction(() => document.documentElement.classList.contains('is-revealed') && !document.querySelector('h1 .heroLine'), null, { timeout: 20000 });
     const before = await page.evaluate(() => ({ h1: document.querySelector('h1').innerHTML, title: document.title }));
     await page.click('#langToggle');
     const en = await page.evaluate(() => ({ h1: document.querySelector('h1').textContent, title: document.title, lang: document.documentElement.lang}));
