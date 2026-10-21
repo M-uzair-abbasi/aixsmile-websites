@@ -24,9 +24,9 @@ export const EN = {
   },
   hero: {
     alt: 'A woman in her late fifties with silver-grey hair laughing warmly, with natural-looking teeth (illustration, AI-generated)',
-    l1: 'Teeth that stay put.',
+    l1: 'Dental implants in Aachen.',
     l2: 'Planned in 3D first.',
-    lead: 'Dental implants in Aachen: whether one tooth is missing, several are, or your denture moves: we plan every implant on a 3D X-ray first and talk the plan through with you before anything happens at all.',
+    lead: 'Fixed teeth instead of a gap or a denture. Whether one tooth is missing, several are, or your denture moves: we plan every implant on a 3D X-ray first and talk the plan through with you before anything happens at all.',
     book: 'Book a consultation',
     how: 'How it works',
     f1: '3D X-ray (CBCT)', f2: 'Local anaesthesia', f3: '5 languages spoken',
@@ -177,6 +177,8 @@ export const EN = {
     a4: 'Yes. After the planning you receive a written treatment and cost plan with no hidden costs. Treatment only starts once you have agreed.',
     q5: 'How long does healing take?',
     a5: 'That depends on your situation and the jawbone. It usually takes a few weeks to a few months until the implant has bonded firmly with the bone. We agree the likely timeline with you after the diagnostics.',
+    q11: 'Is it worth travelling from Cologne or Düren?',
+    a11: 'Many of our implant patients do not live in Aachen itself. From Cologne the train takes about 40 minutes to Aachen main station, from Düren around 25, and from there it is a short walk or two bus stops to Großkölnstraße. By car you park right opposite in the car park. The consultation and the 3D X-ray need one visit; we schedule the placement and the crown so that you travel as rarely as possible.',
     q6: 'Will I have a gap while it heals?',
     a6: 'Usually not. A temporary restoration keeps your appearance well cared for during this time. Which one suits depends on the site and your restoration.',
     q7: 'Is everyone suitable for implants?',
@@ -191,6 +193,7 @@ export const EN = {
   place: {
     h2: 'In the centre of Aachen, on Großkölnstraße.',
     p: 'A few minutes from the Markt and the Bushof bus station; the Großkölnstraße car park is right opposite.',
+    p2: 'Our implant patients come from all over Aachen and the Städteregion, from Eschweiler, Stolberg, Würselen and Herzogenrath, from the Düren and Heinsberg districts, and regularly from Cologne and nearby Belgium and the Netherlands. From the main station it is two bus stops, from the A4 and A44 about ten minutes.',
     hoursH: 'Opening hours', hours: 'Mon · Tue · Thu, 9 am to 4 pm', hoursNote: 'By appointment only',
     addrH: 'Address', telH: 'Phone', revH: 'Reviews', rev: 'On Google, unedited',
     mapAria: 'Map: Großkölnstraße 22-28, 52062 Aachen. Opens the route in your maps app',
@@ -201,7 +204,7 @@ export const EN = {
     book: 'Book a consultation',
     hours: 'Mon · Tue · Thu, 9 am to 4 pm, by appointment only',
     langs: 'German, English, Farsi, Turkish, Arabic',
-    impressum: 'Legal notice', datenschutz: 'Privacy',
+    impressum: 'Legal notice', datenschutz: 'Privacy', main: 'Implantology at AIXSMILE',
   },
   mq: { a: 'Consultation · 3D X-ray · Planning · Procedure · Healing · Crown ·' },
   mbar: { aria: 'Quick access', book: 'Book a consultation' },
@@ -210,8 +213,8 @@ export const EN = {
 export const DYN = {
   de: {
     meta: {
-      title: 'Zahnimplantate in Aachen, vorher in 3D geplant | AIXSMILE',
-      description: 'Zahnimplantate bei AIXSMILE in Aachen: 3D-Röntgen, Planung am Computer, Eingriff unter örtlicher Betäubung, schriftlicher Heil- und Kostenplan vorab. Beratungstermin online buchen.',
+      title: 'Zahnimplantate Aachen: Kosten, Ablauf, 3D-Planung | AIXSMILE',
+      description: 'Zahnimplantate in Aachen bei AIXSMILE, Großkölnstraße: 3D-Röntgen, Planung am Computer, Eingriff unter örtlicher Betäubung, schriftlicher Heil- und Kostenplan vorab. Auch für Patienten aus Köln, Düren, Heinsberg und der Euregio. Beratungstermin online buchen.',
     },
     plate: { label: 'Nächster freier Beratungstermin' },
     cost: { priceFrom: (n) => `Ein einzelnes Implantat mit Krone beginnt bei etwa ${n} €; den genauen Betrag nennt Ihr Heil- und Kostenplan.` },
@@ -263,8 +266,8 @@ export const DYN = {
   },
   en: {
     meta: {
-      title: 'Dental implants in Aachen, planned in 3D first | AIXSMILE',
-      description: 'Dental implants at AIXSMILE in Aachen: 3D X-ray, planning on the computer, placement under local anaesthesia, a written treatment and cost plan beforehand. Book a consultation online.',
+      title: 'Dental implants Aachen: costs, procedure, 3D planning | AIXSMILE',
+      description: 'Dental implants in Aachen at AIXSMILE, Großkölnstraße: 3D X-ray, planning on the computer, placement under local anaesthesia, a written treatment and cost plan beforehand. Also for patients from Cologne, Düren, Heinsberg and the Euregio. Book a consultation online.',
     },
     plate: { label: 'Next open consultation' },
     cost: { priceFrom: (n) => `A single implant with a crown starts at around €${n}; your treatment and cost plan gives the exact amount.` },
