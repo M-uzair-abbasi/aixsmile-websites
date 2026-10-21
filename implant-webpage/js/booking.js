@@ -43,8 +43,11 @@ if (form) {
     const p = key.split('-');
     return { y: +p[0], m: +p[1], d: +p[2], dow: new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).getUTCDay() };
   };
-  const longDate = (key) => { const t = T(), p = parts(key); return `${t.weekdaysLong[p.dow]}, ${p.d}. ${t.monthsLong[p.m - 1]}`; };
-  const shortDate = (key) => { const t = T(), p = parts(key); return `${t.weekdays[p.dow]}, ${p.d}. ${t.months[p.m - 1]}`; };
+  const locale = () => (getLang() === 'en' ? 'en-GB' : 'de-DE');
+  const utc = (key) => { const p = parts(key); return new Date(Date.UTC(p.y, p.m - 1, p.d)); };
+  const fmt = (key, opts) => new Intl.DateTimeFormat(locale(), { timeZone: 'UTC', ...opts }).format(utc(key));
+  const longDate = (key) => fmt(key, { weekday: 'long', day: 'numeric', month: 'long' });
+  const shortDate = (key) => fmt(key, { weekday: 'short', day: 'numeric', month: 'short' });
   const slotsFor = (day) => day.slots.filter((s) => Array.isArray(s.services) && s.services.indexOf(SERVICE) !== -1);
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
@@ -99,7 +102,7 @@ if (form) {
     const ms = months();
     if (ms.indexOf(month) === -1) month = ms[0];
     const [y, mo] = month.split('-').map(Number);
-    $('bkMonth').textContent = `${t.monthsLong[mo - 1]} ${y}`;
+    $('bkMonth').textContent = new Intl.DateTimeFormat(locale(), { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(y, mo - 1, 1)));
     $('bkPrev').disabled = ms.indexOf(month) === 0;
     $('bkNext').disabled = ms.indexOf(month) === ms.length - 1;
     const week = $('bkWeek');
