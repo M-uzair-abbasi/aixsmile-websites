@@ -1,0 +1,338 @@
+// ===== Embedded booking (Option B) =====
+// Three steps against the practice's booking API, the same system behind
+// aixsmile.de/termin: pick a slot, enter details, confirmation. This page
+// stores nothing; the API validates everything again on its side.
+//
+// CONTRACT: the API fields are only ever added to, never renamed. If the slots
+// request fails, the widget shows the plain aixsmile.de link instead.
+import { dyn, getLang, onLangChange } from './i18n.js';
+
+// Until the aixsmile.de cutover the app lives on its Vercel URL. After the
+// cutover this becomes 'https://aixsmile.de'. One line to change.
+let API_BASE = 'https://aixsmile.de';
+// Local development only: ?api=http://localhost:3000 points the widget at a
+// dev server of the main app (whose local database is not the live one).
+if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+  const o = new URLSearchParams(location.search).get('api');
+  if (o && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o)) API_BASE = o;
+}
+const SERVICE = 'implantate';
+const VIA = 'implantate-aachen';
+
+// The API's own rules (lib/booking/submit.ts in the main app), checked here too
+// so a rejected field gets a specific message instead of a generic one.
+const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M}\s'\u2019.-]{0,79}$/u;
+const PHONE_RE = /^[\d\s+()\/.-]{5,40}$/;
+const EMAIL_RE = /^[A-Za-z0-9._+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+
+const $ = (id) => document.getElementById(id);
+const form = $('bkForm');
+
+if (form) {
+  const T = () => dyn().bk;
+  let data = null;
+  let days = [];
+  let date = '';
+  let time = '';
+  let len = 30;
+  let month = ''; // 'YYYY-M' shown in the calendar
+  let step = 1;
+  let busy = false;
+
+  const parts = (key) => {
+    const p = key.split('-');
+    return { y: +p[0], m: +p[1], d: +p[2], dow: new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).getUTCDay() };
+  };
+  const longDate = (key) => { const t = T(), p = parts(key); return `${t.weekdaysLong[p.dow]}, ${p.d}. ${t.monthsLong[p.m - 1]}`; };
+  const shortDate = (key) => { const t = T(), p = parts(key); return `${t.weekdays[p.dow]}, ${p.d}. ${t.months[p.m - 1]}`; };
+  const slotsFor = (day) => day.slots.filter((s) => Array.isArray(s.services) && s.services.indexOf(SERVICE) !== -1);
+  const el = (tag, cls, text) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  };
+
+  // ---- stepper ----
+  function setStep(n) {
+    step = n;
+    [1, 2, 3].forEach((k) => {
+      const li = $('bkSteps').querySelector(`[data-step="${k}"]`);
+      li.classList.toggle('on', k === n);
+      li.classList.toggle('done', k < n);
+      $(`bkPane${k}`).hidden = k !== n;
+    });
+    if (n > 1) form.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+
+  // ---- step 1: quick picks + a month calendar ----
+  const monthKey = (key) => { const p = parts(key); return `${p.y}-${p.m}`; };
+  const months = () => { const out = []; days.forEach((d) => { const k = monthKey(d.date); if (out.indexOf(k) === -1) out.push(k); }); return out; };
+  const pick = (d, s) => { date = d.date; time = s.time; len = s.len || 30; month = monthKey(d.date); renderDays(); renderTimes(); goStep2(); };
+  function renderQuick() {
+    const t = T(), box = $('bkQuick'), row = $('bkQuickRow');
+    if (!box) return;
+    row.innerHTML = '';
+    const firstOf = (test) => { for (const d of days) { const s = slotsFor(d).filter(test)[0]; if (s) return [d, s]; } return null; };
+    const picks = [[t.quickNext, firstOf(() => true)], [t.quickAm, firstOf((s) => +s.time.slice(0, 2) < 12)], [t.quickPm, firstOf((s) => +s.time.slice(0, 2) >= 12)]];
+    const seen = new Set();
+    picks.forEach(([label, hit]) => {
+      if (!hit) return;
+      const key = `${hit[0].date} ${hit[1].time}`;
+      if (seen.has(key)) return; // the earliest slot is also the earliest morning: show it once
+      seen.add(key);
+      const btn = el('button', 'quickBtn');
+      btn.type = 'button';
+      btn.appendChild(el('small', null, label));
+      btn.appendChild(el('b', null, t.when(shortDate(hit[0].date), hit[1].time)));
+      btn.addEventListener('click', () => pick(hit[0], hit[1]));
+      row.appendChild(btn);
+    });
+    box.hidden = row.children.length === 0;
+  }
+  function renderDays() {
+    const t = T(), grid = $('bkDays'), cal = $('bkCalRow');
+    $('bkNoDays').hidden = days.length > 0;
+    cal.hidden = days.length === 0;
+    renderQuick();
+    if (!days.length) return;
+    const ms = months();
+    if (ms.indexOf(month) === -1) month = ms[0];
+    const [y, mo] = month.split('-').map(Number);
+    $('bkMonth').textContent = `${t.monthsLong[mo - 1]} ${y}`;
+    $('bkPrev').disabled = ms.indexOf(month) === 0;
+    $('bkNext').disabled = ms.indexOf(month) === ms.length - 1;
+    const week = $('bkWeek');
+    week.innerHTML = '';
+    [1, 2, 3, 4, 5, 6, 0].forEach((dow) => week.appendChild(el('span', null, t.weekdays[dow])));
+    grid.innerHTML = '';
+    const open = {};
+    days.forEach((d) => { open[d.date] = slotsFor(d).length; });
+    const first = new Date(Date.UTC(y, mo - 1, 1));
+    const lead = (first.getUTCDay() + 6) % 7; // Monday first
+    for (let i = 0; i < lead; i++) grid.appendChild(el('span', 'off', ''));
+    const dim = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+    const todayKey = new Date().toISOString().slice(0, 10);
+    for (let d = 1; d <= dim; d++) {
+      const key = `${y}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      if (open[key]) {
+        const btn = el('button', 'day' + (key === todayKey ? ' today' : ''), String(d));
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', key === date ? 'true' : 'false');
+        btn.setAttribute('aria-label', `${longDate(key)}, ${t.nTimes(open[key])}`);
+        btn.addEventListener('click', () => { date = key; time = ''; $('bkTaken').hidden = true; renderDays(); renderTimes(); });
+        grid.appendChild(btn);
+      } else {
+        grid.appendChild(el('span', 'off' + (key === todayKey ? ' today' : ''), String(d)));
+      }
+    }
+    // always six rows, so flipping months never changes the height
+    while (grid.children.length < 42) grid.appendChild(el('span', 'off', ''));
+  }
+  $('bkPrev').addEventListener('click', () => { const ms = months(); const i = ms.indexOf(month); if (i > 0) { month = ms[i - 1]; renderDays(); } });
+  $('bkNext').addEventListener('click', () => { const ms = months(); const i = ms.indexOf(month); if (i < ms.length - 1) { month = ms[i + 1]; renderDays(); } });
+
+  function renderTimes() {
+    const day = days.filter((d) => d.date === date)[0];
+    $('bkTimesEmpty').hidden = !!day;
+    if (!day) { $('bkAm').hidden = true; $('bkPm').hidden = true; $('bkTimesFor').textContent = getLang() === 'en' ? 'Time' : 'Uhrzeit'; return; }
+    $('bkTimesFor').textContent = T().timesFor(shortDate(date));
+    const am = $('bkAm'), pm = $('bkPm');
+    am.querySelector('.timeGrid').innerHTML = '';
+    pm.querySelector('.timeGrid').innerHTML = '';
+    let nAm = 0, nPm = 0;
+    slotsFor(day).forEach((s) => {
+      const b = el('button', 'time', s.time);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', s.time === time ? 'true' : 'false');
+      b.addEventListener('click', () => { time = s.time; len = s.len || 30; renderTimes(); goStep2(); });
+      if (+s.time.slice(0, 2) < 12) { am.querySelector('.timeGrid').appendChild(b); nAm++; }
+      else { pm.querySelector('.timeGrid').appendChild(b); nPm++; }
+    });
+    am.hidden = !nAm;
+    pm.hidden = !nPm;
+  }
+
+  // ---- step 2: details ----
+  function renderPick() {
+    const t = T();
+    $('bkPickWhen').textContent = t.when(shortDate(date), time);
+    $('bkPickWhat').textContent = `${t.service} · ${t.mins(len)}`;
+  }
+  function goStep2() {
+    $('bkTaken').hidden = true; // a new time is picked: the old notice no longer applies
+    renderPick();
+    setStep(2);
+    setTimeout(() => { if (!$('bkFirst').value) $('bkFirst').focus({ preventScroll: true }); }, 380);
+  }
+  function renderStatic() {
+    const t = T();
+    if (data && data.consent && data.consent.text) {
+      $('bkConsentText').textContent = data.consent.text[getLang()] || data.consent.text.de;
+    }
+    if (!busy) $('bkSubmit').textContent = t.submit;
+    renderDays();
+    renderTimes();
+    if (date && time) { renderPick(); renderDone(); }
+  }
+
+  $('bkChange').addEventListener('click', () => { $('bkTaken').hidden = true; setStep(1); });
+  $('bkSteps').querySelectorAll('[data-step]').forEach((li) => {
+    const k = +li.dataset.step;
+    const back = () => { if (k < step && step < 3) { $('bkTaken').hidden = true; setStep(k); } };
+    li.addEventListener('click', back);
+    li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); back(); } });
+  });
+  $('bkNoteToggle').addEventListener('click', () => {
+    $('bkNoteWrap').hidden = false;
+    $('bkNoteToggle').hidden = true;
+    $('bkNote').focus();
+  });
+
+  function showError(msg) {
+    const e = $('bkError');
+    e.textContent = msg || '';
+    e.hidden = !msg;
+    if (msg) e.scrollIntoView({ block: 'nearest' });
+  }
+  const mark = (id, bad) => $(id).classList.toggle('bad', !!bad);
+
+  // ---- step 3: done ----
+  const pad = (n) => (n < 10 ? '0' : '') + n;
+  function renderDone() {
+    const t = T();
+    $('bkDoneWhen').textContent = t.when(longDate(date), time);
+    $('bkDoneWhat').textContent = `${t.service} · ${t.mins(len)}`;
+    // .ics for the phone's calendar: wall-clock time in Europe/Berlin
+    const p = parts(date), hh = +time.slice(0, 2), mm = +time.slice(3, 5);
+    const day = `${p.y}${pad(p.m)}${pad(p.d)}`;
+    const endMin = hh * 60 + mm + len;
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//AIXSMILE//Termin//DE', 'BEGIN:VEVENT',
+      `UID:${date}-${time.replace(':', '')}@implantate-aachen`,
+      `DTSTART;TZID=Europe/Berlin:${day}T${pad(hh)}${pad(mm)}00`,
+      `DTEND;TZID=Europe/Berlin:${day}T${pad(Math.floor(endMin / 60))}${pad(endMin % 60)}00`,
+      `SUMMARY:${t.icsSummary}`,
+      'LOCATION:Zahnarztpraxis AIXSMILE\\, Großkölnstraße 22–28\\, 52062 Aachen', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    $('bkIcs').href = `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
+  }
+
+  // ---- load the open days ----
+  function load() {
+    fetch(`${API_BASE}/api/public/slots/`, { method: 'GET', mode: 'cors', cache: 'no-store' })
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then((json) => {
+        if (!json || !Array.isArray(json.days)) throw new Error('shape');
+        data = json;
+        days = json.days.filter((d) => Array.isArray(d.slots) && slotsFor(d).length > 0);
+        if (date && !days.some((d) => d.date === date)) { date = ''; time = ''; }
+        $('bkLoading').hidden = true;
+        $('bkUnavailable').hidden = true;
+        renderStatic();
+        renderPlate();
+        if (step === 1) $('bkPane1').hidden = false;
+      })
+      .catch((e) => {
+        console.warn('[booking] slots unavailable, showing the aixsmile.de link instead', e);
+        data = { days: [] }; days = [];
+        $('bkLoading').hidden = true;
+        $('bkUnavailable').hidden = false;
+      });
+  }
+
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    if (busy) return;
+    showError('');
+    const t = T();
+    const first = $('bkFirst').value.trim(), last = $('bkLast').value.trim();
+    const phone = $('bkPhone').value.trim(), email = $('bkEmail').value.trim();
+    mark('bkFirst', !first); mark('bkLast', !last); mark('bkPhone', !phone); mark('bkEmail', !email);
+    if (!date || !time || !first || !last || !phone || !email) return showError(t.errRequired);
+    const collapse = (v) => v.replace(/\s+/g, ' ');
+    const badFirst = !NAME_RE.test(collapse(first)), badLast = !NAME_RE.test(collapse(last));
+    if (badFirst || badLast) { mark('bkFirst', badFirst); mark('bkLast', badLast); return showError(t.errName); }
+    if (!PHONE_RE.test(phone)) { mark('bkPhone', true); return showError(t.errPhone); }
+    if (!EMAIL_RE.test(email)) { mark('bkEmail', true); return showError(t.errEmail); }
+    if (!$('bkConsent').checked) return showError(t.errConsent);
+    const btn = $('bkSubmit');
+    busy = true;
+    btn.disabled = true;
+    btn.textContent = t.submitting;
+    fetch(`${API_BASE}/api/public/book/`, {
+      method: 'POST', mode: 'cors', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date, time, firstName: first, lastName: last, phone, email,
+        service: SERVICE, note: $('bkNote').value,
+        consent: true, consentVersion: data && data.consent ? data.consent.version : null, locale: getLang(),
+        via: VIA, website: form.elements.website.value,
+      }),
+    })
+      .then((r) => r.json().then((j) => ({ status: r.status, body: j })))
+      .then((res) => {
+        if (res.body && res.body.ok) { renderDone(); setStep(3); return; }
+        const err = res.body && res.body.error;
+        if (err === 'taken' || err === 'past' || err === 'invalid_slot' || err === 'invalid_service') {
+          // the slot went while the form was being filled: back to the calendar,
+          // fresh slots, and say why
+          time = '';
+          setStep(1);
+          $('bkTaken').hidden = false;
+          load();
+        } else if (err === 'rate_limited') showError(t.errRate);
+        else if (err === 'limit') showError(t.errLimit);
+        else if (err === 'validation') showError(t.errCheck);
+        else showError(t.errGeneric);
+      })
+      .catch(() => showError(T().errGeneric))
+      .then(() => { busy = false; btn.disabled = false; btn.textContent = T().submit; });
+  });
+
+  // ---- the hero's glass plate: the next open consultation, once it is known.
+  // Until then (or without the API) it shows the opening hours from the HTML.
+  const plate = $('plate'), plateLabel = $('plateLabel'), plateValue = $('plateValue');
+  function renderPlate() {
+    if (!plate || !days.length) return;
+    const d = days[0], s = slotsFor(d)[0];
+    if (!s) return;
+    // from now on this script owns the two lines, in both languages
+    plateLabel.removeAttribute('data-i18n');
+    plateValue.removeAttribute('data-i18n');
+    plateLabel.textContent = dyn().plate.label;
+    plateValue.textContent = T().when(shortDate(d.date), s.time);
+    plate.dataset.date = d.date;
+    plate.dataset.time = s.time;
+  }
+  // a tap on the plate lands on step 2 with that slot already picked
+  if (plate) {
+    plate.addEventListener('click', (e) => {
+      const d = days.filter((x) => x.date === plate.dataset.date)[0];
+      const s = d && slotsFor(d).filter((x) => x.time === plate.dataset.time)[0];
+      if (!s) return; // no slot known: the plain link to #termin
+      e.preventDefault();
+      pick(d, s);
+    });
+    onLangChange(() => { if (plate.dataset.date) renderPlate(); });
+  }
+
+  // ---- a note carried in from a situation card or the 60-second check ----
+  addEventListener('aixsmile:note', (e) => {
+    const text = String(e.detail || '').slice(0, 1000);
+    if (!text) return;
+    $('bkNote').value = text;
+    $('bkNoteWrap').hidden = false;
+    $('bkNoteToggle').hidden = true;
+  });
+
+  onLangChange(renderStatic);
+  load();
+
+  // exposed for the check tools only
+  window.__booking = { get apiBase() { return API_BASE; }, SERVICE, VIA };
+}
+
+// The map tile opens the visitor's own maps app: Apple Maps on Apple devices,
+// Google Maps everywhere else. Plain link either way, nothing is loaded here.
+const mapTile = document.getElementById('mapTile');
+if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
+  mapTile.href = 'https://maps.apple.com/?q=Zahnarztpraxis%20AIXSMILE&address=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe%2022-28%2C%2052062%20Aachen&ll=50.7768518,6.085097';
+}
