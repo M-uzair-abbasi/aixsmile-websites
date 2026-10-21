@@ -17,7 +17,7 @@ if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
   if (o && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o)) API_BASE = o;
 }
 const SERVICE = 'implantate';
-const VIA = 'implantate-aachen';
+const VIA = 'implantataachen';
 
 // The API's own rules (lib/booking/submit.ts in the main app), checked here too
 // so a rejected field gets a specific message instead of a generic one.
@@ -211,7 +211,7 @@ if (form) {
     const day = `${p.y}${pad(p.m)}${pad(p.d)}`;
     const endMin = hh * 60 + mm + len;
     const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//AIXSMILE//Termin//DE', 'BEGIN:VEVENT',
-      `UID:${date}-${time.replace(':', '')}@implantate-aachen`,
+      `UID:${date}-${time.replace(':', '')}@implantataachen`,
       `DTSTART;TZID=Europe/Berlin:${day}T${pad(hh)}${pad(mm)}00`,
       `DTEND;TZID=Europe/Berlin:${day}T${pad(Math.floor(endMin / 60))}${pad(endMin % 60)}00`,
       `SUMMARY:${t.icsSummary}`,
