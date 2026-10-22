@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="de" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bleaching Aachen: vorher und nachher gemessen | AIXSMILE</title>
+<meta name="description" content="Bleaching in Aachen bei AIXSMILE: Zahnfarbe vorher und nachher mit der Farbskala gemessen, Ziel gemeinsam festgelegt. Ablauf, Kosten, echte Fälle, Termin online buchen.">
+<link rel="canonical" href="https://bleaching-aachen.de/">
+<meta name="theme-color" content="#0b1210">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Zahnarztpraxis AIXSMILE, Aachen">
+<meta property="og:title" content="Bleaching Aachen: vorher und nachher gemessen | AIXSMILE">
+<meta property="og:description" content="Zahnfarbe vorher und nachher mit derselben Farbskala gemessen. AIXSMILE, Großkölnstraße, Aachen.">
+<meta property="og:url" content="https://bleaching-aachen.de/">
+<meta property="og:image" content="https://bleaching-aachen.de/assets/photos/ai/smile-band-1.webp">
+<link rel="icon" type="image/png" href="assets/tooth-mark.png?v=1" sizes="any">
+<link rel="preload" href="assets/fonts/mona-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/models/dentition.glb" as="fetch" type="model/gltf-binary" crossorigin>
+<link rel="modulepreload" href="js/teeth-stage.js">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="css/site.css">
+<script>
+  // Runs before the first paint. "js" switches the arrivals on; the opening
+  // (the shade bar fills while the 3D loads) plays once per visit and never
+  // for people who asked their system for less motion; "scenes" lays out the
+  // scroll scenes (tall sections with a sticky screen) before they draw.
+  (function () {
+    var d = document.documentElement;
+    d.classList.remove('no-js');
+    d.classList.add('js');
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = false;
+    try { seen = sessionStorage.getItem('aixsmileBleach2Intro') === '1'; } catch (e) { /* private mode */ }
+    if (calm) d.classList.add('is-calm');
+    else {
+      d.classList.add('scenes');
+      if (!seen) d.classList.add('is-intro');
+    }
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dentist",
+      "@id": "https://aixsmile.de/#praxis",
+      "name": "Zahnarztpraxis AIXSMILE",
+      "url": "https://aixsmile.de/",
+      "telephone": "+49 241 31202",
+      "email": "info@aixsmile.de",
+      "image": "https://bleaching-aachen.de/assets/photos/doctor-molaie.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Großkölnstraße 22-28",
+        "postalCode": "52062",
+        "addressLocality": "Aachen",
+        "addressCountry": "DE"
+      },
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Thursday"],
+        "opens": "09:00",
+        "closes": "16:00"
+      }],
+      "sameAs": [
+        "https://g.page/zahnarztpraxis-aixsmile",
+        "https://www.instagram.com/zahnarztpraxis_aixsmile"
+      ],
+      "availableService": {
+        "@type": "MedicalProcedure",
+        "name": "Bleaching (Zahnaufhellung)",
+        "url": "https://bleaching-aachen.de/"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://bleaching-aachen.de/#webpage",
+      "url": "https://bleaching-aachen.de/",
+      "name": "Bleaching Aachen: vorher und nachher gemessen | AIXSMILE",
+      "inLanguage": "de",
+      "about": { "@id": "https://aixsmile.de/#praxis" },
+      "provider": { "@id": "https://aixsmile.de/#praxis" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Greift Bleaching den Zahnschmelz an?", "acceptedAnswer": { "@type": "Answer", "text": "Bei gesunden Zähnen und einem zahnärztlich dosierten Gel nicht. Der Schmelz behält seine Dicke; verändert werden nur die eingelagerten Farbstoffe. Genau deshalb untersuchen wir vorher, ob Karies, Risse oder undichte Füllungen im Weg sind." } },
+        { "@type": "Question", "name": "Wie lange hält das Ergebnis?", "acceptedAnswer": { "@type": "Answer", "text": "Bei den meisten Menschen ein bis drei Jahre. Wer viel Kaffee, Tee oder Rotwein trinkt oder raucht, sieht die alte Farbe schneller zurückkommen. Eine Auffrischung ist dann mit wenig Aufwand möglich." } },
+        { "@type": "Question", "name": "Tut Bleaching weh?", "acceptedAnswer": { "@type": "Answer", "text": "Die Behandlung selbst tut in der Regel nicht weh. Vorübergehend können die Zähne empfindlicher auf Kälte reagieren oder kurz ziehen. Das vergeht meist nach wenigen Tagen; eine fluoridhaltige Zahnpasta kann dabei helfen." } },
+        { "@type": "Question", "name": "Werden Füllungen und Kronen auch heller?", "acceptedAnswer": { "@type": "Answer", "text": "Nein. Kunststofffüllungen, Kronen und Veneers behalten ihre Farbe. Liegen sie im sichtbaren Bereich, kann es sinnvoll sein, sie nach dem Bleaching an die neue Zahnfarbe anzupassen. Das besprechen wir vorher mit Ihnen." } },
+        { "@type": "Question", "name": "Ich habe empfindliche Zähne. Geht Bleaching trotzdem?", "acceptedAnswer": { "@type": "Answer", "text": "Oft ja, mit angepasstem Vorgehen: einem milderen Gel, kürzeren Einwirkzeiten oder einer Vorbehandlung, die die Zähne weniger empfindlich macht. Ob das in Ihrem Fall reicht, klären wir bei der Untersuchung." } },
+        { "@type": "Question", "name": "Geht Bleaching auch bei Zahnfleischrückgang?", "acceptedAnswer": { "@type": "Answer", "text": "Das entscheiden wir am Einzelfall. Freiliegende Zahnhälse reagieren empfindlicher und hellen anders auf als der Schmelz. Wir sehen uns die Stellen genau an und schützen sie während der Behandlung." } },
+        { "@type": "Question", "name": "Erst Bleaching oder erst Veneers?", "acceptedAnswer": { "@type": "Answer", "text": "Ist beides geplant, kommt das Bleaching zuerst. Die Farbe der Veneers wird dann an die aufgehellten Nachbarzähne angepasst. Umgekehrt geht es nicht, denn eine Keramikschale wird durch Bleaching nicht heller." } },
+        { "@type": "Question", "name": "In der Praxis oder mit Schienen zu Hause?", "acceptedAnswer": { "@type": "Answer", "text": "In der Praxis geht es schneller: ein Termin, ein stärker dosiertes Gel unter Aufsicht. Mit Schienen, die nach einem Abdruck Ihrer Zähne gefertigt werden, tragen Sie über mehrere Tage ein milderes Gel zu Hause. Welcher Weg passt, hängt von Ihren Zähnen, Ihrer Zeit und Ihrer Empfindlichkeit ab." } },
+        { "@type": "Question", "name": "Wie wird die Zahnfarbe bestimmt?", "acceptedAnswer": { "@type": "Answer", "text": "Mit einer Farbskala aus Musterzähnen, die wir bei Tageslicht direkt neben Ihre Zähne halten. Jeder Musterzahn hat ein Kürzel. Wir notieren den Wert vor und nach der Behandlung, damit das Ergebnis vergleichbar bleibt und nicht vom Licht eines Fotos abhängt." } },
+        { "@type": "Question", "name": "Kostet der Beratungstermin etwas?", "acceptedAnswer": { "@type": "Answer", "text": "Nein. Untersuchung und Farbbestimmung sind bei gesetzlich Versicherten eine Kontrolluntersuchung und laufen über die Krankenkasse; Privatversicherte reichen den Termin wie gewohnt ein. Kosten entstehen erst, wenn Sie sich nach dem schriftlichen Kostenplan für die Aufhellung entscheiden." } }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="page">
+<a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
+
+<!-- The opening (Lando's lime loading screen): a mint field, the wordmark
+     wipes in, and a shade bar fills from A3.5 to BL4 while the 3D loads.
+     Shown only while html.is-intro is set (first visit). -->
+<div class="intro" id="intro" aria-hidden="true">
+  <p class="intro__mark" translate="no">AIX<b>SMILE</b></p>
+  <div class="intro__load">
+    <span class="intro__code" id="introCode">A3.5</span>
+    <span class="intro__bar"><i id="introFill"></i></span>
+    <span class="intro__to">BL4</span>
+  </div>
+  <p class="intro__note" data-i18n="intro.note">Bleaching in Aachen · die Farbe wird gemessen</p>
+</div>
+
+<!-- The floating menu: appears once the opening scene is behind you. -->
+<header class="pill" id="pill">
+  <a class="pill__brand" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE, nach oben" translate="no">AIX<b>SMILE</b></a>
+  <nav class="pill__nav" data-i18n-aria="nav.sections" aria-label="Abschnitte">
+    <a href="#ablauf" data-i18n="nav.ablauf">Ablauf</a>
+    <a href="#flecken" data-i18n="nav.flecken">Verfärbungen</a>
+    <a href="#wege" data-i18n="nav.wege">Wege</a>
+    <a href="#kosten" data-i18n="nav.kosten">Kosten</a>
+    <a href="#fragen" data-i18n="nav.fragen">Fragen</a>
+  </nav>
+  <a class="pill__call" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+  <a class="btn btn--sm" href="#termin" data-cta="book" data-i18n="nav.book">Termin buchen</a>
+</header>
+
+<main id="main">
+
+<!-- ===== The opening scene: the hero, then the treatment plays while you
+     scroll (Lando's helmet). The 3D teeth sit in the middle and turn towards
+     the mouse; a giant shade code behind them counts from A3.5 to BL4; the
+     page itself turns white at the end. Without scenes (reduced motion, no
+     JS) it is a plain hero followed by the five steps as a list. ===== -->
+<section class="tx" id="top" aria-labelledby="heroH">
+  <div class="tx__stick">
+    <p class="tx__code" aria-hidden="true"><span id="txCode">A3.5</span></p>
+    <div class="tx__stage" id="txStage">
+      <img class="tx__poster" id="txPoster" src="assets/treatment/step-1.webp" width="1200" height="1200" fetchpriority="high" decoding="async" alt="">
+      <canvas class="tx__canvas" id="teeth" aria-hidden="true"></canvas>
+    </div>
+    <span class="tx__tag tag" data-i18n="tx.tag">Symbolbild · kein Behandlungsergebnis</span>
+
+    <div class="hero__bar">
+      <a class="brand" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE, nach oben" translate="no">AIX<b>SMILE</b></a>
+      <div class="hero__tools">
+        <button type="button" class="lang" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language"><span data-l="de">DE</span><span data-l="en">EN</span></button>
+        <a class="btn btn--sm" href="#termin" data-cta="book" data-i18n="nav.book">Termin buchen</a>
+      </div>
+    </div>
+
+    <div class="hero__copy">
+      <h1 class="hero__h1" id="heroH"><span class="hero__line"><span data-i18n="hero.l1">Zahnbleaching in Aachen.</span></span> <span class="hero__line hero__accent"><span data-i18n="hero.l2">Vorher und nachher gemessen.</span></span></h1>
+      <p class="hero__lead" data-i18n="hero.lead">Wir messen die Farbe Ihrer Zähne vor und nach der Behandlung, mit derselben Farbskala. Scrollen Sie weiter, dann sehen Sie, wie ein Bleaching wirkt.</p>
+      <div class="hero__cta">
+        <a class="btn" href="#termin" data-cta="book"><span data-i18n="hero.book">Beratungstermin buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="cue" href="#ablauf"><i aria-hidden="true"></i><span data-i18n="hero.scroll">Scrollen: die Zähne werden heller</span></a>
+      </div>
+    </div>
+
+    <a class="plate" id="plate" href="#termin" data-cta="book">
+      <span class="plate__label" id="plateLabel" data-i18n="hero.plateLabel">Beratung in der Praxis</span>
+      <span class="plate__value" id="plateValue" data-i18n="hero.plateValue">Mo · Di · Do, 9 bis 16 Uhr</span>
+      <span class="plate__go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <!-- the caption of the step that is playing; filled from the list below -->
+    <div class="tx__cap" id="txCap" aria-hidden="true">
+      <p class="tx__num"><b id="txNum">01</b> / 05</p>
+      <p class="tx__title" id="txTitle"></p>
+      <p class="tx__text" id="txText"></p>
+      <a class="btn tx__cta" href="#termin" data-cta="book" id="txCta" tabindex="-1"><span data-i18n="tx.cta">Beratung buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="tx__shade" id="txShade" aria-hidden="true"><i></i><span data-i18n="tx.shade">Farbe</span> <b id="txShadeCode">A3.5</b></div>
+    <nav class="tx__rail" id="txRail" data-i18n-aria="tx.railAria" aria-label="Die fünf Schritte">
+      <button type="button" data-step="0"><i></i><span data-i18n="proc.s1t">Ausgangsfarbe messen</span></button>
+      <button type="button" data-step="1"><i></i><span data-i18n="proc.s2t">Zahnfleisch schützen</span></button>
+      <button type="button" data-step="2"><i></i><span data-i18n="proc.s3t">Gel auftragen</span></button>
+      <button type="button" data-step="3"><i></i><span data-i18n="proc.s4t">Gel wirken lassen</span></button>
+      <button type="button" data-step="4"><i></i><span data-i18n="proc.s5t">Neue Farbe messen</span></button>
+    </nav>
+  </div>
+
+  <!-- the five steps: the captions above read them; this is also what people
+       without scenes (and screen readers) get -->
+  <div class="tx__steps" id="ablauf">
+    <h2 class="h2 tx__stepsH" data-i18n="proc.h2">So wirkt ein Bleaching.</h2>
+    <ol class="tx__list" id="txList">
+      <li><img src="assets/treatment/step-1.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s1t">Ausgangsfarbe messen</h3><p data-i18n="proc.s1p">Erst Zahnreinigung und Untersuchung, dann halten wir die Farbskala an: hier A3.5.</p></li>
+      <li><img src="assets/treatment/step-2.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s2t">Zahnfleisch schützen</h3><p data-i18n="proc.s2p">Eine lichthärtende Schutzschicht deckt das Zahnfleisch ab.</p></li>
+      <li><img src="assets/treatment/step-3.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s3t">Gel auftragen</h3><p data-i18n="proc.s3p">Das Aufhellungsgel kommt auf die sichtbaren Zähne; Konzentration und Zeit legen wir fest.</p></li>
+      <li><img src="assets/treatment/step-4.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s4t">Gel wirken lassen</h3><p data-i18n="proc.s4p">Oft in mehreren Durchgängen. Eine kurze Kälteempfindlichkeit ist möglich und vergeht meist nach wenigen Tagen.</p></li>
+      <li><img src="assets/treatment/step-5.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s5t">Neue Farbe messen</h3><p data-i18n="proc.s5p">Dieselbe Skala, eine neue Nummer. Die Farbe setzt sich in ein bis zwei Wochen und hält meist ein bis drei Jahre.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- Two giant lines that slide in opposite directions while you scroll. -->
+<div class="marquee" aria-hidden="true">
+  <p class="marquee__row"><span data-i18n="mq.a">Kaffee · Tee · Rotwein · Rauchen · Die Jahre ·</span> <span data-i18n="mq.a">Kaffee · Tee · Rotwein · Rauchen · Die Jahre ·</span> <span data-i18n="mq.a">Kaffee · Tee · Rotwein · Rauchen · Die Jahre ·</span></p>
+  <p class="marquee__row marquee__row--b"><span>A3.5 → A3 → A2 → A1 → B1 → BL4 →</span> <span>A3.5 → A3 → A2 → A1 → B1 → BL4 →</span> <span>A3.5 → A3 → A2 → A1 → B1 → BL4 →</span></p>
+</div>
+
+<!-- ===== Which stains lift: a loose collage that travels sideways while you
+     scroll (Lando's horizontal track). Pictures sit high or low, large or
+     small, and each one's few words sit on the open side: picture up, words
+     under it; picture down, words above it. Without scenes it is a swipe row. ===== -->
+<section class="track" id="flecken" aria-labelledby="stainH">
+  <div class="track__stick">
+    <div class="track__rail" id="trackRail">
+      <div class="track__head">
+        <h2 class="h2" id="stainH" data-i18n="when.h2">Welche Verfärbungen sich aufhellen lassen.</h2>
+        <p class="sect__lead" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt.</p>
+      </div>
+      <p class="track__group track__group--good" data-i18n="when.goodH">Spricht gut an</p>
+      <article class="stain stain--a stain--good">
+        <figure class="stain__fig"><img src="assets/photos/ai/stain-coffee.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)"></figure>
+        <div class="stain__txt">
+          <p class="stain__eye"><b>01</b> <span data-i18n="when.goodH">Spricht gut an</span></p>
+          <h3 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h3>
+          <p data-i18n="when.p1">Die häufigste Verfärbung, und die, die am besten anspricht.</p>
+        </div>
+      </article>
+      <article class="stain stain--b stain--good">
+        <figure class="stain__fig"><img src="assets/photos/ai/stain-age.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt2" alt="Nahaufnahme von Zähnen, die mit dem Alter nachgedunkelt sind (KI-generiertes Symbolbild)"></figure>
+        <div class="stain__txt">
+          <p class="stain__eye"><b>02</b> <span data-i18n="when.goodH">Spricht gut an</span></p>
+          <h3 data-i18n="when.t2">Mit den Jahren nachgedunkelt</h3>
+          <p data-i18n="when.p2">Mit dem Alter eingelagerte Farbe hellt ein Bleaching meist gut auf.</p>
+        </div>
+      </article>
+      <article class="stain stain--c stain--good">
+        <figure class="stain__fig"><img src="assets/photos/ai/stain-smoking.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)"></figure>
+        <div class="stain__txt">
+          <p class="stain__eye"><b>03</b> <span data-i18n="when.goodH">Spricht gut an</span></p>
+          <h3 data-i18n="when.t3">Verfärbungen durch Rauchen</h3>
+          <p data-i18n="when.p3">Die Reinigung nimmt die Beläge, das Bleaching das Eingelagerte.</p>
+        </div>
+      </article>
+      <p class="track__group track__group--limit" data-i18n="when.limitH">Stößt an Grenzen</p>
+      <article class="stain stain--d">
+        <figure class="stain__fig"><img src="assets/photos/ai/stain-grey.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)"></figure>
+        <div class="stain__txt">
+          <p class="stain__eye"><b>04</b> <span data-i18n="when.limitH">Stößt an Grenzen</span></p>
+          <h3 data-i18n="when.t4">Grau, oft durch Medikamente</h3>
+          <p data-i18n="when.p4">Etwa nach Antibiotika in der Kindheit: hellt zurückhaltender und ungleichmäßiger auf.</p>
+        </div>
+      </article>
+      <article class="stain stain--e">
+        <figure class="stain__fig"><img src="assets/photos/ai/stain-single.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt5" alt="Nahaufnahme, ein Frontzahn ist deutlich dunkler als die übrigen (KI-generiertes Symbolbild)"></figure>
+        <div class="stain__txt">
+          <p class="stain__eye"><b>05</b> <span data-i18n="when.limitH">Stößt an Grenzen</span></p>
+          <h3 data-i18n="when.t5">Ein einzelner dunkler Zahn</h3>
+          <p data-i18n="when.p5">Oft nach einer Wurzelbehandlung; hier braucht es ein anderes Vorgehen.</p>
+        </div>
+      </article>
+      <article class="stain stain--f">
+        <figure class="stain__fig"><img src="assets/photos/ai/stain-restorations.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt6" alt="Nahaufnahme, eine Krone hat einen anderen Farbton als die Nachbarzähne (KI-generiertes Symbolbild)"></figure>
+        <div class="stain__txt">
+          <p class="stain__eye"><b>06</b> <span data-i18n="when.limitH">Stößt an Grenzen</span></p>
+          <h3 data-i18n="when.t6">Füllungen, Kronen und Veneers</h3>
+          <p data-i18n="when.p6">Sie behalten ihre Farbe. Liegen sie vorn, planen wir die Anpassung mit ein.</p>
+        </div>
+      </article>
+      <div class="track__end">
+        <p data-i18n="when.end">Wo Ihre Zähne stehen, sehen wir bei der Untersuchung.</p>
+        <a class="btn" href="#termin" data-cta="book"><span data-i18n="hero.book">Beratungstermin buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+    <span class="track__bar" aria-hidden="true"><i></i></span>
+  </div>
+</section>
+
+<!-- ===== The three ways as giant words (Lando's ON TRACK / OFF TRACK):
+     each opens on a tap; with a mouse a photo follows the pointer. ===== -->
+<section class="sect ways" id="wege" aria-labelledby="waysH">
+  <div class="wrap">
+    <div class="sect__head">
+      <h2 class="h2" id="waysH" data-rv="wipe"><span data-i18n="methods.h2">In der Praxis, zu Hause oder beides.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="methods.lede">Welcher Weg zu Ihnen passt, klären wir in der Beratung. Tippen Sie auf einen Weg.</p>
+    </div>
+    <ul class="ways__list" id="ways">
+      <li class="way" data-img="0">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way1"><span class="way__no">01</span><span class="way__t" data-i18n="methods.t1">In der Praxis</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way1">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/ai/in-office.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt1" alt="Eine Person im Behandlungsstuhl mit Schutzbrille, davor die Lampe für die Aufhellung (KI-generiertes Bild)">
+            <p class="way__fit"><b data-i18n="methods.colFit">Passt, wenn</b> <span data-i18n="methods.fit1">Sie das Ergebnis am selben Tag sehen möchten.</span></p>
+            <dl class="way__facts">
+              <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how1">Ein Termin, unter unserer Aufsicht</dd></div>
+              <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel1">Stärker dosiert, von uns überwacht</dd></div>
+            </dl>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="1">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way2"><span class="way__no">02</span><span class="way__t" data-i18n="methods.t2">Zu Hause</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way2">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/ai/at-home.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt2" alt="Eine Hand hält durchsichtige Bleaching-Schienen und eine kleine Gelspritze (KI-generiertes Bild)">
+            <p class="way__fit"><b data-i18n="methods.colFit">Passt, wenn</b> <span data-i18n="methods.fit2">Ihre Zähne empfindlich sind.</span></p>
+            <dl class="way__facts">
+              <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how2">Mehrere Tage, mit dünnen Schienen nach Maß</dd></div>
+              <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel2">Milder, in den Schienen getragen</dd></div>
+            </dl>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="2">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way3"><span class="way__no">03</span><span class="way__t" data-i18n="methods.t3">Kombiniert</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way3">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/ai/gel.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="methods.alt3" alt="Aufhellungsgel wird auf die Frontzähne aufgetragen, das Zahnfleisch ist abgedeckt (KI-generiertes Bild)">
+            <p class="way__fit"><b data-i18n="methods.colFit">Passt, wenn</b> <span data-i18n="methods.fit3">Sie später auffrischen möchten.</span></p>
+            <dl class="way__facts">
+              <div><dt data-i18n="methods.colHow">Ablauf</dt><dd data-i18n="methods.how3">Erst in der Praxis, dann zu Hause</dd></div>
+              <div><dt data-i18n="methods.colGel">Das Gel</dt><dd data-i18n="methods.gel3">Erst stärker, dann milder</dd></div>
+            </dl>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <figure class="ways__float" id="waysFloat" aria-hidden="true">
+    <img src="assets/photos/ai/in-office.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/ai/at-home.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/ai/gel.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
+  </figure>
+</section>
+
+<!-- The sentence carries a small photo in its middle; while you scroll, its
+     words light up and the photo grows until it fills the screen, then its
+     line and the booking button come up on it. One photo, used once (it used
+     to repeat as a separate band). Without scenes: the statement, then the
+     photo as a band with the line on it. -->
+<section class="grow" id="heller" aria-labelledby="growLine">
+  <div class="grow__stick">
+    <p class="grow__text" data-words aria-hidden="true"><span data-i18n="st1.a">Heller, aber</span> <span class="grow__box"><img src="assets/photos/ai/smile-band-1-960.webp" width="960" height="640" loading="lazy" decoding="async" alt=""></span> <span class="grow__accent" data-i18n="st1.b">nicht künstlich weiß.</span></p>
+    <p class="sr" data-i18n="st1.aria">Heller, aber nicht künstlich weiß.</p>
+    <figure class="grow__fill">
+      <img src="assets/photos/ai/smile-band-1.webp" srcset="assets/photos/ai/smile-band-1-960.webp 960w, assets/photos/ai/smile-band-1.webp 1600w" sizes="100vw" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="band.alt" alt="Eine junge Frau lacht, mit hellen, natürlichen Zähnen (KI-generiertes Bild)">
+      <figcaption class="grow__band" id="growBand">
+        <p class="grow__line" id="growLine" data-i18n="band.line">Lachen, ohne die Hand vor dem Mund.</p>
+        <a class="btn" href="#termin" data-cta="book"><span data-i18n="hero.book">Beratungstermin buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== Real cases: drag (or, with a mouse, just point) to compare ===== -->
+<section class="sect sect--ink cases" id="faelle" aria-labelledby="casesH">
+  <div class="wrap">
+    <div class="sect__head sect__head--split">
+      <h2 class="h2" id="casesH" data-rv="wipe"><span data-i18n="ba.h2">Zwei Fälle aus unserer Praxis.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="ba.lede">Mit Einwilligung veröffentlicht. Licht und Kamera waren vorher und nachher nicht gleich; genauer als jedes Foto misst die Farbskala.</p>
+    </div>
+    <div class="cases__grid">
+      <figure class="case" data-rv>
+        <div class="compare">
+          <img class="compare__after" src="assets/photos/case-1-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.alt1a" alt="Fall 1 aus unserer Praxis, nach dem Bleaching">
+          <div class="compare__before"><img src="assets/photos/case-1-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.alt1b" alt="Fall 1 aus unserer Praxis, vor dem Bleaching"></div>
+          <span class="compare__line" aria-hidden="true"><i class="compare__knob"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+          <span class="compare__tag compare__tag--b" aria-hidden="true" data-i18n="ba.before">Vorher</span>
+          <span class="compare__tag compare__tag--a" aria-hidden="true" data-i18n="ba.after">Nachher</span>
+          <input class="compare__range" type="range" min="0" max="100" value="50" data-i18n-aria="ba.range1" aria-label="Fall 1: vorher und nachher vergleichen">
+        </div>
+        <figcaption><b><span data-i18n="ba.case1">Fall 1</span> · <span data-i18n="ba.k1">In der Praxis</span></b> <span data-i18n="ba.t1">Gelbliche Verfärbung</span></figcaption>
+      </figure>
+      <figure class="case" data-rv>
+        <div class="compare">
+          <img class="compare__after" src="assets/photos/case-2-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.alt2a" alt="Fall 2 nach dem Bleaching">
+          <div class="compare__before"><img src="assets/photos/case-2-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.alt2b" alt="Fall 2 vor dem Bleaching"></div>
+          <span class="compare__line" aria-hidden="true"><i class="compare__knob"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+          <span class="compare__tag compare__tag--b" aria-hidden="true" data-i18n="ba.before">Vorher</span>
+          <span class="compare__tag compare__tag--a" aria-hidden="true" data-i18n="ba.after">Nachher</span>
+          <input class="compare__range" type="range" min="0" max="100" value="50" data-i18n-aria="ba.range2" aria-label="Fall 2: vorher und nachher vergleichen">
+        </div>
+        <figcaption><b><span data-i18n="ba.case2">Fall 2</span> · <span data-i18n="ba.k2">In der Praxis</span></b> <span data-i18n="ba.t2">Nachgedunkelte Frontzähne</span></figcaption>
+      </figure>
+    </div>
+    <p class="cases__hint" data-rv data-i18n="ba.hint">Ziehen oder tippen: links vorher, rechts nachher.</p>
+  </div>
+</section>
+
+<!-- ===== The shade guide: tap a sample tooth, the code shows big ===== -->
+<section class="sect sect--white shade" id="messen" aria-labelledby="shadeH">
+  <div class="wrap shade__grid">
+    <div class="shade__text">
+      <h2 class="h2" id="shadeH" data-rv="wipe"><span data-i18n="s2.h2">Vorher ein Wert, nachher ein Wert.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="s2.cardP">Neben Ihre Zähne halten wir Musterzähne mit Kürzeln wie A2 oder BL3. Der Abstand zwischen den beiden Werten zeigt, wie viel heller Ihre Zähne geworden sind.</p>
+      <p class="shade__prompt" data-rv data-i18n="s2.prompt">Welcher Musterzahn kommt Ihren Zähnen am nächsten? Tippen Sie ihn an.</p>
+    </div>
+    <div class="shade__play" data-rv>
+      <p class="shade__read" aria-live="polite"><b class="shade__code" id="shadeCode">A3 → B1</b><span class="shade__note" id="shadeNote" data-i18n="s2.exampleNote">Ein Beispiel: vorher A3, nachher B1.</span></p>
+      <div class="shade__tabs" id="shadeTabs" role="group" data-i18n-aria="s2.scaleAria" aria-label="Vereinfachte Farbskala mit acht Musterzähnen, von A3 bis BL1">
+        <button type="button" class="tooth tooth--a3 is-ex" data-code="A3" aria-pressed="false"><i></i><span>A3</span></button>
+        <button type="button" class="tooth tooth--a2" data-code="A2" aria-pressed="false"><i></i><span>A2</span></button>
+        <button type="button" class="tooth tooth--a1" data-code="A1" aria-pressed="false"><i></i><span>A1</span></button>
+        <button type="button" class="tooth tooth--b1 is-ex" data-code="B1" aria-pressed="false"><i></i><span>B1</span></button>
+        <button type="button" class="tooth tooth--bl4" data-code="BL4" aria-pressed="false"><i></i><span>BL4</span></button>
+        <button type="button" class="tooth tooth--bl3" data-code="BL3" aria-pressed="false"><i></i><span>BL3</span></button>
+        <button type="button" class="tooth tooth--bl2" data-code="BL2" aria-pressed="false"><i></i><span>BL2</span></button>
+        <button type="button" class="tooth tooth--bl1" data-code="BL1" aria-pressed="false"><i></i><span>BL1</span></button>
+      </div>
+      <p class="shade__axis" aria-hidden="true"><span data-i18n="s2.darker">← dunkler</span><span data-i18n="s2.lighter">heller →</span></p>
+      <p class="shade__small" data-i18n="s2.scaleNote">Vereinfacht. Die echte Skala hat mehr Stufen; gemessen wird im Mund, bei Tageslicht.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Costs: a mint panel that opens from rounded corners ===== -->
+<section class="sect costs opens" id="kosten" aria-labelledby="costH">
+  <div class="costs__panel">
+    <div class="wrap costs__grid">
+      <div class="costs__text">
+        <h2 class="h2" id="costH" data-i18n="kosten.h2">Was ein Bleaching kostet.</h2>
+        <p data-i18n="kosten.plan">Vorher bekommen Sie einen schriftlichen Kostenplan mit allen Positionen. Den nehmen Sie mit nach Hause und entscheiden ohne Zeitdruck.</p>
+        <p class="costs__from" id="priceFrom" hidden></p>
+        <div class="costs__factors">
+          <p class="costs__fh" data-i18n="kosten.factorsH">Der Preis hängt ab von</p>
+          <dl>
+            <div><dt data-i18n="kosten.f1k">Verfahren</dt><dd data-i18n="kosten.f1v">In der Praxis in einer Sitzung oder zu Hause mit individuell angefertigten Schienen.</dd></div>
+            <div><dt data-i18n="kosten.f2k">Vorbereitung</dt><dd data-i18n="kosten.f2v">Die professionelle Zahnreinigung vorab, und ob zusätzlich eine kleine Behandlung nötig ist.</dd></div>
+            <div><dt data-i18n="kosten.f3k">Ausgangslage</dt><dd data-i18n="kosten.f3v">Wie ausgeprägt die Verfärbung ist und wie viele Zähne im sichtbaren Bereich dazugehören.</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="sheet">
+        <p class="sheet__head" translate="no"><b>AIXSMILE</b><span>Großkölnstraße 22-28 · 52062 Aachen</span></p>
+        <h3 data-i18n="kosten.sheet">Ihr Kostenplan</h3>
+        <dl class="sheet__rows">
+          <div><dt data-i18n="kosten.r1">Untersuchung und Farbbestimmung</dt><dd data-i18n="kosten.kasseK">Über Ihre Krankenkasse</dd></div>
+          <div><dt data-i18n="kosten.r2">Die Aufhellung selbst</dt><dd data-i18n="kosten.privK">Privatleistung nach der GOZ</dd></div>
+        </dl>
+        <a class="btn btn--dark" href="#termin" data-cta="book"><span data-i18n="tx.cta">Beratung buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sect sect--paper doctor" id="arzt" aria-labelledby="docH">
+  <div class="wrap doctor__grid">
+    <figure class="doctor__fig" data-rv>
+      <img src="assets/photos/doctor-molaie.webp" srcset="assets/photos/doctor-molaie-720.webp 720w, assets/photos/doctor-molaie.webp 1120w" sizes="(max-width: 900px) 60vw, 34vw" width="1120" height="1400" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt der Zahnarztpraxis AIXSMILE in Aachen">
+    </figure>
+    <div class="doctor__text">
+      <h2 class="h2" id="docH" data-rv="wipe"><span data-i18n="doctor.h2">Erst die Untersuchung, dann das Gel.</span></h2>
+      <blockquote class="doctor__quote" data-rv><p data-i18n="doctor.quote">„Ein strahlendes Lächeln ist mehr als Ästhetik – es ist ein Stück Lebensfreude.“</p></blockquote>
+      <p data-rv data-i18n="doctor.p1">Wir sagen Ihnen offen, welches Weiß bei Ihren Zähnen realistisch ist. Und wenn Füllungen oder Kronen nicht mit aufhellen, welche Wege es sonst gibt.</p>
+      <p class="doctor__sign" data-rv><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></p>
+      <ul class="doctor__facts" data-rv>
+        <li><b class="count" data-count="5">5</b><span data-i18n="doctor.fact1">Sprachen in der Praxis</span></li>
+        <li><b><span class="count" data-count="2">2</span>×</b><span data-i18n="doctor.fact2">Farbe gemessen, vorher und nachher</span></li>
+        <li><b>1–3</b><span data-i18n="doctor.fact3">Jahre hält das Ergebnis meist</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sect sect--ink booking opens" id="termin" aria-labelledby="bkH">
+  <div class="wrap booking__grid">
+    <div class="booking__intro">
+      <h2 class="h2" id="bkH" data-rv="wipe"><span data-i18n="bk.h2">Freie Termine für die Beratung.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="bk.p">Diese Zeiten sind gerade wirklich frei. Zeit wählen, Namen und Telefonnummer eintragen, fertig.</p>
+      <ul class="booking__facts" data-rv>
+        <li data-i18n="bk.fact1">Erster Termin über die Krankenkasse, ohne Zusatzkosten</li>
+        <li data-i18n="bk.fact2">Schriftlicher Kostenplan, bevor behandelt wird</li>
+        <li data-i18n="bk.fact3">Kommt etwas dazwischen, genügt ein Klick in der Terminmail</li>
+        <li><span data-i18n="bk.call">Lieber telefonieren?</span> <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></li>
+      </ul>
+    </div>
+    <form class="bk" id="bkForm" novalidate aria-live="polite" data-rv>
+      <ol class="bkSteps" id="bkSteps">
+        <li><button type="button" class="on" data-step="1" data-i18n="bk.step1">Termin</button></li>
+        <li><button type="button" data-step="2" data-i18n="bk.step2">Ihre Daten</button></li>
+        <li><span data-step="3" data-i18n="bk.step3">Gebucht</span></li>
+      </ol>
+      <div id="bkLoading" class="bkSkel" aria-hidden="true">
+        <div class="skelRow"><i></i><i></i><i></i></div>
+        <div class="skelLine"></div>
+        <div class="skelRow"><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i></div>
+      </div>
+      <noscript><p class="bkHint">Die Terminauswahl braucht JavaScript. Rufen Sie uns an: <a href="tel:+4924131202">0241&nbsp;31202</a>.</p></noscript>
+      <div id="bkUnavailable" class="bkNotice" hidden>
+        <p><span data-i18n="bk.unavailable">Die freien Termine lassen sich gerade nicht laden.</span> <span data-i18n="bk.unavailableCall">Rufen Sie uns an:</span> <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></p>
+      </div>
+      <!-- Step 1: the slot -->
+      <div class="pane" id="bkPane1" hidden>
+        <p class="bkInfo" id="bkTaken" hidden data-i18n="bk.taken">Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.</p>
+        <div class="quick" id="bkQuick" hidden>
+          <p class="bkLabel" data-i18n="bk.quickH">Am schnellsten</p>
+          <div class="quickRow" id="bkQuickRow"></div>
+        </div>
+        <div class="calRow" id="bkCalRow" hidden>
+          <div class="cal" id="bkCal">
+            <div class="calHead">
+              <button type="button" class="calNav" id="bkPrev" data-i18n-aria="bk.calPrev" aria-label="Voriger Monat">‹</button>
+              <p class="calMonth" id="bkMonth" aria-live="polite"></p>
+              <button type="button" class="calNav" id="bkNext" data-i18n-aria="bk.calNext" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="calWeek" id="bkWeek" aria-hidden="true"></div>
+            <div class="calGrid" id="bkDays" role="group" data-i18n-aria="bk.daysAria" aria-label="Tage"></div>
+          </div>
+          <div class="times" id="bkTimesWrap">
+            <p class="bkLabel" id="bkTimesFor" data-i18n="bk.timesH">Uhrzeit</p>
+            <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Wählen Sie einen Tag, dann erscheinen hier die Uhrzeiten.</p>
+            <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
+            <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+          </div>
+        </div>
+        <p class="bkHint" id="bkNoDays" hidden data-i18n="bk.noDays">Im Moment ist online kein Termin frei. Am Telefon finden wir meist noch einen.</p>
+      </div>
+      <!-- Step 2: contact details -->
+      <div class="pane" id="bkPane2" hidden>
+        <div class="pick">
+          <div><b id="bkPickWhen"></b><span id="bkPickWhat"></span></div>
+          <button type="button" class="linkBtn" id="bkChange" data-i18n="bk.change">Ändern</button>
+        </div>
+        <div class="bkFields">
+          <div><label class="fLabel" for="bkFirst" data-i18n="bk.first">Vorname *</label><input id="bkFirst" type="text" name="firstName" autocomplete="given-name" required maxlength="80"></div>
+          <div><label class="fLabel" for="bkLast" data-i18n="bk.last">Nachname *</label><input id="bkLast" type="text" name="lastName" autocomplete="family-name" required maxlength="80"></div>
+          <div><label class="fLabel" for="bkPhone" data-i18n="bk.phone">Telefon *</label><input id="bkPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="40"></div>
+          <div><label class="fLabel" for="bkEmail" data-i18n="bk.email">E-Mail *</label><input id="bkEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254"></div>
+          <div class="full">
+            <button type="button" class="linkBtn" id="bkNoteToggle" data-i18n="bk.addNote">+ Anmerkung</button>
+            <div id="bkNoteWrap" hidden><label class="fLabel" for="bkNote" data-i18n="bk.note">Anmerkung (optional)</label><textarea id="bkNote" name="note" maxlength="1000" rows="3"></textarea></div>
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <label class="bkConsent"><input type="checkbox" id="bkConsent"><span id="bkConsentText"></span></label>
+        <p class="bkErr" id="bkError" role="alert" hidden></p>
+        <button type="submit" class="btn btnWide" id="bkSubmit">Termin verbindlich buchen</button>
+        <p class="bkNote" data-i18n="bk.privacy">Ihre Angaben gehen direkt an die Zahnarztpraxis AIXSMILE und dienen nur diesem Termin. Diese Seite selbst speichert keine Daten.</p>
+      </div>
+      <!-- Step 3: confirmation -->
+      <div class="pane" id="bkPane3" hidden>
+        <div class="doneMark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="21"/><path class="tick" pathLength="1" d="M14 25l7 7 13-14"/></svg></div>
+        <p class="doneH" data-i18n="bk.doneH">Gebucht. Wir sehen uns in der Praxis.</p>
+        <div class="pick pick--done">
+          <div><b id="bkDoneWhen"></b><span id="bkDoneWhat"></span><span data-i18n="bk.doneWhere">Sie kommen in die Großkölnstraße 22-28, 52062 Aachen.</span></div>
+        </div>
+        <p class="bkLabel" data-i18n="bk.nextH">Wie es weitergeht</p>
+        <ol class="doneNext">
+          <li data-i18n="bk.next1">Die Terminmail ist unterwegs; darin stehen Datum, Uhrzeit und Adresse.</li>
+          <li data-i18n="bk.next2">Am Vortag kommt eine kurze Erinnerung.</li>
+          <li data-i18n="bk.next3">Absagen können Sie jederzeit über den Link in der Terminmail.</li>
+        </ol>
+        <div class="doneActions">
+          <a class="btn btn--ghost" id="bkIcs" href="#" download="AIXSMILE-Termin.ics" data-i18n="bk.calendar">Termin speichern</a>
+          <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n="bk.route">Weg zur Praxis</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="sect sect--white faq" id="fragen" aria-labelledby="faqH">
+  <div class="wrap faq__grid">
+    <div class="faq__side">
+      <h2 class="h2" id="faqH" data-rv="wipe"><span data-i18n="faq.h2">Häufige Fragen zum Bleaching.</span></h2>
+      <div class="faq__topics" id="faqTopics" role="tablist" data-i18n-aria="faq.topicsAria" aria-label="Themen" hidden>
+        <button type="button" role="tab" aria-selected="true" aria-controls="faqList" data-topic="sicher" data-i18n="faq.tSafe">Sicherheit</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="faqList" data-topic="gefuehl" data-i18n="faq.tFeel" tabindex="-1">Empfindlichkeit</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="faqList" data-topic="ergebnis" data-i18n="faq.tResult" tabindex="-1">Ergebnis</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="faqList" data-topic="ablauf" data-i18n="faq.tWay" tabindex="-1">Ablauf und Kosten</button>
+      </div>
+      <p class="faq__aside"><span data-i18n="faq.aside">Ihre Frage ist nicht dabei? Wir beantworten sie gern am Telefon oder im Beratungstermin:</span> <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></p>
+    </div>
+    <div class="faq__list" id="faqList">
+      <div class="faq__group" data-topic="sicher">
+        <h3 class="faq__gh" data-i18n="faq.tSafe">Sicherheit</h3>
+        <details><summary data-i18n="faq.q1">Greift Bleaching den Zahnschmelz an?</summary><p data-i18n="faq.a1">Bei gesunden Zähnen und einem zahnärztlich dosierten Gel nicht. Der Schmelz behält seine Dicke; verändert werden nur die eingelagerten Farbstoffe. Genau deshalb untersuchen wir vorher, ob Karies, Risse oder undichte Füllungen im Weg sind.</p></details>
+        <details><summary data-i18n="faq.q6">Geht Bleaching auch bei Zahnfleischrückgang?</summary><p data-i18n="faq.a6">Das entscheiden wir am Einzelfall. Freiliegende Zahnhälse reagieren empfindlicher und hellen anders auf als der Schmelz. Wir sehen uns die Stellen genau an und schützen sie während der Behandlung.</p></details>
+      </div>
+      <div class="faq__group" data-topic="gefuehl">
+        <h3 class="faq__gh" data-i18n="faq.tFeel">Empfindlichkeit</h3>
+        <details><summary data-i18n="faq.q3">Tut Bleaching weh?</summary><p data-i18n="faq.a3">Die Behandlung selbst tut in der Regel nicht weh. Vorübergehend können die Zähne empfindlicher auf Kälte reagieren oder kurz ziehen. Das vergeht meist nach wenigen Tagen; eine fluoridhaltige Zahnpasta kann dabei helfen.</p></details>
+        <details><summary data-i18n="faq.q5">Ich habe empfindliche Zähne. Geht Bleaching trotzdem?</summary><p data-i18n="faq.a5">Oft ja, mit angepasstem Vorgehen: einem milderen Gel, kürzeren Einwirkzeiten oder einer Vorbehandlung, die die Zähne weniger empfindlich macht. Ob das in Ihrem Fall reicht, klären wir bei der Untersuchung.</p></details>
+      </div>
+      <div class="faq__group" data-topic="ergebnis">
+        <h3 class="faq__gh" data-i18n="faq.tResult">Ergebnis</h3>
+        <details><summary data-i18n="faq.q2">Wie lange hält das Ergebnis?</summary><p data-i18n="faq.a2">Bei den meisten Menschen ein bis drei Jahre. Wer viel Kaffee, Tee oder Rotwein trinkt oder raucht, sieht die alte Farbe schneller zurückkommen. Eine Auffrischung ist dann mit wenig Aufwand möglich.</p></details>
+        <details><summary data-i18n="faq.q4">Werden Füllungen und Kronen auch heller?</summary><p data-i18n="faq.a4">Nein. Kunststofffüllungen, Kronen und Veneers behalten ihre Farbe. Liegen sie im sichtbaren Bereich, kann es sinnvoll sein, sie nach dem Bleaching an die neue Zahnfarbe anzupassen. Das besprechen wir vorher mit Ihnen.</p></details>
+        <details><summary data-i18n="faq.q7">Erst Bleaching oder erst Veneers?</summary><p data-i18n="faq.a7">Ist beides geplant, kommt das Bleaching zuerst. Die Farbe der Veneers wird dann an die aufgehellten Nachbarzähne angepasst. Umgekehrt geht es nicht, denn eine Keramikschale wird durch Bleaching nicht heller.</p></details>
+        <details><summary data-i18n="faq.q9">Wie wird die Zahnfarbe bestimmt?</summary><p data-i18n="faq.a9">Mit einer Farbskala aus Musterzähnen, die wir bei Tageslicht direkt neben Ihre Zähne halten. Jeder Musterzahn hat ein Kürzel. Wir notieren den Wert vor und nach der Behandlung, damit das Ergebnis vergleichbar bleibt und nicht vom Licht eines Fotos abhängt.</p></details>
+      </div>
+      <div class="faq__group" data-topic="ablauf">
+        <h3 class="faq__gh" data-i18n="faq.tWay">Ablauf und Kosten</h3>
+        <details><summary data-i18n="faq.q8">In der Praxis oder mit Schienen zu Hause?</summary><p data-i18n="faq.a8">In der Praxis geht es schneller: ein Termin, ein stärker dosiertes Gel unter Aufsicht. Mit Schienen, die nach einem Abdruck Ihrer Zähne gefertigt werden, tragen Sie über mehrere Tage ein milderes Gel zu Hause. Welcher Weg passt, hängt von Ihren Zähnen, Ihrer Zeit und Ihrer Empfindlichkeit ab.</p></details>
+        <details><summary data-i18n="faq.q10">Kostet der Beratungstermin etwas?</summary><p data-i18n="faq.a10">Nein. Untersuchung und Farbbestimmung sind bei gesetzlich Versicherten eine Kontrolluntersuchung und laufen über die Krankenkasse; Privatversicherte reichen den Termin wie gewohnt ein. Kosten entstehen erst, wenn Sie sich nach dem schriftlichen Kostenplan für die Aufhellung entscheiden.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sect sect--paper place" id="praxis" aria-labelledby="placeH">
+  <div class="wrap place__grid">
+    <div class="place__text">
+      <h2 class="h2" id="placeH" data-rv="wipe"><span data-i18n="praxis.h2">In der Großkölnstraße, mitten in Aachen.</span></h2>
+      <p data-rv data-i18n="praxis.addrP">Mitten in der Innenstadt, wenige Minuten vom Bushof und vom Markt. Parkhaus Großkölnstraße direkt gegenüber.</p>
+      <dl class="place__facts" data-rv>
+        <div><dt data-i18n="praxis.hoursH">Sprechzeiten</dt><dd><span data-i18n="praxis.hours">Mo · Di · Do, 9 bis 16 Uhr</span><br><span class="soft" data-i18n="praxis.hoursNote">Nur mit Termin</span></dd></div>
+        <div><dt data-i18n="praxis.addrH">Anschrift</dt><dd>Zahnarztpraxis AIXSMILE<br>Großkölnstraße 22-28, 52062 Aachen</dd></div>
+        <div><dt data-i18n="praxis.telH">Telefon</dt><dd><a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></dd></div>
+        <div><dt data-i18n="praxis.reviewsH">Bewertungen</dt><dd><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviews">Bei Google, ungekürzt</a></dd></div>
+      </dl>
+    </div>
+    <a class="mapTile" id="mapTile" href="https://www.google.com/maps/search/?api=1&amp;query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n-aria="praxis.mapAria" aria-label="Karte: Großkölnstraße 22-28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App" data-rv>
+      <img src="assets/photos/map-aachen.webp" width="640" height="640" loading="lazy" decoding="async" alt="Stadtplan Aachen mit der Zahnarztpraxis AIXSMILE in der Großkölnstraße">
+      <span class="mapPin" aria-hidden="true"><i></i></span>
+      <span class="mapLabel"><b>Großkölnstraße 22-28</b><span data-i18n="praxis.mapGo">Route öffnen</span></span>
+      <span class="mapCredit" aria-hidden="true">© OpenStreetMap</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__cta">
+    <p class="foot__line" data-rv data-i18n="foot.line">Der erste Schritt: Ihre Zahnfarbe messen.</p>
+    <a class="btn" href="#termin" data-cta="book" data-rv><span data-i18n="hero.book">Beratungstermin buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+  <div class="foot__band" aria-hidden="true">
+    <p class="foot__row"><span data-i18n="foot.mq">Heller · Gemessen · Aachen ·</span> <span data-i18n="foot.mq">Heller · Gemessen · Aachen ·</span> <span data-i18n="foot.mq">Heller · Gemessen · Aachen ·</span> <span data-i18n="foot.mq">Heller · Gemessen · Aachen ·</span></p>
+  </div>
+  <div class="wrap foot__info">
+    <p><b translate="no">Zahnarztpraxis AIXSMILE</b> · Großkölnstraße 22-28, 52062 Aachen · <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a> · <a href="mailto:info@aixsmile.de">info@aixsmile.de</a></p>
+    <p><span data-i18n="foot.hours">Mo · Di · Do, 9 bis 16 Uhr, nur mit Termin</span> · <span data-i18n="foot.langs">Deutsch, Englisch, Farsi, Türkisch, Arabisch</span></p>
+    <p class="foot__meta"><a href="https://aixsmile.de/">aixsmile.de</a> · <a href="https://www.instagram.com/zahnarztpraxis_aixsmile" target="_blank" rel="noopener">Instagram</a> · <a href="/impressum/" data-i18n="foot.impressum">Impressum</a> · <a href="/datenschutz/" data-i18n="foot.datenschutz">Datenschutz</a> · © <span id="footYear">2026</span> Zahnarztpraxis AIXSMILE</p>
+  </div>
+  <p class="foot__mark" aria-hidden="true" translate="no">AIXSMILE</p>
+</footer>
+
+<!-- Phones: booking and calling stay one tap away once the opening is behind you. -->
+<nav class="mbar" id="mbar" data-i18n-aria="mbar.aria" aria-label="Schnellzugriff">
+  <a class="btn" href="#termin" data-cta="book" data-i18n="mbar.book">Beratungstermin buchen</a>
+  <a class="btn btn--ghost btn--icon" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+</nav>
+
+<script src="js/vendor/lenis.min.js" defer></script>
+<script type="module" src="js/i18n.js"></script>
+<script type="module" src="js/booking.js"></script>
+<script type="module" src="js/site.js"></script>
+</body>
+</html>
