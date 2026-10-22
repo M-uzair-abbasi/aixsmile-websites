@@ -283,8 +283,10 @@ if (gap) {
       light(words, clamp(p / 0.4));
       const b = ease(clamp((p - 0.42) / 0.36));
       // in from the edges, then a little further apart as the sentence splits
-      imgL.style.transform = `translate(${(-125 * (1 - a) - 18 * b).toFixed(1)}%, ${(14 * (1 - a) - 8 * b).toFixed(1)}%) rotate(${(-12 + 7 * a).toFixed(2)}deg)`;
-      imgR.style.transform = `translate(${(125 * (1 - a) + 18 * b).toFixed(1)}%, ${(-14 * (1 - a) + 8 * b).toFixed(1)}%) rotate(${(12 - 7 * a).toFixed(2)}deg)`;
+      // (on phones the pictures sit at the edge already, so they move less)
+      const push = innerWidth < 760 ? 3 : 18;
+      imgL.style.transform = `translate(${(-125 * (1 - a) - push * b).toFixed(1)}%, ${(14 * (1 - a) - 8 * b).toFixed(1)}%) rotate(${(-12 + 7 * a).toFixed(2)}deg)`;
+      imgR.style.transform = `translate(${(125 * (1 - a) + push * b).toFixed(1)}%, ${(-14 * (1 - a) + 8 * b).toFixed(1)}%) rotate(${(12 - 7 * a).toFixed(2)}deg)`;
       const dx = b * Math.min(innerWidth * 0.06, 90);
       lineL.style.transform = `translateX(${(-dx).toFixed(1)}px) rotate(${(-2.4 * b).toFixed(2)}deg)`;
       lineR.style.transform = `translateX(${dx.toFixed(1)}px) rotate(${(2.4 * b).toFixed(2)}deg)`;

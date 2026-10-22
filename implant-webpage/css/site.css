@@ -967,7 +967,9 @@ html.scenes .path__stick { position: sticky; top: 0; height: 100vh; height: 100s
   .grow__stick, .gap__stick { padding-block: clamp(72px, 14vh, 120px); }
   .grow__text, .gap__text { font-size: clamp(34px, 10vw, 46px); }
   html.scenes .grow__stick, html.scenes .gap__stick { padding-block: 0; }
-  html.scenes .gap__img { width: 40vw; border-radius: 16px; }
+  html.scenes .gap__img { width: 38vw; border-radius: 16px; }
+  /* upright screens: the X-ray grows to the whole jaw, letterboxed on ink, not to one tooth */
+  html.scenes .grow__fill img { object-fit: contain; }
   html.scenes .gap__img--l { left: 12px; top: 8%; }
   html.scenes .gap__img--r { right: 12px; bottom: calc(9% + 64px); }
   .marquee__row { font-size: clamp(40px, 12.5vw, 64px); }
@@ -998,7 +1000,8 @@ html.scenes .path__stick { position: sticky; top: 0; height: 100vh; height: 100s
   .step__p { font-size: 15px; }
 
   .band { height: min(calc(100svh - 72px), 760px); }
-  .band img { object-position: 22% 20%; }
+  .band img { object-position: 50% 28%; } /* the phone crop has the face in the middle */
+  html.scenes .band img { scale: 1.06; translate: 0 calc((var(--p, .5) - .5) * -5%); } /* less parallax, so the face stays in the frame */
   .band::after { background: linear-gradient(180deg, rgba(20, 20, 16, 0) 40%, rgba(20, 20, 16, .88) 78%); }
   .band__text { top: auto; bottom: 88px; left: var(--gutter); right: var(--gutter); transform: none; width: auto; }
   .band__line { font-size: clamp(30px, 8.6vw, 40px); }
@@ -1028,6 +1031,7 @@ html.scenes .path__stick { position: sticky; top: 0; height: 100vh; height: 100s
   .ins p { font-size: 14.5px; line-height: 1.5; }
 
   .doctor__fig { max-height: 34svh; aspect-ratio: 16 / 11; }
+  .doctor__fig img { object-position: 50% 8%; } /* keep the hair in the frame */
   .doctor__text > p:not(.doctor__sign) { font-size: 15.5px; margin-top: 14px; }
   .doctor__sign { margin-top: 14px; }
   .doctor__grid { gap: 22px; }
