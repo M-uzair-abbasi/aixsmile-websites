@@ -338,9 +338,27 @@ if (mapTile && /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)) {
 // Case photos: tap the expand button to see the whole photo large.
 const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
 if (lb && lbImg) {
-  let last = null;
-  const open = (src, alt, from) => { lbImg.src = src; lbImg.alt = alt || ''; lb.hidden = false; document.body.style.overflow = 'hidden'; last = from; document.getElementById('lbClose').focus(); };
-  const close = () => { lb.hidden = true; lbImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; document.body.style.overflow = ''; if (last) last.focus(); };
+  let last = null, leaving = 0;
+  // it materializes: hidden off, one frame in the start state, then the
+  // transition runs; closing takes the same path back and can be interrupted
+  const open = (src, alt, from) => {
+    clearTimeout(leaving); leaving = 0; lb.classList.remove('is-leaving');
+    lbImg.src = src; lbImg.alt = alt || ''; last = from;
+    if (lb.hidden) { lb.classList.add('is-enter'); lb.hidden = false; void lb.offsetWidth; }
+    requestAnimationFrame(() => lb.classList.remove('is-enter'));
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbClose').focus();
+  };
+  const close = () => {
+    if (lb.hidden || leaving) return;
+    lb.classList.add('is-leaving');
+    document.body.style.overflow = '';
+    if (last) last.focus();
+    leaving = setTimeout(() => {
+      leaving = 0; lb.hidden = true; lb.classList.remove('is-leaving');
+      lbImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    }, 320);
+  };
   document.querySelectorAll('.caseFrame').forEach((f) => {
     const btn = f.querySelector('.expand'), img = f.querySelector('img'), title = f.parentNode.querySelector('.caseBody b');
     if (!btn) return;   // the hero's slider has no full-photo button

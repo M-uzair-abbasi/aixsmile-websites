@@ -72,7 +72,7 @@
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "Greift Bleaching den Zahnschmelz an?", "acceptedAnswer": { "@type": "Answer", "text": "Bei gesunden Zähnen und einem zahnärztlich dosierten Gel nicht. Der Schmelz behält seine Dicke; verändert werden nur die eingelagerten Farbstoffe. Genau deshalb untersuchen wir vorher, ob Karies, Risse oder undichte Füllungen im Weg sind." } },
-        { "@type": "Question", "name": "Wie lange hält das Ergebnis?", "acceptedAnswer": { "@type": "Answer", "text": "Bei den meisten Menschen ein bis drei Jahre. Wer viel Kaffee, Tee oder Rotwein trinkt oder raucht, sieht die alte Farbe schneller zurückkommen. Eine Auffrischung ist dann mit wenig Aufwand möglich." } },
+        { "@type": "Question", "name": "Wie lange hält das Ergebnis?", "acceptedAnswer": { "@type": "Answer", "text": "Das hängt vor allem von Ihnen ab. Wer die Zähne gut pflegt und regelmäßig zur Zahnreinigung kommt, hat meist viele Jahre Freude daran. Viel Kaffee, Tee, Rotwein oder Rauchen lassen die Farbe schneller nachdunkeln. Und wenn es irgendwann nachlässt, genügt eine kurze Auffrischung, deutlich kleiner als die erste Behandlung." } },
         { "@type": "Question", "name": "Tut Bleaching weh?", "acceptedAnswer": { "@type": "Answer", "text": "Die Behandlung selbst tut in der Regel nicht weh. Vorübergehend können die Zähne empfindlicher auf Kälte reagieren oder kurz ziehen. Das vergeht meist nach wenigen Tagen; eine fluoridhaltige Zahnpasta kann dabei helfen." } },
         { "@type": "Question", "name": "Werden Füllungen und Kronen auch heller?", "acceptedAnswer": { "@type": "Answer", "text": "Nein. Kunststofffüllungen, Kronen und Veneers behalten ihre Farbe. Liegen sie im sichtbaren Bereich, kann es sinnvoll sein, sie nach dem Bleaching an die neue Zahnfarbe anzupassen. Das besprechen wir vorher mit Ihnen." } },
         { "@type": "Question", "name": "Ich habe empfindliche Zähne. Geht Bleaching trotzdem?", "acceptedAnswer": { "@type": "Answer", "text": "Oft ja, mit angepasstem Vorgehen: einem milderen Gel, kürzeren Einwirkzeiten oder einer Vorbehandlung, die die Zähne weniger empfindlich macht. Ob das in Ihrem Fall reicht, klären wir bei der Untersuchung." } },
@@ -123,6 +123,17 @@
   a:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   section[id] { scroll-margin-top: var(--hdr); }
+  /* translucency and contrast follow the visitor's settings */
+  @media (prefers-reduced-transparency: reduce) {
+    header.top, .mbar, .procedure__holdHint, .heroCase { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    header.top, .mbar, .procedure__holdHint, .heroCase { background: var(--night) !important; }
+    .lightbox { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(11, 12, 13, .985); }
+  }
+  @media (prefers-contrast: more) {
+    header.top, .mbar, .heroCase, .procedure__holdHint { backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+      background: var(--night) !important; border-color: var(--line-strong) !important; }
+    .lbClose, .chipClose { outline: 1px solid currentColor; outline-offset: -1px; }
+  }
   /* ===== First-load splash ===== */
   .splash { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
     background: var(--night); transition: opacity .45s ease; }
@@ -205,7 +216,7 @@
     text-decoration: none; background: var(--btn-bg); color: var(--btn-fg); cursor: pointer;
     transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .15s ease; }
   .btn:hover { background: var(--btn-hover); color: var(--btn-fg); }
-  .btn:active { transform: translateY(1px); }
+  .btn:active { transform: translateY(1px); transition-duration: .06s; }
   .btn[data-cta="book"]::after { content: '→'; display: inline-block; transition: transform .25s var(--ease); }
   .btn[data-cta="book"]:hover::after { transform: translateX(3px); }
   .btn.ghost { background: transparent; color: var(--heading); border-color: var(--line-strong); }
@@ -353,7 +364,16 @@
   .lbClose svg { width: 20px; height: 20px; }
   .lbClose:hover { background: rgba(255, 255, 255, .26); }
   .lbHint { margin: 0; font-size: 13px; color: rgba(255, 255, 255, .7); }
-  @media (prefers-reduced-motion: no-preference) { .lightbox:not([hidden]) img { animation: riseIn .3s var(--ease); } }
+  /* the photo arrives as a material: blur, scale and opacity together, and leaves the same way */
+  .lightbox { transition: opacity .22s ease; }
+  .lightbox img { transform-origin: 50% 50%; transition: transform .32s cubic-bezier(.2, .8, .2, 1), opacity .22s ease, filter .32s ease; }
+  .lightbox.is-enter, .lightbox.is-leaving { opacity: 0; }
+  .lightbox.is-enter img, .lightbox.is-leaving img { transform: scale(.94); opacity: 0; filter: blur(8px); }
+  .lightbox.is-leaving img { transition-timing-function: cubic-bezier(.8, .2, .8, 1), ease, ease; }
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox img { transition: opacity .2s ease; }
+    .lightbox.is-enter img, .lightbox.is-leaving img { transform: none; filter: none; }
+  }
 
   /* the no-cookies chip: bottom left, above the phone bar */
   .cookieChip { position: fixed; left: 16px; bottom: 16px; z-index: 35; display: flex; align-items: center; gap: 10px; max-width: min(92vw, 420px);
@@ -1891,7 +1911,7 @@
 
   /* buttons answer the press; hover lifts only where there is a mouse */
   .btn, .doctorFeature__link, .heroCaseText a { transition: transform .16s var(--e-out), background-color .2s ease, color .2s ease, box-shadow .2s ease; }
-  .btn:active, .doctorFeature__link:active { transform: scale(.97); }
+  .btn:active, .doctorFeature__link:active { transform: scale(.97); transition-duration: .06s; }
   @media (hover: hover) and (pointer: fine) {
     .btn:not(.ghost):hover { transform: translateY(-1px); }
     .btn:not(.ghost):hover:active { transform: scale(.97); }
@@ -2192,7 +2212,7 @@
   }
 
   /* before/after: with a mouse the divider follows the pointer, eased; a press still drags */
-  .compare.is-follow:not(.is-dragging) { transition: --pos .45s var(--e-out); }
+  /* the mouse chase is a spring in the script, so a press can take over mid-flight without a seam */
   @media (hover: hover) and (pointer: fine) {
     .compare:hover .compareHandle i { transform: scale(1.1); }
   }
@@ -2512,6 +2532,413 @@
 
     .stainStageTag .shadeShift { display: none; }
   }
+  /* ===== Clean pass (2026-10-19): calm, warm, inviting =====
+     One palette (cream, deep green, copper on buttons only), one button
+     shape, more air between sections, photos large and unframed, no
+     tilted paper, no gold hairlines, no black. The structure changed too:
+     the real cases follow the hero, the doctor follows the proof, and the
+     two later smile bands became one quiet photo pair. */
+  :root {
+    --c-cream: #f5efe3; --c-paper: #fbf8f2; --c-white: #fffdf9;
+    --c-green: #183a32; --c-green-2: #1f453c; --c-ink: #1b2925; --c-text: #3b4b45; --c-soft: #5e6c66;
+    --c-copper: #9a4a2e; --c-copper-2: #823c23; --c-line: rgba(24, 58, 50, .14);
+    --sans: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --r-paper: var(--c-paper); --r-cream: var(--c-cream); --r-ivory: var(--c-cream); --r-white: var(--c-white);
+    --r-green: var(--c-green); --r-green-2: var(--c-green-2); --r-ink: var(--c-ink); --r-text: var(--c-text); --r-soft: var(--c-soft);
+    --heading: var(--c-green); --text: var(--c-text); --soft: var(--c-soft); --line: var(--c-line); --line-strong: rgba(24, 58, 50, .3);
+    --v-copper-ink: var(--c-copper); --v-copper: var(--c-copper); --accent: var(--c-copper); --accent-hover: var(--c-copper-2);
+    --btn-bg: var(--c-copper); --btn-hover: var(--c-copper-2); --btn-fg: #fff;
+    --bg: var(--c-paper); --paper: var(--c-paper); --paper-2: var(--c-cream); --stone: var(--c-cream); --cream: var(--c-paper);
+    --night: var(--c-green); --night-2: var(--c-green-2);
+  }
+  body { font-family: var(--sans); font-size: 18px; line-height: 1.65; color: var(--c-text); background: var(--c-paper); }
+  .tone-stone { --bg: var(--c-cream); background: var(--c-cream); }
+  .tone-night { --bg: var(--c-green); --heading: #f6f1e7; --text: #d6e0da; --soft: #b5c6bd; --line: rgba(246, 241, 231, .16); --line-strong: rgba(246, 241, 231, .34); background: var(--c-green); }
+  ::selection { background: #e9d3bf; color: var(--c-ink); }
+
+  /* rhythm: fewer, larger breaths */
+  .section { padding: clamp(88px, 10vw, 144px) 0; }
+  .section--tight { padding: clamp(64px, 7vw, 96px) 0; }
+  .sectionHead { margin-bottom: clamp(36px, 4vw, 56px); }
+  #wann, #faq { background: var(--bg); }
+  .smileBand__text::before { display: none; }
+
+  /* type: one warm serif voice, body in ink */
+  h1, h2, h3, h4 { color: var(--c-green); }
+  h2 { font-size: clamp(34px, 3.6vw, 54px); font-weight: 500; line-height: 1.02; letter-spacing: -.028em; }
+  h3 { font-weight: 500; }
+  .lede, .doctorFeature__lede, .procedure__text, .faqAside, .praxisSoft { color: var(--c-text); }
+  .lede { font-size: clamp(17px, 1.2vw, 19px); max-width: 34em; }
+  a { color: var(--c-copper); }
+  a:hover { color: var(--c-copper-2); }
+
+  /* buttons: one filled copper pill, one quiet outline */
+  .btn, .mbar .btn, .heroCta .btn:not(.ghost), .smileBand__text .btn { border-radius: 999px; border: 1px solid transparent; background: var(--c-copper); color: #fff; box-shadow: none; font-weight: 600; }
+  .btn:hover, .mbar .btn:hover { background: var(--c-copper-2); color: #fff; }
+  .btn.ghost, .mbar .btn.ghost, .heroCta .btn.ghost, .bk .btn.ghost, #faq .btn.ghost, .costBook { background: transparent; color: var(--c-green); border: 1px solid var(--line-strong); border-bottom-color: var(--line-strong); padding-inline: 22px; }
+  .btn.ghost:hover, .costBook:hover { background: rgba(24, 58, 50, .06); color: var(--c-green); }
+  .tone-night .btn.ghost { color: #f6f1e7; }
+  .doctorFeature__link { color: var(--c-green); border-color: var(--line-strong); border-radius: 999px; }
+  .doctorFeature__link:hover { background: rgba(24, 58, 50, .06); }
+
+  /* header: light glass, green type */
+  header.top { background: rgba(251, 248, 242, .86); border-bottom: 1px solid var(--c-line); }
+  .navLinks a { color: var(--c-text); }
+  .navLinks a:hover { color: var(--c-green); text-decoration-color: var(--c-copper); }
+  .langToggle { border-color: var(--line-strong); }
+  .langToggle span { color: var(--c-text); }
+  .brandWord { color: var(--c-green); }
+
+  /* hero: the photo fills the screen, the promise sits in a soft green light */
+  .hero { background: var(--c-green); }
+  .hero h1 .hl { color: #e4c39b; }
+  .hero h1 .hl::after, html.js .hero h1 .hl::after, html.js.is-revealed .hero h1 .hl::after { display: none; }
+  .heroTrust { display: none; }
+  @media (min-width: 901px) {
+    .hero { min-height: calc(100svh - var(--hdr)); align-items: center; }
+    .heroMedia { width: 100%; justify-self: stretch; }
+    .heroMedia img { object-position: 72% 28%; }
+    .heroMedia::after { content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(24, 58, 50, .86) 0%, rgba(24, 58, 50, .62) 34%, rgba(24, 58, 50, .18) 58%, rgba(24, 58, 50, 0) 76%),
+                  linear-gradient(0deg, rgba(24, 58, 50, .5) 0%, rgba(24, 58, 50, 0) 32%); }
+    .heroInner { position: relative; z-index: 2; }
+    .heroCopy { max-width: 36rem; }
+    .hero h1 { color: #fbf7ee; font-weight: 500; }
+    .hero .lead { color: #e6e0d3; font-size: clamp(18px, 1.3vw, 21px); max-width: 30em; }
+    .heroCta .btn.ghost { color: #f6f1e7; border-color: rgba(246, 241, 231, .4); }
+    .heroCta .btn.ghost:hover { background: rgba(246, 241, 231, .1); color: #fff; }
+  }
+  @media (max-width: 900px) {
+    .hero { background: var(--c-cream); }
+    .heroMedia { height: min(62svh, 560px); }
+    .hero h1 { color: var(--c-green); font-weight: 500; }
+    .hero h1 .hl { color: var(--c-copper); }
+  }
+
+  /* cases: large, unframed, the proof right after the promise */
+  #faelle { background: var(--c-paper); }
+  #faelle .cases { gap: clamp(20px, 2.6vw, 36px); }
+  #faelle .caseFrame { border-radius: 18px; box-shadow: none; }
+  #faelle .caseBody { padding: 16px 4px 0; }
+  #faelle .caseBody b { color: var(--c-green); }
+  .caseKicker { color: var(--c-copper); }
+
+  /* doctor: the quote is the headline; the metric row is gone */
+  .band--doctor { background: var(--c-cream); }
+  .doctorFeature__facts { display: none; }
+  .doctorFeature__quote { border-left: 0; padding-left: 0; }
+  .doctorFeature__quote p { font-size: clamp(22px, 1.9vw, 30px); line-height: 1.3; color: var(--c-green); }
+  .doctorFeature__photo img { border-radius: 0; }
+
+  /* the 3D treatment keeps its depth, in the page's green */
+  .procedure { --proc-glow: #26514a; --proc-ink: #f6f1e7; --proc-bronze: #e4c39b; background: var(--c-green); }
+  .procedure__holdHint { background: rgba(24, 58, 50, .78); }
+
+  /* smile bands: one full band in green light, one calm pair in cream */
+  .smileBand { background: var(--c-green); color: #f6f1e7; }
+  .smileBand__line { color: #f6f1e7; font-weight: 500; }
+  .smileBand::after { background: linear-gradient(0deg, rgba(24, 58, 50, .94) 0%, rgba(24, 58, 50, .66) 34%, rgba(24, 58, 50, 0) 62%); }
+  @media (min-width: 901px) { .smileBand:not(.smileBand--duo) { height: auto; min-height: min(78vh, 760px); max-height: 820px; } }
+  .smileBand--duo { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 80px);
+    height: auto; min-height: 0; max-height: none; padding: clamp(80px, 9vw, 130px) var(--gutter); background: var(--c-cream); color: var(--c-green); overflow: visible; }
+  .smileBand--duo::after { display: none; }
+  .smileBand--duo .smileDuo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 1.8vw, 24px); align-items: start; }
+  .smileBand--duo picture { position: static; display: block; width: auto; height: auto; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 18px; }
+  .smileBand--duo picture:last-child { translate: 0 clamp(28px, 4vw, 56px); }
+  .smileBand--duo picture img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .smileBand--duo .smileBand__text, .smileBand--duo.smileBand--right .smileBand__text { position: static; inset: auto; width: auto; max-width: none; padding: 0; display: grid; gap: 28px; justify-items: start; }
+  .smileBand--duo .smileBand__line { max-width: 10em; font-size: clamp(34px, 3.4vw, 54px); line-height: 1.04; color: var(--c-green); }
+  @media (max-width: 900px) {
+    .smileBand--duo { grid-template-columns: minmax(0, 1fr); padding: 64px var(--gutter); }
+    .smileBand--duo picture:last-child { translate: 0 24px; }
+    .smileBand--duo .smileBand__text { padding: 0; margin-top: 36px; }
+  }
+
+  /* measuring: the shade guide on cream, teeth as the only colour */
+  #messen { --bg: var(--c-cream); --heading: var(--c-green); --text: var(--c-text); --soft: var(--c-soft); --line: var(--c-line); background: var(--c-cream); }
+  #messen h2, #messen .shadeCode, #messen .tab[aria-pressed="true"] span { color: var(--c-green); }
+  #messen .shadePrompt { color: var(--c-ink); }
+  #messen .tab span, #messen .tabMark { color: var(--c-text); }
+  #messen .tab i { box-shadow: inset 0 0 0 1px rgba(24, 58, 50, .2), inset 0 -6px 10px rgba(24, 58, 50, .06); }
+  #messen .tab[aria-pressed="true"] i { box-shadow: 0 0 0 2px var(--c-green), 0 18px 24px -14px rgba(24, 58, 50, .4); }
+  #messen .tab:focus-visible { outline-color: var(--c-copper); }
+  #messen .frame--measure { border-radius: 18px; }
+
+  /* methods and stains: cream, airy */
+  #methoden { background: var(--c-paper); }
+  #wann { background: var(--c-cream); }
+  .stainSample img, .stainStage img { border-radius: 14px; }
+
+  /* costs: a plain sheet, no tilt, no paper stack */
+  #kosten { background: var(--c-paper); }
+  .costWrap::before { display: none; }
+  .costSheet, .costSheet:hover { rotate: none; translate: none; border: 1px solid var(--c-line); border-radius: 18px; background: var(--c-white); box-shadow: none; }
+  .costSheetMark b { color: var(--c-copper); }
+  .costRows dd { color: var(--c-copper); }
+
+  /* booking, faq, practice: one card language */
+  #buchen { background: var(--c-cream); }
+  .bk { border: 1px solid var(--c-line); border-radius: 18px; background: var(--c-white); box-shadow: none; }
+  .bkSteps li.on::after, .bkSteps li.done::after { background: var(--c-copper); }
+  .band--faq { background: var(--c-paper); }
+  .faq details { border-color: var(--c-line); }
+  .band--praxis { background: var(--c-cream); }
+  .mapTile { border: 1px solid var(--c-line); border-radius: 18px; box-shadow: none; }
+  body > footer { background: var(--c-green); }
+  .colophonLead { color: #f6f1e7; font-weight: 500; }
+
+  /* phone bar: light, same two buttons as everywhere */
+  .mbar { background: rgba(251, 248, 242, .94); border-top: 1px solid var(--c-line); }
+  .mbar .btn.ghost { color: var(--c-green); border-color: var(--line-strong); }
+  /* fixes after the first look */
+  header.top { --text: var(--c-text); --heading: var(--c-green); --line: var(--c-line); --line-strong: rgba(24, 58, 50, .3); }
+  header.top .btn.ghost { color: var(--c-green); border-color: var(--line-strong); }
+  header.top .btn.ghost:hover { background: rgba(24, 58, 50, .06); }
+  .doctorFeature__quote::before { display: none; }
+  .smileBand.smileBand--duo { background: var(--c-cream); }
+  .smileBand--duo .smileDuo picture { position: relative; inset: auto; width: auto; height: auto; aspect-ratio: 4 / 5; }
+  .smileBand--duo .smileDuo picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .js .smileBand--duo.m-wipe .smileBand__line, .js .smileBand--duo.m-wipe .smileBand__text .btn { opacity: 1; transform: none; filter: none; }
+  @media (max-width: 900px) { .hero .btn.ghost, .hero.tone-night .btn.ghost { color: var(--c-green); border-color: var(--line-strong); } }
+  .smileBand--duo .smileDuo picture:first-child img { object-position: 30% 35%; }
+  .smileBand--duo { padding-bottom: clamp(56px, 6vw, 88px); }
+  /* ===== Flow (2026-10-19): one continuous canvas, photos as framed panels =====
+     No section is a wall-to-wall slab any more. The page is one warm paper;
+     cream sections blend in and out; the dark chapters (3D stage, smile
+     band) sit inset with rounded corners; every photo is a framed panel
+     inside the content width, shown whole. */
+  :root { --pad-y: clamp(88px, 10vw, 144px); --panel-r: 26px; --inset: clamp(12px, 2vw, 32px); }
+  .section, .band--doctor { padding-block: var(--pad-y); }
+  .tone-stone, #wann, #buchen, .band--praxis, .band--doctor, #messen, .smileBand--duo {
+    background: linear-gradient(180deg, var(--c-paper) 0, var(--c-cream) 140px, var(--c-cream) calc(100% - 140px), var(--c-paper) 100%); }
+  #faelle, #methoden, #kosten, .band--faq { background: var(--c-paper); }
+
+  /* dark chapters: inset panels, not slabs */
+  .procedure, .smileBand:not(.smileBand--duo) { margin-inline: var(--inset); border-radius: var(--panel-r); overflow: clip; }
+  .procedure { margin-block: 0 var(--pad-y); }
+  .smileBand:not(.smileBand--duo) { margin-block: 0; }
+  @media (max-width: 900px) { .procedure, .smileBand:not(.smileBand--duo) { border-radius: 20px; } }
+
+  /* the doctor: whole portrait in a 4:5 frame, text beside it, same width as the page */
+  .band--doctor { padding-inline: var(--gutter); }
+  .doctorFeature { max-width: calc(74rem - 2 * var(--gutter)); margin: 0 auto; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(32px, 6vw, 96px); align-items: center; min-height: 0; }
+  .doctorFeature__photo { aspect-ratio: 4 / 5; width: 100%; max-width: 520px; border-radius: var(--panel-r); overflow: hidden; background: var(--c-cream); }
+  .doctorFeature__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; border-radius: 0; }
+  .doctorFeature__text { max-width: 36rem; padding: 0; }
+  .doctorFeature h2 { font-size: clamp(32px, 3.2vw, 48px); }
+  @media (max-width: 900px) {
+    .doctorFeature { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .doctorFeature__photo { max-width: none; aspect-ratio: 4 / 5; }
+    .doctorFeature__photo img { object-position: 50% 12%; }
+    .doctorFeature__text { padding: 0; }
+  }
+
+  /* the measuring and methods photos: framed, aligned with the text column */
+  @media (min-width: 901px) {
+    #messen .measurePhoto, .waysPhoto { top: var(--pad-y); bottom: var(--pad-y); left: max(var(--gutter), calc((100% - 74rem) / 2 + var(--gutter)));
+      width: calc((min(100%, 74rem) - 2 * var(--gutter)) * .4); border-radius: var(--panel-r); overflow: hidden; }
+    #messen .frame--measure { border-radius: 0; }
+    .waysPhotoName { left: 20px; }
+  }
+  #messen .frame--measure, .measurePhoto { border-radius: var(--panel-r); overflow: hidden; }
+
+  /* cases and photo pair share the frame radius */
+  #faelle .caseFrame, .smileBand--duo .smileDuo picture, .stainSample img, .stainStage img, .mapTile, .costSheet, .bk { border-radius: var(--panel-r); }
+  @media (max-width: 900px) { #faelle .caseFrame, .smileBand--duo .smileDuo picture, .mapTile, .costSheet, .bk { border-radius: 20px; } }
+
+  /* the hero hands over softly */
+  .hero { position: relative; }
+  @media (min-width: 901px) { .hero::after { content: ''; position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: 120px; pointer-events: none;
+    background: linear-gradient(180deg, rgba(251, 248, 242, 0) 0%, rgba(251, 248, 242, .35) 100%); } }
+  .smileBand.smileBand--duo { background: linear-gradient(180deg, var(--c-paper) 0, var(--c-cream) 140px, var(--c-cream) calc(100% - 140px), var(--c-paper) 100%); }
+  .smileBand--duo .smileDuo picture:last-child img { object-position: 70% 30%; }
+  .procedure__text { color: var(--proc-soft); }
+  .procedure__hint { color: var(--proc-soft); }
+  #buchen, #buchen.tone-night { --text: var(--c-text); --heading: var(--c-green); --soft: var(--c-soft); --line: var(--c-line); --line-strong: rgba(24, 58, 50, .3); color: var(--c-text); }
+  .band--buchen .intro > p:not(.eyebrow), .band--buchen .intro li { color: var(--c-text); }
+  /* ===== Compact (2026-10-20): tighter rhythm between sections ===== */
+  :root { --pad-y: clamp(56px, 6.5vw, 96px); }
+  .tone-stone, #wann, #buchen, .band--praxis, .band--doctor, #messen, .smileBand--duo, .smileBand.smileBand--duo {
+    background: linear-gradient(180deg, var(--c-paper) 0, var(--c-cream) 96px, var(--c-cream) calc(100% - 96px), var(--c-paper) 100%); }
+  .smileBand--duo { padding-block: var(--pad-y); }
+  .procedure { margin-block: 0 var(--pad-y); }
+  .sectionHead { margin-bottom: clamp(24px, 3vw, 40px); }
+  @media (min-width: 901px) { .hero::after { height: 96px; } }
+  @media (max-width: 900px) { .smileBand--duo { padding-block: 56px; } .smileBand--duo .smileBand__text { margin-top: 28px; } }
+  /* hero secondary: a real pill, same size as the primary */
+  .heroCta .btn.ghost, .hero .heroCta .btn.ghost { min-height: 54px; padding: 0 26px; border-radius: 999px; border: 1px solid rgba(246, 241, 231, .45); border-bottom-color: rgba(246, 241, 231, .45); background: transparent; color: #f6f1e7; font-size: 16px; }
+  .heroCta .btn.ghost:hover { background: rgba(246, 241, 231, .12); border-color: rgba(246, 241, 231, .7); color: #fff; }
+  @media (max-width: 900px) { .heroCta .btn.ghost, .hero .heroCta .btn.ghost, .hero.tone-night .btn.ghost { min-height: 48px; padding: 0 20px; color: var(--c-green); border: 1px solid rgba(24, 58, 50, .3); } }
+  /* ===== Signature (2026-10-21): the bleaching page as a warm clinic journal =====
+     Linen paper with a faint grain, soft-corner copper buttons, text links instead
+     of pill pairs, a photo-first editorial hero, the doctor's words on his own
+     portrait, one big case and one small, plain cost list, light footer. */
+  :root { --c-paper: #fcf8ef; --c-cream: #f3ebdc; --c-white: #fffdf7; --r: 12px; }
+  html, body { background: var(--c-paper); }
+  body::after { content: ''; position: fixed; inset: 0; z-index: 2147483647; pointer-events: none; opacity: .055; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .16 0 0 0 0 .1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 180px 180px; }
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) { body::after { display: none; } }
+
+  /* header: text, a hairline, no pills */
+  header.top { background: rgba(252, 248, 239, .9); border-bottom: 1px solid rgba(24, 58, 50, .16); }
+  .hdrLink { display: inline-flex; align-items: center; gap: 8px; color: var(--c-green); font-size: 14.5px; font-weight: 600; text-decoration: underline; text-decoration-color: var(--c-copper); text-decoration-thickness: 1.5px; text-underline-offset: 6px; transition: text-decoration-color .2s ease; }
+  .hdrLink i { font-style: normal; color: var(--c-copper); }
+  .hdrLink:hover { text-decoration-color: var(--c-green); }
+  .controls { gap: 22px; }
+  .langToggle, header.top .langToggle { padding: 0; border: 0; background: none; gap: 0; }
+  .langToggle::before, header.top .langToggle::before { display: none; }
+  .langToggle span, header.top .langToggle span { width: auto; height: auto; padding: 4px 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--c-soft); }
+  .langToggle span:first-child::after { content: '/'; margin: 0 8px; font-weight: 400; color: rgba(24, 58, 50, .3); }
+  header.top .langToggle[data-active="de"] span[data-lang="de"], header.top .langToggle[data-active="en"] span[data-lang="en"] { color: var(--c-green); text-decoration: underline; text-decoration-color: var(--c-copper); text-decoration-thickness: 1.5px; text-underline-offset: 6px; }
+
+  /* buttons: soft corners, one filled style; secondaries are text links */
+  .btn, .mbar .btn, .heroCta .btn:not(.ghost), .smileBand__text .btn, .btn.btnWide, .btn.ghost, .mbar .btn.ghost, .bk .btn.ghost, #faq .btn.ghost { border-radius: var(--r); }
+  .heroCta .btn.ghost, .hero .heroCta .btn.ghost, .costBook, .costBook.btn.ghost, .doctorFeature__link { min-height: 0; padding: 0 0 4px; border: 0; border-bottom: 1.5px solid var(--c-copper); border-radius: 0; background: none; color: var(--c-green); font-size: 16px; font-weight: 600; transition: border-color .2s ease; }
+  .heroCta .btn.ghost:hover, .costBook:hover, .doctorFeature__link:hover, .doctorFeature__link:focus-visible { background: none; border-bottom-color: var(--c-green); color: var(--c-green); }
+  @media (max-width: 900px) { .heroCta .btn.ghost, .hero .heroCta .btn.ghost { min-height: 0; padding: 0 0 4px; border: 0; border-bottom: 1.5px solid var(--c-copper); border-radius: 0; width: auto; margin: 0; } }
+
+  /* hero: the photo first, the headline underneath, a proof card on the photo */
+  .hero.hero--editorial { display: block; min-height: 0; padding: calc(var(--hdr) + var(--inset)) var(--inset) 0; background: var(--c-paper); overflow: visible;
+    --text: var(--c-text); --heading: var(--c-green); --soft: var(--c-soft); color: var(--c-text); }
+  .hero--editorial::after, .hero--editorial .heroMedia::after { content: none; }
+  .hero--editorial .heroMedia { position: relative; inset: auto; width: auto; height: auto; aspect-ratio: 21 / 9; min-height: 420px; max-height: 70vh; margin: 0; border-radius: var(--panel-r); overflow: hidden; background: var(--c-cream); }
+  .hero--editorial .heroMedia picture { display: contents; }
+  .hero--editorial .heroMedia > picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+  .heroProof { position: absolute; z-index: 2; left: clamp(16px, 2.5vw, 36px); bottom: clamp(16px, 2.5vw, 36px); display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 14px; align-items: center; max-width: 380px; padding: 12px 18px 12px 12px; border-radius: 16px; background: rgba(252, 248, 239, .94); color: var(--c-text); box-shadow: 0 24px 48px -28px rgba(24, 58, 50, .55); }
+  .heroProof img { display: block; width: 92px; aspect-ratio: 4 / 5; border-radius: 10px; object-fit: cover; object-position: 50% 30%; }
+  .heroProof p { display: grid; gap: 4px; margin: 0; }
+  .heroProof b { color: var(--c-green); font-family: var(--serif); font-size: 19px; font-weight: 400; line-height: 1.15; }
+  .heroProof span { font-size: 13px; line-height: 1.4; color: var(--c-soft); }
+  .hero--editorial > .heroInner, .hero--editorial .heroInner { position: static; display: block; width: auto; max-width: 74rem; margin: 0 auto; padding: clamp(36px, 5vw, 64px) calc(var(--gutter) - var(--inset)) 0; }
+  .hero--editorial .heroCopy { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(24px, 5vw, 80px); align-items: end; max-width: none; }
+  .hero--editorial h1 { margin: 0; max-width: 10.5em; font-size: clamp(40px, 5.6vw, 84px); font-weight: 400; line-height: .98; letter-spacing: -.03em; color: var(--c-green); text-shadow: none; }
+  .hero--editorial h1 .hl { color: var(--c-copper); }
+  .hero--editorial h1 .hl::after { content: none; }
+  .heroSide { display: grid; gap: 26px; padding-bottom: 6px; }
+  .hero--editorial .lead { max-width: 30rem; margin: 0; font-size: 18px; line-height: 1.6; color: var(--c-text); }
+  .hero--editorial .heroCta { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin: 0; }
+  @media (max-width: 900px) {
+    .hero.hero--editorial { padding-top: calc(var(--hdr) + 10px); }
+    .hero--editorial .heroMedia { aspect-ratio: 4 / 5; min-height: 0; max-height: none; border-radius: 20px; }
+    .heroProof { left: 12px; right: 12px; bottom: 12px; max-width: none; grid-template-columns: 64px minmax(0, 1fr); padding: 10px 14px 10px 10px; }
+    .heroProof img { width: 64px; }
+    .heroProof b { font-size: 17px; }
+    .heroProof span { font-size: 12.5px; }
+    .hero--editorial > .heroInner, .hero--editorial .heroInner { margin: 0; padding: 26px calc(var(--gutter) - var(--inset)) 0; }
+    .hero--editorial .heroCopy { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .hero--editorial h1 { font-size: clamp(36px, 9.6vw, 46px); }
+    .hero--editorial .lead { font-size: 16.5px; }
+    .hero--editorial .heroCta { flex-direction: row; gap: 18px 24px; }
+    .hero--editorial .heroCta .btn:not(.ghost) { flex: 0 1 auto; width: auto; }
+  }
+
+  /* cases: one leads, one follows */
+  #faelle .sectionHead { max-width: none; display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, .8fr); gap: 12px 64px; align-items: end; }
+  #faelle .sectionHead h2, #faelle .sectionHead .lede { margin: 0; }
+  #faelle .cases { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: end; gap: clamp(20px, 3vw, 40px); justify-content: stretch; }
+  #faelle .caseFrame { max-width: none; border: 0; }
+  #faelle .case--1 .caseFrame, #faelle .case--2 .caseFrame { aspect-ratio: 12 / 5; }
+  #faelle .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; gap: clamp(20px, 3vw, 40px); align-items: start; }
+  #faelle .case { display: block; }
+  #faelle .compare img { object-fit: contain; object-position: 50% 50%; }
+  .caseKicker, #faelle .caseKicker { color: var(--c-soft); font-weight: 500; letter-spacing: 0; text-transform: none; }
+  @media (max-width: 900px) {
+    #faelle .sectionHead { display: block; }
+    #faelle .sectionHead .lede { margin-top: 12px; }
+    #faelle .cases { grid-template-columns: minmax(0, 1fr); }
+    #faelle .case--1 .caseFrame, #faelle .case--2 .caseFrame { aspect-ratio: 12 / 5; }
+    #faelle .cases { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* the doctor: his words on his portrait */
+  .doctorFeature { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .doctorFeature__photo { position: relative; max-width: none; }
+  .doctorFeature__photo .doctorFeature__quote { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; margin: 0; padding: clamp(60px, 7vw, 96px) clamp(20px, 3vw, 36px) clamp(20px, 3vw, 32px);
+    background: linear-gradient(0deg, rgba(20, 44, 38, .82) 0%, rgba(20, 44, 38, .62) 55%, rgba(20, 44, 38, 0) 100%); color: #f6f1e7; }
+  .doctorFeature__photo .doctorFeature__quote::before { display: none; }
+  .doctorFeature__photo .doctorFeature__quote p { max-width: 20em; color: #fffdf7; font-size: clamp(19px, 1.6vw, 24px); font-style: normal; line-height: 1.3; }
+  .doctorFeature__photo .doctorFeature__sign { margin-top: 12px; }
+  .doctorFeature__photo .doctorFeature__sign b { color: #fffdf7; }
+  .doctorFeature__photo .doctorFeature__sign span { color: rgba(246, 241, 231, .8); }
+  .doctorFeature__text { max-width: 34rem; padding-top: clamp(4px, 1.5vw, 20px); }
+  .doctorFeature__lede { margin-top: 22px; font-size: 17.5px; line-height: 1.6; }
+  .doctorFeature__p2 { margin-top: 14px; }
+  .doctorFeature__facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 28px 0 0; padding: 18px 0 0; border-top: 1px solid var(--c-line); }
+  .doctorFeature__facts span { display: inline-flex; align-items: baseline; gap: 7px; }
+  .doctorFeature__facts b { font-family: var(--serif); font-size: 21px; font-weight: 400; color: var(--c-green); }
+  .doctorFeature__facts i { font-style: normal; font-size: 13.5px; color: var(--c-soft); }
+  .doctorFeature__link { margin-top: 28px; }
+  @media (max-width: 900px) { .doctorFeature { grid-template-columns: minmax(0, 1fr); } .doctorFeature__lede { font-size: 16px; } }
+
+  /* the 3D jaw: calmer gums, same stage */
+  .procedure__canvas, .procedure__poster { filter: saturate(.74) sepia(.08) contrast(.98); }
+
+  /* the first smile: a framed print on paper, not a second dark slab */
+  #smile1.smileBand { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 80px); height: auto; min-height: 0; max-height: none; margin: 0; padding: 0 var(--gutter) var(--pad-y); border-radius: 0; background: var(--c-paper); color: var(--c-green); overflow: visible; isolation: auto; }
+  #smile1 picture { position: relative; inset: auto; z-index: auto; display: block; width: min(100%, 540px); height: auto; aspect-ratio: 1 / 1; justify-self: end; border-radius: var(--panel-r); overflow: hidden; }
+  #smile1 picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  #smile1 .smileBand__text, #smile1.smileBand--right .smileBand__text { position: static; inset: auto; display: block; width: auto; max-width: 30rem; padding: 0; margin: 0; }
+  #smile1 .smileBand__text::before { background: var(--c-copper); }
+  #smile1 .smileBand__line { max-width: 14em; color: var(--c-green); }
+  @media (max-width: 900px) { #smile1.smileBand { grid-template-columns: minmax(0, 1fr); gap: 22px; padding-inline: var(--gutter); } #smile1 picture { width: 100%; justify-self: stretch; border-radius: 20px; } }
+
+  /* costs: a plain list, not a paper invoice */
+  .costWrap::before { content: none; }
+  .costWrap { align-items: start; }
+  .costSheet, #kosten .costSheet { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .costSheet:hover { rotate: none; translate: none; }
+  .costSheetTitle, .costSheetFactors h4 { margin: 0 0 6px; font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--c-soft); }
+  .costRows > div { padding: 16px 0; border-top: 1px solid var(--c-line); border-bottom: 0; }
+  .costRows > div:last-child { border-bottom: 1px solid var(--c-line); }
+  .costRows dt { font-size: 17px; color: var(--c-ink); }
+  .costRows dd, .costRows > div + div dd { font-size: 15px; color: var(--c-green); }
+  .costSheetFactors { margin-top: 28px; }
+  .factors li, .factors li:last-child { border-color: var(--c-line); }
+
+  /* footer: light, like the rest of the page */
+  body > footer.tone-night { --bg: var(--c-cream); --heading: var(--c-green); --text: var(--c-text); --soft: var(--c-soft); --accent: var(--c-copper); --accent-hover: var(--c-copper-2); --line: var(--c-line);
+    background: var(--c-cream); color: var(--c-text); border-top: 1px solid var(--c-line); }
+  .colophonMark { color: var(--c-copper); }
+  .colophonLead { color: var(--c-green); }
+
+  /* fixes after the first look */
+  .hero.hero--editorial .heroMedia { animation: none; transform: none; }
+  .hero--editorial .heroMedia::before { content: none; }
+  .hero--editorial .heroMedia > picture img { transform-origin: 50% 35%; animation: heroFilm 2.8s var(--e-out) backwards, heroPush 26s cubic-bezier(.33, 0, .3, 1) 2.8s forwards; }
+  html.js:not(.is-revealed) .hero--editorial .heroMedia > picture img { animation-play-state: paused; }
+  .hero--editorial .heroProof, .hero--editorial .heroProof img { animation: none; transform: none; opacity: 1; filter: none; }
+  .heroProof { z-index: 5; }
+  .hero.hero--editorial .heroMedia { -webkit-mask-image: none; mask-image: none; }
+  @media (min-width: 901px) { .hero--editorial .heroCopy { grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr); } }
+  .hero--editorial h1 { max-width: none; font-size: clamp(40px, 4.9vw, 70px); }
+  .hero--editorial .lead { max-width: min(26rem, 100%); }
+  .heroSide { min-width: 0; }
+  @media (max-width: 900px) { .hero--editorial h1 { font-size: clamp(36px, 9.6vw, 46px); } }
+  @media (max-width: 640px) { .hdrLink, .hdrBook.hdrLink { display: none; } }
+  /* phones: photos at a calmer size, never a full screen */
+  @media (max-width: 900px) {
+    .hero--editorial .heroMedia { aspect-ratio: 4 / 3; }
+    .doctorFeature__photo { aspect-ratio: 4 / 3; max-width: none; }
+    .doctorFeature__photo img { object-position: 50% 18%; }
+    .doctorFeature__photo .doctorFeature__quote { padding-top: 40px; }
+    .doctorFeature__photo .doctorFeature__quote p { font-size: 17px; }
+    #smile1 picture { aspect-ratio: 16 / 10; }
+    #smile1 picture img { object-position: 50% 45%; }
+    #messen .frame--measure, #messen .measurePhoto { aspect-ratio: 16 / 9; }
+    #messen .frame--measure img, #messen .measurePhoto img { width: 100%; height: 100%; object-fit: cover; }
+    .stainStage { aspect-ratio: 16 / 9; }
+    .smileBand--duo .smileDuo picture { aspect-ratio: 1 / 1; }
+    .mapTile { aspect-ratio: 16 / 10; height: auto; }
+    .mapTile img { width: 100%; height: 100%; object-fit: cover; }
+  }
+  @media (max-width: 900px) and (max-height: 760px) { .hero--editorial .heroMedia { aspect-ratio: 16 / 10; } }
+  .colophonMeta { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 6px; }
+  .colophonMeta .sep { margin: 0 6px; }
+  #smile1.smileBand::before, #smile1.smileBand::after { content: none; display: none; }
+  #smile1 .smileBand__line { font-size: clamp(28px, 2.7vw, 40px); line-height: 1.12; }
+  .js #smile1.smileBand.m-wipe .smileBand__line, .js #smile1.smileBand.m-wipe .smileBand__text .btn { opacity: 1; transform: none; filter: none; }
+  footer a { color: var(--c-text); text-decoration-color: rgba(24, 58, 50, .3); }
+  footer a:hover { color: var(--c-green); }
 </style>
 </head>
 <body>
@@ -2530,7 +2957,8 @@
   </div>
   <p class="splashText"><span data-l="de">Wir messen die Farbe …</span><span data-l="en">Measuring the shade …</span></p>
 </div>
-<noscript><style>.splash { display: none !important; }</style></noscript>
+<noscript><style>.splash { display: none !important; }
+</style></noscript>
 <a class="skip" href="#inhalt" data-i18n="skip">Zum Inhalt springen</a>
 
 <header class="top tone-night" id="top">
@@ -2548,10 +2976,7 @@
     <a href="#faq" data-i18n="nav.faq">Fragen</a>
   </nav>
   <div class="controls">
-    <a class="btn btnSm hdrBook" href="#buchen" data-cta="book" data-i18n="nav.book">Beratungstermin buchen</a>
-    <a class="btn ghost btnSm btnIcon hdrCall" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-    </a>
+    <a class="hdrBook hdrLink" href="#buchen" data-cta="book"><span data-i18n="nav.book">Termin vereinbaren</span> <i aria-hidden="true">→</i></a>
     <button type="button" class="langToggle" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language">
       <span data-lang="de">DE</span><span data-lang="en">EN</span>
     </button>
@@ -2560,33 +2985,62 @@
 
 <main id="inhalt">
 
-<section class="hero tone-night" aria-labelledby="heroH">
+<section class="hero hero--editorial" aria-labelledby="heroH">
   <figure class="heroMedia">
     <picture>
       <source media="(max-width: 900px)" srcset="assets/photos/ai/smile-band-1-sq.webp">
       <img src="assets/photos/ai/smile-band-1.webp" width="1600" height="1067" decoding="async" fetchpriority="high" data-i18n-alt="hero.imgAlt" alt="Eine junge Frau lacht, mit hellen, natürlichen Zähnen (KI-generiertes Bild)">
     </picture>
+    <div class="heroProof">
+      <img src="assets/photos/ai/hero.webp" width="1000" height="1250" loading="lazy" decoding="async" data-i18n-alt="hero.proofAlt" alt="Ein Musterzahn der Farbskala wird neben die Frontzähne gehalten (KI-generiertes Bild)">
+      <p><b data-i18n="hero.proofB">A3 → B1, gemessen.</b><span data-i18n="hero.proofS">Dieselbe Farbskala vor und nach der Behandlung, bei Tageslicht.</span></p>
+    </div>
   </figure>
   <div class="wrap heroInner">
     <div class="heroCopy">
-      <h1 id="heroH" data-i18n="hero.h1">Zahnbleaching in Aachen, vorher und nachher <span class="hl">gemessen</span>.</h1>
-      <p class="lead" data-i18n="hero.lead">Dieselbe Farbskala vor und nach der Behandlung zeigt Ihnen schwarz auf weiß, was sich verändert hat.</p>
-      <div class="cta heroCta">
-        <a class="btn" href="#buchen" data-cta="book" data-i18n="hero.book">Beratungstermin buchen</a>
-        <a class="btn ghost" href="#faelle"><span data-i18n="hero.cases">Echte Fälle ansehen</span> <span aria-hidden="true">↓</span></a>
+      <h1 id="heroH" data-i18n="hero.h1">Bleaching in Aachen, <span class="hl">ehrlich</span> gemessen.</h1>
+      <div class="heroSide">
+        <p class="lead" data-i18n="hero.lead">Ich halte dieselbe Farbskala vor und nach der Behandlung an Ihre Zähne. So sehen Sie, was sich wirklich verändert hat, und nicht, was ein Foto verspricht.</p>
+        <div class="cta heroCta">
+          <a class="btn" href="#buchen" data-cta="book" data-i18n="hero.book">Beratungstermin buchen</a>
+        </div>
       </div>
     </div>
   </div>
-  <div class="heroCase">
-    <div class="caseFrame compare heroCompare is-nudge">
-      <img class="compareAfter" src="assets/photos/case-1-cmp-after.webp" width="960" height="400" decoding="async" data-i18n-alt="hero.caseAltA" alt="Fall 1 aus unserer Praxis, nach dem Bleaching">
-      <div class="compareBefore"><img src="assets/photos/case-1-cmp-before.webp" width="960" height="400" decoding="async" data-i18n-alt="hero.caseAltB" alt="Fall 1 aus unserer Praxis, vor dem Bleaching"></div>
-      <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
-      <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
-      <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="hero.caseRange" aria-label="Echter Fall: vorher und nachher vergleichen">
-      <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+</section>
+
+<section class="section band--cases" id="faelle" aria-labelledby="baH">
+  <div class="wrap">
+    <div class="sectionHead">
+      <h2 id="baH" data-i18n="ba.h2">Zwei Fälle, so wie sie wirklich aussahen.</h2>
+      <p class="lede" data-i18n="ba.lede">Mit Einwilligung veröffentlicht. Licht und Kamera waren vorher und nachher nicht identisch. Deshalb verlasse ich mich auf die Farbskala, nicht auf das Foto.</p>
     </div>
-    <p class="heroCaseText"><a href="#faelle"><span data-i18n="hero.caseB">Echter Fall aus unserer Praxis</span> <i aria-hidden="true">→</i></a></p>
+    <div class="cases">
+      <figure class="case case--1">
+        <div class="caseFrame compare">
+          <img class="compareAfter" src="assets/photos/case-1-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altA1" alt="Fall 1 nach dem Bleaching">
+          <div class="compareBefore"><img src="assets/photos/case-1-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altB1" alt="Fall 1 vor dem Bleaching"></div>
+          <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
+          <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
+          <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="ba.range1" aria-label="Fall 1: vorher und nachher vergleichen">
+          <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+          <button type="button" class="expand" data-expand="assets/photos/case-1.jpg" data-i18n-aria="ba.expand1" aria-label="Ganzes Foto von Fall 1 ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+        </div>
+        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case1">Fall 1</span> · <span data-i18n="ba.k1">In der Praxis</span></span><b data-i18n="ba.t1">Gelbliche Verfärbung</b><span data-i18n="ba.cap1">Links vorher, rechts nachher.</span></figcaption>
+      </figure>
+      <figure class="case case--2">
+        <div class="caseFrame compare">
+          <img class="compareAfter" src="assets/photos/case-2-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altA2" alt="Fall 2 nach dem Bleaching">
+          <div class="compareBefore"><img src="assets/photos/case-2-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altB2" alt="Fall 2 vor dem Bleaching"></div>
+          <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
+          <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
+          <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="ba.range2" aria-label="Fall 2: vorher und nachher vergleichen">
+          <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+          <button type="button" class="expand" data-expand="assets/photos/case-2.jpg" data-i18n-aria="ba.expand2" aria-label="Ganzes Foto von Fall 2 ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+        </div>
+        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case2">Fall 2</span> · <span data-i18n="ba.k2">In der Praxis</span></span><b data-i18n="ba.t2">Nachgedunkelte Frontzähne</b><span data-i18n="ba.cap2">Links vorher, rechts nachher.</span></figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -2594,15 +3048,16 @@
   <div class="doctorFeature">
     <figure class="doctorFeature__photo">
       <img src="assets/photos/doctor-molaie.webp" srcset="assets/photos/doctor-molaie-720.webp 720w, assets/photos/doctor-molaie.webp 1120w" sizes="(max-width: 900px) 100vw, 50vw" width="1120" height="1400" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt der Zahnarztpraxis AIXSMILE in Aachen">
+      <blockquote class="doctorFeature__quote">
+        <p data-i18n="doctor.quote">„Ein Lächeln, das man nicht mehr versteckt, ist mir mehr wert als das hellste Weiß.“</p>
+        <div class="doctorFeature__sign"><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
+      </blockquote>
     </figure>
     <div class="doctorFeature__text">
       <h2 id="docH" data-i18n="doctor.h2">Erst die Untersuchung, dann das Gel.</h2>
-      <blockquote class="doctorFeature__quote">
-        <p data-i18n="doctor.quote">„Ein strahlendes Lächeln ist mehr als Ästhetik – es ist ein Stück Lebensfreude.“</p>
-        <div class="doctorFeature__sign"><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></div>
-      </blockquote>
-      <p class="doctorFeature__lede" data-i18n="doctor.p1">Wir sagen Ihnen offen, welches Weiß bei Ihren Zähnen realistisch ist – und wenn Füllungen oder Kronen nicht mit aufhellen, welche Wege es sonst gibt.</p>
-      <p class="doctorFeature__facts"><span><b data-count>5</b><i data-i18n="doctor.fact1">Sprachen in der Praxis</i></span><span><b data-count>2×</b><i data-i18n="doctor.fact2">Farbe gemessen, vorher und nachher</i></span><span><b>1–3</b><i data-i18n="doctor.fact3">Jahre hält das Ergebnis meist</i></span></p>
+      <p class="doctorFeature__lede" data-i18n="doctor.p1">Ich sage Ihnen offen, welches Weiß bei Ihren Zähnen realistisch ist. Und wenn Füllungen oder Kronen nicht mit aufhellen, besprechen wir vorher, was das für Sie bedeutet.</p>
+      <p class="doctorFeature__lede doctorFeature__p2" data-i18n="doctor.p2">Bringt ein Bleaching Ihnen nichts, sage ich Ihnen auch das. Lieber ein ehrliches Nein als ein Ergebnis, das Sie enttäuscht.</p>
+      <p class="doctorFeature__facts"><span><b data-count>5</b><i data-i18n="doctor.fact1">Sprachen in der Praxis</i></span><span><b data-count>2×</b><i data-i18n="doctor.fact2">Farbe gemessen, vorher und nachher</i></span><span><b>15+</b><i data-i18n="doctor.fact3">Jahre Erfahrung</i></span></p>
       <a class="doctorFeature__link" href="#buchen" data-cta="book"><span data-i18n="doctor.cta">Beratung vereinbaren</span> <i aria-hidden="true">→</i></a>
     </div>
   </div>
@@ -2646,44 +3101,10 @@
     <li><img src="assets/treatment/step-2.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>02</span><h3 data-i18n="proc.s2t">Zahnfleisch schützen</h3><p data-i18n="proc.s2p">Eine lichthärtende Schutzschicht deckt das Zahnfleisch ab.</p></li>
     <li><img src="assets/treatment/step-3.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>03</span><h3 data-i18n="proc.s3t">Gel auftragen</h3><p data-i18n="proc.s3p">Das Aufhellungsgel kommt auf die sichtbaren Zähne; Konzentration und Zeit legen wir fest.</p></li>
     <li><img src="assets/treatment/step-4.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>04</span><h3 data-i18n="proc.s4t">Gel wirken lassen</h3><p data-i18n="proc.s4p">Oft in mehreren Durchgängen. Eine kurze Kälteempfindlichkeit ist möglich und vergeht meist nach wenigen Tagen.</p></li>
-    <li><img src="assets/treatment/step-5.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>05</span><h3 data-i18n="proc.s5t">Neue Farbe messen</h3><p data-i18n="proc.s5p">Dieselbe Skala, eine neue Nummer. Die Farbe setzt sich in ein bis zwei Wochen und hält meist ein bis drei Jahre.</p></li>
+    <li><img src="assets/treatment/step-5.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><span>05</span><h3 data-i18n="proc.s5t">Neue Farbe messen</h3><p data-i18n="proc.s5p">Dieselbe Skala, eine neue Nummer. Die Farbe setzt sich in ein bis zwei Wochen; mit guter Pflege bleibt sie viele Jahre hell.</p></li>
   </ol>
 </section>
 
-<section class="section band--cases" id="faelle" aria-labelledby="baH">
-  <div class="wrap">
-    <div class="sectionHead">
-      <h2 id="baH" data-i18n="ba.h2">Zwei Fälle aus unserer Praxis.</h2>
-      <p class="lede" data-i18n="ba.lede">Mit Einwilligung veröffentlicht. Licht und Kamera waren vorher und nachher nicht gleich – genauer als jedes Foto misst die Farbskala.</p>
-    </div>
-    <div class="cases">
-      <figure class="case case--1">
-        <div class="caseFrame compare">
-          <img class="compareAfter" src="assets/photos/case-1-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altA1" alt="Fall 1 nach dem Bleaching">
-          <div class="compareBefore"><img src="assets/photos/case-1-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altB1" alt="Fall 1 vor dem Bleaching"></div>
-          <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
-          <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
-          <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="ba.range1" aria-label="Fall 1: vorher und nachher vergleichen">
-          <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
-          <button type="button" class="expand" data-expand="assets/photos/case-1.jpg" data-i18n-aria="ba.expand1" aria-label="Ganzes Foto von Fall 1 ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
-        </div>
-        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case1">Fall 1</span> · <span data-i18n="ba.k1">In der Praxis</span></span><b data-i18n="ba.t1">Gelbliche Verfärbung</b><span data-i18n="ba.cap1">Links vorher, rechts nachher.</span></figcaption>
-      </figure>
-      <figure class="case case--2">
-        <div class="caseFrame compare">
-          <img class="compareAfter" src="assets/photos/case-2-cmp-after.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altA2" alt="Fall 2 nach dem Bleaching">
-          <div class="compareBefore"><img src="assets/photos/case-2-cmp-before.webp" width="960" height="400" loading="lazy" decoding="async" data-i18n-alt="ba.altB2" alt="Fall 2 vor dem Bleaching"></div>
-          <span class="caseTag caseTag--before" data-i18n="ba.before" aria-hidden="true">Vorher</span>
-          <span class="caseTag caseTag--after" data-i18n="ba.after" aria-hidden="true">Nachher</span>
-          <input class="compareRange" type="range" min="0" max="100" step="1" value="50" data-i18n-aria="ba.range2" aria-label="Fall 2: vorher und nachher vergleichen">
-          <span class="compareHandle" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
-          <button type="button" class="expand" data-expand="assets/photos/case-2.jpg" data-i18n-aria="ba.expand2" aria-label="Ganzes Foto von Fall 2 ansehen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
-        </div>
-        <figcaption class="caseBody"><span class="caseKicker"><span data-i18n="ba.case2">Fall 2</span> · <span data-i18n="ba.k2">In der Praxis</span></span><b data-i18n="ba.t2">Nachgedunkelte Frontzähne</b><span data-i18n="ba.cap2">Links vorher, rechts nachher.</span></figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
 
 <figure class="smileBand smileBand--right" id="smile1">
   <picture>
@@ -2691,7 +3112,7 @@
     <img src="assets/photos/ai/hero-smile.webp" width="1600" height="1600" loading="lazy" decoding="async" data-i18n-alt="smile.alt1" alt="Nahaufnahme eines natürlich hellen Lächelns (KI-generiertes Bild)">
   </picture>
   <figcaption class="smileBand__text">
-    <p class="smileBand__line" data-i18n="smile.l1">Heller, aber nicht künstlich weiß.</p>
+    <p class="smileBand__line" data-i18n="smile.l1">Heller, aber nicht künstlich weiß. Das ist mein Ziel bei jedem Bleaching.</p>
   </figcaption>
 </figure>
 
@@ -2721,7 +3142,7 @@
   <div class="wrap ways">
     <div class="sectionHead">
       <h2 id="methodsH" data-i18n="methods.h2">In der Praxis, zu Hause oder beides.</h2>
-      <p class="lede" data-i18n="methods.lede">Welcher Weg zu Ihnen passt, klären wir in der Beratung.</p>
+      <p class="lede" data-i18n="methods.lede">Welcher Weg zu Ihnen passt, klären wir gemeinsam in der Beratung. Einen falschen gibt es nicht.</p>
     </div>
     <div class="waysList">
       <article class="way">
@@ -2759,7 +3180,7 @@
   <div class="wrap">
     <div class="sectionHead">
       <h2 id="whenH" data-i18n="when.h2">Welche Verfärbungen sich aufhellen lassen.</h2>
-      <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt.</p>
+      <p class="lede" data-i18n="when.lede">Woher die Farbe kommt, entscheidet, wie gut sie sich aufhellen lässt. Ich sage Ihnen vorher, wo wir landen können.</p>
     </div>
     <div class="stainLab">
       <figure class="stainStage" aria-hidden="true" hidden><figcaption class="stainStageTag"><span data-group="good"><span class="shadeShift shadeShift--good" aria-hidden="true"><i></i><i></i></span><span data-i18n="when.goodH">Spricht gut an</span></span><span data-group="limit"><span class="shadeShift shadeShift--limit" aria-hidden="true"><i></i><i></i></span><span data-i18n="when.limitH">Stößt an Grenzen</span></span></figcaption></figure>
@@ -2785,27 +3206,16 @@
   </div>
 </section>
 
-<figure class="smileBand smileBand--left" id="smile2">
-  <picture>
-    <source media="(max-width: 700px)" srcset="assets/photos/ai/smile-band-2-sq.webp">
-    <source media="(max-width: 1100px)" srcset="assets/photos/ai/smile-band-2-960.webp">
-    <img src="assets/photos/ai/smile-band-2.webp" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="smile.alt2" alt="Ein Mann um die 40 lächelt, mit hellen Zähnen (KI-generiertes Bild)">
-  </picture>
-  <figcaption class="smileBand__text">
-    <p class="smileBand__line" data-i18n="smile.l2">Lachen, ohne die Hand vor dem Mund.</p>
-  </figcaption>
-</figure>
 
 <section class="section" id="kosten" aria-labelledby="kostenH">
   <div class="wrap costWrap">
     <div class="costText">
       <h2 id="kostenH" data-i18n="kosten.h2">Was ein Bleaching kostet.</h2>
-      <p class="lede costPlan" data-i18n="kosten.plan">Vorher bekommen Sie einen schriftlichen Kostenplan mit allen Positionen. Den nehmen Sie mit nach Hause und entscheiden ohne Zeitdruck.</p>
+      <p class="lede costPlan" data-i18n="kosten.plan">Sie bekommen vorher einen schriftlichen Kostenplan mit allen Positionen. Nehmen Sie ihn mit nach Hause und entscheiden Sie in Ruhe. Niemand drängt Sie.</p>
       <a class="btn ghost costBook" href="#buchen" data-cta="book" data-i18n="hero.book">Beratungstermin buchen</a>
     </div>
     <div class="costSheet" role="group" aria-labelledby="costSheetH">
-      <p class="costSheetHead" aria-hidden="true"><span class="costSheetMark">AIX<b>SMILE</b></span><span>Großkölnstraße 22–28 · 52062 Aachen</span></p>
-      <h3 class="costSheetTitle" id="costSheetH" data-i18n="kosten.sheet">Ihr Kostenplan</h3>
+      <h3 class="costSheetTitle" id="costSheetH" data-i18n="kosten.sheet">Was wofür bezahlt wird</h3>
       <dl class="costRows">
         <div><dt data-i18n="kosten.r1">Untersuchung und Farbbestimmung</dt><dd data-i18n="kosten.kasseK">Über Ihre Krankenkasse</dd></div>
         <div><dt data-i18n="kosten.r2">Die Aufhellung selbst</dt><dd data-i18n="kosten.privK">Privatleistung nach der GOZ</dd></div>
@@ -2827,7 +3237,7 @@
   <div class="wrap inner">
     <div class="intro">
       <h2 id="bkH" data-i18n="bk.h2">Freie Termine für die Beratung.</h2>
-      <p data-i18n="bk.p">Unten stehen die Zeiten, die gerade wirklich frei sind. Zeit wählen, Name und Telefonnummer hinterlassen – der Termin steht.</p>
+      <p data-i18n="bk.p">Unten stehen die Zeiten, die gerade wirklich frei sind. Zeit wählen, Name und Telefonnummer hinterlassen, fertig.</p>
       <ul class="introFacts">
         <li data-i18n="bk.fact1">Erster Termin über die Krankenkasse, ohne Zusatzkosten</li>
         <li data-i18n="bk.fact2">Schriftlicher Kostenplan, bevor behandelt wird</li>
@@ -2929,12 +3339,12 @@
   <div class="wrap">
     <div class="faqIntro">
       <h2 id="faqH" data-i18n="faq.h2">Häufige Fragen zum Bleaching.</h2>
-      <p class="faqAside" data-i18n="faq.aside">Ihre Frage ist nicht dabei? Wir beantworten sie gern am Telefon oder im Beratungstermin.</p>
+      <p class="faqAside" data-i18n="faq.aside">Ihre Frage ist nicht dabei? Rufen Sie an oder fragen Sie mich im Termin. Ich nehme mir die Zeit.</p>
       <div class="cta"><a class="btn ghost" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen: 0241 31202"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>0241&nbsp;31202</span></a></div>
     </div>
     <div class="faq">
       <details><summary data-i18n="faq.q1">Greift Bleaching den Zahnschmelz an?</summary><p data-i18n="faq.a1">Bei gesunden Zähnen und einem zahnärztlich dosierten Gel nicht. Der Schmelz behält seine Dicke; verändert werden nur die eingelagerten Farbstoffe. Genau deshalb untersuchen wir vorher, ob Karies, Risse oder undichte Füllungen im Weg sind.</p></details>
-      <details><summary data-i18n="faq.q2">Wie lange hält das Ergebnis?</summary><p data-i18n="faq.a2">Bei den meisten Menschen ein bis drei Jahre. Wer viel Kaffee, Tee oder Rotwein trinkt oder raucht, sieht die alte Farbe schneller zurückkommen. Eine Auffrischung ist dann mit wenig Aufwand möglich.</p></details>
+      <details><summary data-i18n="faq.q2">Wie lange hält das Ergebnis?</summary><p data-i18n="faq.a2">Das hängt vor allem von Ihnen ab. Wer die Zähne gut pflegt und regelmäßig zur Zahnreinigung kommt, hat meist viele Jahre Freude daran. Viel Kaffee, Tee, Rotwein oder Rauchen lassen die Farbe schneller nachdunkeln. Und wenn es irgendwann nachlässt, genügt eine kurze Auffrischung, deutlich kleiner als die erste Behandlung.</p></details>
       <details><summary data-i18n="faq.q3">Tut Bleaching weh?</summary><p data-i18n="faq.a3">Die Behandlung selbst tut in der Regel nicht weh. Vorübergehend können die Zähne empfindlicher auf Kälte reagieren oder kurz ziehen. Das vergeht meist nach wenigen Tagen; eine fluoridhaltige Zahnpasta kann dabei helfen.</p></details>
       <details><summary data-i18n="faq.q4">Werden Füllungen und Kronen auch heller?</summary><p data-i18n="faq.a4">Nein. Kunststofffüllungen, Kronen und Veneers behalten ihre Farbe. Liegen sie im sichtbaren Bereich, kann es sinnvoll sein, sie nach dem Bleaching an die neue Zahnfarbe anzupassen. Das besprechen wir vorher mit Ihnen.</p></details>
       <details><summary data-i18n="faq.q5">Ich habe empfindliche Zähne. Geht Bleaching trotzdem?</summary><p data-i18n="faq.a5">Oft ja, mit angepasstem Vorgehen: einem milderen Gel, kürzeren Einwirkzeiten oder einer Vorbehandlung, die die Zähne weniger empfindlich macht. Ob das in Ihrem Fall reicht, klären wir bei der Untersuchung.</p></details>
@@ -2947,14 +3357,21 @@
   </div>
 </section>
 
-<figure class="smileBand smileBand--right" id="smile3">
-  <picture>
+<figure class="smileBand smileBand--duo" id="smile3">
+  <div class="smileDuo">
+    <picture>
+    <source media="(max-width: 700px)" srcset="assets/photos/ai/smile-band-2-sq.webp">
+    <source media="(max-width: 1100px)" srcset="assets/photos/ai/smile-band-2-960.webp">
+    <img src="assets/photos/ai/smile-band-2.webp" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="smile.alt2" alt="Ein Mann um die 40 lächelt, mit hellen Zähnen (KI-generiertes Bild)">
+  </picture>
+    <picture>
     <source media="(max-width: 700px)" srcset="assets/photos/ai/smile-band-3-sq.webp">
     <source media="(max-width: 1100px)" srcset="assets/photos/ai/smile-band-3-960.webp">
     <img src="assets/photos/ai/smile-band-3.webp" width="1600" height="1067" loading="lazy" decoding="async" data-i18n-alt="smile.alt3" alt="Eine Frau mit silbernem Haar lächelt, mit hellen Zähnen (KI-generiertes Bild)">
   </picture>
+  </div>
   <figcaption class="smileBand__text">
-    <p class="smileBand__line" data-i18n="smile.l3">Der erste Schritt: Ihre Zahnfarbe messen.</p>
+    <p class="smileBand__line" data-i18n="smile.l3">Der erste Schritt ist klein: Ihre Zahnfarbe messen.</p>
     <a class="btn" href="#buchen" data-cta="book" data-i18n="smile.cta">Beratungstermin buchen</a>
   </figcaption>
 </figure>
@@ -3119,45 +3536,108 @@
   // pointer without a press. A vertical swipe still scrolls the page.
   (function () {
     var fine = matchMedia('(hover: hover) and (pointer: fine)');
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    // a flick keeps going: where it would come to rest on its own (Apple's
+    // scroll deceleration), then a critically damped spring carries the
+    // finger's own velocity there, so there is no seam between drag and settle
+    function project(v, rate) { rate = rate || 0.998; return (v / 1000) * rate / (1 - rate); }
+    function rubber(over, dim, c) { c = c || 0.55; return (over * dim * c) / (dim + c * Math.abs(over)); }
     [].forEach.call(document.querySelectorAll('.compare'), function (frame) {
-      var range = frame.querySelector('.compareRange'), id = null, x0 = 0, moved = false;
-      function set(v) {
-        v = Math.max(0, Math.min(100, v));
+      var range = frame.querySelector('.compareRange'), handle = frame.querySelector('.compareHandle');
+      var id = null, x0 = 0, moved = false, grab = 0, pos = 50, hist = [], raf = 0, vel = 0;
+      function paint(v) {
+        pos = v;
         frame.style.setProperty('--pos', v.toFixed(2) + '%');
-        range.value = Math.round(v);
-        frame.classList.toggle('hide-before', v < 16);
-        frame.classList.toggle('hide-after', v > 84);
+        var c = Math.max(0, Math.min(100, v));
+        range.value = Math.round(c);
+        frame.classList.toggle('hide-before', c < 16);
+        frame.classList.toggle('hide-after', c > 84);
       }
-      function at(e) { var r = frame.getBoundingClientRect(); return (e.clientX - r.left) / r.width * 100; }
+      function set(v) { paint(Math.max(0, Math.min(100, v))); }
+      function current() {
+        // the presentation value, read from the screen, so an interruption
+        // starts where the divider is rather than where it was headed
+        var v = parseFloat(getComputedStyle(frame).getPropertyValue('--pos'));
+        return isNaN(v) ? pos : v;
+      }
+      function width() { return frame.getBoundingClientRect().width || 1; }
+      function at(e) { return (e.clientX - frame.getBoundingClientRect().left) / width() * 100; }
+      function settle() { if (raf) cancelAnimationFrame(raf); raf = 0; }
+      // one spring, damping 1.0, response ~0.35 s. A new target re-aims it
+      // mid-flight and keeps its velocity; a release hands it the finger's
+      var sx = 50, sv = 0, st = 50;
+      function spring(target, v0) {
+        st = target;
+        if (reduce.matches) { settle(); set(target); return; }
+        if (v0 !== undefined) { sx = current(); sv = v0; }
+        if (raf) return;                                   // already moving: it simply bends toward the new target
+        sx = current(); if (v0 === undefined) sv = 0;
+        var w = 2 * Math.PI / 0.35, t0 = 0;
+        function tick(t) {
+          if (!t0) t0 = t;
+          var dt = Math.min(0.064, (t - t0) / 1000); t0 = t;
+          var a = -w * w * (sx - st) - 2 * w * sv;
+          sv += a * dt; sx += sv * dt;
+          if (Math.abs(sx - st) < 0.05 && Math.abs(sv) < 0.5) { paint(st); raf = 0; return; }
+          paint(sx); raf = requestAnimationFrame(tick);
+        }
+        raf = requestAnimationFrame(tick);
+      }
+      function track(e) {
+        var now = e.timeStamp || performance.now();
+        hist.push({ t: now, x: e.clientX });
+        while (hist.length > 2 && now - hist[0].t > 80) hist.shift();
+      }
+      function velocity() {
+        if (hist.length < 2) return 0;
+        var a = hist[0], b = hist[hist.length - 1], dt = (b.t - a.t) || 1;
+        return (b.x - a.x) / dt * 1000 / width() * 100;   // %/s
+      }
+      function drag(e) {
+        var raw = at(e) - grab, v = raw;
+        if (raw < 0) v = rubber(raw, 100);
+        else if (raw > 100) v = 100 + rubber(raw - 100, 100);
+        paint(v);
+      }
       function stop() { id = null; frame.classList.remove('is-dragging'); }
-      range.addEventListener('input', function () { frame.classList.add('is-touched'); set(+range.value); });
+      range.addEventListener('input', function () { settle(); frame.classList.add('is-touched'); set(+range.value); });
       frame.addEventListener('pointerdown', function (e) {
         if (e.button > 0 || e.target.closest('.expand')) return;
-        id = e.pointerId; x0 = e.clientX; moved = e.pointerType === 'mouse';
+        settle();                                          // grabbed mid-flight: it follows the finger from here
+        id = e.pointerId; x0 = e.clientX; moved = e.pointerType === 'mouse'; hist = []; track(e);
+        // taken by the knob? keep the offset between finger and divider
+        var p = at(e), c = current(), knob = handle ? 44 / width() * 100 : 0;
+        grab = Math.abs(p - c) <= knob / 2 ? p - c : 0;
         frame.classList.add('is-touched');
-        if (moved) { e.preventDefault(); set(at(e)); frame.classList.add('is-dragging'); try { frame.setPointerCapture(id); } catch (err) {} }
+        if (moved) { e.preventDefault(); drag(e); frame.classList.add('is-dragging'); try { frame.setPointerCapture(id); } catch (err) {} }
       });
       frame.addEventListener('pointermove', function (e) {
         if (id === null && e.pointerType === 'mouse' && fine.matches) {
           frame.classList.add('is-touched', 'is-follow');
-          set(at(e));
+          spring(Math.max(0, Math.min(100, at(e))));
           return;
         }
         if (e.pointerId !== id) return;
+        track(e);
         if (!moved) {
           if (Math.abs(e.clientX - x0) < 4) return;
           moved = true; frame.classList.add('is-dragging');
           try { frame.setPointerCapture(id); } catch (err) {}
         }
-        set(at(e));
+        drag(e);
       });
       frame.addEventListener('pointerup', function (e) {
         if (e.pointerId !== id) return;
-        if (!moved) set(at(e));
+        track(e);
+        var goal = at(e) - grab;
+        if (!moved) { stop(); spring(Math.max(0, Math.min(100, at(e))), 0); return; }   // a tap: the divider travels there
+        vel = velocity();
+        if (goal < 0 || goal > 100 || Math.abs(vel) < 20) vel = Math.max(-40, Math.min(40, vel)); else goal += project(vel);
         stop();
+        spring(Math.max(0, Math.min(100, goal)), vel);
       });
-      frame.addEventListener('pointercancel', stop);
-      frame.addEventListener('lostpointercapture', stop);
+      frame.addEventListener('pointercancel', function () { stop(); spring(Math.max(0, Math.min(100, current())), 0); });
+      frame.addEventListener('lostpointercapture', function () { if (id !== null) { stop(); spring(Math.max(0, Math.min(100, current())), 0); } });
     });
   })();
 </script>
@@ -3353,10 +3833,15 @@
   // is on screen; two copies of the same button would only compete.
   const bar = document.getElementById('mbar');
   const booking = document.getElementById('buchen');
+  const heroCta = document.querySelector('.heroCta');
   if (bar && booking && 'IntersectionObserver' in window) {
-    new IntersectionObserver((entries) => {
-      for (const e of entries) bar.classList.toggle('is-away', e.isIntersecting);
-    }, { threshold: 0.12 }).observe(booking);
+    const seen = new Map();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) seen.set(e.target, e.isIntersecting);
+      bar.classList.toggle('is-away', [...seen.values()].some(Boolean));
+    }, { threshold: 0.12 });
+    io.observe(booking);
+    if (heroCta) io.observe(heroCta);
   }
 </script>
 </body>
