@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="css/site.css">
 <script>
   // Runs before the first paint. "js" switches the arrivals on; the opening
-  // (the shade bar fills while the 3D loads) plays once per visit and never
+  // (a tooth turns white while the 3D loads) plays once per visit and never
   // for people who asked their system for less motion; "scenes" lays out the
   // scroll scenes (tall sections with a sticky screen) before they draw.
   (function () {
@@ -106,15 +106,33 @@
 <body id="page">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 
-<!-- The opening (Lando's lime loading screen): a mint field, the wordmark
-     wipes in, and a shade bar fills from A3.5 to BL4 while the 3D loads.
-     Shown only while html.is-intro is set (first visit). -->
+<!-- The opening (after bleaching 1's splash): on the dark field a tooth draws
+     itself, turns white from the gum line up while the 3D loads (the code
+     under it walks A3.5 to BL4), a shine and sparkles land, then the field
+     lifts away. Shown only while html.is-intro is set (first visit). -->
 <div class="intro" id="intro" aria-hidden="true">
-  <p class="intro__mark" translate="no">AIX<b>SMILE</b></p>
-  <div class="intro__load">
-    <span class="intro__code" id="introCode">A3.5</span>
-    <span class="intro__bar"><i id="introFill"></i></span>
-    <span class="intro__to">BL4</span>
+  <div class="intro__stage">
+    <p class="intro__mark" translate="no">AIX<b>SMILE</b></p>
+    <svg class="intro__tooth" viewBox="0 0 120 140" fill="none">
+      <defs>
+        <clipPath id="introClip"><path d="M60 8c-16 0-30 10-34 28-4 20 2 40 8 60 3 10 6 26 12 34 4 6 10 4 12-4 2-8 1-20 2-28 1 8 0 20 2 28 2 8 8 10 12 4 6-8 9-24 12-34 6-20 12-40 8-60C90 18 76 8 60 8Z"/></clipPath>
+        <linearGradient id="introEnamel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfdfb"/><stop offset="1" stop-color="#e9f3ee"/></linearGradient>
+        <linearGradient id="introFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9fbdd" stop-opacity="0"/><stop offset="1" stop-color="#b9fbdd"/></linearGradient>
+      </defs>
+      <g clip-path="url(#introClip)">
+        <rect class="intro__yellow" x="0" y="0" width="120" height="140" fill="#d6bb86"/>
+        <g class="intro__rise">
+          <rect class="intro__front" x="0" y="-9" width="120" height="9" fill="url(#introFront)"/>
+          <rect x="0" y="0" width="120" height="150" fill="url(#introEnamel)"/>
+        </g>
+      </g>
+      <path class="intro__outline" pathLength="1" stroke="#8ff5c8" stroke-width="2.5" stroke-linejoin="round" d="M60 8c-16 0-30 10-34 28-4 20 2 40 8 60 3 10 6 26 12 34 4 6 10 4 12-4 2-8 1-20 2-28 1 8 0 20 2 28 2 8 8 10 12 4 6-8 9-24 12-34 6-20 12-40 8-60C90 18 76 8 60 8Z"/>
+      <path class="intro__shine" pathLength="1" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" d="M44 28c-7 6-9 15-9 24"/>
+      <g transform="translate(98 22)"><path class="intro__spark" fill="#8ff5c8" d="M0-11C2-3 3-2 11 0 3 2 2 3 0 11-2 3-3 2-11 0-3-2-2-3 0-11Z"/></g>
+      <g transform="translate(110 46)"><path class="intro__spark intro__spark--2" fill="#ffffff" d="M0-5C.9-1.4 1.4-.9 5 0 1.4.9.9 1.4 0 5-.9 1.4-1.4.9-5 0-1.4-.9-.9-1.4 0-5Z"/></g>
+      <g transform="translate(16 30)"><path class="intro__spark intro__spark--3" fill="#b9fbdd" d="M0-6C1.1-1.7 1.7-1.1 6 0 1.7 1.1 1.1 1.7 0 6-1.1 1.7-1.7 1.1-6 0-1.7-1.1-1.1-1.7 0-6Z"/></g>
+    </svg>
+    <p class="intro__code" id="introCode">A3.5</p>
   </div>
   <p class="intro__note" data-i18n="intro.note">Bleaching in Aachen · die Farbe wird gemessen</p>
 </div>
@@ -222,7 +240,7 @@
       </div>
       <p class="track__group track__group--good" data-i18n="when.goodH">Spricht gut an</p>
       <article class="stain stain--a stain--good">
-        <figure class="stain__fig"><img src="assets/photos/ai/stain-coffee.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)"></figure>
+        <figure class="stain__fig"><img src="assets/photos/stains/stain-01.webp" width="547" height="365" loading="lazy" decoding="async" data-i18n-alt="when.alt1" alt="Nahaufnahme gelblich verfärbter Zähne (KI-generiertes Symbolbild)"></figure>
         <div class="stain__txt">
           <p class="stain__eye"><b>01</b> <span data-i18n="when.goodH">Spricht gut an</span></p>
           <h3 data-i18n="when.t1">Gelblich durch Kaffee und Tee</h3>
@@ -238,7 +256,7 @@
         </div>
       </article>
       <article class="stain stain--c stain--good">
-        <figure class="stain__fig"><img src="assets/photos/ai/stain-smoking.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)"></figure>
+        <figure class="stain__fig"><img src="assets/photos/stains/stain-03.webp" width="678" height="452" loading="lazy" decoding="async" data-i18n-alt="when.alt3" alt="Nahaufnahme bräunlicher Verfärbungen durch Rauchen (KI-generiertes Symbolbild)"></figure>
         <div class="stain__txt">
           <p class="stain__eye"><b>03</b> <span data-i18n="when.goodH">Spricht gut an</span></p>
           <h3 data-i18n="when.t3">Verfärbungen durch Rauchen</h3>
@@ -247,7 +265,7 @@
       </article>
       <p class="track__group track__group--limit" data-i18n="when.limitH">Stößt an Grenzen</p>
       <article class="stain stain--d">
-        <figure class="stain__fig"><img src="assets/photos/ai/stain-grey.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)"></figure>
+        <figure class="stain__fig"><img src="assets/photos/stains/stain-04.webp" width="550" height="353" loading="lazy" decoding="async" data-i18n-alt="when.alt4" alt="Nahaufnahme gräulich und streifig verfärbter Zähne (KI-generiertes Symbolbild)"></figure>
         <div class="stain__txt">
           <p class="stain__eye"><b>04</b> <span data-i18n="when.limitH">Stößt an Grenzen</span></p>
           <h3 data-i18n="when.t4">Grau, oft durch Medikamente</h3>
@@ -255,7 +273,7 @@
         </div>
       </article>
       <article class="stain stain--e">
-        <figure class="stain__fig"><img src="assets/photos/ai/stain-single.webp" width="1000" height="750" loading="lazy" decoding="async" data-i18n-alt="when.alt5" alt="Nahaufnahme, ein Frontzahn ist deutlich dunkler als die übrigen (KI-generiertes Symbolbild)"></figure>
+        <figure class="stain__fig"><img src="assets/photos/stains/stain-05.webp" width="678" height="452" loading="lazy" decoding="async" data-i18n-alt="when.alt5" alt="Nahaufnahme, ein Frontzahn ist deutlich dunkler als die übrigen (KI-generiertes Symbolbild)"></figure>
         <div class="stain__txt">
           <p class="stain__eye"><b>05</b> <span data-i18n="when.limitH">Stößt an Grenzen</span></p>
           <h3 data-i18n="when.t5">Ein einzelner dunkler Zahn</h3>

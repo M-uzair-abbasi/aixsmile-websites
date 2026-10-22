@@ -1,6 +1,6 @@
 // ===== The page's motion and the things you can touch (bleaching 2) =====
 // After landonorris.com and the implant page. The opening (once per visit)
-// fills a shade bar while the 3D teeth load; the hero's teeth turn towards
+// turns a tooth white while the 3D teeth load; the hero's teeth turn towards
 // the mouse; scrolling plays the bleaching on them while a giant shade code
 // counts from A3.5 to BL4 and the whole screen turns white at the end. Then:
 // two giant lines slide sideways, the stains travel past on a sideways track,
@@ -89,34 +89,30 @@ const ready = () => html.classList.add('is-ready');
 const posterLoaded = new Promise((r) => { if (!poster || poster.complete) r(); else { poster.addEventListener('load', r, { once: true }); poster.addEventListener('error', r, { once: true }); } });
 if (html.classList.contains('is-intro')) {
   try { sessionStorage.setItem('aixsmileBleach2Intro', '1'); } catch { /* private mode: it plays again next time */ }
-  const fill = $('introFill'), code = $('introCode');
+  const intro = $('intro'), code = $('introCode');
   const t0 = performance.now();
-  let loaded = false, lifted = false, shown = 0;
-  // the bar runs on its own towards 85 %, and to the end once the teeth are
-  // in; the code under it walks the shade guide with what the bar shows
-  const bar = () => {
-    if (lifted) return;
+  let loaded = false, shown = 0;
+  // the enamel rises on its own towards 85 % (never faster than 1.2 s to
+  // the top), and the rest of the way once the teeth are in; the code under
+  // the tooth walks the shade guide with it
+  const rise = () => {
     const el = (performance.now() - t0) / 1000;
-    const k = loaded ? 1 : 0.85 * (1 - Math.exp(-el / 1.4));
+    const k = Math.min(el / 1.2, loaded ? 1 : 0.85 * (1 - Math.exp(-el / 1.4)));
     shown += (k - shown) * 0.14;
-    fill.style.transform = `scaleX(${shown.toFixed(3)})`;
+    if (shown > 0.995) shown = 1;
+    intro.style.setProperty('--k', shown.toFixed(4));
     code.textContent = SHADES[Math.min(SHADES.length - 1, Math.floor(shown * SHADES.length * 0.999))];
-    requestAnimationFrame(bar);
-  };
-  requestAnimationFrame(bar);
-  const lift = () => {
-    if (lifted) return;
-    loaded = true;
+    if (shown < 1) { requestAnimationFrame(rise); return; }
+    // white: the shine and the sparkles land, a short hold, then the field lifts
+    intro.classList.add('is-white');
     setTimeout(() => {
-      lifted = true;
-      code.textContent = 'BL4';
-      fill.style.transform = 'scaleX(1)';
       html.classList.add('is-lifting');
       ready();
-      setTimeout(() => { html.classList.remove('is-intro', 'is-lifting'); const intro = $('intro'); if (intro) intro.remove(); }, 1050);
-    }, Math.max(700, 1600 - (performance.now() - t0)));
+      setTimeout(() => { html.classList.remove('is-intro', 'is-lifting'); intro.remove(); }, 1050);
+    }, Math.max(650, 1900 - (performance.now() - t0)));
   };
-  Promise.race([Promise.all([stageReady, posterLoaded]), new Promise((r) => setTimeout(r, 4500))]).then(lift);
+  requestAnimationFrame(rise);
+  Promise.race([Promise.all([stageReady, posterLoaded]), new Promise((r) => setTimeout(r, 4500))]).then(() => { loaded = true; });
 } else {
   Promise.race([Promise.all([stageReady, posterLoaded]), new Promise((r) => setTimeout(r, 1400))]).then(() => requestAnimationFrame(ready));
 }

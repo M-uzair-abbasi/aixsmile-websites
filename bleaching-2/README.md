@@ -17,7 +17,7 @@ Ink `#0b1210`, bleach white `#f7f8f4`, paper `#eef1ec`, one neon mint `#8ff5c8`
 its 125 % width.
 
 ## Sections
-1. Opening (once per visit): mint field, wordmark, shade bar A3.5 → BL4 while the 3D loads.
+1. Opening (once per visit): dark field, wordmark, a tooth draws itself and turns white from the gum line up while the 3D loads (code under it A3.5 → BL4), shine + sparkles, then the field lifts with a mint edge. After bleaching 1's first splash.
 2. Hero + treatment (`#top`, pinned 560svh): 3D teeth, next free slot plate, step caption,
    shade chip, step rail (click = scroll to that step), page turns white at the end.
 3. Two giant lines sliding sideways (causes / shade codes).
@@ -25,6 +25,9 @@ its 125 % width.
    has its own size, shape and height, and drifts up or down at its own depth; its few words
    sit on the open side (picture high: words under it; picture low: words above it).
    Sizes and positions are the `.stain--a` … `--f` rules in site.css.
+   Photos 01, 03, 04 and 05 are the client's own pictures (2026-10-23, from 1/3/4/5.jpeg,
+   4.jpeg trimmed of a white frame) in `assets/photos/stains/`; 02 and 06 are still the AI
+   close-ups in `assets/photos/ai/`. Crops are the `--so` values on the same rules.
 5. `#wege`: In der Praxis / Zu Hause / Kombiniert as giant words; tap opens; with a mouse
    a photo follows the pointer (Lando's ON TRACK / OFF TRACK).
 6. `#heller`: "Heller, aber [photo] nicht künstlich weiß." words light up, the photo grows to
