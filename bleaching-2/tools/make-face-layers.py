@@ -3,13 +3,14 @@
 # Builds the hero's treatment layers from ONE photo of a man smiling with
 # white teeth (AI portrait, Higgsfield soul_2, 2048x2048). Every layer comes
 # from the same pixels, so they sit exactly on his teeth:
-#   face.webp / face-1200.webp  the whole photo, teeth tinted yellow (A3.5): the start
+#   face.webp / face-1200.webp  the man cut out of the backdrop (alpha), teeth tinted yellow (A3.5): the start
 #   face-white.webp             the mouth, his own white teeth, alpha = the teeth mask
 #   face-barrier.webp           the mouth, the gum barrier (teal resin over the upper gum)
 #   face-gel.webp               the mouth, the whitening gel (glossy, translucent)
 #   step-1…5.webp               stills of the five steps, for visitors without the scroll scene
 # The mouth box (MOUTH) and the teeth/gum thresholds were set by eye on this
-# photo; check tools/face-check.jpg after a run.
+# photo; check tools/face-check.jpg (teeth) and tools/face-cut-check.jpg (the
+# cut-out on the page's ink and white) after a run.
 import os, sys
 import cv2
 import numpy as np
@@ -40,6 +41,69 @@ def biggest(mask, min_area):
         if stats[i, cv2.CC_STAT_AREA] > min_area:
             keep[lbl == i] = 255
     return keep
+
+
+def cut_out(im):
+    """The man without the backdrop: (BGR with the backdrop's tint taken out of the edges, alpha 0–1).
+    The backdrop is a plain studio grey-green, so the cut is by colour distance (Lab) from it."""
+    lab = cv2.cvtColor(im, cv2.COLOR_BGR2LAB).astype(np.float32)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    # the backdrop: a smooth surface fitted to the frame's top and sides (above the shoulders)
+    samp = np.zeros((H, W), bool)
+    samp[:90, :] = True; samp[:1500, :150] = True; samp[:1500, -150:] = True
+
+    def basis(x, y):
+        x = x / W - .5; y = y / H - .5
+        return np.stack([np.ones_like(x), x, y, x * x, y * y, x * y], -1)
+    fit, at = basis(xx[samp], yy[samp]), basis(xx, yy)
+    bg_lab = np.dstack([at @ np.linalg.lstsq(fit, lab[..., c][samp], rcond=None)[0] for c in range(3)])
+    d = np.sqrt(((lab - bg_lab) ** 2).sum(-1))                   # how far each pixel is from the backdrop
+    bg = cv2.cvtColor(np.clip(bg_lab, 0, 255).astype(np.uint8), cv2.COLOR_LAB2BGR).astype(np.float32)
+    img = im.astype(np.float32)
+    ell = lambda r: cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (r, r))
+
+    # the silhouette: one smooth solid shape, holes (teeth, eyes) filled
+    body = (cv2.GaussianBlur(d, (0, 0), 2.5) > 6).astype(np.uint8) * 255
+    body = biggest(body, int(H * W * .05))
+    ff = body.copy()
+    cv2.floodFill(ff, np.zeros((H + 2, W + 2), np.uint8), (5, 5), 255)
+    body |= 255 - ff
+    body[1600:] = cv2.morphologyEx(body, cv2.MORPH_CLOSE, ell(81))[1600:]   # shirt folds near the backdrop colour
+    sil = (cv2.GaussianBlur(body.astype(np.float32) / 255, (0, 0), 4) > .5).astype(np.float32)
+
+    # skin edges: alpha from the colour distance, relative to the person's own distance nearby
+    core = (cv2.erode(sil, ell(41)) > 0).astype(np.float32)
+    dfg = cv2.GaussianBlur(d * core, (0, 0), 14) / np.maximum(cv2.GaussianBlur(core, (0, 0), 14), 1e-3)
+    ramp = np.clip((d - 4) / np.maximum(dfg * .7 - 4, 6), 0, 1)
+    ramp = np.where(cv2.dilate(sil, ell(31)) > 0, ramp, 0)
+    shirt = np.clip((yy - 1650) / 100, 0, 1)                      # the shirt: the smooth silhouette, feathered
+    alpha = ramp * (1 - shirt) + cv2.GaussianBlur(sil, (0, 0), 1.3) * shirt
+    hair = np.clip((900 - yy) / 60, 0, 1)                         # 1 in the hair, 0 from the ears down
+    alpha = np.maximum(alpha, cv2.erode(sil, ell(121)) * (yy > 600))   # deep in the face (teeth, eyes): solid
+    alpha = np.maximum(alpha, cv2.erode(sil, ell(15)) * (1 - hair))    # ears, jaw, neck: solid skin
+
+    # the hair: matting. F = the hair's own colour nearby; alpha = where a pixel sits between
+    # the backdrop and F. At the outline every strand mixes; further in, only gaps that
+    # really show the backdrop open up
+    pm = ((d > 35) & (sil > 0)).astype(np.float32)
+    F = cv2.GaussianBlur(img * pm[..., None], (0, 0), 10) / np.maximum(cv2.GaussianBlur(pm, (0, 0), 10), 1e-3)[..., None]
+    FB, IB = F - bg, img - bg
+    a_h = np.clip((IB * FB).sum(-1) / np.maximum((FB * FB).sum(-1), 1), 0, 1)
+    depth = cv2.distanceTransform((sil > 0).astype(np.uint8), cv2.DIST_L2, 5)
+    wo = np.clip((depth - 25) / 30, 0, 1)
+    t = np.clip((d - 18) / 14, 0, 1)
+    hband = (cv2.dilate(sil, ell(31)) > 0) & (cv2.erode(sil, ell(141)) == 0) & (hair > 0)
+    alpha = np.where(hband, (a_h * (1 - wo) + (a_h * (1 - t) + t) * wo) * hair + alpha * (1 - hair), alpha)
+    alpha[H - 3:] = alpha[H - 4]                                  # the shirt runs off the bottom
+
+    # colour on the soft edge: the backdrop's share taken out; faint edges lean on the solid colour nearby
+    a = np.maximum(alpha, 1e-3)[..., None]
+    clean = np.clip(bg + IB / a, 0, 255)
+    solid = (alpha > .95).astype(np.float32)
+    near = cv2.GaussianBlur(img * solid[..., None], (0, 0), 6) / np.maximum(cv2.GaussianBlur(solid, (0, 0), 6), 1e-3)[..., None]
+    w = (np.clip((alpha - .2) / .5, 0, 1) * (1 - hair) + np.clip((alpha - .15) / .35, 0, 1) * hair)[..., None]
+    soft_col = clean * w + np.where(hband[..., None], F, near) * (1 - w)
+    return np.where(alpha[..., None] < .999, soft_col, img), alpha
 
 
 # ---- the teeth: light, hardly red, not very yellow, inside the lips
@@ -100,8 +164,11 @@ def save(path, img, q=82):
 
 face = im.copy()
 face[Y0:Y1, X0:X1] = yellow
-save(os.path.join(out, 'face.webp'), face, 80)
-save(os.path.join(out, 'face-1200.webp'), cv2.resize(face, (1200, 1200), interpolation=cv2.INTER_AREA), 80)
+man, man_alpha = cut_out(im)
+cut = rgba(man, man_alpha)
+cut[Y0:Y1, X0:X1, :3] = yellow                    # the mouth box lies inside his face (alpha 1)
+save(os.path.join(out, 'face.webp'), cut, 80)
+save(os.path.join(out, 'face-1200.webp'), cv2.resize(cut, (1200, 1200), interpolation=cv2.INTER_AREA), 80)
 save(os.path.join(out, 'face-white.webp'), rgba(crop, soft), 90)
 save(os.path.join(out, 'face-barrier.webp'), rgba(bar_rgb, bar_alpha), 90)
 save(os.path.join(out, 'face-gel.webp'), rgba(gel_rgb, gel_alpha), 90)
@@ -138,4 +205,7 @@ still(5, 0, 0, 1, 0)
 
 check = np.hstack([cv2.resize(yellow, (w * 2, h * 2)), cv2.resize(crop, (w * 2, h * 2))])
 cv2.imwrite(os.path.join(os.path.dirname(__file__), 'face-check.jpg'), check, [cv2.IMWRITE_JPEG_QUALITY, 85])
+a = man_alpha[..., None]
+on = lambda bgr: cv2.resize((man * a + np.array(bgr, np.float32) * (1 - a)).astype(np.uint8), (900, 900), interpolation=cv2.INTER_AREA)
+cv2.imwrite(os.path.join(os.path.dirname(__file__), 'face-cut-check.jpg'), np.hstack([on((16, 18, 11)), on((244, 248, 247))]), [cv2.IMWRITE_JPEG_QUALITY, 85])
 print('mouth box', (X0, Y0, X1, Y1), 'of', (W, H), '→', out)

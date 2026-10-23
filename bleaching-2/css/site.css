@@ -193,19 +193,23 @@ html.is-lifting .intro::after { opacity: 1; }
 .tx__code.is-swap span { animation: codeSwap .55s var(--ease-out); }
 @keyframes codeSwap { from { opacity: .2; filter: blur(14px); scale: .94; } }
 
+/* no frame: he stands up from the bottom of the screen on the page itself (the photo is a
+   cut-out). The stage only clips the zoom; it runs past the right edge (it slides left as
+   the treatment starts) and fades out toward the words */
 .tx__stage {
-  position: absolute; z-index: 1; top: 7%; bottom: 5%; right: var(--gutter); transform-origin: 50% 50%;
+  position: absolute; z-index: 1; top: 0; bottom: -1%; right: -8vw; transform-origin: 50% 100%;
   left: calc(var(--gutter) + min(640px, 42vw) + 32px);   /* clear of the hero words */
-  border-radius: calc(var(--radius) + 6px); overflow: hidden; background: #c9d3cd;
-  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .55);
-  container-type: size;
+  overflow: hidden; container-type: size;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 min(120px, 12%));
+  mask-image: linear-gradient(to right, transparent, #000 min(120px, 12%));
 }
-/* the photo: a square that covers the frame. JS sets --z (zoom), --zk (0 face → 1 mouth
-   in the middle), --lx/--ly (the mouse) and the treatment on the mouth layers:
-   --white (shade), --bin/--bout (barrier on/off), --gin/--gout (gel), --lamp, --tab */
+/* the photo: a square, its bottom at the stage's bottom, headroom under the menu. JS sets
+   --z (zoom), --zk (0 face → 1 mouth in the middle), --lx/--ly (the mouse) and the
+   treatment on the mouth layers: --white (shade), --bin/--bout (barrier on/off),
+   --gin/--gout (gel), --lamp, --tab */
 .face {
   --z: 1; --zk: 0; --lx: 0; --ly: 0;
-  position: absolute; left: 50%; top: 50%; width: max(100cqw, 100cqh); aspect-ratio: 1;
+  position: absolute; left: 50%; top: 53%; width: 94cqh; aspect-ratio: 1;
   translate: -50% -50%;
   transform-origin: 50% 64.2%;    /* the middle of his mouth */
   transform: translate(calc(var(--lx) * -9px), calc(var(--ly) * -7px)) translateY(calc(-14.2% * var(--zk))) scale(var(--z));
@@ -284,6 +288,12 @@ html.is-lifting .intro::after { opacity: 1; }
 .plate__value { grid-column: 1; font: 650 18px/1.25 var(--sans); font-stretch: 108%; letter-spacing: -.01em; }
 .plate__go { grid-column: 2; grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--mint); color: var(--ink); transition: transform .35s var(--ease); }
 .plate__go svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* wide laptops show the slot plate: it sits on his shirt (bottom right), clear of his face,
+   and the tag moves to the photo's other corner */
+@media (min-width: 1101px) {
+  .plate { bottom: clamp(18px, 3vh, 28px); }
+  .tx__tag { right: auto; left: calc(var(--gutter) + min(640px, 42vw) + 32px + clamp(40px, 5vw, 96px)); }
+}
 
 /* the caption of the playing step, the shade chip and the step rail */
 .tx__cap, .tx__shade, .tx__rail { display: none; }
@@ -895,7 +905,12 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
 
   /* the opening scene: the teeth on top, the words underneath */
   .tx__stick { min-height: 540px; }
-  .tx__stage { top: calc(60px + 1svh); bottom: auto; height: 38svh; left: var(--gutter); right: var(--gutter); border-radius: var(--radius); }
+  .tx__stage {
+    top: calc(60px + 1svh); bottom: auto; height: 38svh; left: 0; right: 0;
+    -webkit-mask-image: linear-gradient(transparent, #000 6%, #000 78%, transparent);
+    mask-image: linear-gradient(transparent, #000 6%, #000 78%, transparent);
+  }
+  .face { top: 50%; width: 100cqh; }   /* all of him fits; the shirt fades into the words */
   .face__tab { font-size: max(6px, 1.1cqw); }
   .tx__code { inset: calc(60px + 1svh) 0 auto 0; height: 38svh; font-size: clamp(120px, 40vw, 200px); }
   .hero__bar { padding-block: 10px; }
@@ -1035,7 +1050,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
 
 /* short laptops */
 @media (min-width: 901px) and (max-height: 820px) {
-  .hero__copy, .plate { bottom: 40px; }
+  .hero__copy { bottom: 40px; }
   .hero__h1 { font-size: clamp(42px, 4.6vw, 74px); }
 }
 

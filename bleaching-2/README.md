@@ -19,8 +19,9 @@ its 125 % width.
 
 ## Sections
 1. Opening (once per visit): dark field, wordmark, a tooth draws itself and turns white from the gum line up while the 3D loads (code under it A3.5 → BL4), shine + sparkles, then the field lifts with a mint edge. After bleaching 1's first splash.
-2. Hero + treatment (`#top`, pinned 560svh): the man's photo in a rounded frame
-   (`assets/photos/face/`), next free slot plate, step caption, shade chip, step rail
+2. Hero + treatment (`#top`, pinned 560svh): the man cut out of his photo's backdrop, no
+   frame: he stands up from the bottom of the screen on the page itself, the zoom fades out
+   toward the words (`assets/photos/face/`), next free slot plate, step caption, shade chip, step rail
    (click = scroll to that step), page turns white at the end. The layers over his mouth
    are cut from the same photo, so they sit exactly on his teeth; the zoom keys and the
    layer timing are `ZOOM_KEYS`/`paintFace` in site.js, driven by `sampleBleach`.
@@ -56,9 +57,10 @@ Reduced motion / no JS: no pinning, a still hero picture, the five steps as a li
   implant page), interactions.
 - `js/i18n.js`: English + runtime strings; `js/booking.js`: the implant page's widget.
 - `tools/make-face-layers.py` + `tools/face-source.webp` (the untouched AI photo, his teeth
-  white): builds `assets/photos/face/` (the photo with yellow teeth, the white-teeth, barrier
-  and gel layers, the five step stills). Run `python3 tools/make-face-layers.py
-  tools/face-source.webp` (OpenCV + NumPy) and look at `tools/face-check.jpg`.
+  white): builds `assets/photos/face/` (the man cut out of the backdrop with yellow teeth,
+  the white-teeth, barrier and gel layers, the five step stills). Run `python3
+  tools/make-face-layers.py tools/face-source.webp` (OpenCV + NumPy) and look at
+  `tools/face-check.jpg` (teeth) and `tools/face-cut-check.jpg` (the cut-out on ink and white).
 - No longer used since the photo hero (kept for a way back): `js/teeth-stage.js` (the 3D
   bundle), `js/src/`, `tools/build-3d.mjs`, `assets/models/dentition.glb`,
   `assets/treatment/step-*.webp`.

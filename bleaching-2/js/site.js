@@ -28,10 +28,11 @@ const scenesOn = html.classList.contains('scenes') && 'IntersectionObserver' in 
 const setVar = (el, name, v) => { const t = v.toFixed(4); if (el.style.getPropertyValue(name) !== t) el.style.setProperty(name, t); };
 
 // ---------- the man and his teeth ----------
-// One photo with the teeth tinted yellow; over his mouth the layers cut from
-// the same pixels (tools/make-face-layers.py): his own white teeth, the gum
-// barrier, the gel and the lamp's light. The treatment progress sets them,
-// and the frame zooms in to his mouth for the steps and out for the result.
+// One photo, the man cut out of its backdrop, the teeth tinted yellow; over his
+// mouth the layers cut from the same pixels (tools/make-face-layers.py): his own
+// white teeth, the gum barrier, the gel and the lamp's light. The treatment
+// progress sets them, and the photo zooms in to his mouth for the steps and out
+// for the result.
 const tx = $('top');
 const face = $('face');
 const poster = $('txPoster');
