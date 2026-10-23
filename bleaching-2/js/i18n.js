@@ -122,7 +122,6 @@ export const EN = {
   bk: {
     h2: 'Open consultation times.',
     p: 'These times really are free right now. Pick a time, enter your name and phone number, done.',
-    alt: 'A man with greying hair smiling, relaxed, bright natural teeth (AI-generated image)',
     fact1: 'First appointment through your health insurance, at no extra cost',
     fact2: 'A written cost plan before any treatment',
     fact3: 'If something comes up, one click in the appointment email is enough',
@@ -179,8 +178,6 @@ export const EN = {
     mapGo: 'Open directions',
   },
   foot: {
-    line: 'The first step: measuring your tooth shade.',
-    alt: 'A blonde woman laughing against a dark background, bright natural teeth (AI-generated image)',
     hours: 'Mon · Tue · Thu, 9 am to 4 pm, by appointment only',
     langs: 'German, English, Farsi, Turkish, Arabic',
     impressum: 'Legal notice', datenschutz: 'Privacy',

@@ -378,16 +378,6 @@ html.scenes .look__card {
 html.scenes .look__card--3 { --cw: min(17.5vw, 31svh, 340px); }
 html.scenes .look__card img { scale: calc(1.16 - .16 * var(--e, 0)); }
 
-/* ---------- the giant sliding lines ---------- */
-.marquee { background: var(--white); padding-block: clamp(40px, 9vh, 110px) clamp(24px, 5vh, 60px); overflow: hidden; display: grid; gap: clamp(2px, .6vh, 8px); color: var(--text); }
-.marquee__row {
-  width: max-content; white-space: nowrap;
-  font: 860 clamp(52px, 9vw, 160px)/1 var(--sans); font-stretch: 125%; letter-spacing: -.03em; text-transform: uppercase;
-}
-.marquee__row--b { color: transparent; -webkit-text-stroke: 1.5px var(--text); margin-left: -30%; }
-.marquee__chip { display: inline-block; width: 1.9em; height: .8em; margin-inline: .12em .3em; vertical-align: .02em; border-radius: 999px; overflow: hidden; background: var(--paper-2); }
-.marquee__chip img { width: 100%; height: 100%; object-fit: cover; }
-
 /* ---------- which stains lift: a loose collage on a sideways track ----------
    Each picture has its own size, height and speed; its words sit on the open
    side (picture up: words under it; picture down: words above it). */
@@ -593,8 +583,6 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 .booking__facts li { display: flex; gap: 10px; align-items: baseline; }
 .booking__facts li::before { content: ''; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--mint); transform: translateY(-2px); }
 .booking__facts a { color: var(--on-dark); font-weight: 650; text-decoration-color: rgba(143, 245, 200, .6); text-underline-offset: 3px; }
-.booking__face { margin: clamp(32px, 5vh, 48px) 0 0; max-width: 440px; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; background: #101815; }
-.booking__face img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
 .bk { padding: clamp(18px, 2.2vw, 28px); border-radius: 26px; background: var(--white); color: var(--text); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); min-height: 460px; }
 .bkSteps { display: flex; gap: 6px; margin-bottom: 18px; counter-reset: s; }
 .bkSteps li { flex: 1; display: flex; }
@@ -716,12 +704,7 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 .mapCredit { position: absolute; right: 10px; top: 10px; font-size: 10.5px; color: rgba(14, 22, 19, .78); background: rgba(247, 248, 244, .8); padding: 2px 6px; border-radius: 6px; }
 
 /* ---------- footer ---------- */
-.foot { background: var(--ink); color: var(--on-dark); padding-top: clamp(80px, 14vh, 150px); overflow: hidden; }
-.foot__cta { display: grid; grid-template-columns: minmax(0, 1fr) auto; justify-items: start; align-items: end; gap: 28px clamp(32px, 6vw, 96px); }
-.foot__cta > :not(.foot__face) { grid-column: 1; }
-.foot__face { grid-column: 2; grid-row: 1 / span 2; width: clamp(220px, 24vw, 380px); aspect-ratio: 3 / 4; margin: 0; border-radius: var(--radius); overflow: hidden; background: #101815; }
-.foot__face img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; }
-.foot__line { font: 820 clamp(38px, 5.6vw, 92px)/.98 var(--sans); font-stretch: 118%; letter-spacing: -.045em; max-width: 15ch; text-wrap: balance; }
+.foot { background: var(--ink); color: var(--on-dark); padding-top: clamp(48px, 7vh, 80px); overflow: hidden; }
 .foot__info { margin-top: clamp(56px, 9vh, 100px); display: grid; gap: 6px; font-size: 14.5px; color: var(--on-dark-soft); }
 .foot__info a { color: var(--on-dark-soft); text-decoration: none; }
 .foot__info b { color: var(--on-dark); font-weight: 650; }
@@ -804,9 +787,6 @@ html.scenes .tx.is-playing .tx__rail { visibility: visible; }
 .tx.is-white .tx__rail button i::after { background: var(--ink); }
 .tx__rail button[aria-current="step"] { opacity: 1; }
 
-/* the giant lines slide in opposite directions */
-html.scenes .marquee__row { translate: calc(var(--p, 0) * -24%) 0; }
-html.scenes .marquee__row--b { translate: calc(var(--p, 0) * 24%) 0; }
 
 /* the stains travel sideways */
 html.scenes .track { height: 420vh; height: 420svh; }
@@ -890,9 +870,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
    Phones
    ========================================================================== */
 @media (max-width: 760px) {
-  .foot__cta { grid-template-columns: minmax(0, 1fr); }
-  .foot__face { grid-column: 1; grid-row: auto; width: min(78vw, 340px); margin-top: 8px; }
-  .booking__face { display: none; }
   /* the portraits are a stack: the top one slides away, the next face shows
      (JS gives each leaving card --o, 0 → 1; --ox/--or say where it goes) */
   .look__head { grid-template-columns: minmax(0, 1fr); gap: 14px; }
@@ -940,7 +917,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .tx__cta { min-height: 46px; }
   html:not(.scenes) .tx__list { grid-template-columns: 1fr 1fr; }
 
-  .marquee__row { font-size: clamp(44px, 13vw, 72px); }
 
   html.scenes .track { height: 460vh; height: 460svh; }
   html.scenes .track__stick { padding-block: 72px calc(96px + env(safe-area-inset-bottom)); }
@@ -1029,7 +1005,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .place__facts { grid-template-columns: 1fr 1fr; gap: 16px 20px; }
   .place__facts dd { font-size: 15px; }
 
-  .foot__line { font-size: clamp(32px, 9.4vw, 46px); }
   .foot__mark { font-size: 17vw; font-stretch: 110%; letter-spacing: -.05em; }
 }
 

@@ -28,8 +28,7 @@ its 125 % width.
    with people who have perfect smiles): five AI beauty portraits (`look-1…5.webp`, Higgsfield
    soul_2) lie in a stack and are dealt across the screen while you scroll (pinned 290svh,
    `--e`); on phones the top portrait slides away and the next face shows (`--o`).
-4. Two giant lines sliding sideways (causes / shade codes); a smile chip (`smile-c1…3.webp`)
-   follows every BL4.
+   `--e`); on phones the top portrait slides away and the next face shows (`--o`).
 5. `#flecken`: the six stains as a loose collage on a sideways track (pinned). Each picture
    has its own size, shape and height, and drifts up or down at its own depth; its few words
    sit on the open side (picture high: words under it; picture low: words above it).
@@ -45,9 +44,8 @@ its 125 % width.
 8. `#faelle`: the two real cases as compare sliders (mouse follows, drag, keyboard).
 9. `#messen`: tap a sample tooth, the code shows big.
 10. `#kosten`: mint panel opening from rounded corners, the cost plan sheet.
-11. Doctor, booking (`SERVICE 'bleaching'`, `VIA 'bleaching-aachen'`; a smiling portrait
-    `book-face.webp` under the facts on laptops), FAQ by topic, practice + map, footer with a
-    laughing portrait (`foot-face.webp`) beside the last line, then the address and the rising wordmark.
+11. Doctor, booking (`SERVICE 'bleaching'`, `VIA 'bleaching-aachen'`),
+    FAQ by topic, practice + map, footer with the address and the rising wordmark.
 
 Reduced motion / no JS: no pinning, a still hero picture, the five steps as a list.
 

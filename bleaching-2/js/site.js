@@ -357,10 +357,6 @@ if (look) {
   });
 }
 
-// ---------- the giant lines slide in opposite directions ----------
-const marquee = document.querySelector('.marquee');
-scene(marquee, 'through', (p) => setVar(marquee, '--p', p));
-
 // ---------- the stains travel sideways (Lando's horizontal track) ----------
 // the track's progress goes to every picture as --p: each one drifts at its own
 // speed and height (--dx/--dy in site.css), and slides inside its frame
