@@ -979,8 +979,10 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .sheet { padding: 20px; gap: 12px; }
   .sheet { rotate: -1deg; }
 
-  .doctor__fig { max-height: 28svh; aspect-ratio: 16 / 10; }
-  .doctor__fig img { object-position: 50% 6%; } /* keep the hair in the frame */
+  /* phones show the whole portrait: its own 4:5 shape, no parallax zoom that would cut it */
+  .doctor__fig { max-height: none; max-width: 300px; aspect-ratio: 4 / 5; }
+  .doctor__fig img { object-position: 50% 50%; }
+  html.scenes .doctor__fig img { scale: 1; translate: none; }
   html.scenes .stain__fig img { scale: 1.05; translate: calc((var(--p, .5) - .5) * -4%) 0; } /* less parallax, less crop */
   .doctor__quote { font-size: 19px; margin-top: 16px; }
   .doctor__text > p:not(.doctor__sign) { font-size: 15.5px; margin-top: 14px; }
