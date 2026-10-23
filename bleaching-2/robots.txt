@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bleaching-aachen.de/sitemap.xml
+Sitemap: https://bleachingaachen.de/sitemap.xml
