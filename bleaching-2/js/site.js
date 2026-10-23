@@ -326,7 +326,6 @@ scene(tx, 'pin', (p) => {
   const k = stepAt(t);
   showStep(k);
   tx.classList.toggle('is-end', k === STEP_COUNT - 1 && t > stepProgress(4, 0.55));
-  $('txCta').tabIndex = tx.classList.contains('is-end') ? 0 : -1;
   showShade(t);
   rail.forEach((b, i) => {
     const a = stepProgress(i, 0), z = stepProgress(i + 1, 0);
