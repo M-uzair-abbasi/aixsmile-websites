@@ -29,7 +29,7 @@ export const EN = {
     scroll: 'Scroll: the teeth get lighter',
     plateLabel: 'Consultations at the practice', plateValue: 'Mon · Tue · Thu, 9 am to 4 pm',
   },
-  tx: { tag: 'Illustration · not a treatment result', cta: 'Book a consultation', shade: 'Shade', railAria: 'The five steps' },
+  tx: { tag: 'Illustration · not a treatment result', cta: 'Book a consultation', shade: 'Shade', railAria: 'The five steps', faceAlt: 'A smiling man with yellowish teeth that turn lighter in the whitening as you scroll (AI-generated image)' },
   proc: {
     h2: 'How whitening works.',
     s1t: 'Measure the starting shade', s1p: 'First a cleaning and an examination, then we hold the shade guide up: here A3.5.',

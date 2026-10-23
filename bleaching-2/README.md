@@ -5,10 +5,11 @@ Built 2026-10-22 after **landonorris.com** (Awwwards Site of the Year 2025) and 
 implant page's scroll scenes. Same facts and copy as bleaching 1, a new look and motion.
 
 ## The idea
-The page whitens. The real 3D dentition (the veneer page's model with bleaching 1's
-rig) sits in the hero like Lando's helmet and turns towards the mouse. Scrolling plays
-the treatment on it (measure → protect the gums → gel → let it work → measure again)
-while a giant outlined shade code behind the teeth counts A3.5 → BL4, and at the end
+The page whitens. A smiling man with yellowish teeth sits in the hero (since
+2026-10-23; the client found the 3D dentition fake). Scrolling zooms in to his mouth
+and plays the treatment on his teeth (measure with a shade tab → blue gum barrier →
+gel → the lamp, the teeth lighten under the gel → measure again), then zooms out to
+his white smile, while a giant outlined shade code counts A3.5 → BL4 and at the end
 the whole screen turns white.
 
 ## Look
@@ -18,8 +19,11 @@ its 125 % width.
 
 ## Sections
 1. Opening (once per visit): dark field, wordmark, a tooth draws itself and turns white from the gum line up while the 3D loads (code under it A3.5 → BL4), shine + sparkles, then the field lifts with a mint edge. After bleaching 1's first splash.
-2. Hero + treatment (`#top`, pinned 560svh): 3D teeth, next free slot plate, step caption,
-   shade chip, step rail (click = scroll to that step), page turns white at the end.
+2. Hero + treatment (`#top`, pinned 560svh): the man's photo in a rounded frame
+   (`assets/photos/face/`), next free slot plate, step caption, shade chip, step rail
+   (click = scroll to that step), page turns white at the end. The layers over his mouth
+   are cut from the same photo, so they sit exactly on his teeth; the zoom keys and the
+   layer timing are `ZOOM_KEYS`/`paintFace` in site.js, driven by `sampleBleach`.
 3. `#laecheln` "Heller lachen." (added 2026-10-23 after the client asked for a more beautiful page
    with people who have perfect smiles): five AI beauty portraits (`look-1…5.webp`, Higgsfield
    soul_2) lie in a stack and are dealt across the screen while you scroll (pinned 290svh,
@@ -50,10 +54,16 @@ Reduced motion / no JS: no pinning, a still hero picture, the five steps as a li
 ## Files
 - `index.html`: German copy (crawlers, no-JS), structured data from bleaching 1.
 - `css/site.css`: all styles; scroll scenes under `html.scenes`.
-- `js/site.js`: opening, 3D drive, scene engine (from the implant page), interactions.
+- `js/site.js`: opening, the hero photo's treatment (`paintFace`), scene engine (from the
+  implant page), interactions.
 - `js/i18n.js`: English + runtime strings; `js/booking.js`: the implant page's widget.
-- `js/teeth-stage.js`: **built** bundle (three.js r184 + rig). Source in `js/src/`;
-  rebuild with `node tools/build-3d.mjs` (borrows esbuild/three from `~/aixsmile`).
+- `tools/make-face-layers.py` + `tools/face-source.webp` (the untouched AI photo, his teeth
+  white): builds `assets/photos/face/` (the photo with yellow teeth, the white-teeth, barrier
+  and gel layers, the five step stills). Run `python3 tools/make-face-layers.py
+  tools/face-source.webp` (OpenCV + NumPy) and look at `tools/face-check.jpg`.
+- No longer used since the photo hero (kept for a way back): `js/teeth-stage.js` (the 3D
+  bundle), `js/src/`, `tools/build-3d.mjs`, `assets/models/dentition.glb`,
+  `assets/treatment/step-*.webp`.
 - `js/bleach-timeline.js`: the treatment as numbers (copied from bleaching 1).
 - `assets/`: copied from bleaching 1 (model, stills, photos, cases, doctor, map) + Mona Sans.
 - `impressum/`, `datenschutz/`: from the implant page, reworded for bleaching.

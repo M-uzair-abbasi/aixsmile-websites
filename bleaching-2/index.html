@@ -17,13 +17,12 @@
 <meta property="og:image" content="https://bleaching-aachen.de/assets/photos/ai/smile-band-1.webp">
 <link rel="icon" type="image/png" href="assets/tooth-mark.png?v=1" sizes="any">
 <link rel="preload" href="assets/fonts/mona-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/models/dentition.glb" as="fetch" type="model/gltf-binary" crossorigin>
-<link rel="modulepreload" href="js/teeth-stage.js">
+<link rel="preload" href="assets/photos/face/face.webp" as="image" imagesrcset="assets/photos/face/face-1200.webp 1200w, assets/photos/face/face.webp 2048w" imagesizes="(max-width: 760px) 100vw, 64vw" fetchpriority="high">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="css/site.css">
 <script>
   // Runs before the first paint. "js" switches the arrivals on; the opening
-  // (a tooth turns white while the 3D loads) plays once per visit and never
+  // (a tooth turns white while the hero photo loads) plays once per visit and never
   // for people who asked their system for less motion; "scenes" lays out the
   // scroll scenes (tall sections with a sticky screen) before they draw.
   (function () {
@@ -107,7 +106,7 @@
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 
 <!-- The opening (after bleaching 1's splash): on the dark field a tooth draws
-     itself, turns white from the gum line up while the 3D loads (the code
+     itself, turns white from the gum line up while the hero photo loads (the code
      under it walks A3.5 to BL4), a shine and sparkles land, then the field
      lifts away. Shown only while html.is-intro is set (first visit). -->
 <div class="intro" id="intro" aria-hidden="true">
@@ -154,16 +153,28 @@
 <main id="main">
 
 <!-- ===== The opening scene: the hero, then the treatment plays while you
-     scroll (Lando's helmet). The 3D teeth sit in the middle and turn towards
-     the mouse; a giant shade code behind them counts from A3.5 to BL4; the
+     scroll. A smiling man with yellowish teeth: the frame zooms in to his
+     mouth and the five steps happen on his teeth, then it zooms out to his
+     white smile; a giant shade code counts from A3.5 to BL4 behind him; the
      page itself turns white at the end. Without scenes (reduced motion, no
      JS) it is a plain hero followed by the five steps as a list. ===== -->
 <section class="tx" id="top" aria-labelledby="heroH">
   <div class="tx__stick">
     <p class="tx__code" aria-hidden="true"><span id="txCode">A3.5</span></p>
+    <!-- the man and his teeth: one photo, the teeth tinted yellow; over his mouth
+         the treatment layers cut from the same pixels (tools/make-face-layers.py):
+         his own white teeth, the gum barrier, the gel and the lamp's light -->
     <div class="tx__stage" id="txStage">
-      <img class="tx__poster" id="txPoster" src="assets/treatment/step-1.webp" width="1200" height="1200" fetchpriority="high" decoding="async" alt="">
-      <canvas class="tx__canvas" id="teeth" aria-hidden="true"></canvas>
+      <div class="face" id="face">
+        <img class="face__img" id="txPoster" src="assets/photos/face/face.webp" srcset="assets/photos/face/face-1200.webp 1200w, assets/photos/face/face.webp 2048w" sizes="(max-width: 760px) 100vw, 64vw" width="2048" height="2048" fetchpriority="high" decoding="async" data-i18n-alt="tx.faceAlt" alt="Ein lächelnder Mann mit gelblichen Zähnen, die beim Scrollen im Bleaching heller werden (KI-generiertes Bild)">
+        <div class="face__mouth" aria-hidden="true">
+          <img class="face__white" src="assets/photos/face/face-white.webp" width="560" height="280" decoding="async" alt="">
+          <img class="face__barrier" src="assets/photos/face/face-barrier.webp" width="560" height="280" decoding="async" alt="">
+          <img class="face__gel" src="assets/photos/face/face-gel.webp" width="560" height="280" decoding="async" alt="">
+          <i class="face__lamp"></i>
+        </div>
+        <span class="face__tab" aria-hidden="true"><i></i><b id="txTab">A3.5</b></span>
+      </div>
     </div>
     <span class="tx__tag tag" data-i18n="tx.tag">Symbolbild · kein Behandlungsergebnis</span>
 
@@ -212,11 +223,11 @@
   <div class="tx__steps" id="ablauf">
     <h2 class="h2 tx__stepsH" data-i18n="proc.h2">So wirkt ein Bleaching.</h2>
     <ol class="tx__list" id="txList">
-      <li><img src="assets/treatment/step-1.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s1t">Ausgangsfarbe messen</h3><p data-i18n="proc.s1p">Erst Zahnreinigung und Untersuchung, dann halten wir die Farbskala an: hier A3.5.</p></li>
-      <li><img src="assets/treatment/step-2.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s2t">Zahnfleisch schützen</h3><p data-i18n="proc.s2p">Eine lichthärtende Schutzschicht deckt das Zahnfleisch ab.</p></li>
-      <li><img src="assets/treatment/step-3.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s3t">Gel auftragen</h3><p data-i18n="proc.s3p">Das Aufhellungsgel kommt auf die sichtbaren Zähne; Konzentration und Zeit legen wir fest.</p></li>
-      <li><img src="assets/treatment/step-4.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s4t">Gel wirken lassen</h3><p data-i18n="proc.s4p">Oft in mehreren Durchgängen. Eine kurze Kälteempfindlichkeit ist möglich und vergeht meist nach wenigen Tagen.</p></li>
-      <li><img src="assets/treatment/step-5.webp" width="1200" height="1200" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s5t">Neue Farbe messen</h3><p data-i18n="proc.s5p">Dieselbe Skala, eine neue Nummer. Die Farbe setzt sich in ein bis zwei Wochen und hält meist ein bis drei Jahre.</p></li>
+      <li><img src="assets/photos/face/step-1.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s1t">Ausgangsfarbe messen</h3><p data-i18n="proc.s1p">Erst Zahnreinigung und Untersuchung, dann halten wir die Farbskala an: hier A3.5.</p></li>
+      <li><img src="assets/photos/face/step-2.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s2t">Zahnfleisch schützen</h3><p data-i18n="proc.s2p">Eine lichthärtende Schutzschicht deckt das Zahnfleisch ab.</p></li>
+      <li><img src="assets/photos/face/step-3.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s3t">Gel auftragen</h3><p data-i18n="proc.s3p">Das Aufhellungsgel kommt auf die sichtbaren Zähne; Konzentration und Zeit legen wir fest.</p></li>
+      <li><img src="assets/photos/face/step-4.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s4t">Gel wirken lassen</h3><p data-i18n="proc.s4p">Oft in mehreren Durchgängen. Eine kurze Kälteempfindlichkeit ist möglich und vergeht meist nach wenigen Tagen.</p></li>
+      <li><img src="assets/photos/face/step-5.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="proc.s5t">Neue Farbe messen</h3><p data-i18n="proc.s5p">Dieselbe Skala, eine neue Nummer. Die Farbe setzt sich in ein bis zwei Wochen und hält meist ein bis drei Jahre.</p></li>
     </ol>
   </div>
 </section>

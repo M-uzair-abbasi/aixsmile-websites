@@ -1,8 +1,9 @@
 // ===== The page's motion and the things you can touch (bleaching 2) =====
 // After landonorris.com and the implant page. The opening (once per visit)
-// turns a tooth white while the 3D teeth load; the hero's teeth turn towards
-// the mouse; scrolling plays the bleaching on them while a giant shade code
-// counts from A3.5 to BL4 and the whole screen turns white at the end. Then:
+// turns a tooth white while the hero photo loads; scrolling zooms in to the
+// smiling man's mouth and plays the bleaching on his teeth (yellow, gum
+// barrier, gel, lamp, white) while a giant shade code counts from A3.5 to BL4,
+// then zooms out to his white smile and the whole screen turns white. Then:
 // two giant lines slide sideways, the stains travel past on a sideways track,
 // the three ways are giant words that open (a photo follows the mouse), a
 // sentence lights up and its photo grows to fill the screen, the real cases
@@ -10,8 +11,8 @@
 // rounded corners, the footer wordmark rises.
 //
 // html.scenes is set in the page head unless the visitor asked for reduced
-// motion; without it every scene is a plain, still section and the 3D stays
-// a still picture.
+// motion; without it every scene is a plain, still section and the hero
+// photo stays as it is.
 import { dyn, onLangChange, PRICE_FROM } from './i18n.js';
 import { STEP_COUNT, SHADES, sampleBleach, stepAt, stepAnchor, stepProgress, swatchAt } from './bleach-timeline.js';
 
@@ -26,28 +27,57 @@ const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
 const scenesOn = html.classList.contains('scenes') && 'IntersectionObserver' in window;
 const setVar = (el, name, v) => { const t = v.toFixed(4); if (el.style.getPropertyValue(name) !== t) el.style.setProperty(name, t); };
 
-// ---------- the 3D teeth ----------
+// ---------- the man and his teeth ----------
+// One photo with the teeth tinted yellow; over his mouth the layers cut from
+// the same pixels (tools/make-face-layers.py): his own white teeth, the gum
+// barrier, the gel and the lamp's light. The treatment progress sets them,
+// and the frame zooms in to his mouth for the steps and out for the result.
 const tx = $('top');
-const canvas = $('teeth');
+const face = $('face');
 const poster = $('txPoster');
-const STILLS = [1, 2, 3, 4, 5].map((n) => `assets/treatment/step-${n}.webp`);
-const webgl = (() => {
-  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
-})();
-let stage = null;
-const stageReady = (!calm && webgl && canvas)
-  ? import('./teeth-stage.js')
-    .then((m) => m.createTeethStage({ canvas, modelUrl: 'assets/models/dentition.glb' }))
-    .then((s) => {
-      stage = s;
-      tx.classList.add('is-live');
-      new ResizeObserver(() => stage && stage.resize()).observe(canvas);
-      s.lost(() => { stage = null; tx.classList.remove('is-live'); showStill(curStep); });
-      kick();
-      return s;
-    })
-    .catch((e) => { console.warn('[3D] stays a picture:', e && e.message); return null; })
-  : Promise.resolve(null);
+const tabCode = $('txTab');
+// the opening waits until every layer can be drawn
+const stageReady = Promise.all(all('img', face).map((img) => (img.decode ? img.decode() : Promise.resolve()).catch(() => null)));
+
+// zoom over the treatment: the whole face, in to the mouth, out for the white smile
+const Z_MAX = 2.5;
+const ZOOM_KEYS = [
+  [0, 1], [stepProgress(0, 0.55), 2], [stepProgress(1, 0.4), Z_MAX], [stepProgress(3, 0.9), Z_MAX],
+  [stepProgress(4, 0.4), 2.25], [stepProgress(4, 0.85), 1], [1, 1],
+];
+function zoomAt(t) {
+  let i = 0;
+  while (i < ZOOM_KEYS.length - 2 && t > ZOOM_KEYS[i + 1][0]) i++;
+  const [a, za] = ZOOM_KEYS[i], [b, zb] = ZOOM_KEYS[i + 1];
+  return za + (zb - za) * smooth((t - a) / (b - a));
+}
+// on between a→b, off between c→d (all in treatment progress)
+const span = (t, a, b, c, d) => smooth((t - a) / (b - a)) * (1 - smooth((t - c) / (d - c)));
+const at = stepProgress;
+let tabShown = '';
+function paintFace(t, lx, ly) {
+  const s = sampleBleach(t);
+  const z = zoomAt(t);
+  setVar(face, '--z', z);
+  setVar(face, '--zk', (z - 1) / (Z_MAX - 1));
+  setVar(face, '--lx', lx);
+  setVar(face, '--ly', ly);
+  setVar(face, '--white', s.shade);
+  setVar(face, '--bin', s.barrierIn);
+  setVar(face, '--bout', s.barrierOut);
+  setVar(face, '--gin', s.gelIn);
+  setVar(face, '--gout', s.gelOut);
+  const lamp = span(t, at(3, 0.05), at(3, 0.2), at(3, 0.85), at(3, 0.98));
+  setVar(face, '--lamp', lamp);
+  tx.classList.toggle('is-lamp', lamp > 0.05);
+  // the shade tab is held up for the first and the last measurement
+  setVar(face, '--tab', Math.max(span(t, at(0, 0.3), at(0, 0.6), at(1, 0.05), at(1, 0.25)), span(t, at(4, 0.2), at(4, 0.35), at(4, 0.6), at(4, 0.75))));
+  if (tabShown !== s.shadeCode) {
+    tabShown = s.shadeCode;
+    tabCode.textContent = tabShown;
+    face.style.setProperty('--tooth', swatchAt(s.shade));
+  }
+}
 
 // the drawn state eases towards what the scroll and the mouse ask for, and
 // frames are drawn only while it moves, so an idle page costs nothing
@@ -63,17 +93,14 @@ function loop(now) {
   have.ly += (want.ly - have.ly) * kl;
   const done = Math.abs(want.t - have.t) < 4e-4 && Math.abs(want.lx - have.lx) < 2e-3 && Math.abs(want.ly - have.ly) < 2e-3;
   if (done) Object.assign(have, want);
-  if (stage && heroNear) stage.render(have.t, have.lx, have.ly);
+  if (heroNear) paintFace(have.t, have.lx, have.ly);
   if (!done) raf = requestAnimationFrame(loop); else lastT = 0;
 }
 function kick() { if (!raf) raf = requestAnimationFrame(loop); }
-
-// without the 3D, the stage shows a rendered still per step
 let curStep = 0;
-function showStill(k) { if (!stage && poster && !poster.src.endsWith(STILLS[k])) poster.src = STILLS[k]; }
-if (!calm) addEventListener('load', () => STILLS.slice(1).forEach((u) => { const i = new Image(); i.src = u; }), { once: true });
+paintFace(0, 0, 0);
 
-// the teeth turn towards the mouse (Lando's helmet)
+// the face drifts a little against the mouse (Lando's helmet turns)
 if (fine && !calm) {
   addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse' || !heroNear) return;
@@ -279,7 +306,6 @@ function showStep(k, force) {
   title.textContent = steps[k].querySelector('h3').textContent;
   text.textContent = steps[k].querySelector('p').textContent;
   rail.forEach((b, i) => (i === k ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')));
-  showStill(k);
   if (moved && !calm) { cap.classList.remove('is-swap'); void cap.offsetWidth; cap.classList.add('is-swap'); }
 }
 function showShade(t) {

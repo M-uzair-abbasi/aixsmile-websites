@@ -94,6 +94,9 @@ export function sampleBleach(p) {
     shadeCode: shadeCode(shade),
     barrier: barrierOn * (1 - barrierOff),
     gel: gelOn * (1 - gelOff),
+    // the photo hero draws the barrier and the gel on (a wipe) and takes them off (a fade)
+    barrierIn: barrierOn, barrierOut: barrierOff,
+    gelIn: gelOn, gelOut: gelOff,
   };
 }
 

@@ -4,9 +4,10 @@
    of the Year 2025) and the implant page's scroll scenes.
    The look: a deep green-black ink, bleach white, and one neon mint (our
    Lando lime). Mona Sans throughout; the giant words use its wide cut.
-   The idea: the page whitens. The 3D teeth sit in the hero, turn towards the
-   mouse, and go from A3.5 to BL4 while you scroll; a giant shade code counts
-   along behind them, and at the end the whole screen turns white.
+   The idea: the page whitens. A smiling man with yellowish teeth sits in the
+   hero; while you scroll the frame zooms in to his mouth and the bleaching
+   happens on his teeth (A3.5 to BL4), a giant shade code counts along behind
+   him, and at the end the whole screen turns white.
    Motion: an opening once per visit, scroll scenes (html.scenes, never for
    reduced motion), one-time arrivals, and things that answer the visitor.
    ========================================================================== */
@@ -192,17 +193,46 @@ html.is-lifting .intro::after { opacity: 1; }
 .tx__code.is-swap span { animation: codeSwap .55s var(--ease-out); }
 @keyframes codeSwap { from { opacity: .2; filter: blur(14px); scale: .94; } }
 
-.tx__stage { position: absolute; z-index: 1; top: 7%; bottom: 5%; left: 38%; right: 0; transform-origin: 50% 50%; }
-.tx__canvas, .tx__poster {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  /* the gums run out softly instead of being cut by the canvas edge */
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 86%, transparent 100%);
+.tx__stage {
+  position: absolute; z-index: 1; top: 7%; bottom: 5%; right: var(--gutter); transform-origin: 50% 50%;
+  left: calc(var(--gutter) + min(640px, 42vw) + 32px);   /* clear of the hero words */
+  border-radius: calc(var(--radius) + 6px); overflow: hidden; background: #c9d3cd;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .55);
+  container-type: size;
 }
-.tx__poster { object-fit: contain; padding: 7% 12% 11%; transition: opacity .8s var(--ease); } /* the stills are framed tighter than the live view */
-.tx__canvas { opacity: 0; transition: opacity .9s var(--ease); }
-.tx.is-live .tx__canvas { opacity: 1; }
-.tx.is-live .tx__poster { opacity: 0; }
+/* the photo: a square that covers the frame. JS sets --z (zoom), --zk (0 face → 1 mouth
+   in the middle), --lx/--ly (the mouse) and the treatment on the mouth layers:
+   --white (shade), --bin/--bout (barrier on/off), --gin/--gout (gel), --lamp, --tab */
+.face {
+  --z: 1; --zk: 0; --lx: 0; --ly: 0;
+  position: absolute; left: 50%; top: 50%; width: max(100cqw, 100cqh); aspect-ratio: 1;
+  translate: -50% -50%;
+  transform-origin: 50% 64.2%;    /* the middle of his mouth */
+  transform: translate(calc(var(--lx) * -9px), calc(var(--ly) * -7px)) translateY(calc(-14.2% * var(--zk))) scale(var(--z));
+  will-change: transform;
+}
+.face__img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* the mouth box in the photo: x 760–1320, y 1180–1460 of 2048 */
+.face__mouth { position: absolute; left: 37.109%; top: 57.617%; width: 27.344%; height: 13.672%; }
+.face__mouth > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.face__white { opacity: var(--white, 0); }
+.face__barrier { clip-path: inset(0 calc((1 - var(--bin, 0)) * 100%) 0 0); opacity: calc(1 - var(--bout, 0)); }
+.face__gel { clip-path: inset(0 calc((1 - var(--gin, 0)) * 100%) 0 0); opacity: calc(1 - var(--gout, 0)); }
+.face__lamp {
+  position: absolute; inset: -60% -18%; pointer-events: none; opacity: var(--lamp, 0);
+  background: radial-gradient(50% 42% at 50% 52%, rgba(120, 170, 255, .55), rgba(120, 170, 255, .18) 55%, transparent 75%);
+  mix-blend-mode: screen;
+}
+.tx.is-lamp .face__lamp { animation: lampPulse 1.6s ease-in-out infinite; }
+@keyframes lampPulse { 50% { filter: brightness(1.25); } }
+/* the shade tab held next to his teeth while we measure */
+.face__tab {
+  position: absolute; left: 61.6%; top: 58.4%; width: 3.1%; display: grid; justify-items: center; gap: .25em;
+  font: 800 .62cqw/1 var(--sans); font-size: max(7px, .62cqw); letter-spacing: .02em; color: var(--ink);
+  opacity: var(--tab, 0); translate: 0 calc((1 - var(--tab, 0)) * 30%); rotate: 6deg;
+}
+.face__tab i { display: block; width: 100%; aspect-ratio: 5 / 8; border-radius: 30% 30% 46% 46% / 22% 22% 40% 40%; background: var(--tooth, #d6bb86); box-shadow: inset 0 -.4em .6em rgba(80, 60, 20, .18), 0 .3em .8em rgba(0, 0, 0, .25); }
+.face__tab b { padding: .25em .45em; border-radius: 99px; background: rgba(247, 248, 244, .92); font-weight: 800; }
 .tx__tag { right: var(--gutter); bottom: clamp(18px, 3vh, 28px); z-index: 4; }
 
 .hero__bar {
@@ -831,7 +861,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .pill__nav a { padding: 0 9px; }
   .hero__copy { width: min(560px, 46vw); }
   .plate { display: none; }
-  .tx__stage { left: 44%; }
+  .tx__stage { left: calc(var(--gutter) + min(560px, 46vw) + 28px); }
   html.scenes .tx__rail { right: var(--gutter); }
   .way__inner { grid-template-columns: 140px minmax(0, 1fr); }
   .way__img { width: 140px; grid-row: span 2; }
@@ -888,7 +918,8 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
 
   /* the opening scene: the teeth on top, the words underneath */
   .tx__stick { min-height: 540px; }
-  .tx__stage { top: calc(60px + 1svh); bottom: auto; height: 38svh; left: 0; right: 0; }
+  .tx__stage { top: calc(60px + 1svh); bottom: auto; height: 38svh; left: var(--gutter); right: var(--gutter); border-radius: var(--radius); }
+  .face__tab { font-size: max(6px, 1.1cqw); }
   .tx__code { inset: calc(60px + 1svh) 0 auto 0; height: 38svh; font-size: clamp(120px, 40vw, 200px); }
   .hero__bar { padding-block: 10px; }
   .brand { font-size: 17px; }
