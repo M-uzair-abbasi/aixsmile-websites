@@ -702,7 +702,7 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 
 /* ---------- footer ---------- */
 .foot { background: var(--ink); color: var(--on-dark); padding-top: clamp(48px, 7vh, 80px); overflow: hidden; }
-.foot__info { margin-top: clamp(56px, 9vh, 100px); display: grid; gap: 6px; font-size: 14.5px; color: var(--on-dark-soft); }
+.foot__info { position: relative; z-index: 1; margin-top: clamp(56px, 9vh, 100px); display: grid; gap: 6px; font-size: 14.5px; color: var(--on-dark-soft); }
 .foot__info a { color: var(--on-dark-soft); text-decoration: none; }
 .foot__info b { color: var(--on-dark); font-weight: 650; }
 .foot__meta { margin-top: 6px; }
@@ -712,7 +712,7 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 .foot__mark {
   margin: clamp(24px, 4vh, 48px) 0 -.16em; text-align: center; white-space: nowrap;
   font: 880 clamp(76px, 18.6vw, 340px)/.82 var(--sans); font-stretch: 125%; letter-spacing: -.04em;
-  color: rgba(143, 245, 200, .16); user-select: none;
+  color: rgba(143, 245, 200, .16); user-select: none; pointer-events: none; /* the letters overlap the links above */
 }
 
 /* ==========================================================================
