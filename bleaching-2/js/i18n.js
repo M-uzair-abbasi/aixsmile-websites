@@ -180,7 +180,6 @@ export const EN = {
   },
   foot: {
     line: 'The first step: measuring your tooth shade.',
-    mq: 'Lighter · Measured · Aachen ·',
     alt: 'A blonde woman laughing against a dark background, bright natural teeth (AI-generated image)',
     hours: 'Mon · Tue · Thu, 9 am to 4 pm, by appointment only',
     langs: 'German, English, Farsi, Turkish, Arabic',

@@ -47,7 +47,7 @@ its 125 % width.
 10. `#kosten`: mint panel opening from rounded corners, the cost plan sheet.
 11. Doctor, booking (`SERVICE 'bleaching'`, `VIA 'bleaching-aachen'`; a smiling portrait
     `book-face.webp` under the facts on laptops), FAQ by topic, practice + map, footer with a
-    laughing portrait (`foot-face.webp`) beside the last line, a running line and the rising wordmark.
+    laughing portrait (`foot-face.webp`) beside the last line, then the address and the rising wordmark.
 
 Reduced motion / no JS: no pinning, a still hero picture, the five steps as a list.
 
