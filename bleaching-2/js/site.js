@@ -2,7 +2,7 @@
 // After landonorris.com and the implant page. The opening (once per visit)
 // turns a tooth white while the hero photo loads; scrolling zooms in to the
 // smiling man's mouth and plays the bleaching on his teeth (yellow, gum
-// barrier, gel, lamp, white) while a giant shade code counts from A3.5 to BL4,
+// barrier, gel, lamp, white; the shade A3.5 → BL4 in the chip and on the tab),
 // then zooms out to his white smile and the whole screen turns white. Then:
 // two giant lines slide sideways, the stains travel past on a sideways track,
 // the three ways are giant words that open (a photo follows the mouse), a
@@ -294,7 +294,6 @@ if (scenesOn) {
 
 // ---------- the opening scene: hero → treatment → white ----------
 const cap = $('txCap'), num = $('txNum'), title = $('txTitle'), text = $('txText');
-const codeBox = document.querySelector('.tx__code'), codeOut = $('txCode');
 const chip = $('txShade'), chipCode = $('txShadeCode');
 const steps = all('#txList li');
 const rail = all('#txRail button');
@@ -311,10 +310,6 @@ function showStep(k, force) {
 }
 function showShade(t) {
   const s = sampleBleach(t);
-  if (codeOut.textContent !== s.shadeCode) {
-    codeOut.textContent = s.shadeCode;
-    if (!calm) { codeBox.classList.remove('is-swap'); void codeBox.offsetWidth; codeBox.classList.add('is-swap'); }
-  }
   if (chipCode.textContent !== s.shadeCode) chipCode.textContent = s.shadeCode;
   chip.style.setProperty('--tooth', swatchAt(s.shade));
 }

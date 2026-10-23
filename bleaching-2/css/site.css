@@ -5,9 +5,9 @@
    The look: a deep green-black ink, bleach white, and one neon mint (our
    Lando lime). Mona Sans throughout; the giant words use its wide cut.
    The idea: the page whitens. A smiling man with yellowish teeth sits in the
-   hero; while you scroll the frame zooms in to his mouth and the bleaching
-   happens on his teeth (A3.5 to BL4), a giant shade code counts along behind
-   him, and at the end the whole screen turns white.
+   hero; while you scroll the photo zooms in to his mouth and the bleaching
+   happens on his teeth (A3.5 to BL4), and at the end the whole screen turns
+   white.
    Motion: an opening once per visit, scroll scenes (html.scenes, never for
    reduced motion), one-time arrivals, and things that answer the visitor.
    ========================================================================== */
@@ -179,20 +179,6 @@ html.is-lifting .intro::after { opacity: 1; }
 }
 .tx.is-white .tx__stick { color: var(--text); }
 
-/* the giant shade code behind the teeth */
-.tx__code {
-  position: absolute; z-index: 0; inset: 0 0 0 30%;
-  display: grid; place-items: center; pointer-events: none;
-  font: 880 clamp(180px, 31vw, 560px)/.8 var(--sans); font-stretch: 125%; letter-spacing: -.04em;
-  color: transparent; -webkit-text-stroke: 1.5px rgba(143, 245, 200, .5);
-  white-space: nowrap;
-  transition: -webkit-text-stroke-color .6s var(--ease);
-}
-.tx.is-white .tx__code { -webkit-text-stroke-color: rgba(14, 22, 19, .16); }
-.tx__code span { display: block; translate: 0 2%; }
-.tx__code.is-swap span { animation: codeSwap .55s var(--ease-out); }
-@keyframes codeSwap { from { opacity: .2; filter: blur(14px); scale: .94; } }
-
 /* no frame: he stands up from the bottom of the screen on the page itself (the photo is a
    cut-out). The stage only clips the zoom; it runs past the right edge (it slides left as
    the treatment starts) and fades out toward the words */
@@ -293,6 +279,8 @@ html.is-lifting .intro::after { opacity: 1; }
 @media (min-width: 1101px) {
   .plate { bottom: clamp(18px, 3vh, 28px); }
   .tx__tag { right: auto; left: calc(var(--gutter) + min(640px, 42vw) + 32px + clamp(40px, 5vw, 96px)); }
+  /* the plate is gone while the treatment plays: the tag goes back to its corner, clear of the step rail */
+  .tx.is-playing .tx__tag { left: auto; right: var(--gutter); }
 }
 
 /* the caption of the playing step, the shade chip and the step rail */
@@ -301,7 +289,6 @@ html.is-lifting .intro::after { opacity: 1; }
 
 /* the hero builds itself: everything waits for html.is-ready */
 html.js:not(.is-calm):not(.is-ready) .tx__stage { opacity: 0; transform: scale(.9) translateY(4%); }
-html.js:not(.is-calm):not(.is-ready) .tx__code span { opacity: 0; scale: 1.12; }
 html.js:not(.is-calm):not(.is-ready) .hero__bar > * { opacity: 0; transform: translateY(-10px); }
 html.js:not(.is-calm):not(.is-ready) .hero__line > span { transform: translateY(105%); }
 html.js:not(.is-calm):not(.is-ready) .hero__lead,
@@ -309,7 +296,6 @@ html.js:not(.is-calm):not(.is-ready) .hero__cta { opacity: 0; transform: transla
 html.js:not(.is-calm):not(.is-ready) .plate { opacity: 0; transform: translateX(64px) rotate(1.5deg); }
 
 html.is-ready .tx__stage { opacity: 1; transform: none; transition: opacity 1.2s var(--ease), transform 1.8s var(--ease-out); }
-html.is-ready .tx__code span { opacity: 1; scale: 1; transition: opacity 1.4s var(--ease) .2s, scale 2s var(--ease-out) .2s; }
 html.is-ready .hero__bar > * { opacity: 1; transform: none; transition: opacity .7s var(--ease), transform .7s var(--ease); }
 html.is-ready .hero__bar > :nth-child(2) { transition-delay: .07s; }
 html.is-ready .hero__line > span { transform: none; transition: transform .95s var(--ease-out) .2s; }
@@ -528,6 +514,7 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 .shade__read { display: grid; gap: 6px; margin-bottom: clamp(18px, 3vh, 30px); min-height: 1em; }
 .shade__code { font: 880 clamp(56px, 8vw, 132px)/.9 var(--sans); font-stretch: 125%; letter-spacing: -.035em; white-space: nowrap; }
 .shade__code.is-swap { animation: codeSwap .5s var(--ease-out); }
+@keyframes codeSwap { from { opacity: .2; filter: blur(14px); scale: .94; } }
 .shade__note { font-size: 15px; color: var(--soft); }
 .shade__tabs { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: clamp(6px, .9vw, 14px); align-items: end; height: clamp(150px, 20vh, 200px); padding-top: 22px; }
 .tooth { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; height: 100%; }
@@ -761,7 +748,6 @@ html.scenes .tx__steps { display: block; position: absolute; left: 0; top: 0; wi
 html.scenes .hero__copy, html.scenes .plate { translate: 0 calc(var(--h) * -80px); opacity: calc(1 - var(--h) * 1.4); }
 html.scenes .tx.is-playing .hero__copy, html.scenes .tx.is-playing .plate { visibility: hidden; }
 html.scenes .tx__stage { translate: calc(var(--h) * -7vw) 0; scale: calc(1 + var(--h) * .06); }
-html.scenes .tx__code { translate: calc(var(--h) * -7vw) 0; }
 /* the caption, the shade chip and the rail come in with the treatment */
 html.scenes .tx__cap {
   display: grid; position: absolute; z-index: 3; left: var(--gutter); top: 50%;
@@ -912,7 +898,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   }
   .face { top: 50%; width: 100cqh; }   /* all of him fits; the shirt fades into the words */
   .face__tab { font-size: max(6px, 1.1cqw); }
-  .tx__code { inset: calc(60px + 1svh) 0 auto 0; height: 38svh; font-size: clamp(120px, 40vw, 200px); }
   .hero__bar { padding-block: 10px; }
   .brand { font-size: 17px; }
   .hero__tools { gap: 6px; }
@@ -924,7 +909,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .cue { font-size: 13.5px; }
   .tx__tag { top: calc(60px + 1svh + 38svh - 30px); bottom: auto; right: var(--gutter); font-size: 11px; }
   html.scenes .tx__stage { translate: 0 0; scale: calc(1 - var(--h) * .06); }
-  html.scenes .tx__code { translate: 0 0; }
   html.scenes .tx__cap { top: auto; bottom: calc(76px + env(safe-area-inset-bottom)); left: var(--gutter); right: var(--gutter); width: auto; translate: 0 0; gap: 8px; }
   .tx__title { font-size: clamp(28px, 8.4vw, 36px); }
   .tx__text { font-size: 15px; }
@@ -1042,7 +1026,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
 
 /* short phones */
 @media (max-width: 760px) and (max-height: 760px) {
-  .tx__stage, .tx__code { height: 32svh; }
+  .tx__stage { height: 32svh; }
   .tx__tag { top: calc(60px + 1svh + 32svh - 30px); }
   .hero__lead { display: none; }
   .tx__text { font-size: 14.5px; }
@@ -1099,7 +1083,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
 }
 
 @media print {
-  .pill, .mbar, .intro, .tx__stage, .tx__code, .plate { display: none !important; }
+  .pill, .mbar, .intro, .tx__stage, .plate { display: none !important; }
   .tx__stick { height: auto; min-height: 0; }
   .hero__copy { position: static; width: auto; }
 }

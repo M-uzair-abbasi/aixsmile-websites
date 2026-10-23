@@ -9,8 +9,8 @@ The page whitens. A smiling man with yellowish teeth sits in the hero (since
 2026-10-23; the client found the 3D dentition fake). Scrolling zooms in to his mouth
 and plays the treatment on his teeth (measure with a shade tab → blue gum barrier →
 gel → the lamp, the teeth lighten under the gel → measure again), then zooms out to
-his white smile, while a giant outlined shade code counts A3.5 → BL4 and at the end
-the whole screen turns white.
+his white smile, and at the end the whole screen turns white. The shade (A3.5 → BL4)
+shows in the small chip and on the tab held to his teeth.
 
 ## Look
 Ink `#0b1210`, bleach white `#f7f8f4`, paper `#eef1ec`, one neon mint `#8ff5c8`
