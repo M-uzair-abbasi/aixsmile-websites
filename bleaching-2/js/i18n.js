@@ -38,6 +38,15 @@ export const EN = {
     s4t: 'Let the gel work', s4p: 'Often in several rounds. Brief sensitivity to cold is possible and usually passes within a few days.',
     s5t: 'Measure the new shade', s5p: 'The same guide, a new number. The shade settles over one to two weeks and usually lasts one to three years.',
   },
+  look: {
+    h1: 'Smile', h2: 'brighter.',
+    p: 'Naturally white, right for your face. How much lighter yours can get, we measure beforehand.',
+    alt1: 'A young woman with curly hair laughing, bright natural teeth (AI-generated image)',
+    alt2: 'A bearded man with a broad smile, bright natural teeth (AI-generated image)',
+    alt3: 'A woman with sleek black hair smiling, bright natural teeth (AI-generated image)',
+    alt4: 'A young man laughing, bright natural teeth (AI-generated image)',
+    alt5: 'A woman around fifty with a warm smile, bright natural teeth (AI-generated image)',
+  },
   mq: { a: 'Coffee · Tea · Red wine · Smoking · The years ·' },
   when: {
     h2: 'Which stains whitening can lift.',
@@ -113,6 +122,7 @@ export const EN = {
   bk: {
     h2: 'Open consultation times.',
     p: 'These times really are free right now. Pick a time, enter your name and phone number, done.',
+    alt: 'A man with greying hair smiling, relaxed, bright natural teeth (AI-generated image)',
     fact1: 'First appointment through your health insurance, at no extra cost',
     fact2: 'A written cost plan before any treatment',
     fact3: 'If something comes up, one click in the appointment email is enough',
@@ -171,6 +181,7 @@ export const EN = {
   foot: {
     line: 'The first step: measuring your tooth shade.',
     mq: 'Lighter · Measured · Aachen ·',
+    alt: 'A blonde woman laughing against a dark background, bright natural teeth (AI-generated image)',
     hours: 'Mon · Tue · Thu, 9 am to 4 pm, by appointment only',
     langs: 'German, English, Farsi, Turkish, Arabic',
     impressum: 'Legal notice', datenschutz: 'Privacy',

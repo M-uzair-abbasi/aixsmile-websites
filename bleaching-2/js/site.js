@@ -316,6 +316,21 @@ scene(tx, 'pin', (p) => {
 // a step on the rail scrolls to where that step has played
 rail.forEach((b, i) => b.addEventListener('click', () => glide(txY(stepAnchor(i)))));
 
+// ---------- the result, on people: the portraits are dealt out ----------
+// laptops: the stack spreads across the screen (--e); phones: the top
+// portrait slides away and the next face shows, one after another (--o)
+const look = $('laecheln');
+if (look) {
+  const cards = all('.look__card', look);
+  const LEAVE = [2, 3, 1, 4]; // card indices, top of the phone stack first
+  const phoneQ = matchMedia('(max-width: 760px)');
+  scene(look, 'pin', (p) => {
+    setVar(look, '--e', ease(clamp((p - 0.06) / 0.56)));
+    setVar(look, '--p', p);
+    if (phoneQ.matches) LEAVE.forEach((c, i) => setVar(cards[c], '--o', ease(clamp((p - 0.1 - i * 0.19) / 0.15))));
+  });
+}
+
 // ---------- the giant lines slide in opposite directions ----------
 const marquee = document.querySelector('.marquee');
 scene(marquee, 'through', (p) => setVar(marquee, '--p', p));

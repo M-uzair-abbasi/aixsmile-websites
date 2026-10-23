@@ -314,6 +314,40 @@ main { display: block; }
 .sect__head { display: grid; gap: 18px; margin-bottom: clamp(32px, 5vh, 56px); }
 .sect__head--split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; gap: 18px clamp(32px, 6vw, 96px); }
 
+/* ---------- the result, on people: a deck of portraits dealt across the screen ----------
+   Each card's place in the spread is --x/--y/--r (start: stacked, tilted by --r0);
+   JS gives the section --e (0 stacked → 1 dealt) and --p (pin progress). */
+.look { position: relative; background: var(--white); color: var(--text); overflow-x: clip; padding-block: clamp(72px, 11vh, 130px) clamp(48px, 8vh, 96px); }
+.look__head { display: grid; grid-template-columns: auto minmax(0, 25em); justify-content: space-between; align-items: end; gap: 18px clamp(32px, 6vw, 96px); }
+.look__h { font: 860 clamp(56px, 9.4vw, 164px)/.88 var(--sans); font-stretch: 125%; letter-spacing: -.035em; text-transform: uppercase; }
+.look__h em { display: block; font-style: normal; color: var(--mint-ink); }
+.look__p { padding-bottom: .4em; font-size: clamp(16px, 1.2vw, 18.5px); line-height: 1.55; color: var(--soft); }
+.look__deck { display: flex; gap: 14px; margin-top: clamp(32px, 5vh, 56px); padding-inline: var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.look__deck::-webkit-scrollbar { display: none; }
+.look__card { flex: none; position: relative; width: min(64vw, 300px); aspect-ratio: 3 / 4; margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--paper-2); scroll-snap-align: center; }
+.look__card img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.look__card--1 { --x: -38vw; --y: -5svh; --r: -3deg; --r0: -9deg; --dy: 40; z-index: 1; }
+.look__card--2 { --x: -19vw; --y: 6svh; --r: 2deg; --r0: 7deg; --dy: -50; z-index: 2; }
+.look__card--3 { --x: 0vw; --y: -2svh; --r: 0deg; --r0: -2deg; --dy: 0; z-index: 3; }
+.look__card--4 { --x: 19vw; --y: 7svh; --r: -2deg; --r0: 10deg; --dy: 50; z-index: 2; }
+.look__card--5 { --x: 38vw; --y: -6svh; --r: 3deg; --r0: -6deg; --dy: -40; z-index: 1; }
+html.scenes .look { height: 290svh; padding: 0; }
+html.scenes .look__stick { position: sticky; top: 0; height: 100svh; display: grid; grid-template-rows: auto minmax(0, 1fr); padding-block: clamp(88px, 13svh, 128px) clamp(16px, 4svh, 40px); }
+html.scenes .look__deck { position: relative; display: block; margin: 0; padding: 0; overflow: visible; }
+html.scenes .look__card {
+  --cw: min(15.5vw, 27svh, 300px);
+  position: absolute; left: 50%; top: 50%; width: var(--cw);
+  box-shadow: 0 34px 60px -34px rgba(11, 18, 16, .42);
+  transform:
+    translate(-50%, -50%)
+    translate(calc(var(--x) * var(--e, 0)), calc(var(--y) * var(--e, 0) + var(--dy) * (var(--p, 0) - .5) * 1px))
+    rotate(calc(var(--r0) + (var(--r) - var(--r0)) * var(--e, 0)))
+    scale(calc(.86 + .14 * var(--e, 0)));
+  will-change: transform;
+}
+html.scenes .look__card--3 { --cw: min(17.5vw, 31svh, 340px); }
+html.scenes .look__card img { scale: calc(1.16 - .16 * var(--e, 0)); }
+
 /* ---------- the giant sliding lines ---------- */
 .marquee { background: var(--white); padding-block: clamp(40px, 9vh, 110px) clamp(24px, 5vh, 60px); overflow: hidden; display: grid; gap: clamp(2px, .6vh, 8px); color: var(--text); }
 .marquee__row {
@@ -321,6 +355,8 @@ main { display: block; }
   font: 860 clamp(52px, 9vw, 160px)/1 var(--sans); font-stretch: 125%; letter-spacing: -.03em; text-transform: uppercase;
 }
 .marquee__row--b { color: transparent; -webkit-text-stroke: 1.5px var(--text); margin-left: -30%; }
+.marquee__chip { display: inline-block; width: 1.9em; height: .8em; margin-inline: .12em .3em; vertical-align: .02em; border-radius: 999px; overflow: hidden; background: var(--paper-2); }
+.marquee__chip img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ---------- which stains lift: a loose collage on a sideways track ----------
    Each picture has its own size, height and speed; its words sit on the open
@@ -527,6 +563,8 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 .booking__facts li { display: flex; gap: 10px; align-items: baseline; }
 .booking__facts li::before { content: ''; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--mint); transform: translateY(-2px); }
 .booking__facts a { color: var(--on-dark); font-weight: 650; text-decoration-color: rgba(143, 245, 200, .6); text-underline-offset: 3px; }
+.booking__face { margin: clamp(32px, 5vh, 48px) 0 0; max-width: 440px; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; background: #101815; }
+.booking__face img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
 .bk { padding: clamp(18px, 2.2vw, 28px); border-radius: 26px; background: var(--white); color: var(--text); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); min-height: 460px; }
 .bkSteps { display: flex; gap: 6px; margin-bottom: 18px; counter-reset: s; }
 .bkSteps li { flex: 1; display: flex; }
@@ -649,7 +687,10 @@ html:not(.scenes) .grow__stick { padding-bottom: 0; }
 
 /* ---------- footer ---------- */
 .foot { background: var(--ink); color: var(--on-dark); padding-top: clamp(80px, 14vh, 150px); overflow: hidden; }
-.foot__cta { display: grid; justify-items: start; gap: 28px; }
+.foot__cta { display: grid; grid-template-columns: minmax(0, 1fr) auto; justify-items: start; align-items: end; gap: 28px clamp(32px, 6vw, 96px); }
+.foot__cta > :not(.foot__face) { grid-column: 1; }
+.foot__face { grid-column: 2; grid-row: 1 / span 2; width: clamp(220px, 24vw, 380px); aspect-ratio: 3 / 4; margin: 0; border-radius: var(--radius); overflow: hidden; background: #101815; }
+.foot__face img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; }
 .foot__line { font: 820 clamp(38px, 5.6vw, 92px)/.98 var(--sans); font-stretch: 118%; letter-spacing: -.045em; max-width: 15ch; text-wrap: balance; }
 .foot__band { margin-top: clamp(56px, 9vh, 100px); overflow: hidden; border-block: 1px solid var(--hair-dark); padding-block: 14px; }
 .foot__row { width: max-content; white-space: nowrap; font: 860 clamp(30px, 4.4vw, 72px)/1 var(--sans); font-stretch: 125%; letter-spacing: -.02em; text-transform: uppercase; color: var(--mint); }
@@ -823,6 +864,23 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
    Phones
    ========================================================================== */
 @media (max-width: 760px) {
+  .foot__cta { grid-template-columns: minmax(0, 1fr); }
+  .foot__face { grid-column: 1; grid-row: auto; width: min(78vw, 340px); margin-top: 8px; }
+  .booking__face { display: none; }
+  /* the portraits are a stack: the top one slides away, the next face shows
+     (JS gives each leaving card --o, 0 → 1; --ox/--or say where it goes) */
+  .look__head { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .look__h { font-size: clamp(50px, 15vw, 76px); }
+  html.scenes .look__card, html.scenes .look__card--3 {
+    --cw: min(64vw, 34svh);
+    transform: translate(-50%, -50%) translate(calc(var(--o, 0) * var(--ox, 0vw)), calc(var(--o, 0) * -3svh)) rotate(calc(var(--r0) + var(--o, 0) * var(--or, 0deg)));
+  }
+  html.scenes .look__card img { scale: 1.04; }
+  .look__card--3 { --r0: -1deg; --ox: -125vw; --or: -16deg; z-index: 5; }
+  .look__card--4 { --r0: 4deg; --ox: 125vw; --or: 16deg; z-index: 4; }
+  .look__card--2 { --r0: -5deg; --ox: -125vw; --or: -16deg; z-index: 3; }
+  .look__card--5 { --r0: 6deg; --ox: 125vw; --or: 16deg; z-index: 2; }
+  .look__card--1 { --r0: -3deg; z-index: 1; }
   :root { --pad-y: 52px; }
   body { font-size: 16px; }
   .h2 { font-size: clamp(30px, 8.6vw, 38px); }

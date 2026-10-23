@@ -20,24 +20,30 @@ its 125 % width.
 1. Opening (once per visit): dark field, wordmark, a tooth draws itself and turns white from the gum line up while the 3D loads (code under it A3.5 → BL4), shine + sparkles, then the field lifts with a mint edge. After bleaching 1's first splash.
 2. Hero + treatment (`#top`, pinned 560svh): 3D teeth, next free slot plate, step caption,
    shade chip, step rail (click = scroll to that step), page turns white at the end.
-3. Two giant lines sliding sideways (causes / shade codes).
-4. `#flecken`: the six stains as a loose collage on a sideways track (pinned). Each picture
+3. `#laecheln` "Heller lachen." (added 2026-10-23 after the client asked for a more beautiful page
+   with people who have perfect smiles): five AI beauty portraits (`look-1…5.webp`, Higgsfield
+   soul_2) lie in a stack and are dealt across the screen while you scroll (pinned 290svh,
+   `--e`); on phones the top portrait slides away and the next face shows (`--o`).
+4. Two giant lines sliding sideways (causes / shade codes); a smile chip (`smile-c1…3.webp`)
+   follows every BL4.
+5. `#flecken`: the six stains as a loose collage on a sideways track (pinned). Each picture
    has its own size, shape and height, and drifts up or down at its own depth; its few words
    sit on the open side (picture high: words under it; picture low: words above it).
    Sizes and positions are the `.stain--a` … `--f` rules in site.css.
    Photos 01, 03, 04 and 05 are the client's own pictures (2026-10-23, from 1/3/4/5.jpeg,
    4.jpeg trimmed of a white frame) in `assets/photos/stains/`; 02 and 06 are still the AI
    close-ups in `assets/photos/ai/`. Crops are the `--so` values on the same rules.
-5. `#wege`: In der Praxis / Zu Hause / Kombiniert as giant words; tap opens; with a mouse
+6. `#wege`: In der Praxis / Zu Hause / Kombiniert as giant words; tap opens; with a mouse
    a photo follows the pointer (Lando's ON TRACK / OFF TRACK).
-6. `#heller`: "Heller, aber [photo] nicht künstlich weiß." words light up, the photo grows to
+7. `#heller`: "Heller, aber [photo] nicht künstlich weiß." words light up, the photo grows to
    full screen, then "Lachen, ohne die Hand vor dem Mund." and the booking button come up
    on it. The photo is used once (2026-10-22: it used to repeat as a separate band).
-7. `#faelle`: the two real cases as compare sliders (mouse follows, drag, keyboard).
-8. `#messen`: tap a sample tooth, the code shows big.
-9. `#kosten`: mint panel opening from rounded corners, the cost plan sheet.
-10. Doctor, booking (`SERVICE 'bleaching'`, `VIA 'bleaching-aachen'`), FAQ by topic,
-    practice + map, footer with a running line and the rising wordmark.
+8. `#faelle`: the two real cases as compare sliders (mouse follows, drag, keyboard).
+9. `#messen`: tap a sample tooth, the code shows big.
+10. `#kosten`: mint panel opening from rounded corners, the cost plan sheet.
+11. Doctor, booking (`SERVICE 'bleaching'`, `VIA 'bleaching-aachen'`; a smiling portrait
+    `book-face.webp` under the facts on laptops), FAQ by topic, practice + map, footer with a
+    laughing portrait (`foot-face.webp`) beside the last line, a running line and the rising wordmark.
 
 Reduced motion / no JS: no pinning, a still hero picture, the five steps as a list.
 
