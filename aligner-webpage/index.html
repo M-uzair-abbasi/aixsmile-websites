@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="de" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aligner Aachen: unsichtbare Zahnschienen, digital geplant | AIXSMILE</title>
+<meta name="description" content="Aligner in Aachen bei AIXSMILE: transparente, herausnehmbare Zahnschienen korrigieren Fehlstellungen Schritt für Schritt. Digitaler 3D-Scan, Plan vorab, Termin online buchen.">
+<link rel="canonical" href="https://aligneraachen.de/">
+<meta name="theme-color" content="#c6c9d6">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Zahnarztpraxis AIXSMILE, Aachen">
+<meta property="og:title" content="Aligner Aachen: unsichtbare Zahnschienen, digital geplant | AIXSMILE">
+<meta property="og:description" content="Transparente Schienen, digital geplant: Sie sehen das Ziel, bevor es losgeht. AIXSMILE, Großkölnstraße, Aachen.">
+<meta property="og:url" content="https://aligneraachen.de/">
+<meta property="og:image" content="https://aligneraachen.de/assets/stills/hero.webp">
+<link rel="icon" type="image/png" href="assets/tooth-mark.png?v=1" sizes="any">
+<link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-mono-latin-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="css/site.css">
+<script>
+  // Runs before the first paint. "js" switches the arrivals on; the opening
+  // (a row of teeth straightens while the 3D world loads) plays once per
+  // visit and never for people who asked their system for less motion;
+  // "scenes" lays out the scroll scenes (tall sections with a sticky screen)
+  // before they draw.
+  (function () {
+    var d = document.documentElement;
+    d.classList.remove('no-js');
+    d.classList.add('js');
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = false;
+    try { seen = sessionStorage.getItem('aixsmileAlignerIntro') === '1'; } catch (e) { /* private mode */ }
+    if (calm) d.classList.add('is-calm');
+    else {
+      d.classList.add('scenes');
+      if (!seen) d.classList.add('is-intro');
+    }
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dentist",
+      "@id": "https://aixsmile.de/#praxis",
+      "name": "Zahnarztpraxis AIXSMILE",
+      "url": "https://aixsmile.de/",
+      "telephone": "+49 241 31202",
+      "email": "info@aixsmile.de",
+      "image": "https://aligneraachen.de/assets/photos/doctor-molaie.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Großkölnstraße 22-28",
+        "postalCode": "52062",
+        "addressLocality": "Aachen",
+        "addressCountry": "DE"
+      },
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Thursday"],
+        "opens": "09:00",
+        "closes": "16:00"
+      }],
+      "sameAs": [
+        "https://g.page/zahnarztpraxis-aixsmile",
+        "https://www.instagram.com/zahnarztpraxis_aixsmile"
+      ],
+      "availableService": {
+        "@type": "MedicalProcedure",
+        "name": "Aligner-Therapie (unsichtbare Zahnschienen)",
+        "url": "https://aligneraachen.de/"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://aligneraachen.de/#webpage",
+      "url": "https://aligneraachen.de/",
+      "name": "Aligner Aachen: unsichtbare Zahnschienen, digital geplant | AIXSMILE",
+      "inLanguage": "de",
+      "about": { "@id": "https://aixsmile.de/#praxis" },
+      "provider": { "@id": "https://aixsmile.de/#praxis" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Sieht man die Aligner?", "acceptedAnswer": { "@type": "Answer", "text": "Kaum. Die Schienen sind transparent und liegen dünn auf den Zähnen. Im Alltag und auf Fotos fallen sie in der Regel nicht auf; für viele Erwachsene ist das der entscheidende Vorteil gegenüber festen Brackets." } },
+        { "@type": "Question", "name": "Wie viele Stunden muss ich die Schiene tragen?", "acceptedAnswer": { "@type": "Answer", "text": "In der Regel rund 22 Stunden am Tag, also den ganzen Tag und über Nacht. Heraus nehmen Sie sie nur zum Essen und zur Zahnpflege. Die Tragezeit ist der wichtigste Faktor für den Erfolg." } },
+        { "@type": "Question", "name": "Ist die Behandlung schmerzhaft?", "acceptedAnswer": { "@type": "Answer", "text": "Zu Beginn jeder neuen Schiene kann ein leichtes Spannungsgefühl auftreten, ein Zeichen, dass sich die Zähne bewegen. Es lässt meist nach ein, zwei Tagen nach." } },
+        { "@type": "Question", "name": "Wie lange dauert die Behandlung?", "acceptedAnswer": { "@type": "Answer", "text": "Das hängt von der Ausgangslage ab. Leichte Korrekturen können in wenigen Monaten gelingen, umfangreichere Fälle dauern länger. Nach der digitalen Planung können wir die voraussichtliche Dauer gut einschätzen." } },
+        { "@type": "Question", "name": "Eignen sich Aligner für jeden?", "acceptedAnswer": { "@type": "Answer", "text": "Viele Fehlstellungen lassen sich sehr gut mit Alignern behandeln, aber nicht alle. Ob die Therapie für Sie geeignet ist, klären wir im Beratungstermin mit digitalem Scan." } },
+        { "@type": "Question", "name": "Wie oft muss ich in die Praxis?", "acceptedAnswer": { "@type": "Answer", "text": "Zum Scan und zur Übergabe der Schienen, danach zu Kontrollterminen in regelmäßigen Abständen. Die Schienen wechseln Sie dazwischen selbst, alle ein bis zwei Wochen." } },
+        { "@type": "Question", "name": "Was passiert nach der Behandlung?", "acceptedAnswer": { "@type": "Answer", "text": "Damit die Zähne in ihrer neuen Position bleiben, folgt eine Stabilisierung mit einem Retainer: einer dünnen Schiene oder einem festen Draht hinter den Zähnen." } },
+        { "@type": "Question", "name": "Was kostet eine Aligner-Behandlung?", "acceptedAnswer": { "@type": "Answer", "text": "Die Kosten hängen vom Umfang der Fehlstellung und der Dauer der Behandlung ab. Für Erwachsene ist die Aligner-Therapie in der Regel eine Privatleistung. Nach Scan und Planung bekommen Sie einen schriftlichen Kostenplan; Ratenzahlung ist häufig möglich." } }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="page">
+<a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
+
+<!-- The opening (after igloo.inc's loader): on the misty field a row of teeth
+     stands crooked and straightens while the 3D world loads; the counter runs
+     to 100, then the field lifts away. Shown only while html.is-intro is set
+     (first visit). -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__stage">
+    <p class="intro__mark"><span translate="no">AIX<b>SMILE</b></span><span>/ Aligner</span></p>
+    <div class="intro__row">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <p class="intro__count"><span id="introPct">000</span> %</p>
+  </div>
+  <p class="intro__note" data-i18n="intro.note">Gerade Zähne werden geladen</p>
+</div>
+
+<!-- The floating menu: appears once the opening scene is behind you. -->
+<header class="pill" id="pill">
+  <a class="pill__brand" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE, nach oben" translate="no">AIX<b>SMILE</b></a>
+  <nav class="pill__nav" data-i18n-aria="nav.sections" aria-label="Abschnitte">
+    <a href="#ablauf" data-i18n="nav.ablauf">Ablauf</a>
+    <a href="#passt" data-i18n="nav.passt">Passt es?</a>
+    <a href="#alltag" data-i18n="nav.alltag">Alltag</a>
+    <a href="#kosten" data-i18n="nav.kosten">Kosten</a>
+    <a href="#fragen" data-i18n="nav.fragen">Fragen</a>
+  </nav>
+  <a class="pill__call" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+  <a class="btn btn--sm" href="#termin" data-cta="book" data-i18n="nav.book">Termin buchen</a>
+</header>
+
+<main id="main">
+
+<!-- ===== The 3D journey (after igloo.inc). One pinned screen while you
+     scroll: the crooked glass teeth breathe in the hero, then the scan, the
+     plan (every tooth moves home, tray 01 to 24), the clear tray forms, and the
+     fog clears onto a smile. Without scenes (reduced motion, no JS, no WebGL)
+     it is a still picture and the four chapters as a list. ===== -->
+<section class="klar" id="top" aria-labelledby="heroH">
+  <div class="klar__stick">
+    <picture>
+      <source media="(max-aspect-ratio: 4/5)" srcset="assets/stills/hero-tall.webp" width="900" height="1600">
+      <img class="klar__poster" id="klarPoster" src="assets/stills/hero.webp" srcset="assets/stills/hero-960.webp 960w, assets/stills/hero.webp 1600w" sizes="100vw" width="1600" height="900" fetchpriority="high" decoding="async" data-i18n-alt="klar.posterAlt" alt="Eine junge Frau hält die offene Hand hin, darüber schwebt ein Gebiss mit schiefen Zähnen aus Glas (Foto KI-generiert, Zähne als 3D-Darstellung)">
+    </picture>
+    <canvas class="klar__canvas" id="klarCanvas" aria-hidden="true"></canvas>
+
+    <!-- labels on the crooked teeth, drawn where the teeth are -->
+    <svg class="klar__lines" id="klarLines" aria-hidden="true"></svg>
+    <div class="klar__labels" id="klarLabels" aria-hidden="true">
+      <p class="tag3d" data-tooth="11"><b>11</b> <span data-k="turn">11°</span></p>
+      <p class="tag3d" data-tooth="12"><b>12</b> <span data-k="in">2,2 mm</span></p>
+      <p class="tag3d" data-tooth="13"><b>13</b> <span data-k="high">2,0 mm</span></p>
+      <p class="tag3d" data-tooth="41"><b>41</b> <span data-k="turn">13°</span></p>
+      <p class="tag3d" data-tray="u"><b data-i18n="klar.trayU">Oben</b> <span data-k="tray">Schiene wird eingesetzt</span></p>
+      <p class="tag3d" data-tray="l"><b data-i18n="klar.trayL">Unten</b> <span data-k="tray">Schiene wird eingesetzt</span></p>
+    </div>
+
+    <div class="hud hud--top">
+      <a class="brand" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE, nach oben" translate="no">AIX<b>SMILE</b></a>
+      <p class="hud__mid" aria-hidden="true"><span data-i18n="hud.what">Aligner-Therapie</span> <i>//</i> <span>Aachen</span></p>
+      <div class="hud__tools">
+        <button type="button" class="lang" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language"><span data-l="de">DE</span><span data-l="en">EN</span></button>
+        <a class="btn btn--sm" href="#termin" data-cta="book" data-i18n="nav.book">Termin buchen</a>
+      </div>
+    </div>
+
+    <div class="hero__copy" id="heroCopy">
+      <h1 class="hero__h1" id="heroH"><span class="hero__line"><span data-i18n="hero.l1">Aligner in Aachen.</span></span> <span class="hero__line hero__accent"><span data-i18n="hero.l2">Schiene für Schiene gerade.</span></span></h1>
+      <p class="hero__lead" data-i18n="hero.lead">Transparente, herausnehmbare Schienen bewegen Ihre Zähne Schritt für Schritt an ihren Platz. Digital geplant: Sie sehen das Ziel, bevor es losgeht.</p>
+      <a class="cue" href="#ablauf"><i aria-hidden="true"></i><span data-i18n="hero.scroll">Scrollen: aus schief wird gerade</span></a>
+    </div>
+
+    <a class="plate" id="plate" href="#termin" data-cta="book">
+      <span class="plate__label" id="plateLabel" data-i18n="hero.plateLabel">Beratung mit 3D-Scan</span>
+      <span class="plate__value" id="plateValue" data-i18n="hero.plateValue">Mo · Di · Do, 9 bis 16 Uhr</span>
+      <span class="plate__go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <!-- the starting point (the set just out of her hand, labels on): the
+         caption's chapter 00; chapters 01–04 come from the list below -->
+    <div hidden id="klarStart"><p data-i18n="steps.s0t">Die Ausgangslage</p><p data-i18n="steps.s0p">Ein leichter Engstand, ein paar gedrehte Zähne: eine typische Ausgangslage für Aligner.</p></div>
+    <!-- the chapter that is playing; filled from the list below -->
+    <div class="klar__cap" id="klarCap" aria-hidden="true">
+      <p class="klar__num"><b id="klarNum">01</b> / 04</p>
+      <p class="klar__title" id="klarTitle"></p>
+      <p class="klar__text" id="klarText"></p>
+    </div>
+
+    <div class="hud hud--bottom" aria-hidden="true">
+      <p class="hud__geo">50.7769° N <i>·</i> 6.0874° E</p>
+      <p class="hud__tray" id="klarTray"><span data-i18n="hud.tray">Schiene</span> <b id="klarTrayNum">01</b> / 24</p>
+    </div>
+
+    <nav class="klar__rail" id="klarRail" data-i18n-aria="klar.railAria" aria-label="Die Kapitel">
+      <button type="button" data-ch="0"><i></i><span data-i18n="klar.r0">Start</span></button>
+      <button type="button" data-ch="1"><i></i><span data-i18n="klar.r1">Scan</span></button>
+      <button type="button" data-ch="2"><i></i><span data-i18n="klar.r2">Plan</span></button>
+      <button type="button" data-ch="3"><i></i><span data-i18n="klar.r3">Schienen</span></button>
+      <button type="button" data-ch="4"><i></i><span data-i18n="klar.r4">Ergebnis</span></button>
+    </nav>
+
+    <!-- the end of the journey: the fog clears onto a smile -->
+    <div class="klar__white" aria-hidden="true"></div>
+    <figure class="finale" id="finale">
+      <img src="assets/photos/finale.webp" srcset="assets/photos/finale-1200.webp 1200w, assets/photos/finale.webp 1920w" sizes="100vw" width="1920" height="1080" loading="lazy" decoding="async" data-i18n-alt="finale.alt" alt="Eine junge Frau im Strickpullover lacht und hält eine durchsichtige Aligner-Schiene in der Hand (KI-generiertes Bild)">
+      <figcaption class="finale__band">
+        <p class="finale__line" data-i18n="finale.line">Kaum zu sehen. Gut zu tragen.</p>
+        <a class="btn btn--light" href="#termin" data-cta="book" id="finaleBook"><span data-i18n="finale.book">Beratung mit 3D-Scan buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <span class="finale__tag" data-i18n="finale.tag">Symbolbild</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <!-- the four chapters: the captions above read them; this is also what
+       people without scenes (and screen readers) get -->
+  <div class="klar__steps" id="ablauf">
+    <h2 class="h2 klar__stepsH" data-i18n="steps.h2">So läuft eine Aligner-Behandlung ab.</h2>
+    <ol class="klar__list" id="klarList">
+      <li><img src="assets/stills/scan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s1t">Der Scan</h3><p data-i18n="steps.s1p">Statt Abdruckmasse ein digitaler 3D-Scan: In wenigen Minuten sind Ihre Zähne erfasst.</p></li>
+      <li><img src="assets/stills/plan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s2t">Der Plan</h3><p data-i18n="steps.s2p">Am Bildschirm planen wir jede Zahnbewegung. Sie sehen das Ziel, bevor die erste Schiene entsteht.</p></li>
+      <li><img src="assets/stills/aligner.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s3t">Die Schienen</h3><p data-i18n="steps.s3p">Maßgefertigt und transparent. Sie tragen jede etwa 22 Stunden am Tag, alle ein bis zwei Wochen kommt die nächste.</p></li>
+      <li><img src="assets/photos/finale-sq.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s4t">Das Ergebnis</h3><p data-i18n="steps.s4p">Kontrolltermine begleiten die Bewegung, ein Retainer hält das Ergebnis danach stabil.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== Which situation do you know? A tap opens a card with what aligners
+     can do there and how we go about it (the implant page's situation cards);
+     with a mouse, pointing opens it. Each card's link carries the concern
+     into the booking note. ===== -->
+<section class="sect sect--snow situation" id="situation" aria-labelledby="sitH">
+  <div class="wrap">
+    <div class="sect__head">
+      <h2 class="h2" id="sitH" data-rv="wipe"><span data-i18n="sit.h2">Welche Situation kennen Sie?</span></h2>
+      <p class="sect__lead" data-rv data-i18n="sit.lead">Tippen Sie auf Ihre Situation. Dann sehen Sie, was Aligner da leisten und wie wir vorgehen.</p>
+    </div>
+    <ul class="sits" id="sits">
+      <li class="sit sit--tall" data-rv>
+        <button type="button" class="sit__btn" aria-expanded="false" aria-controls="sitA1">
+          <img class="sit__img" src="assets/photos/sit-crowding.webp" srcset="assets/photos/sit-crowding-960.webp 960w, assets/photos/sit-crowding.webp 1400w" sizes="(max-width: 760px) 96px, 40vw" width="1400" height="1050" loading="lazy" decoding="async" data-i18n-alt="sit.alt1" alt="Eine junge Frau im Strickpullover lacht, ihre Zähne stehen etwas eng (KI-generiertes Bild)">
+          <span class="sit__no">01</span>
+          <span class="sit__t" data-i18n="sit.t1">Meine Zähne stehen eng und schief.</span>
+          <span class="sit__plus" aria-hidden="true"></span>
+        </button>
+        <div class="sit__a" id="sitA1">
+          <p data-i18n="sit.a1">Engstand ist der häufigste Grund für Aligner. Die Schienen schaffen Schritt für Schritt Platz und richten die Zähne aus. Wie viele Schienen es braucht, zeigt der Plan nach dem Scan.</p>
+          <a class="textLink" href="#termin" data-note="sit.n1" data-i18n="sit.book">Termin zu diesem Anliegen</a>
+        </div>
+      </li>
+      <li class="sit" data-rv>
+        <button type="button" class="sit__btn" aria-expanded="false" aria-controls="sitA2">
+          <img class="sit__img" src="assets/photos/sit-gaps.webp" srcset="assets/photos/sit-gaps-960.webp 960w, assets/photos/sit-gaps.webp 1400w" sizes="(max-width: 760px) 96px, 26vw" width="1400" height="1050" loading="lazy" decoding="async" data-i18n-alt="sit.alt2" alt="Ein Mann lächelt, zwischen seinen oberen Schneidezähnen ist eine kleine Lücke (KI-generiertes Bild)">
+          <span class="sit__no">02</span>
+          <span class="sit__t" data-i18n="sit.t2">Ich habe Lücken zwischen den Zähnen.</span>
+          <span class="sit__plus" aria-hidden="true"></span>
+        </button>
+        <div class="sit__a" id="sitA2">
+          <p data-i18n="sit.a2">Kleine und mittlere Lücken lassen sich mit Alignern oft gut schließen. Am Plan sehen Sie vorher, wie es danach aussieht.</p>
+          <a class="textLink" href="#termin" data-note="sit.n2" data-i18n="sit.book">Termin zu diesem Anliegen</a>
+        </div>
+      </li>
+      <li class="sit" data-rv>
+        <button type="button" class="sit__btn" aria-expanded="false" aria-controls="sitA3">
+          <img class="sit__img" src="assets/photos/sit-bite.webp" srcset="assets/photos/sit-bite-960.webp 960w, assets/photos/sit-bite.webp 1400w" sizes="(max-width: 760px) 96px, 26vw" width="1400" height="1050" loading="lazy" decoding="async" data-i18n-alt="sit.alt3" alt="Eine Frau legt nachdenklich zwei Finger an ihr Kinn (KI-generiertes Bild)">
+          <span class="sit__no">03</span>
+          <span class="sit__t" data-i18n="sit.t3">Mein Biss passt nicht ganz.</span>
+          <span class="sit__plus" aria-hidden="true"></span>
+        </button>
+        <div class="sit__a" id="sitA3">
+          <p data-i18n="sit.a3">Bei Überbiss, Vorbiss oder Kreuzbiss prüfen wir genau, ob Aligner reichen oder eine feste Spange besser passt. Das sagen wir Ihnen ehrlich.</p>
+          <a class="textLink" href="#termin" data-note="sit.n3" data-i18n="sit.book">Termin zu diesem Anliegen</a>
+        </div>
+      </li>
+      <li class="sit" data-rv>
+        <button type="button" class="sit__btn" aria-expanded="false" aria-controls="sitA4">
+          <img class="sit__img" src="assets/photos/sit-retainer.webp" srcset="assets/photos/sit-retainer-960.webp 960w, assets/photos/sit-retainer.webp 1400w" sizes="(max-width: 760px) 96px, 26vw" width="1400" height="1050" loading="lazy" decoding="async" data-i18n-alt="sit.alt4" alt="Ein junger Mann hält seine alte durchsichtige Halteschiene in der Hand (KI-generiertes Bild)">
+          <span class="sit__no">04</span>
+          <span class="sit__t" data-i18n="sit.t4">Nach der Spange hat sich wieder etwas verschoben.</span>
+          <span class="sit__plus" aria-hidden="true"></span>
+        </button>
+        <div class="sit__a" id="sitA4">
+          <p data-i18n="sit.a4">Dann reichen oft wenige Schienen. Danach hält ein Retainer das Ergebnis stabil.</p>
+          <a class="textLink" href="#termin" data-note="sit.n4" data-i18n="sit.book">Termin zu diesem Anliegen</a>
+        </div>
+      </li>
+      <li class="sit" data-rv>
+        <button type="button" class="sit__btn" aria-expanded="false" aria-controls="sitA5">
+          <img class="sit__img" src="assets/photos/day.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="sit.alt5" alt="Ein Mann lacht und hält eine kleine weiße Aufbewahrungsdose für Aligner in der Hand (KI-generiertes Bild)">
+          <span class="sit__no">05</span>
+          <span class="sit__t" data-i18n="sit.t5">Ich möchte keine feste Spange.</span>
+          <span class="sit__plus" aria-hidden="true"></span>
+        </button>
+        <div class="sit__a" id="sitA5">
+          <p data-i18n="sit.a5">Aligner sind transparent und herausnehmbar. Zum Essen und Zähneputzen nehmen Sie sie heraus, den Rest des Tages fallen sie kaum auf.</p>
+          <a class="textLink" href="#termin" data-note="sit.n5" data-i18n="sit.book">Termin zu diesem Anliegen</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== The big sentence carries a small photo in its middle; while you
+     scroll, its words light up and the photo grows until it fills the screen,
+     then the line and the button come up on it (the implant page's box).
+     Without scenes it is a plain statement with the photo below. ===== -->
+<section class="grow" id="kaum" aria-label="Im Gespräch fällt die Schiene kaum auf." data-i18n-aria="grow.aria">
+  <div class="grow__stick">
+    <p class="grow__text" aria-hidden="true"><span data-i18n="grow.a">Im Gespräch</span> <span class="grow__box"><img src="assets/photos/talk-960.webp" width="960" height="539" loading="lazy" decoding="async" alt=""></span> <span data-i18n="grow.b">fällt die Schiene kaum auf.</span></p>
+    <figure class="grow__fill">
+      <img src="assets/photos/talk.webp" srcset="assets/photos/talk-960.webp 960w, assets/photos/talk.webp 1600w" sizes="100vw" width="1600" height="899" loading="lazy" decoding="async" data-i18n-alt="grow.alt" alt="Zwei Freundinnen lachen zusammen im Café (KI-generiertes Bild)">
+      <figcaption class="grow__band" id="growBand">
+        <p class="grow__line" data-i18n="grow.line">Lachen, ohne an die Schiene zu denken.</p>
+        <a class="btn" href="#termin" data-cta="book"><span data-i18n="grow.cta">Beratung mit 3D-Scan buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== Everyday questions as giant words (the bleaching page's three ways):
+     each opens on a tap; with a mouse a photo follows the pointer. ===== -->
+<section class="sect ways" id="alltag" aria-labelledby="waysH">
+  <div class="wrap">
+    <div class="sect__head">
+      <h2 class="h2" id="waysH" data-rv="wipe"><span data-i18n="ways.h2">Und im Alltag?</span></h2>
+      <p class="sect__lead" data-rv data-i18n="ways.lead">Die Fragen, die uns am häufigsten gestellt werden. Tippen Sie auf eine.</p>
+    </div>
+    <ul class="ways__list" id="ways">
+      <li class="way" data-img="0">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way1"><span class="way__no">01</span><span class="way__t" data-i18n="ways.t1">Essen?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way1">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/day-lunch.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt1" alt="Hände legen beim Mittagessen eine transparente Schiene in ihre Aufbewahrungsdose (KI-generiertes Bild)">
+            <p class="way__fit" data-i18n="ways.a1">Zum Essen nehmen Sie die Schiene heraus. Sie essen alles wie gewohnt.</p>
+            <p class="way__more" data-i18n="ways.m1">Danach Zähne putzen und die Schiene wieder einsetzen. Unterwegs liegt sie in ihrer Dose.</p>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="1">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way2"><span class="way__no">02</span><span class="way__t" data-i18n="ways.t2">Trinken?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way2">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/ways-water.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="ways.alt2" alt="Eine Frau im Strickpullover trinkt ein Glas Wasser (KI-generiertes Bild)">
+            <p class="way__fit" data-i18n="ways.a2">Wasser jederzeit, auch mit Schiene.</p>
+            <p class="way__more" data-i18n="ways.m2">Kaffee, Tee, Saft und Süßes besser ohne Schiene, oder danach den Mund ausspülen: sonst verfärbt sie sich, und Zucker bleibt an den Zähnen.</p>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="2">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way3"><span class="way__no">03</span><span class="way__t" data-i18n="ways.t3">Sprechen?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way3">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/day-office.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt3" alt="Ein Mann lacht in einer Besprechung im Büro (KI-generiertes Bild)">
+            <p class="way__fit" data-i18n="ways.a3">Die ersten Tage lispeln manche ein wenig.</p>
+            <p class="way__more" data-i18n="ways.m3">Die Zunge gewöhnt sich schnell daran, meist ist es nach wenigen Tagen vorbei. Im Gespräch fällt die Schiene kaum auf.</p>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="3">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way4"><span class="way__no">04</span><span class="way__t" data-i18n="ways.t4">Sport?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way4">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/ways-sport.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="ways.alt4" alt="Eine Frau in Laufkleidung lächelt nach dem Joggen im Park (KI-generiertes Bild)">
+            <p class="way__fit" data-i18n="ways.a4">Sport geht mit Schiene.</p>
+            <p class="way__more" data-i18n="ways.m4">Wasser trinken Sie mit Schiene. Für Kontaktsport besprechen wir mit Ihnen einen passenden Schutz.</p>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="4">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way5"><span class="way__no">05</span><span class="way__t" data-i18n="ways.t5">Drückt es?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way5">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/wear.webp" width="900" height="1115" loading="lazy" decoding="async" data-i18n-alt="ways.alt5" alt="Eine Frau im Strickpullover drückt ihre transparente Schiene auf die Zähne (KI-generiertes Bild)">
+            <p class="way__fit" data-i18n="ways.a5">Jede neue Schiene drückt ein, zwei Tage lang.</p>
+            <p class="way__more" data-i18n="ways.m5">Das zeigt, dass sie arbeitet. Danach sitzt sie, und Sie merken sie kaum noch.</p>
+          </div>
+        </div>
+      </li>
+      <li class="way" data-img="5">
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way6"><span class="way__no">06</span><span class="way__t" data-i18n="ways.t6">Pflege?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <div class="way__panel" id="way6">
+          <div class="way__inner">
+            <img class="way__img" src="assets/photos/day-morning.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt6" alt="Eine Frau setzt vor dem Badezimmerspiegel ihre transparente Schiene ein (KI-generiertes Bild)">
+            <p class="way__fit" data-i18n="ways.a6">Morgens und abends kurz reinigen.</p>
+            <p class="way__more" data-i18n="ways.m6">Mit kaltem oder lauwarmem Wasser abspülen und sanft bürsten. Heißes Wasser verformt die Schiene.</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <figure class="ways__float" id="waysFloat" aria-hidden="true">
+    <img src="assets/photos/day-lunch.webp" width="900" height="1200" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/ways-water.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/day-office.webp" width="900" height="1200" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/ways-sport.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/wear.webp" width="900" height="1115" loading="lazy" decoding="async" alt="">
+    <img src="assets/photos/day-morning.webp" width="900" height="1200" loading="lazy" decoding="async" alt="">
+  </figure>
+</section>
+
+<!-- ===== 22 hours: the day as a ring (Igloo's glowing portal). The ring
+     draws itself as it comes into view; the three meals out are marked. ===== -->
+<section class="sect day" id="tragezeit" aria-labelledby="dayH">
+  <div class="wrap day__grid">
+    <div class="day__ring" id="dayRing" data-rv>
+      <svg viewBox="0 0 400 400" aria-hidden="true">
+        <defs>
+          <linearGradient id="prism" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7fc8ff"/><stop offset=".35" stop-color="#a99bff"/><stop offset=".7" stop-color="#ff9cc6"/><stop offset="1" stop-color="#ffd58a"/>
+          </linearGradient>
+        </defs>
+        <circle class="day__track" cx="200" cy="200" r="150"/>
+        <g class="day__ticks" id="dayTicks"></g>
+        <circle class="day__wear" cx="200" cy="200" r="150" pathLength="24"/>
+        <circle class="day__out day__out--1" cx="200" cy="200" r="150" pathLength="24"/>
+        <circle class="day__out day__out--2" cx="200" cy="200" r="150" pathLength="24"/>
+        <circle class="day__out day__out--3" cx="200" cy="200" r="150" pathLength="24"/>
+      </svg>
+      <p class="day__num"><b class="count" data-count="22">22</b><span data-i18n="day.unit">Stunden</span></p>
+      <p class="day__mark day__mark--1"><span data-i18n="day.m1">Frühstück</span></p>
+      <p class="day__mark day__mark--2"><span data-i18n="day.m2">Mittag</span></p>
+      <p class="day__mark day__mark--3"><span data-i18n="day.m3">Abendessen</span></p>
+    </div>
+    <div class="day__text">
+      <h2 class="h2" id="dayH" data-rv="wipe"><span data-i18n="day.h2">Rund 22 Stunden am Tag.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="day.p">Zum Essen und Zähneputzen nehmen Sie die Schiene heraus. Den Rest des Tages und über Nacht tragen Sie sie. Diese Tragezeit ist der wichtigste Faktor für den Erfolg.</p>
+      <ul class="day__facts" data-rv>
+        <li><b class="mono" data-i18n="day.f1k">1–2 Wochen</b><span data-i18n="day.f1v">trägt man eine Schiene, dann kommt die nächste</span></li>
+        <li><b class="mono" data-i18n="day.f2k">Transparent</b><span data-i18n="day.f2v">und dünn, im Gespräch kaum zu sehen</span></li>
+        <li><b class="mono" data-i18n="day.f3k">Kontrollen</b><span data-i18n="day.f3v">in regelmäßigen Abständen, wir passen bei Bedarf an</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Two giant lines that slide sideways while you scroll (the implant page's
+     marquee), one each way. Decorative: the words are all said above. -->
+<div class="marquee" aria-hidden="true">
+  <p class="marquee__row"><span data-i18n="mq.a">Scan · Plan · Schiene 01 · Schiene 12 · Schiene 24 · Retainer ·</span> <span data-i18n="mq.a">Scan · Plan · Schiene 01 · Schiene 12 · Schiene 24 · Retainer ·</span></p>
+  <p class="marquee__row marquee__row--2"><span data-i18n="mq.b">transparent · herausnehmbar · digital geplant · in Aachen ·</span> <span data-i18n="mq.b">transparent · herausnehmbar · digital geplant · in Aachen ·</span></p>
+</div>
+
+<!-- ===== The check: three questions, the answers go into the booking note ===== -->
+<section class="sect sect--ink quiz opens" id="passt" aria-labelledby="quizH">
+  <div class="wrap quiz__grid">
+    <div class="quiz__head">
+      <p class="mono" aria-hidden="true">// 60 s</p>
+      <h2 class="h2" id="quizH" data-rv="wipe"><span data-i18n="quiz.h2">Passt ein Aligner zu mir?</span></h2>
+      <p class="sect__lead" data-rv data-i18n="quiz.lead">Drei kurze Fragen. Am Ende sehen Sie, worauf es bei Ihnen ankommt, und können die Antworten direkt in Ihre Terminbuchung übernehmen.</p>
+    </div>
+    <div class="quiz__box" id="quiz" data-rv>
+      <noscript><p class="quiz__nojs">Der Check braucht JavaScript. Rufen Sie uns gern an: <a href="tel:+4924131202">0241&nbsp;31202</a>.</p></noscript>
+      <div class="quiz__top">
+        <p class="quiz__count" id="quizCount" aria-live="polite">1 / 3</p>
+        <button type="button" class="quiz__back" id="quizBack" hidden data-i18n="quiz.back">Zurück</button>
+      </div>
+      <fieldset class="quiz__q is-on" data-q="0">
+        <legend data-i18n="quiz.q1">Was möchten Sie korrigieren?</legend>
+        <div class="quiz__opts">
+          <button type="button" class="opt" data-a="0"><i>A</i><span data-i18n="quiz.q1a">Engstand oder schiefe Zähne</span></button>
+          <button type="button" class="opt" data-a="1"><i>B</i><span data-i18n="quiz.q1b">Lücken zwischen den Zähnen</span></button>
+          <button type="button" class="opt" data-a="2"><i>C</i><span data-i18n="quiz.q1c">Überbiss oder Vorbiss</span></button>
+          <button type="button" class="opt" data-a="3"><i>D</i><span data-i18n="quiz.q1d">Nach einer Spange wieder verschoben</span></button>
+        </div>
+      </fieldset>
+      <fieldset class="quiz__q" data-q="1">
+        <legend data-i18n="quiz.q2">Was beschreibt Ihren Alltag am besten?</legend>
+        <div class="quiz__opts">
+          <button type="button" class="opt" data-a="0"><i>A</i><span data-i18n="quiz.q2a">Viel Kontakt mit Menschen</span></button>
+          <button type="button" class="opt" data-a="1"><i>B</i><span data-i18n="quiz.q2b">Ich esse oft zwischendurch</span></button>
+          <button type="button" class="opt" data-a="2"><i>C</i><span data-i18n="quiz.q2c">Ich vergesse Dinge leicht</span></button>
+          <button type="button" class="opt" data-a="3"><i>D</i><span data-i18n="quiz.q2d">Nichts Besonderes</span></button>
+        </div>
+      </fieldset>
+      <fieldset class="quiz__q" data-q="2">
+        <legend data-i18n="quiz.q3">Wann möchten Sie anfangen?</legend>
+        <div class="quiz__opts">
+          <button type="button" class="opt" data-a="0"><i>A</i><span data-i18n="quiz.q3a">So bald wie möglich</span></button>
+          <button type="button" class="opt" data-a="1"><i>B</i><span data-i18n="quiz.q3b">In den nächsten Monaten</span></button>
+          <button type="button" class="opt" data-a="2"><i>C</i><span data-i18n="quiz.q3c">Ich informiere mich erst einmal</span></button>
+        </div>
+      </fieldset>
+      <div class="quiz__result" id="quizResult" hidden tabindex="-1">
+        <p class="quiz__resH" data-i18n="quiz.resH">Darauf kommt es bei Ihnen an:</p>
+        <ul class="quiz__lines" id="quizLines"></ul>
+        <div class="quiz__actions">
+          <a class="btn btn--light" href="#termin" id="quizBook" data-cta="book"><span data-i18n="quiz.book">Mit diesen Angaben Termin buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <button type="button" class="textLink" id="quizAgain" data-i18n="quiz.again">Noch einmal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== A real case: drag (or, with a mouse, just point) to compare ===== -->
+<section class="sect sect--snow case" id="fall" aria-labelledby="caseH">
+  <div class="wrap case__grid">
+    <div class="case__text">
+      <h2 class="h2" id="caseH" data-rv="wipe"><span data-i18n="case.h2">Ein Fall aus unserer Praxis.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="case.p">Engstand im Frontzahnbereich, vor und nach der Aligner-Behandlung. Mit Einwilligung veröffentlicht.</p>
+      <p class="case__hint mono" data-rv data-i18n="case.hint">Ziehen oder tippen: links vorher, rechts nachher.</p>
+    </div>
+    <figure class="case__fig" data-rv>
+      <div class="compare">
+        <img class="compare__after" src="assets/photos/case-after.webp" width="720" height="432" loading="lazy" decoding="async" data-i18n-alt="case.altA" alt="Fall aus unserer Praxis: gerade Frontzähne nach der Aligner-Behandlung">
+        <div class="compare__before"><img src="assets/photos/case-before.webp" width="720" height="432" loading="lazy" decoding="async" data-i18n-alt="case.altB" alt="Fall aus unserer Praxis: Engstand der Frontzähne vor der Aligner-Behandlung"></div>
+        <span class="compare__line" aria-hidden="true"><i class="compare__knob"><svg viewBox="0 0 24 24"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></i></span>
+        <span class="compare__tag compare__tag--b" aria-hidden="true" data-i18n="case.before">Vorher</span>
+        <span class="compare__tag compare__tag--a" aria-hidden="true" data-i18n="case.after">Nachher</span>
+        <input class="compare__range" type="range" min="0" max="100" value="50" data-i18n-aria="case.range" aria-label="Vorher und nachher vergleichen">
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== Costs: a panel that opens from rounded corners ===== -->
+<section class="sect costs opens" id="kosten" aria-labelledby="costH">
+  <div class="costs__panel">
+    <div class="wrap costs__grid">
+      <div class="costs__text">
+        <h2 class="h2" id="costH" data-i18n="cost.h2">Was eine Aligner-Behandlung kostet.</h2>
+        <p data-i18n="cost.p1">Die Kosten hängen vom Umfang der Fehlstellung und von der Dauer der Behandlung ab. Für Erwachsene ist die Aligner-Therapie in der Regel eine Privatleistung.</p>
+        <p data-i18n="cost.p2">Nach Scan und Planung bekommen Sie einen schriftlichen Kostenplan. Den nehmen Sie mit nach Hause und entscheiden ohne Zeitdruck.</p>
+        <p class="costs__from" id="priceFrom" hidden></p>
+      </div>
+      <div class="sheet">
+        <p class="sheet__head" translate="no"><b>AIXSMILE</b><span>Großkölnstraße 22-28 · 52062 Aachen</span></p>
+        <h3 data-i18n="cost.sheet">Ihr Kostenplan</h3>
+        <dl class="sheet__rows">
+          <div><dt data-i18n="cost.r1">Aligner-Therapie für Erwachsene</dt><dd data-i18n="cost.r1v">In der Regel Privatleistung</dd></div>
+          <div><dt data-i18n="cost.r2">Bezahlen</dt><dd data-i18n="cost.r2v">Ratenzahlung häufig möglich</dd></div>
+          <div><dt data-i18n="cost.r3">Danach</dt><dd data-i18n="cost.r3v">Retainer zur Stabilisierung</dd></div>
+        </dl>
+        <p class="sheet__fh mono" data-i18n="cost.fh">Der Preis hängt ab von</p>
+        <ul class="sheet__factors">
+          <li data-i18n="cost.f1">Umfang der Fehlstellung</li>
+          <li data-i18n="cost.f2">Anzahl der Schienen und Dauer</li>
+          <li data-i18n="cost.f3">Kontrolltermine und Retainer</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sect sect--snow doctor" id="arzt" aria-labelledby="docH">
+  <div class="wrap doctor__grid">
+    <figure class="doctor__fig" data-rv>
+      <img src="assets/photos/doctor-molaie.webp" srcset="assets/photos/doctor-molaie-720.webp 720w, assets/photos/doctor-molaie.webp 1120w" sizes="(max-width: 900px) 60vw, 34vw" width="1120" height="1400" loading="lazy" decoding="async" data-i18n-alt="doctor.alt" alt="Novin Molaie, Zahnarzt der Zahnarztpraxis AIXSMILE in Aachen">
+    </figure>
+    <div class="doctor__text">
+      <h2 class="h2" id="docH" data-rv="wipe"><span data-i18n="doctor.h2">Erst der Scan, dann der Plan.</span></h2>
+      <blockquote class="doctor__quote" data-rv><p data-i18n="doctor.quote">„Ein strahlendes Lächeln ist mehr als Ästhetik – es ist ein Stück Lebensfreude.“</p></blockquote>
+      <p data-rv data-i18n="doctor.p1">Ob Aligner zu Ihren Zähnen passen, sagen wir Ihnen nach dem Scan offen. Und wenn eine feste Spange besser wäre, auch das.</p>
+      <p class="doctor__sign" data-rv><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></p>
+      <ul class="doctor__facts" data-rv>
+        <li><b class="count" data-count="5">5</b><span data-i18n="doctor.fact1">Sprachen in der Praxis</span></li>
+        <li><b><span class="count" data-count="22">22</span> h</b><span data-i18n="doctor.fact2">Tragezeit am Tag</span></li>
+        <li><b>1–2</b><span data-i18n="doctor.fact3">Wochen pro Schiene</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sect sect--ink booking opens" id="termin" aria-labelledby="bkH">
+  <div class="wrap booking__grid">
+    <div class="booking__intro">
+      <h2 class="h2" id="bkH" data-rv="wipe"><span data-i18n="bk.h2">Freie Termine für die Beratung.</span></h2>
+      <p class="sect__lead" data-rv data-i18n="bk.p">Diese Zeiten sind gerade wirklich frei. Zeit wählen, Namen und Telefonnummer eintragen, fertig.</p>
+      <ul class="booking__facts" data-rv>
+        <li data-i18n="bk.fact1">Beratung mit digitalem 3D-Scan</li>
+        <li data-i18n="bk.fact2">Schriftlicher Kostenplan, bevor es losgeht</li>
+        <li data-i18n="bk.fact3">Kommt etwas dazwischen, genügt ein Klick in der Terminmail</li>
+        <li><span data-i18n="bk.call">Lieber telefonieren?</span> <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></li>
+      </ul>
+    </div>
+    <form class="bk" id="bkForm" novalidate aria-live="polite" data-rv>
+      <ol class="bkSteps" id="bkSteps">
+        <li><button type="button" class="on" data-step="1" data-i18n="bk.step1">Termin</button></li>
+        <li><button type="button" data-step="2" data-i18n="bk.step2">Ihre Daten</button></li>
+        <li><span data-step="3" data-i18n="bk.step3">Gebucht</span></li>
+      </ol>
+      <div id="bkLoading" class="bkSkel" aria-hidden="true">
+        <div class="skelRow"><i></i><i></i><i></i></div>
+        <div class="skelLine"></div>
+        <div class="skelRow"><i class="sq"></i><i class="sq"></i><i class="sq"></i><i class="sq"></i></div>
+      </div>
+      <noscript><p class="bkHint">Die Terminauswahl braucht JavaScript. Rufen Sie uns an: <a href="tel:+4924131202">0241&nbsp;31202</a>.</p></noscript>
+      <div id="bkUnavailable" class="bkNotice" hidden>
+        <p><span data-i18n="bk.unavailable">Die freien Termine lassen sich gerade nicht laden.</span> <span data-i18n="bk.unavailableCall">Rufen Sie uns an:</span> <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></p>
+      </div>
+      <!-- Step 1: the slot -->
+      <div class="pane" id="bkPane1" hidden>
+        <p class="bkInfo" id="bkTaken" hidden data-i18n="bk.taken">Diese Uhrzeit hat inzwischen jemand anderes gebucht. Bitte wählen Sie eine andere.</p>
+        <div class="quick" id="bkQuick" hidden>
+          <p class="bkLabel" data-i18n="bk.quickH">Am schnellsten</p>
+          <div class="quickRow" id="bkQuickRow"></div>
+        </div>
+        <div class="calRow" id="bkCalRow" hidden>
+          <div class="cal" id="bkCal">
+            <div class="calHead">
+              <button type="button" class="calNav" id="bkPrev" data-i18n-aria="bk.calPrev" aria-label="Voriger Monat">‹</button>
+              <p class="calMonth" id="bkMonth" aria-live="polite"></p>
+              <button type="button" class="calNav" id="bkNext" data-i18n-aria="bk.calNext" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="calWeek" id="bkWeek" aria-hidden="true"></div>
+            <div class="calGrid" id="bkDays" role="group" data-i18n-aria="bk.daysAria" aria-label="Tage"></div>
+          </div>
+          <div class="times" id="bkTimesWrap">
+            <p class="bkLabel" id="bkTimesFor" data-i18n="bk.timesH">Uhrzeit</p>
+            <p class="timesEmpty" id="bkTimesEmpty" data-i18n="bk.timesEmpty">Wählen Sie einen Tag, dann erscheinen hier die Uhrzeiten.</p>
+            <div class="timeGroup" id="bkAm" hidden><p class="timeHead" data-i18n="bk.morning">Vormittag</p><div class="timeGrid"></div></div>
+            <div class="timeGroup" id="bkPm" hidden><p class="timeHead" data-i18n="bk.afternoon">Nachmittag</p><div class="timeGrid"></div></div>
+          </div>
+        </div>
+        <p class="bkHint" id="bkNoDays" hidden data-i18n="bk.noDays">Im Moment ist online kein Termin frei. Am Telefon finden wir meist noch einen.</p>
+      </div>
+      <!-- Step 2: contact details -->
+      <div class="pane" id="bkPane2" hidden>
+        <div class="pick">
+          <div><b id="bkPickWhen"></b><span id="bkPickWhat"></span></div>
+          <button type="button" class="linkBtn" id="bkChange" data-i18n="bk.change">Ändern</button>
+        </div>
+        <div class="bkFields">
+          <div><label class="fLabel" for="bkFirst" data-i18n="bk.first">Vorname *</label><input id="bkFirst" type="text" name="firstName" autocomplete="given-name" required maxlength="80"></div>
+          <div><label class="fLabel" for="bkLast" data-i18n="bk.last">Nachname *</label><input id="bkLast" type="text" name="lastName" autocomplete="family-name" required maxlength="80"></div>
+          <div><label class="fLabel" for="bkPhone" data-i18n="bk.phone">Telefon *</label><input id="bkPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="40"></div>
+          <div><label class="fLabel" for="bkEmail" data-i18n="bk.email">E-Mail *</label><input id="bkEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required maxlength="254"></div>
+          <div class="full">
+            <button type="button" class="linkBtn" id="bkNoteToggle" data-i18n="bk.addNote">+ Anmerkung</button>
+            <div id="bkNoteWrap" hidden><label class="fLabel" for="bkNote" data-i18n="bk.note">Anmerkung (optional)</label><textarea id="bkNote" name="note" maxlength="1000" rows="3"></textarea></div>
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <label class="bkConsent"><input type="checkbox" id="bkConsent"><span id="bkConsentText"></span></label>
+        <p class="bkErr" id="bkError" role="alert" hidden></p>
+        <button type="submit" class="btn btn--light btnWide" id="bkSubmit">Termin verbindlich buchen</button>
+        <p class="bkNote" data-i18n="bk.privacy">Ihre Angaben gehen direkt an die Zahnarztpraxis AIXSMILE und dienen nur diesem Termin. Diese Seite selbst speichert keine Daten.</p>
+      </div>
+      <!-- Step 3: confirmation -->
+      <div class="pane" id="bkPane3" hidden>
+        <div class="doneMark" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="21"/><path class="tick" pathLength="1" d="M14 25l7 7 13-14"/></svg></div>
+        <p class="doneH" data-i18n="bk.doneH">Gebucht. Wir sehen uns in der Praxis.</p>
+        <div class="pick pick--done">
+          <div><b id="bkDoneWhen"></b><span id="bkDoneWhat"></span><span data-i18n="bk.doneWhere">Sie kommen in die Großkölnstraße 22-28, 52062 Aachen.</span></div>
+        </div>
+        <p class="bkLabel" data-i18n="bk.nextH">Wie es weitergeht</p>
+        <ol class="doneNext">
+          <li data-i18n="bk.next1">Die Terminmail ist unterwegs; darin stehen Datum, Uhrzeit und Adresse.</li>
+          <li data-i18n="bk.next2">Am Vortag kommt eine kurze Erinnerung.</li>
+          <li data-i18n="bk.next3">Absagen können Sie jederzeit über den Link in der Terminmail.</li>
+        </ol>
+        <div class="doneActions">
+          <a class="btn btn--ghost" id="bkIcs" href="#" download="AIXSMILE-Termin.ics" data-i18n="bk.calendar">Termin speichern</a>
+          <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n="bk.route">Weg zur Praxis</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="sect faq" id="fragen" aria-labelledby="faqH">
+  <div class="wrap faq__grid">
+    <div class="faq__side">
+      <h2 class="h2" id="faqH" data-rv="wipe"><span data-i18n="faq.h2">Häufige Fragen zu Alignern.</span></h2>
+      <div class="faq__topics" id="faqTopics" role="tablist" data-i18n-aria="faq.topicsAria" aria-label="Themen" hidden>
+        <button type="button" role="tab" aria-selected="true" aria-controls="faqList" data-topic="alltag" data-i18n="faq.tDay">Alltag</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="faqList" data-topic="behandlung" data-i18n="faq.tCare" tabindex="-1">Behandlung</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="faqList" data-topic="danach" data-i18n="faq.tAfter" tabindex="-1">Danach und Kosten</button>
+      </div>
+      <p class="faq__aside"><span data-i18n="faq.aside">Ihre Frage ist nicht dabei? Wir beantworten sie gern am Telefon oder im Beratungstermin:</span> <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></p>
+    </div>
+    <div class="faq__list" id="faqList">
+      <div class="faq__group" data-topic="alltag">
+        <h3 class="faq__gh" data-i18n="faq.tDay">Alltag</h3>
+        <details><summary data-i18n="faq.q1">Sieht man die Aligner?</summary><p data-i18n="faq.a1">Kaum. Die Schienen sind transparent und liegen dünn auf den Zähnen. Im Alltag und auf Fotos fallen sie in der Regel nicht auf; für viele Erwachsene ist das der entscheidende Vorteil gegenüber festen Brackets.</p></details>
+        <details><summary data-i18n="faq.q2">Wie viele Stunden muss ich die Schiene tragen?</summary><p data-i18n="faq.a2">In der Regel rund 22 Stunden am Tag, also den ganzen Tag und über Nacht. Heraus nehmen Sie sie nur zum Essen und zur Zahnpflege. Die Tragezeit ist der wichtigste Faktor für den Erfolg.</p></details>
+        <details><summary data-i18n="faq.q3">Ist die Behandlung schmerzhaft?</summary><p data-i18n="faq.a3">Zu Beginn jeder neuen Schiene kann ein leichtes Spannungsgefühl auftreten, ein Zeichen, dass sich die Zähne bewegen. Es lässt meist nach ein, zwei Tagen nach.</p></details>
+      </div>
+      <div class="faq__group" data-topic="behandlung">
+        <h3 class="faq__gh" data-i18n="faq.tCare">Behandlung</h3>
+        <details><summary data-i18n="faq.q4">Wie lange dauert die Behandlung?</summary><p data-i18n="faq.a4">Das hängt von der Ausgangslage ab. Leichte Korrekturen können in wenigen Monaten gelingen, umfangreichere Fälle dauern länger. Nach der digitalen Planung können wir die voraussichtliche Dauer gut einschätzen.</p></details>
+        <details><summary data-i18n="faq.q5">Eignen sich Aligner für jeden?</summary><p data-i18n="faq.a5">Viele Fehlstellungen lassen sich sehr gut mit Alignern behandeln, aber nicht alle. Ob die Therapie für Sie geeignet ist, klären wir im Beratungstermin mit digitalem Scan.</p></details>
+        <details><summary data-i18n="faq.q6">Wie oft muss ich in die Praxis?</summary><p data-i18n="faq.a6">Zum Scan und zur Übergabe der Schienen, danach zu Kontrollterminen in regelmäßigen Abständen. Die Schienen wechseln Sie dazwischen selbst, alle ein bis zwei Wochen.</p></details>
+      </div>
+      <div class="faq__group" data-topic="danach">
+        <h3 class="faq__gh" data-i18n="faq.tAfter">Danach und Kosten</h3>
+        <details><summary data-i18n="faq.q7">Was passiert nach der Behandlung?</summary><p data-i18n="faq.a7">Damit die Zähne in ihrer neuen Position bleiben, folgt eine Stabilisierung mit einem Retainer: einer dünnen Schiene oder einem festen Draht hinter den Zähnen.</p></details>
+        <details><summary data-i18n="faq.q8">Was kostet eine Aligner-Behandlung?</summary><p data-i18n="faq.a8">Die Kosten hängen vom Umfang der Fehlstellung und der Dauer der Behandlung ab. Für Erwachsene ist die Aligner-Therapie in der Regel eine Privatleistung. Nach Scan und Planung bekommen Sie einen schriftlichen Kostenplan; Ratenzahlung ist häufig möglich.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sect sect--snow place" id="praxis" aria-labelledby="placeH">
+  <div class="wrap place__grid">
+    <div class="place__text">
+      <h2 class="h2" id="placeH" data-rv="wipe"><span data-i18n="praxis.h2">In der Großkölnstraße, mitten in Aachen.</span></h2>
+      <p data-rv data-i18n="praxis.addrP">Mitten in der Innenstadt, wenige Minuten vom Bushof und vom Markt. Parkhaus Großkölnstraße direkt gegenüber.</p>
+      <dl class="place__facts" data-rv>
+        <div><dt data-i18n="praxis.hoursH">Sprechzeiten</dt><dd><span data-i18n="praxis.hours">Mo · Di · Do, 9 bis 16 Uhr</span><br><span class="soft" data-i18n="praxis.hoursNote">Nur mit Termin</span></dd></div>
+        <div><dt data-i18n="praxis.addrH">Anschrift</dt><dd><span translate="no">Zahnarztpraxis AIXSMILE</span><br>Großkölnstraße 22-28, 52062 Aachen</dd></div>
+        <div><dt data-i18n="praxis.telH">Telefon</dt><dd><a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></dd></div>
+        <div><dt data-i18n="praxis.reviewsH">Bewertungen</dt><dd><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="praxis.reviews">Bei Google, ungekürzt</a></dd></div>
+      </dl>
+    </div>
+    <a class="mapTile" id="mapTile" href="https://www.google.com/maps/search/?api=1&amp;query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n-aria="praxis.mapAria" aria-label="Karte: Großkölnstraße 22-28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App" data-rv>
+      <img src="assets/photos/map-aachen.webp" width="640" height="640" loading="lazy" decoding="async" alt="Stadtplan Aachen mit der Zahnarztpraxis AIXSMILE in der Großkölnstraße">
+      <span class="mapPin" aria-hidden="true"><i></i></span>
+      <span class="mapLabel"><b>Großkölnstraße 22-28</b><span data-i18n="praxis.mapGo">Route öffnen</span></span>
+      <span class="mapCredit" aria-hidden="true">© OpenStreetMap</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__info">
+    <p><b translate="no">Zahnarztpraxis AIXSMILE</b> · Großkölnstraße 22-28, 52062 Aachen · <a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a> · <a href="mailto:info@aixsmile.de">info@aixsmile.de</a></p>
+    <p><span data-i18n="foot.hours">Mo · Di · Do, 9 bis 16 Uhr, nur mit Termin</span> · <span data-i18n="foot.langs">Deutsch, Englisch, Farsi, Türkisch, Arabisch</span></p>
+    <p class="foot__meta"><a href="https://aixsmile.de/">aixsmile.de</a> · <a href="https://www.instagram.com/zahnarztpraxis_aixsmile" target="_blank" rel="noopener">Instagram</a> · © <span id="footYear">2026</span> <span translate="no">Zahnarztpraxis AIXSMILE</span></p>
+    <nav class="foot__legal" data-i18n-aria="foot.legalAria" aria-label="Rechtliches">
+      <a href="/impressum/" data-i18n="foot.impressum">Impressum</a>
+      <a href="/datenschutz/" data-i18n="foot.datenschutz">Datenschutz</a>
+    </nav>
+  </div>
+  <p class="foot__mark" aria-hidden="true" translate="no">AIXSMILE</p>
+</footer>
+
+<!-- Phones: booking and calling stay one tap away once the opening is behind you. -->
+<nav class="mbar" id="mbar" data-i18n-aria="mbar.aria" aria-label="Schnellzugriff">
+  <a class="btn" href="#termin" data-cta="book" data-i18n="mbar.book">Beratungstermin buchen</a>
+  <a class="btn btn--ghost btn--icon" href="tel:+4924131202" data-cta="call" data-i18n-aria="nav.call" aria-label="Anrufen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+</nav>
+
+<script src="js/vendor/lenis.min.js" defer></script>
+<script type="module" src="js/i18n.js"></script>
+<script type="module" src="js/booking.js"></script>
+<script type="module" src="js/site.js"></script>
+</body>
+</html>
