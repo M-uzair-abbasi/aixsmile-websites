@@ -6,7 +6,7 @@
 <title>Aligner Aachen: unsichtbare Zahnschienen, digital geplant | AIXSMILE</title>
 <meta name="description" content="Aligner in Aachen bei AIXSMILE: transparente, herausnehmbare Zahnschienen korrigieren Fehlstellungen Schritt für Schritt. Digitaler 3D-Scan, Plan vorab, Termin online buchen.">
 <link rel="canonical" href="https://aligneraachen.de/">
-<meta name="theme-color" content="#c6c9d6">
+<meta name="theme-color" content="#d2d4dd">
 <meta name="color-scheme" content="light">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="css/site.css">
 <script>
   // Runs before the first paint. "js" switches the arrivals on; the opening
-  // (a row of teeth straightens while the 3D world loads) plays once per
+  // (a row of teeth straightens while her photo loads) plays once per
   // visit and never for people who asked their system for less motion;
   // "scenes" lays out the scroll scenes (tall sections with a sticky screen)
   // before they draw.
@@ -105,7 +105,7 @@
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 
 <!-- The opening (after igloo.inc's loader): on the misty field a row of teeth
-     stands crooked and straightens while the 3D world loads; the counter runs
+     stands crooked and straightens while her photo loads; the counter runs
      to 100, then the field lifts away. Shown only while html.is-intro is set
      (first visit). -->
 <div class="intro" id="intro" aria-hidden="true">
@@ -135,25 +135,38 @@
 
 <main id="main">
 
-<!-- ===== The 3D journey (after igloo.inc). One pinned screen while you
-     scroll: the crooked glass teeth breathe in the hero, then the scan, the
-     plan (every tooth moves home, tray 01 to 24), the clear tray forms, and the
-     fog clears onto a smile. Without scenes (reduced motion, no JS, no WebGL)
-     it is a still picture and the four chapters as a list. ===== -->
+<!-- ===== The journey, all on one photo, step by step as the 3D version
+     had it. One pinned screen while you scroll: a woman smiles with crooked
+     teeth; the view moves in to her mouth, a scan line turns her teeth into
+     points, the plan moves every tooth into place (tray 01 to 24), the bite
+     opens and the upper aligner comes in, waits and is pushed on, then the
+     lower one, the bite closes, and white fog clears onto her smile. Without
+     scenes (reduced motion, no JS) it is her photo and the four chapters as
+     a list. ===== -->
 <section class="klar" id="top" aria-labelledby="heroH">
   <div class="klar__stick">
-    <picture>
-      <source media="(max-aspect-ratio: 4/5)" srcset="assets/stills/hero-tall.webp" width="900" height="1600">
-      <img class="klar__poster" id="klarPoster" src="assets/stills/hero.webp" srcset="assets/stills/hero-960.webp 960w, assets/stills/hero.webp 1600w" sizes="100vw" width="1600" height="900" fetchpriority="high" decoding="async" data-i18n-alt="klar.posterAlt" alt="Eine junge Frau hält die offene Hand hin, darüber schwebt ein Gebiss mit schiefen Zähnen aus Glas (Foto KI-generiert, Zähne als 3D-Darstellung)">
-    </picture>
-    <canvas class="klar__canvas" id="klarCanvas" aria-hidden="true"></canvas>
+    <!-- her photo; everything the 3D version did happens on it: js/site.js
+         moves and zooms the whole stage, and the layers over her mouth and jaw
+         (frames from tools/make-face-layers.py) straighten the teeth, open the
+         bite and put the aligners on -->
+    <div class="face" id="face">
+      <img class="face__img" id="facePhoto" src="assets/photos/face/face.webp" width="1536" height="2048" fetchpriority="high" decoding="async" data-i18n-alt="klar.faceAlt" alt="Eine junge Frau lächelt; ihre Zähne stehen schief und eng. Am Ende lächelt sie mit geraden Zähnen und hält ihre Schiene in der Hand (KI-generiertes Bild, die Veränderungen an den Zähnen sind eine Illustration)">
+      <div class="face__mouth" aria-hidden="true"><i class="face__plan" id="planA"></i><i class="face__plan" id="planB"></i></div>
+      <div class="face__jaw" id="faceJaw" aria-hidden="true"><i class="face__trays" id="trayA"></i><i class="face__trays" id="trayB"></i><i class="face__glint"></i><i class="face__al face__al--u" id="alU"></i><i class="face__al face__al--l" id="alL"></i></div>
+      <!-- the end, behind the white fog: her straight smile, her aligner in her hand -->
+      <i class="face__img face__end" id="faceEnd" aria-hidden="true"></i>
+      <i class="face__veil" aria-hidden="true"></i>
+      <div class="face__mouth face__over" aria-hidden="true"><i class="face__points"></i><i class="face__mesh"></i><i class="face__line"></i></div>
+    </div>
+    <!-- the breath of fog between chapters, and the white-out at the end -->
+    <i class="klar__fog" aria-hidden="true"></i>
 
     <!-- labels on the crooked teeth, drawn where the teeth are -->
     <svg class="klar__lines" id="klarLines" aria-hidden="true"></svg>
     <div class="klar__labels" id="klarLabels" aria-hidden="true">
-      <p class="tag3d" data-tooth="11"><b>11</b> <span data-k="turn">11°</span></p>
-      <p class="tag3d" data-tooth="12"><b>12</b> <span data-k="in">2,2 mm</span></p>
-      <p class="tag3d" data-tooth="13"><b>13</b> <span data-k="high">2,0 mm</span></p>
+      <p class="tag3d" data-tooth="12"><b>12</b> <span data-k="turn">16°</span></p>
+      <p class="tag3d" data-tooth="22"><b>22</b> <span data-k="in">1,8 mm</span></p>
+      <p class="tag3d" data-tooth="23"><b>23</b> <span data-k="high">2,0 mm</span></p>
       <p class="tag3d" data-tooth="41"><b>41</b> <span data-k="turn">13°</span></p>
       <p class="tag3d" data-tray="u"><b data-i18n="klar.trayU">Oben</b> <span data-k="tray">Schiene wird eingesetzt</span></p>
       <p class="tag3d" data-tray="l"><b data-i18n="klar.trayL">Unten</b> <span data-k="tray">Schiene wird eingesetzt</span></p>
@@ -203,16 +216,14 @@
       <button type="button" data-ch="4"><i></i><span data-i18n="klar.r4">Ergebnis</span></button>
     </nav>
 
-    <!-- the end of the journey: the fog clears onto a smile -->
-    <div class="klar__white" aria-hidden="true"></div>
-    <figure class="finale" id="finale">
-      <img src="assets/photos/finale.webp" srcset="assets/photos/finale-1200.webp 1200w, assets/photos/finale.webp 1920w" sizes="100vw" width="1920" height="1080" loading="lazy" decoding="async" data-i18n-alt="finale.alt" alt="Eine junge Frau im Strickpullover lacht und hält eine durchsichtige Aligner-Schiene in der Hand (KI-generiertes Bild)">
-      <figcaption class="finale__band">
+    <!-- the end of the journey: the view pulls back to her straight smile -->
+    <div class="finale" id="finale">
+      <div class="finale__band">
         <p class="finale__line" data-i18n="finale.line">Kaum zu sehen. Gut zu tragen.</p>
         <a class="btn btn--light" href="#termin" data-cta="book" id="finaleBook"><span data-i18n="finale.book">Beratung mit 3D-Scan buchen</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <span class="finale__tag" data-i18n="finale.tag">Symbolbild</span>
-      </figcaption>
-    </figure>
+      </div>
+    </div>
   </div>
 
   <!-- the four chapters: the captions above read them; this is also what
@@ -223,7 +234,7 @@
       <li><img src="assets/stills/scan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s1t">Der Scan</h3><p data-i18n="steps.s1p">Statt Abdruckmasse ein digitaler 3D-Scan: In wenigen Minuten sind Ihre Zähne erfasst.</p></li>
       <li><img src="assets/stills/plan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s2t">Der Plan</h3><p data-i18n="steps.s2p">Am Bildschirm planen wir jede Zahnbewegung. Sie sehen das Ziel, bevor die erste Schiene entsteht.</p></li>
       <li><img src="assets/stills/aligner.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s3t">Die Schienen</h3><p data-i18n="steps.s3p">Maßgefertigt und transparent. Sie tragen jede etwa 22 Stunden am Tag, alle ein bis zwei Wochen kommt die nächste.</p></li>
-      <li><img src="assets/photos/finale-sq.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s4t">Das Ergebnis</h3><p data-i18n="steps.s4p">Kontrolltermine begleiten die Bewegung, ein Retainer hält das Ergebnis danach stabil.</p></li>
+      <li><img src="assets/stills/result.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s4t">Das Ergebnis</h3><p data-i18n="steps.s4p">Kontrolltermine begleiten die Bewegung, ein Retainer hält das Ergebnis danach stabil.</p></li>
     </ol>
   </div>
 </section>

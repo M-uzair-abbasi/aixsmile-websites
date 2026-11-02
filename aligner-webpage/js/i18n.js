@@ -6,7 +6,7 @@
 // drift apart. (The same scheme as the bleaching and implant pages.)
 //
 // DYN holds the strings that scripts build at runtime (the booking widget, the
-// next free slot in the hero, the labels on the 3D teeth, the check's results,
+// next free slot in the hero, the labels on her teeth, the check's results,
 // the price line).
 
 // A price-from figure for the costs section. The practice has not supplied
@@ -31,7 +31,7 @@ export const EN = {
     plateLabel: 'Consultation with 3D scan', plateValue: 'Mon · Tue · Thu, 9 am to 4 pm',
   },
   klar: {
-    posterAlt: 'A young woman holds out her open hand; above it floats a set of crooked glass teeth (AI-generated photo, teeth as a 3D illustration)',
+    faceAlt: 'A young woman smiles; her teeth are crooked and crowded. At the end she smiles with straight teeth, her aligner in her hand (AI-generated image, the changes to the teeth are an illustration)',
     railAria: 'The chapters',
     r0: 'Start', r1: 'Scan', r2: 'Plan', r3: 'Aligners', r4: 'Result',
     trayU: 'Upper', trayL: 'Lower',
@@ -40,7 +40,6 @@ export const EN = {
     line: 'Barely visible. Easy to wear.',
     book: 'Book a consultation with 3D scan',
     tag: 'Illustration',
-    alt: 'A young woman in a knitted sweater laughs, holding a clear aligner in her hand (AI-generated image)',
   },
   steps: {
     h2: 'How aligner treatment works.',

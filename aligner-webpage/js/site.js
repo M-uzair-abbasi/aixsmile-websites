@@ -1,17 +1,17 @@
 // ===== The page's motion and the things you can touch (aligners) =====
 // After igloo.inc. The opening (once per visit) straightens a row of teeth
-// while the 3D world loads; the world itself is one pinned screen: in the hero
-// a woman holds out her open palm and the crooked glass teeth float above it;
-// scrolling lifts them out of her hand while she dissolves into the mist, then
-// plays the scan, the plan (every tooth moves home, tray 01 → 24), the clear
-// tray going on, and the fog clears onto her smile. Labels on the crooked
-// teeth count down to straight. Then: the
-// check (three questions into the booking note), the day as a ring, a real
-// case to compare, panels that open from rounded corners, the footer wordmark.
+// while her photo loads; the journey is one pinned screen, all on one photo,
+// step by step as the 3D version had it: a woman smiles with crooked teeth;
+// scrolling moves the view in to her mouth, a scan line leaves her teeth as
+// points and a wireframe, the plan moves every tooth into place (tray 01 → 24,
+// the labels count down to straight), the bite opens and the upper aligner
+// comes in, waits and is pushed on, then the lower one, the bite closes, and
+// white fog clears onto her smile, her aligner in her hand. Then: the check
+// (three questions into the booking note), the day as a ring, a real case to
+// compare, panels that open from rounded corners, the footer wordmark.
 //
 // html.scenes is set in the page head unless the visitor asked for reduced
-// motion; without it (or without WebGL) the 3D is a still picture and the
-// chapters are a list.
+// motion; without it the journey is her photo and the chapters are a list.
 import { dyn, onLangChange, PRICE_FROM } from './i18n.js';
 import { CHAPTERS, sample, chapterAnchor } from './clear-timeline.js';
 
@@ -30,42 +30,42 @@ const SVGNS = 'http://www.w3.org/2000/svg';
 
 const klar = $('top');
 const stick = klar.querySelector('.klar__stick');
-const canvas = $('klarCanvas');
-const poster = $('klarPoster');
+const face = $('face');
+const photo = $('facePhoto');
+const planFilm = [$('planA'), $('planB')];
+const trayFilm = [$('trayA'), $('trayB')];
+const al = { u: $('alU'), l: $('alL') };
+const faceEnd = $('faceEnd');
 
-// ---------- the 3D world ----------
-// Laptops with a real pointer get the rich version (glow, more scan points);
-// everything else the light one. Without WebGL2 the section stays a picture.
-const webgl2 = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
-const saveData = !!(navigator.connection && navigator.connection.saveData);
-const want3d = scenesOn && webgl2;
-const rich = fine && !saveData && innerWidth > 900;
-let stage = null;
-let loadK = 0;                  // 0..1 while the model loads (the opening shows it)
-// the hero photos: where the crop keeps her in view, where the set floats
-// above her palm, the palm itself, and the set's width there (fractions of the
-// image, y from the top); measured on assets/photos/hero-*.webp
-const HERO = {
-  wide: { url: 'assets/photos/hero-wide.webp', aspect: 16 / 9, focus: [0.62, 0.45], float: [0.553, 0.49], palm: [0.555, 0.615], width: 0.14 },
-  tall: { url: 'assets/photos/hero-tall.webp', aspect: 9 / 16, focus: [0.47, 0.5], float: [0.225, 0.69], palm: [0.225, 0.775], width: 0.24 },
+// ---------- her photo ----------
+// The numbers tools/make-face-layers.py prints: the photo's size, the boxes
+// the mouth and jaw layers cover (fractions of the photo), the frames in each
+// strip, how far an aligner waits off its teeth (a fraction of the jaw box),
+// and where the labelled teeth and the two aligners are (fractions, y from
+// the top).
+const FACE = {
+  w: 1536, h: 2048,
+  mouth: [0.3008, 0.4971, 0.3438, 0.1006],
+  jaw: [0.2682, 0.4541, 0.4531, 0.2783],
+  plan: 7, tray: 9, gap: 0.0839,
+  tags: { 12: [0.4199, 0.5332], 22: [0.5417, 0.5347], 23: [0.5729, 0.5298], 41: [0.4408, 0.5723], u: [0.4948, 0.5366], l: [0.4948, 0.5874] },
 };
-const stageReady = want3d
-  ? import('./clear-stage.js')
-    .then(({ createClearStage }) => createClearStage({
-      canvas, modelUrl: 'assets/models/dentition.glb', rich, hero: HERO,
-      onProgress: (k) => { loadK = Math.max(loadK, k * 0.8); },
-    }))
-    .then((s) => {
-      stage = s;
-      loadK = 1;
-      html.classList.add('has-3d');
-      s.lost(() => { stage = null; html.classList.remove('has-3d'); klar.classList.add('is-flat'); });
-      return s;
-    })
-    .catch((e) => { console.warn('[3d] staying a picture:', e && e.message); klar.classList.add('is-flat'); loadK = 1; return null; })
-  : Promise.resolve(null);
-if (!want3d && scenesOn) klar.classList.add('is-flat');
-const posterLoaded = new Promise((r) => { if (!poster || poster.complete) r(); else { poster.addEventListener('load', r, { once: true }); poster.addEventListener('error', r, { once: true }); } });
+// the photo and the strip of mouth frames, both decoded before the hero builds
+const decoded = (src) => new Promise((r) => {
+  const im = new Image();
+  im.onload = im.onerror = () => r();
+  im.src = src;
+});
+const faceReady = Promise.all([
+  photo.complete ? Promise.resolve() : new Promise((r) => { photo.addEventListener('load', r, { once: true }); photo.addEventListener('error', r, { once: true }); }),
+  ...(scenesOn ? ['plan', 'tray', 'tray-u', 'tray-l'].map((n) => decoded(`assets/photos/face/${n}.webp`)) : []),
+]);
+let loadK = 0;                  // 0..1 while she loads (the opening shows it)
+faceReady.then(() => {
+  loadK = 1;
+  // the end photo (her aligner in her hand) only loads once the opening's done
+  if (scenesOn) faceEnd.style.backgroundImage = 'url(assets/photos/face/end.webp)';
+});
 
 // ---------- the opening, then the hero builds itself ----------
 const ready = () => html.classList.add('is-ready');
@@ -92,9 +92,9 @@ if (html.classList.contains('is-intro')) {
     }, 520);
   };
   requestAnimationFrame(step);
-  Promise.race([Promise.all([stageReady, posterLoaded]), new Promise((r) => setTimeout(r, 9000))]).then(() => { done = true; });
+  Promise.race([faceReady, new Promise((r) => setTimeout(r, 9000))]).then(() => { done = true; });
 } else {
-  Promise.race([Promise.all([stageReady, posterLoaded]), new Promise((r) => setTimeout(r, 2600))]).then(() => requestAnimationFrame(ready));
+  Promise.race([faceReady, new Promise((r) => setTimeout(r, 2600))]).then(() => requestAnimationFrame(ready));
 }
 
 // ---------- smooth wheel on laptops ----------
@@ -111,7 +111,7 @@ const glide = (y) => {
 
 // the scroll position where the journey shows progress p (0..1)
 const klarY = (p) => klar.offsetTop + p * Math.max(0, klar.offsetHeight - innerHeight) + 2;
-const pinned = () => scenesOn && !klar.classList.contains('is-flat');
+const pinned = () => scenesOn;
 
 // in-page links glide (or jump, for reduced motion)
 document.addEventListener('click', (e) => {
@@ -131,7 +131,7 @@ new IntersectionObserver(([e]) => {
   html.classList.toggle('is-past', !e.isIntersecting && e.boundingClientRect.top < 0);
 }, { rootMargin: '0px 0px -100% 0px' }).observe(klar);
 
-// ---------- the journey: scroll → progress; the world eases after it ----------
+// ---------- the journey: scroll → progress; her photo eases after it ----------
 const st = sample(0);
 const want = { p: 0, lx: 0, ly: 0 }, have = { p: 0, lx: 0, ly: 0 };
 let raf = 0, lastT = 0, near = true;
@@ -141,8 +141,8 @@ const rail = all('#klarRail button');
 const trayNum = $('klarTrayNum');
 let curCh = -1;
 
-// chapter 0 is the starting point (the set just out of her hand); 1–4 come
-// from the chapter list
+// chapter 0 is the starting point (her smile, close up); 1–4 come from the
+// chapter list
 const startCap = $('klarStart');
 function showChapter(k, force) {
   if (k === curCh && !force) return;
@@ -158,20 +158,20 @@ function showChapter(k, force) {
   if (moved && !calm) { cap.classList.remove('is-swap'); void cap.offsetWidth; cap.classList.add('is-swap'); }
 }
 
-// labels on the crooked teeth: where each tag sits from its tooth (px), and
-// the number it counts down from (the CROOKED offsets in js/src/clear-rig.js)
-// (above and below the teeth, so they stay clear of the headline on the left)
+// labels on the crooked teeth: where each tag sits from its tooth (px on a
+// laptop, phones take them closer), and the number it counts down from (what
+// the photo shows, as an illustration)
 const TAGS = [
-  { id: '11', dx: 40, dy: -190, key: 'turn', from: 11, d: 0 },
-  { id: '12', dx: -120, dy: -140, key: 'in', from: 2.2, d: 1 },
-  { id: '13', dx: -110, dy: 150, key: 'high', from: 2.0, d: 1 },
-  { id: '41', dx: -160, dy: 130, key: 'turn', from: 13, d: 0 },
+  { id: '12', dx: -60, dy: -150, key: 'turn', from: 16, d: 0 },
+  { id: '22', dx: 40, dy: -175, key: 'in', from: 1.8, d: 1 },
+  { id: '23', dx: 130, dy: -70, key: 'high', from: 2.0, d: 1 },
+  { id: '41', dx: -120, dy: 125, key: 'turn', from: 13, d: 0 },
 ].map((t) => ({ ...t, el: klar.querySelector(`.tag3d[data-tooth="${t.id}"]`), shown: '' }));
-// and on the trays while they go on (upper, then lower), pinned to the tray
-// over a lateral incisor: "going on", then "in place"
+// and on the aligners while they go on, following each one: "going on",
+// then "in place"
 const TRAY_TAGS = [
-  { id: '22', arch: 'u', dx: 170, dy: -110 },
-  { id: '42', arch: 'l', dx: -170, dy: 120 },
+  { id: 'u', arch: 'u', dx: 170, dy: -150 },
+  { id: 'l', arch: 'l', dx: -170, dy: 140 },
 ].map((t) => ({ ...t, el: klar.querySelector(`.tag3d[data-tray="${t.arch}"]`), shown: '' }));
 const lines = $('klarLines');
 [...TAGS, ...TRAY_TAGS].forEach((t) => {
@@ -183,11 +183,77 @@ const lines = $('klarLines');
   t.dot.setAttribute('class', group);
   lines.append(t.line, t.dot);
 });
-const pt = { x: 0, y: 0, on: true };
-// a tag next to its tooth (or the tray over it), kept on screen, the line
+
+// ---------- the camera: where her photo sits, and how big ----------
+// Three framings, blended by the timeline: her portrait (the hero), her mouth
+// (the journey) and the closing one (room for the last line). Each is the
+// photo's scale and the screen point the centre of her mouth goes to.
+const MC = [(FACE.mouth[0] + FACE.mouth[2] / 2) * FACE.w, (FACE.mouth[1] + FACE.mouth[3] / 2) * FACE.h];
+const heroCopy = $('heroCopy');
+const rightOf = (el) => el.offsetLeft + el.offsetWidth;
+function framing(which, out) {
+  const vw = innerWidth, vh = stick.clientHeight || innerHeight;
+  const mouthW = FACE.mouth[2] * FACE.w;
+  if (phoneQ.matches) {
+    if (which === 'mouth') {
+      out.s = (vw * 0.94) / mouthW; out.x = vw / 2; out.y = vh * 0.6;
+    } else if (which === 'end') {
+      // at the top, over the last line
+      out.s = (vw * 1.06) / FACE.w;
+      out.x = vw / 2 + (MC[0] - FACE.w / 2) * out.s; out.y = 40 + MC[1] * out.s;
+    } else {
+      // under the words (her chin and sweater may run off the bottom)
+      const below = heroCopy.offsetTop + heroCopy.offsetHeight + 4;
+      out.s = Math.min(vw * 0.98, ((vh - below) / 0.93) * (FACE.w / FACE.h)) / FACE.w;
+      out.x = vw / 2 + (MC[0] - FACE.w / 2) * out.s; out.y = below + MC[1] * out.s;
+    }
+    return out;
+  }
+  if (which === 'mouth') {
+    // right of the chapter caption, the mouth about two thirds of the room
+    const left = rightOf(cap) + 24, room = vw - left - 24;
+    out.s = Math.min(room * 0.68, vh * 1.3) / mouthW; out.x = left + room / 2; out.y = vh * 0.5;
+    return out;
+  }
+  // laptops: her portrait fills the height on the right, clear of the words;
+  // upright tablets: smaller, at the top right, the words below her
+  const upright = vw < vh;
+  out.s = upright ? Math.min(vh * 0.62 / FACE.h, vw * 0.74 / FACE.w) : (vh * 1.02) / FACE.h;
+  const w = FACE.w * out.s;
+  const left = upright ? vw - w - vw * 0.02 : Math.max(vw - w - vw * 0.03, rightOf(heroCopy) - w * 0.14);
+  out.x = left + MC[0] * out.s; out.y = (upright ? 56 : vh * 0.01) + MC[1] * out.s;
+  return out;
+}
+const fHero = {}, fMouth = {}, fEnd = {}, cam = { s: 1, x: 0, y: 0, tx: 0, ty: 0 };
+const mixF = (a, b, k, out) => {
+  out.s = a.s * Math.pow(b.s / a.s, k);
+  out.x = a.x + (b.x - a.x) * k; out.y = a.y + (b.y - a.y) * k;
+  return out;
+};
+function aim(s, lx, ly) {
+  framing('hero', fHero); framing('mouth', fMouth); framing('end', fEnd);
+  mixF(mixF(fHero, fEnd, s.end, cam), fMouth, s.zoom, cam);
+  // she leans a little toward the mouse (less when close up)
+  const drift = 1 - 0.6 * s.zoom;
+  cam.tx = cam.x - MC[0] * cam.s + lx * 10 * drift;
+  cam.ty = cam.y - MC[1] * cam.s + ly * 7 * drift;
+  face.style.transform = `translate(${cam.tx.toFixed(2)}px, ${cam.ty.toFixed(2)}px) scale(${cam.s.toFixed(5)})`;
+}
+// a point on the photo (fractions) → the screen; an aligner's tag rides
+// along with it (its offset, a fraction of the jaw box's height)
+const pt = { x: 0, y: 0 };
+const trayY = { u: 0, l: 0 };
+const onScreen = (id) => {
+  const [fx, fy] = FACE.tags[id];
+  const ride = trayY[id] ? trayY[id] * FACE.jaw[3] : 0;
+  pt.x = cam.tx + fx * FACE.w * cam.s; pt.y = cam.ty + (fy + ride) * FACE.h * cam.s;
+  return pt;
+};
+
+// a tag next to its tooth (or the aligner over it), kept on screen, the line
 // running to its near edge
-function pin(t, shell, small, capEdge) {
-  stage.project(t.id, pt, shell);
+function pin(t, small, capEdge) {
+  onScreen(t.id);
   const dx = t.dx * (small ? 0.5 : 1), dy = t.dy * (small ? 0.62 : 1);
   const w = t.el.offsetWidth, h = t.el.offsetHeight;
   const x = clamp(pt.x + dx, (dx < 0 ? w : 0) + Math.max(8, capEdge), innerWidth - (dx < 0 ? 0 : w) - 8);
@@ -201,14 +267,13 @@ function pin(t, shell, small, capEdge) {
 }
 const say = (t, label) => { if (label !== t.shown) { t.shown = label; t.el.querySelector('[data-k]').textContent = label; } };
 function placeTags(s) {
-  if (!stage) return;
   const small = phoneQ.matches;
   // on laptops the chapter caption owns the left side while it plays
-  const capEdge = !small && klar.classList.contains('is-playing') ? cap.getBoundingClientRect().right + 14 : 0;
+  const capEdge = !small && klar.classList.contains('is-playing') ? rightOf(cap) + 14 : 0;
   const D = dyn();
   if (s.labels > 0.01) {
     for (const t of TAGS) {
-      pin(t, false, small, capEdge);
+      pin(t, small, capEdge);
       // what is left to go; "straight" once there
       const left = t.from * (1 - s.straight);
       say(t, left < (t.d ? 0.05 : 0.5) ? D.tags.done : D.tags[t.key](D.num(left, t.d)));
@@ -219,30 +284,67 @@ function placeTags(s) {
     const o = s.trays * clamp((up ? s.upIn : s.loIn) * 2.5);
     setVar(t.el, '--o', o); setVar(t.line, '--o', o); setVar(t.dot, '--o', o);
     if (o < 0.01) continue;
-    pin(t, true, small, capEdge);
+    pin(t, small, capEdge);
     const seated = (up ? s.upSeat : s.loSeat) > 0.999;
     say(t, seated ? D.trays.seated : D.trays.going);
     t.el.classList.toggle('is-done', seated);
   }
 }
 
-// a slow device gets fewer pixels and no glow, once
-let slow = 0, frames = 0;
-function watch(dt) {
-  if (!stage || dt <= 0) return;
-  frames++;
-  slow = slow * 0.9 + (dt > 1 / 24 ? 1 : 0) * 0.1;
-  if (frames > 40 && slow > 0.6 && stage.degrade()) slow = 0;
+// a frame strip as two layers, the next frame fading in over the last, so
+// the teeth glide from frame to frame
+function strip(layers, n) {
+  let a = -1;
+  const row = (i) => `0 ${((i / (n - 1)) * 100).toFixed(4)}%`;
+  return (f) => {
+    const i = Math.min(n - 2, Math.max(0, Math.floor(f)));
+    if (i !== a) { a = i; layers[0].style.backgroundPosition = row(i); layers[1].style.backgroundPosition = row(i + 1); }
+    setVar(layers[1], '--k', clamp(f - i));
+  };
+}
+const planFrame = strip(planFilm, FACE.plan), trayFrame = strip(trayFilm, FACE.tray);
+
+// an aligner on its own: it comes in from the front (bigger, blurred, from
+// below or above), waits just off its teeth, then is pushed on, speeding up
+// into the click; the photo of it in place takes over as it seats
+function aligner(el, side, inK, seatK, onK, click) {
+  const sign = side === 'u' ? 1 : -1;               // the upper waits below its teeth, the lower above
+  const wait = FACE.gap * 0.8 * sign;
+  const come = 1 - inK;
+  const y = wait * (1 - seatK * seatK * seatK) + come * 0.32 * sign;
+  trayY[side] = y;
+  setVar(el, '--y', y * 100);
+  setVar(el, '--s', 1 + come * 0.35);
+  setVar(el, '--b', come * 7);
+  setVar(el, '--o', clamp(inK * 1.6) * (1 - onK));
+  setVar(el, '--c', click);
 }
 
-function paint(time) {
+function paint() {
   sample(have.p, st);
-  // in the hero the set floats above her palm (the stage places it there);
-  // afterwards laptops keep it right of the caption, phones a little below it
-  const phone = phoneQ.matches;
-  const shift = phone ? 0 : 0.12;
-  const lift = phone ? -0.06 : 0;
-  if (stage) stage.render(have.p, time, have.lx, have.ly, shift, lift);
+  aim(st, have.lx, have.ly);
+  planFrame(st.straight * (FACE.plan - 1));
+  // the jaw layers take over from the mouth's once the aligner chapter starts
+  // (their first frame is the plan's last); after the white-out the photo of
+  // her holding her aligner takes over
+  const jawOn = st.p > 0.51 && !st.end;
+  setVar(stick, '--jaw', jawOn ? 1 : 0);
+  setVar(stick, '--end', st.end);
+  if (jawOn) {
+    trayFrame(st.trayFrame);
+    aligner(al.u, 'u', st.upIn, st.upSeat, st.upOn, st.upClick);
+    aligner(al.l, 'l', st.loIn, st.loSeat, st.loOn, st.loClick);
+  }
+  setVar(stick, '--h', st.play);
+  setVar(stick, '--cap', st.cap);
+  setVar(stick, '--scan', st.dissolve);
+  setVar(stick, '--sweep', st.sweep);
+  setVar(stick, '--line', st.line);
+  setVar(stick, '--points', st.points);
+  setVar(stick, '--glint', st.form);
+  setVar(stick, '--dive', st.dive);
+  setVar(stick, '--white', st.white);
+  setVar(stick, '--fin', st.finale);
   setVar(stick, '--labels', st.labels);
   placeTags(st);
 }
@@ -251,28 +353,24 @@ function loop(now) {
   raf = 0;
   const dt = lastT ? Math.min(0.25, (now - lastT) / 1000) : 1 / 60;
   lastT = now;
-  // the world glides after the scroll a little, so a quick flick still plays
+  // the photo glides after the scroll a little, so a quick flick still plays
   const kp = 1 - Math.exp(-dt / 0.2), kl = 1 - Math.exp(-dt / 0.3);
   have.p += (want.p - have.p) * kp;
   have.lx += (want.lx - have.lx) * kl;
   have.ly += (want.ly - have.ly) * kl;
   const settled = Math.abs(want.p - have.p) < 2e-4 && Math.abs(want.lx - have.lx) < 2e-3 && Math.abs(want.ly - have.ly) < 2e-3;
   if (settled) Object.assign(have, want);
-  // the set turns in her hand and the scan points shimmer on their own
-  const alive = !calm && (st.hold > 0.001 || st.points > 0.001);
   const going = near && !document.hidden;
-  if (going) {
-    paint(now / 1000);
-    watch(dt);
-  }
-  if ((!settled || alive) && going) raf = requestAnimationFrame(loop);
+  if (going) paint();
+  if (!settled && going) raf = requestAnimationFrame(loop);
   else lastT = 0;
 }
 const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
 document.addEventListener('visibilitychange', kick);
-stageReady.then((s) => { if (s) { addEventListener('resize', () => { s.resize(); kick(); }); kick(); } });
+addEventListener('resize', () => { paint(); kick(); });
+paint();
 
-// the world turns a little towards the mouse
+// she leans a little toward the mouse
 if (fine && !calm) {
   addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse' || !near) return;
@@ -374,26 +472,19 @@ if (scenesOn) {
 // ---------- the journey's scene ----------
 showChapter(0, true);
 const finaleLinks = all('a', $('finale'));
-let photoOn = null;
-const setPhoto = (on) => {
-  if (on === photoOn) return;
-  photoOn = on;
-  klar.classList.toggle('is-photo', on);
+let endOn = null;
+const setEnd = (on) => {
+  if (on === endOn) return;
+  endOn = on;
+  klar.classList.toggle('is-end', on);
   finaleLinks.forEach((a) => { a.tabIndex = on ? 0 : -1; });
 };
-setPhoto(false);
+setEnd(false);
 scene(klar, 'pin', (p) => {
-  if (klar.classList.contains('is-flat')) return;
   sample(p, st);
-  const h = st.play;
-  setVar(stick, '--h', h);
-  // the chapter caption and the rail wait until the hero's labels have gone
-  setVar(stick, '--cap', st.cap);
-  setVar(stick, '--white', st.white);
-  setVar(stick, '--photo', st.photo);
-  klar.classList.toggle('is-playing', h > 0.5);
+  klar.classList.toggle('is-playing', st.play > 0.5);
   klar.classList.toggle('is-plan', st.chapter === 2);
-  setPhoto(st.photo > 0.02);
+  setEnd(st.finale > 0.02);
   showChapter(st.chapter);
   trayNum.textContent = String(st.tray).padStart(2, '0');
   rail.forEach((b, i) => {
@@ -405,7 +496,7 @@ scene(klar, 'pin', (p) => {
 });
 // a chapter on the rail scrolls to where it is fully on show
 rail.forEach((b, i) => b.addEventListener('click', () => glide(klarY(chapterAnchor(i)))));
-onLangChange(() => { showChapter(curCh, true); TAGS.forEach((t) => { t.shown = ''; }); kick(); });
+onLangChange(() => { showChapter(curCh, true); [...TAGS, ...TRAY_TAGS].forEach((t) => { t.shown = ''; }); paint(); });
 
 // ---------- situation cards: a tap opens one; with a mouse, pointing opens it
 // and moving away closes it again unless it was clicked (the implant page) ----------

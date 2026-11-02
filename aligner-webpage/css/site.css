@@ -181,22 +181,83 @@ html.is-lifting .intro { clip-path: inset(0 0 100% 0); }
 .intro__note { position: absolute; bottom: calc(26px + env(safe-area-inset-bottom)); left: 0; right: 0; text-align: center; font: 500 12px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--soft); }
 
 /* ==========================================================================
-   The 3D journey
+   The journey, all on her photo
    ========================================================================== */
-.klar { position: relative; background: var(--field); }
+.klar { position: relative; background: var(--stage); }
 .klar__stick {
   position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden;
-  background: linear-gradient(180deg, #d5d7e1 0%, #b7bac9 50%, #9a9eb1 100%);
+  background: var(--stage);
   color: var(--ink);
-  --h: 0; --cap: 0; --white: 0; --photo: 0; --labels: 1;
+  --stage: #d2d4dd;   /* her studio backdrop, cooled to the field's hue (tools/make-face-layers.py) */
+  --h: 0; --cap: 0; --scan: 0; --sweep: 0; --line: 0; --points: 0; --jaw: 0; --glint: 0; --dive: 0; --white: 0; --fin: 0; --labels: 0; --end: 0;
   --soft: #2c303d;   /* the field is darker than the page: soft text darkens with it */
 }
-.klar__poster, .klar__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.klar__poster { object-fit: cover; object-position: 62% 45%; transition: opacity .9s var(--ease); }
-@media (max-aspect-ratio: 4/5) { .klar__poster { object-position: 47% 50%; } }
-.klar__canvas { display: block; opacity: 0; transition: opacity .9s var(--ease); }
-html.has-3d .klar__canvas { opacity: 1; }
-html.has-3d .klar__poster { opacity: 0; }
+/* her photo: a box at the photo's own size that js/site.js moves and scales;
+   the layers over her mouth and jaw sit in it by fractions of the photo (the
+   FACE numbers in js/site.js: left, top, width, height of each box) */
+.face { position: absolute; left: 0; top: 0; width: 1536px; height: 2048px; transform-origin: 0 0; }
+html.no-js .face { left: auto; right: 0; width: auto; height: 100%; aspect-ratio: 1536 / 2048; }
+/* her edges fade into the stage (the backdrop is the stage's colour already);
+   the scan's wash fades the same way. The fade starts a little inside and the
+   rim is clipped off: scaled down, the layer's edge pixel shows through the
+   mask, a dark line where her hand reaches the edge (the end) */
+.face__img, .face__veil {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 1%, #000 14%, #000 96%, transparent 99%), linear-gradient(180deg, transparent 1%, #000 8%, #000 90%, transparent 99%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 1%, #000 14%, #000 96%, transparent 99%), linear-gradient(180deg, transparent 1%, #000 8%, #000 90%, transparent 99%);
+  mask-composite: intersect;
+  clip-path: inset(1%);
+}
+.face__mouth { position: absolute; left: 30.08%; top: 49.71%; width: 34.38%; height: 10.06%; }
+.face__jaw { position: absolute; left: 26.82%; top: 45.41%; width: 45.31%; height: 27.83%; opacity: var(--jaw); }
+.face__mouth > i, .face__jaw > i { position: absolute; inset: 0; }
+/* frame strips: the plan's 7 (crooked → straight) on her mouth, the
+   aligners' 9 (bite opens, aligners on, bite closes) on her jaw; the second
+   layer of each is the next frame fading in */
+.face__plan { background: url(../assets/photos/face/plan.webp) 0 0 / 100% 700% no-repeat; }
+.face__trays { background: url(../assets/photos/face/tray.webp) 0 0 / 100% 900% no-repeat; }
+#planB, #trayB { opacity: var(--k, 0); }
+html:not(.scenes) .face__plan, html:not(.scenes) .face__jaw { display: none; }
+/* the two aligners on their own: pale clear plastic with slate edges. Each
+   comes in from the front (bigger, blurred), waits just off its teeth and is
+   pushed on (--y, --s, --b, --o from js/site.js); as it clicks it flashes ice
+   blue with a flick of rainbow at the edge (--c) */
+.face__al { background: var(--m) 0 0 / 100% 100% no-repeat; opacity: var(--o, 0); translate: 0 calc(var(--y, 0) * 1%); scale: var(--s, 1); filter: blur(calc(var(--b, 0) * 1px)); }
+.face__al--u { --m: url(../assets/photos/face/tray-u.webp); transform-origin: 50% 30%; }
+.face__al--l { --m: url(../assets/photos/face/tray-l.webp); transform-origin: 50% 48%; }
+.face__al::before, .face__al::after { content: ''; position: absolute; inset: 0; -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat; opacity: var(--c, 0); }
+.face__al::after { background: var(--ice); }
+.face__al::before { background: var(--prism); translate: 0 -3px; opacity: calc(var(--c, 0) * .7); }
+/* the end: the photo of her holding her aligner takes over behind the white
+   fog (js/site.js sets the picture once the opening is done) */
+.face__end { background: 0 0 / 100% 100% no-repeat; opacity: var(--end); }
+html:not(.scenes) .face__end { display: none; }
+/* the scan's light wash over the whole photo */
+.face__veil { background: #e4e6ee; opacity: calc(var(--scan) * .6); pointer-events: none; }
+/* points, wireframe and the glint: the shapes are masks, the colour is ours */
+.face__points, .face__mesh, .face__glint { -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat; }
+.face__points { --m: url(../assets/photos/face/points.webp); background: var(--ice); opacity: var(--points); clip-path: inset(-2% calc((1 - var(--sweep)) * 100%) -2% 0); }
+.face__mesh { --m: url(../assets/photos/face/mesh.webp); background: var(--ice); opacity: calc(var(--points) * .8); clip-path: inset(-2% calc((1 - var(--sweep)) * 100%) -2% 0); }
+/* the scan line: tall, a crisp core in a soft band, crossing the teeth from left to right */
+.face__over .face__line {
+  inset: -60% auto -60% 0; width: 26px; translate: -13px 0;
+  left: calc(var(--sweep) * 100%);
+  background: linear-gradient(90deg, transparent, rgba(58, 70, 201, .16) 38%, var(--ice) 47% 53%, rgba(58, 70, 201, .16) 62%, transparent);
+  -webkit-mask: linear-gradient(180deg, transparent, #000 18% 82%, transparent);
+  mask: linear-gradient(180deg, transparent, #000 18% 82%, transparent);
+  opacity: var(--line);
+}
+/* the glint over the aligners once the bite has closed */
+.face__glint { --m: url(../assets/photos/face/teeth.webp); overflow: hidden; }
+.face__glint::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 18%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55) 50%, transparent);
+  translate: calc((-1 + var(--glint) * 6.56) * 100%) 0;
+  opacity: min(1, calc(var(--glint) * 12), calc((1 - var(--glint)) * 12));
+}
+/* a breath of fog between chapters, and the white-out before the result */
+.klar__fog { position: absolute; inset: 0; z-index: 1; background: var(--frost); opacity: max(var(--white), calc(var(--dive) * .45)); pointer-events: none; }
 
 /* the labels on the crooked teeth: small glass tags joined to their tooth by a line */
 .klar__lines, .klar__labels { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
@@ -217,7 +278,7 @@ html.has-3d .klar__poster { opacity: 0; }
 }
 .tag3d b { font-weight: 700; margin-right: 4px; }
 .tag3d span { color: var(--soft); }
-html.has-3d .tag3d { display: block; }
+html.scenes .tag3d { display: block; }
 
 /* the HUD: Igloo's small corner text */
 .hud { position: absolute; z-index: 4; left: var(--gutter); right: var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
@@ -264,14 +325,13 @@ html.has-3d .tag3d { display: block; }
 .klar__cap, .klar__rail { display: none; }
 .klar__steps { display: none; }
 
-/* the end: white fog, then the photo */
-.klar__white { position: absolute; inset: 0; z-index: 5; background: var(--frost); opacity: var(--white); pointer-events: none; }
-.finale { position: absolute; inset: 0; z-index: 6; opacity: var(--photo); visibility: hidden; }
-.klar.is-photo .finale { visibility: visible; }
-.finale img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; transform: scale(calc(1.08 - var(--photo) * .08)); }
+/* the end: the view is back on her straight smile; the last line comes up */
+.finale { position: absolute; inset: 0; z-index: 6; visibility: hidden; pointer-events: none; }
+.klar.is-end .finale { visibility: visible; }
 .finale__band {
-  position: absolute; left: var(--gutter); top: 50%; translate: 0 -50%;
+  position: absolute; left: var(--gutter); top: 50%; translate: 0 calc(-50% + (1 - var(--fin)) * 26px);
   width: min(520px, 40vw); display: grid; gap: 22px; justify-items: start;
+  opacity: var(--fin); pointer-events: auto;
 }
 .finale__line { font: 640 clamp(40px, 4.6vw, 76px)/1 var(--sans); font-stretch: 120%; letter-spacing: -.045em; text-wrap: balance; color: var(--ink); }
 .finale__tag { position: absolute; left: 0; top: calc(100% + 18px); font: 500 12px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--soft); }
@@ -755,26 +815,26 @@ html.js:not(.is-calm) [data-rv="wipe"] > span { display: inline-block; clip-path
 html.js:not(.is-calm) [data-rv="wipe"].is-in > span { clip-path: inset(0 0 -8% 0); transform: none; filter: none; }
 
 /* ==========================================================================
-   Without scenes (reduced motion, no JS) or without WebGL (.klar.is-flat):
-   the 3D is a still picture and the four chapters follow as a list.
+   Without scenes (reduced motion, no JS): her photo, and the four chapters
+   follow as a list.
    ========================================================================== */
-html:not(.scenes) .klar__steps, .klar.is-flat .klar__steps { display: block; padding: var(--pad-y) var(--gutter); max-width: 1320px; margin: 0 auto; }
-html:not(.scenes) .klar__stepsH, .klar.is-flat .klar__stepsH { margin-bottom: 32px; }
-html:not(.scenes) .klar__list, .klar.is-flat .klar__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; counter-reset: st; }
-html:not(.scenes) .klar__list li, .klar.is-flat .klar__list li { counter-increment: st; display: grid; gap: 8px; align-content: start; }
-html:not(.scenes) .klar__list img, .klar.is-flat .klar__list img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--field); border-radius: 18px; }
-html:not(.scenes) .klar__list h3, .klar.is-flat .klar__list h3 { font: 620 19px/1.25 var(--sans); font-stretch: 112%; }
-html:not(.scenes) .klar__list h3::before, .klar.is-flat .klar__list h3::before { content: counter(st, decimal-leading-zero) '  '; font: 500 13px/1 var(--mono); color: var(--ice); }
-html:not(.scenes) .klar__list p, .klar.is-flat .klar__list p { color: #2f3443; font-size: 15px; }
-html:not(.scenes) .finale, .klar.is-flat .finale { display: none; }
+html:not(.scenes) .klar__steps { display: block; padding: var(--pad-y) var(--gutter); max-width: 1320px; margin: 0 auto; }
+html:not(.scenes) .klar__stepsHH { margin-bottom: 32px; }
+html:not(.scenes) .klar__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; counter-reset: st; }
+html:not(.scenes) .klar__list li { counter-increment: st; display: grid; gap: 8px; align-content: start; }
+html:not(.scenes) .klar__list img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--field); border-radius: 18px; }
+html:not(.scenes) .klar__list h3 { font: 620 19px/1.25 var(--sans); font-stretch: 112%; }
+html:not(.scenes) .klar__list h3::before { content: counter(st, decimal-leading-zero) '  '; font: 500 13px/1 var(--mono); color: var(--ice); }
+html:not(.scenes) .klar__list p { color: #2f3443; font-size: 15px; }
+html:not(.scenes) .finale { display: none; }
 
 /* ==========================================================================
    Scroll scenes (html.scenes: JS on, no reduced motion). site.js gives each
    scene its progress; the pinned one is a tall section with a sticky screen.
    ========================================================================== */
-html.scenes .klar:not(.is-flat) { height: 1400vh; height: 1400svh; }
-html.scenes .klar:not(.is-flat) .klar__stick { position: sticky; top: 0; }
-html.scenes .klar:not(.is-flat) .klar__steps { display: block; position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+html.scenes .klar { height: 1400vh; height: 1400svh; }
+html.scenes .klar .klar__stick { position: sticky; top: 0; }
+html.scenes .klar .klar__steps { display: block; position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* the hero lifts away as the journey starts */
 html.scenes .hero__copy, html.scenes .plate { translate: 0 calc(var(--h) * -80px); opacity: calc(1 - var(--h) * 1.4); }
 html.scenes .klar.is-playing .hero__copy, html.scenes .klar.is-playing .plate { visibility: hidden; }
@@ -782,9 +842,11 @@ html.scenes .klar.is-playing .hero__copy, html.scenes .klar.is-playing .plate { 
 html.scenes .klar__cap {
   display: grid; position: absolute; z-index: 3; left: var(--gutter); top: 50%;
   width: min(420px, 31vw); gap: 12px; translate: 0 -50%;
-  opacity: calc(var(--cap) - var(--white) * 2); visibility: hidden;
+  opacity: calc(var(--cap) - var(--white) * 2 - var(--fin) * 2); visibility: hidden;
 }
 html.scenes .klar.is-playing .klar__cap { visibility: visible; }
+/* where the caption meets her photo, a soft wash of the stage keeps it legible */
+html.scenes .klar__cap::before { content: ''; position: absolute; z-index: -1; inset: -90px -70px -90px calc(-1 * var(--gutter)); background: radial-gradient(closest-side, rgba(210, 212, 221, .86), rgba(210, 212, 221, 0)); pointer-events: none; }
 .klar__num { font: 500 12.5px/1 var(--mono); letter-spacing: .08em; color: var(--soft); }
 .klar__num b { color: var(--ink); font-weight: 700; }
 .klar__title { font: 640 clamp(36px, 3.8vw, 64px)/1 var(--sans); font-stretch: 122%; letter-spacing: -.045em; text-wrap: balance; }
@@ -796,7 +858,7 @@ html.scenes .klar.is-playing .klar__cap { visibility: visible; }
 html.scenes .klar__rail {
   display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px;
   position: absolute; z-index: 4; left: calc(var(--gutter) + 230px); right: calc(var(--gutter) + 200px); bottom: clamp(12px, 2.4vh, 24px);
-  opacity: calc(var(--cap) - var(--white) * 2); visibility: hidden;
+  opacity: calc(var(--cap) - var(--white) * 2 - var(--fin) * 2); visibility: hidden;
 }
 html.scenes .klar.is-playing .klar__rail { visibility: visible; }
 .klar__rail button { display: grid; gap: 9px; text-align: left; min-height: 44px; padding-top: 4px; font: 500 12px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; opacity: .78; transition: opacity .3s; }
@@ -886,7 +948,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .foot { padding-top: 40px; padding-bottom: 76px; }
   .foot__info { margin-top: 0; }
   .sheet { justify-self: start; }
-  html:not(.scenes) .klar__list, .klar.is-flat .klar__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html:not(.scenes) .klar__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* ==========================================================================
@@ -898,7 +960,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .hud__mid { display: none; }
   .hud--top { gap: 10px; }
   .hud__tools .btn { display: none; }
-  /* phones: the words sit in the empty top of the photo, she and the floating set below */
+  /* phones: the words at the top, her portrait below them */
   .hero__copy { width: auto; right: var(--gutter); top: calc(72px + env(safe-area-inset-top)); bottom: auto; gap: 12px; }
   .hero__h1 { font-size: clamp(38px, 11.4vw, 54px); }
   .hero__copy .cue { display: none; }   /* on a phone, scrolling is the obvious move; the hint would sit on her hair */
@@ -907,14 +969,18 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   html.scenes .klar__cap { top: calc(70px + env(safe-area-inset-top)); translate: 0 0; width: auto; right: var(--gutter); gap: 8px; }
   .klar__title { font-size: clamp(30px, 8.8vw, 40px); }
   .klar__text { font-size: 15.5px; }
+  /* close up, her face fills the phone: a wash of the stage behind the words */
+  html.scenes .klar__cap::before { content: ''; position: absolute; z-index: -1; inset: calc(-80px - env(safe-area-inset-top)) calc(-1 * var(--gutter)) -64px; background: linear-gradient(180deg, rgba(210, 212, 221, .95) 62%, rgba(210, 212, 221, 0)); }
   html.scenes .klar__rail { left: var(--gutter); right: var(--gutter); bottom: calc(14px + env(safe-area-inset-bottom)); gap: 6px; }
+  html.scenes .klar__rail::before { content: ''; position: absolute; z-index: -1; inset: -64px calc(-1 * var(--gutter)) calc(-14px - env(safe-area-inset-bottom)); background: linear-gradient(0deg, rgba(210, 212, 221, .92) 50%, rgba(210, 212, 221, 0)); pointer-events: none; }
+  .hud--bottom { z-index: 5; }
   .klar__rail button { font-size: 11px; letter-spacing: 0; }
   .hud--bottom { bottom: calc(66px + env(safe-area-inset-bottom)); justify-content: flex-end; }
   .hud__geo { display: none; }
   .tag3d { font-size: 11px; padding: 4px 7px; }
-  .finale img { object-position: 64% 30%; }
-  .finale__band { left: var(--gutter); right: var(--gutter); top: auto; bottom: calc(90px + env(safe-area-inset-bottom)); translate: 0 0; width: auto; gap: 16px; }
-  .finale__band::before { content: ''; position: absolute; inset: -60px calc(-1 * var(--gutter)) -200px; z-index: -1; background: linear-gradient(180deg, rgba(236, 238, 243, 0), rgba(236, 238, 243, .92) 45%); }
+  .finale__band { left: var(--gutter); right: var(--gutter); top: auto; bottom: calc(90px + env(safe-area-inset-bottom)); translate: 0 calc((1 - var(--fin)) * 26px); width: auto; gap: 16px; }
+  .finale__band::before { content: ''; position: absolute; inset: -60px calc(-1 * var(--gutter)) -200px; z-index: -1; background: linear-gradient(180deg, rgba(210, 212, 221, 0), rgba(210, 212, 221, .94) 45%); }
+  html.no-js .face { right: auto; left: 0; top: auto; bottom: 0; width: 100%; height: auto; }
   .finale__line { font-size: clamp(34px, 10vw, 46px); }
   .finale__tag { top: auto; bottom: calc(100% + 10px); }
   .quiz__box { min-height: 0; padding: 18px; border-radius: 22px; }
@@ -927,7 +993,7 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .bkFields { grid-template-columns: 1fr; }
   .calRow { grid-template-columns: 1fr; }
   .place__facts { grid-template-columns: 1fr; }
-  html:not(.scenes) .klar__list, .klar.is-flat .klar__list { grid-template-columns: 1fr; }
+  html:not(.scenes) .klar__list { grid-template-columns: 1fr; }
   .costs__panel { border-radius: 26px; }
   /* the situations: a list with small pictures that opens in place */
   .sits { grid-template-columns: 1fr; gap: 8px; }
