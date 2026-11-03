@@ -638,9 +638,7 @@ if (ways) {
   }
 }
 
-// the marquee slides one line each way; the real case grows into place
-const marquee = document.querySelector('.marquee');
-if (marquee) scene(marquee, 'through', (p) => setVar(marquee, '--p', p));
+// the real case grows into place
 const caseFig = document.querySelector('.case__fig');
 if (caseFig) scene(caseFig, 'enter', (p) => setVar(caseFig, '--e', ease(p)));
 

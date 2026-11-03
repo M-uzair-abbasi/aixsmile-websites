@@ -98,10 +98,6 @@ export const EN = {
     alt5: 'A woman in a knit sweater presses her clear aligner onto her teeth (AI-generated image)',
     alt6: 'A woman puts in her clear aligner at the bathroom mirror (AI-generated image)',
   },
-  mq: {
-    a: 'Scan · Plan · Aligner 01 · Aligner 12 · Aligner 24 · Retainer ·',
-    b: 'clear · removable · digitally planned · in Aachen ·',
-  },
   quiz: {
     h2: 'Is an aligner right for me?',
     lead: 'Three short questions. At the end you see what matters in your case, and you can take the answers straight into your booking.',

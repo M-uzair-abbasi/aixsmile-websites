@@ -558,14 +558,6 @@ html.no-js .quiz__top, html.no-js .quiz__q { display: none; }
 .way__more { font-size: 16px; line-height: 1.55; color: var(--soft); }
 .ways__float { display: none; }
 
-/* ---------- two giant lines that slide sideways ---------- */
-.marquee { background: var(--mist); padding-block: clamp(36px, 8vh, 100px); overflow: hidden; display: grid; gap: clamp(4px, 1vh, 12px); }
-.marquee__row {
-  width: max-content; white-space: nowrap;
-  font: 700 clamp(48px, 8.4vw, 148px)/1.02 var(--sans); font-stretch: 125%; letter-spacing: -.045em; color: var(--text);
-}
-.marquee__row--2 { color: transparent; -webkit-text-stroke: 1.5px var(--ice); margin-left: -24vw; }
-
 /* ---------- 22 hours: the day as a ring ---------- */
 .day__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 96px); align-items: center; }
 .day__ring { position: relative; aspect-ratio: 1; width: min(100%, 520px); justify-self: center; --d: 1; }
@@ -896,10 +888,6 @@ html.scenes .way:nth-child(odd) .way__t { translate: calc((1 - var(--e, 1)) * -1
 html.scenes .way:nth-child(even) .way__t { translate: calc((1 - var(--e, 1)) * 14vw) 0; }
 html.scenes .way__t { opacity: calc(.15 + var(--e, 1) * .85); }
 
-/* the marquee: one line each way */
-html.scenes .marquee__row { translate: calc(var(--p, 0) * -22%) 0; }
-html.scenes .marquee__row--2 { translate: calc(-22% + var(--p, 0) * 22%) 0; }
-
 /* the real case grows into place */
 html.scenes .case__fig { scale: calc(.9 + .1 * var(--e, 1)); }
 html.scenes .mapTile img { scale: 1.1; translate: 0 calc((var(--p, .5) - .5) * -8%); }
@@ -1037,7 +1025,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .way__img { width: 96px; grid-row: span 2; border-radius: 12px; }
   .way__fit { font-size: 17px; }
   .way__more { font-size: 14.5px; }
-  .marquee__row { font-size: clamp(40px, 12.5vw, 64px); }
 }
 
 /* short phones: the headline alone above her, the lead would cover her face */
