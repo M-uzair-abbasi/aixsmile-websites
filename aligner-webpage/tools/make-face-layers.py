@@ -1,29 +1,34 @@
 # Builds the hero's photo layers from the AI sources in tools/ai-src/. The
-# journey copies the 3D version step by step, on her photo:
+# journey has the 3D version's steps on her photo, in the order a treatment
+# goes: the aligners go onto her crooked teeth, then the teeth straighten
+# under them:
 #   face-A.png    her smile, crooked teeth (hero, scan)
-#   face-E.png    the same, teeth straight (the plan moves A → E)
-#   face-Eo.png   straight, the bite open (the aligners go on here)
-#   face-EoT.png  bite open, both aligners on
-#   face-D.png    bite closed, aligners on
+#   face-Ao.png   crooked, the bite open (the aligners go on here)
+#   face-AoT.png  crooked, bite open, both aligners on
+#   face-AD.png   crooked, bite closed, aligners on (the wear moves AD → D)
+#   face-D.png    straight, bite closed, aligners on
 #   face-hand.png straight smile, an aligner in her hand (the end; her hand
 #                 changes the whole lower picture, so it is a photo of its own)
 #   face-mask.png / face-mask-open.png  the mouth opening, closed / open
 #   face-jaw.png  where opening the bite changes her face (soft-edged)
 #   face-tags.json where the labelled teeth are (pixels)
-# Everything is identical outside the mouth (or the jaw), so the page shows
-# face.webp once and only swaps the region that changes.
+# (face-E straight, face-Eo straight with the bite open and face-EoT open with
+# aligners were the first version's; Ao and AoT were edited from Eo, so they
+# share its lips and jaw.) Everything is identical outside the mouth (or the
+# jaw), so the page shows face.webp once and only swaps the region that changes.
 #
 # Writes assets/photos/face/:
 #   face.webp            the photo (A), backdrop cooled to the page's lilac-grey
-#   plan.webp            7 mouth frames, crooked → straight (optical-flow morphs,
-#                        so the teeth glide instead of cross-fading)
-#   tray.webp            7 jaw frames: straight, bite opening, open, upper
+#   tray.webp            9 jaw frames: crooked, bite opening, open, upper
 #                        aligner on, both on, bite closing, closed with aligners
+#   wear.webp            7 mouth frames, crooked → straight under the aligners
+#                        (optical-flow morphs, so the teeth glide instead of
+#                        cross-fading)
 #   tray-u/-l.webp       the two aligners on their own (pale clear plastic with
 #                        slate edges and the highlights of the real ones): they
 #                        come in, wait in front of the teeth and are pushed on
 #   points/mesh.webp     the scan's dot cloud and wireframe (masks)
-#   teeth.webp           the teeth under the aligners (the glint's mask)
+#   teeth.webp           the straight teeth under the aligners (the glint's mask)
 #   end.webp             the end: her straight smile, holding an aligner
 # and assets/stills/ (the share picture, the chapter pictures for reduced motion).
 #
@@ -46,7 +51,7 @@ os.makedirs(OUT, exist_ok=True)
 
 ICE = (0x3a, 0x46, 0xc9)        # --ice
 FIELD = (0xd2, 0xd4, 0xdd)      # the cooled backdrop = the stage's colour
-PLAN_STEPS = 6                   # morph frames crooked → straight
+WEAR_STEPS = 6                   # morph frames crooked → straight
 
 
 def load(name, flag=cv2.IMREAD_COLOR):
@@ -56,7 +61,7 @@ def load(name, flag=cv2.IMREAD_COLOR):
     return im
 
 
-A, E, Eo, EoT, D = (load(f'face-{k}.png') for k in ('A', 'E', 'Eo', 'EoT', 'D'))
+A, Ao, AoT, AD, D = (load(f'face-{k}.png') for k in ('A', 'Ao', 'AoT', 'AD', 'D'))
 H, W = A.shape[:2]
 
 
@@ -103,7 +108,7 @@ def cooled(im, w=wgt):
     return cv2.cvtColor(lb.clip(0, 255).astype(np.uint8), cv2.COLOR_LAB2BGR)
 
 
-A, E, Eo, EoT, D = (cooled(x) for x in (A, E, Eo, EoT, D))
+A, Ao, AoT, AD, D = (cooled(x) for x in (A, Ao, AoT, AD, D))
 hand = load('face-hand.png')
 hand = cooled(hand, weights(hand))
 
@@ -122,7 +127,7 @@ def box_of(m, margin):
     return x0 - x0 % 2, y0 - y0 % 2, x1 + x1 % 2, y1 + y1 % 2
 
 
-MB = box_of(cv2.dilate(mask, np.ones((9, 9), np.uint8)), 14)      # the mouth box (scan, plan)
+MB = box_of(cv2.dilate(mask, np.ones((9, 9), np.uint8)), 14)      # the mouth box (scan, wear)
 JB = box_of(jaw[..., 0] > 0.01, 0)                                  # the jaw box (aligners)
 cut = lambda im, bx: im[bx[1]:bx[3], bx[0]:bx[2]]
 
@@ -151,9 +156,9 @@ print('writing')
 webp(A, os.path.join(OUT, 'face.webp'), 82)
 webp(hand, os.path.join(OUT, 'end.webp'), 82)
 
-# the plan: crooked → straight, in the mouth box
-plan = [cut(A, MB)] + [keep(morph(cut(A, MB), cut(E, MB), i / PLAN_STEPS), mouth_a, MB, A) for i in range(1, PLAN_STEPS + 1)]
-webp(np.vstack(plan), os.path.join(OUT, 'plan.webp'), 86)
+# the wear: with the aligners on, crooked → straight, in the mouth box
+wear = [cut(AD, MB)] + [keep(morph(cut(AD, MB), cut(D, MB), i / WEAR_STEPS), mouth_a, MB, A) for i in range(1, WEAR_STEPS + 1)]
+webp(np.vstack(wear), os.path.join(OUT, 'wear.webp'), 86)
 
 
 # ---------- the two arches of the open bite: split along the dark gap ----------
@@ -164,7 +169,7 @@ def teeth_in(im, m):
     return cv2.morphologyEx(t, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
 
 
-gray = cv2.GaussianBlur(cv2.cvtColor(Eo, cv2.COLOR_BGR2GRAY).astype(np.float32), (0, 0), 3)
+gray = cv2.GaussianBlur(cv2.cvtColor(Ao, cv2.COLOR_BGR2GRAY).astype(np.float32), (0, 0), 3)
 cols = np.nonzero(mask_open.any(axis=0))[0]
 split = np.full(W, np.nan)
 for x in cols:
@@ -180,7 +185,7 @@ above = (np.arange(H)[:, None] < split[None, :]).astype(np.uint8) * 255
 upper_m = cv2.bitwise_and(mask_open, above)
 lower_m = cv2.bitwise_and(mask_open, 255 - above)
 ua = soft(upper_m, 5, 2)
-EoU = (EoT.astype(np.float32) * ua + Eo.astype(np.float32) * (1 - ua)).astype(np.uint8)
+AoU = (AoT.astype(np.float32) * ua + Ao.astype(np.float32) * (1 - ua)).astype(np.uint8)
 
 # opening and closing the bite moves the lower jaw too far for a plain flow:
 # seed it with the jaw's own movement (everything below the bite line slides
@@ -205,12 +210,12 @@ def jaw_morph(p, q, ts, drop):
     return out
 
 
-# the jaw frames: straight → bite opening → open → upper on → both on →
+# the jaw frames: crooked → bite opening → open → upper on → both on →
 # closing → closed with aligners
 J = lambda im: cut(im, JB)
-drop = 40.0   # how far her lower teeth go down when the bite opens (px, measured on face-Eo)
-tray = [J(E), *jaw_morph(J(E), J(Eo), (1 / 3, 2 / 3), drop), J(Eo), J(EoU), J(EoT), *jaw_morph(J(EoT), J(D), (1 / 3, 2 / 3), -drop), J(D)]
-tray = [keep(f, jaw, JB, E) for f in tray]
+drop = 40.0   # how far her lower teeth go down when the bite opens (px, measured on face-Eo; Ao has its jaw)
+tray = [J(A), *jaw_morph(J(A), J(Ao), (1 / 3, 2 / 3), drop), J(Ao), J(AoU), J(AoT), *jaw_morph(J(AoT), J(AD), (1 / 3, 2 / 3), -drop), J(AD)]
+tray = [keep(f, jaw, JB, A) for f in tray]
 webp(np.vstack(tray), os.path.join(OUT, 'tray.webp'), 82)
 
 
@@ -232,11 +237,11 @@ def over(dst, src):
 
 
 def aligner(arch_mask):
-    t = teeth_in(Eo, arch_mask)
+    t = teeth_in(Ao, arch_mask)
     shape = cv2.morphologyEx(t, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
     shape = cv2.GaussianBlur(shape, (0, 0), 1.2)
     edge = cv2.morphologyEx(shape, cv2.MORPH_GRADIENT, np.ones((3, 3), np.uint8))
-    lift = cv2.cvtColor(EoT, cv2.COLOR_BGR2GRAY).astype(np.float32) - cv2.cvtColor(Eo, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    lift = cv2.cvtColor(AoT, cv2.COLOR_BGR2GRAY).astype(np.float32) - cv2.cvtColor(Ao, cv2.COLOR_BGR2GRAY).astype(np.float32)
     hl = np.clip(lift / 50, 0, 1) * (cv2.dilate(shape, np.ones((7, 7), np.uint8)) > 0)
     layer = ink(shape.astype(np.float32) * 0.34, (0xdb, 0xe4, 0xff))
     layer = over(layer, ink(edge.astype(np.float32) * 0.6, (0x4a, 0x55, 0x80)))
@@ -249,7 +254,7 @@ webp(aligner(lower_m), os.path.join(OUT, 'tray-l.webp'), 88, rgba=True)
 
 # how far each waits in front of its teeth before it is pushed on: the gap
 # between the arches at the middle (a fraction of the jaw box's height)
-tu, tl = teeth_in(Eo, upper_m), teeth_in(Eo, lower_m)
+tu, tl = teeth_in(Ao, upper_m), teeth_in(Ao, lower_m)
 mid = range((JB[0] + JB[2]) // 2 - 60, (JB[0] + JB[2]) // 2 + 60)
 up_bottom = np.mean([np.nonzero(tu[:, x])[0].max() for x in mid if tu[:, x].any()])
 up_top = np.mean([np.nonzero(tu[:, x])[0].min() for x in mid if tu[:, x].any()])
@@ -279,8 +284,9 @@ for row, y in enumerate(range(step // 2, g.shape[0], step)):
 points = mk((pts * 255).astype(np.uint8))
 webp(points, os.path.join(OUT, 'points.webp'), 88, rgba=True)
 
-# the glint's mask: the teeth under the closed aligners, soft-edged
-tD = cv2.GaussianBlur(cv2.dilate(cut(teeth_in(D, mask), JB), np.ones((5, 5), np.uint8)), (0, 0), 2)
+# the glint's mask: the straight teeth under the aligners, soft-edged (it
+# runs over the wear's last frame, in the mouth box)
+tD = cv2.GaussianBlur(cv2.dilate(cut(teeth_in(D, mask), MB), np.ones((5, 5), np.uint8)), (0, 0), 2)
 webp(mk(tD, (255, 255, 255)), os.path.join(OUT, 'teeth.webp'), 80, rgba=True)
 
 
@@ -307,8 +313,8 @@ def with_box(base, bx, part):
 
 scan = dim(A); scan[MB[1]:MB[3], MB[0]:MB[2]] = lay(lay(dim(cut(A, MB)), points), mesh, 0.8)
 chapter_still(scan, 'scan.webp')
-chapter_still(with_box(A, MB, plan[PLAN_STEPS // 2]), 'plan.webp')
-chapter_still(with_box(E, JB, tray[4]), 'aligner.webp')
+chapter_still(with_box(A, JB, tray[4]), 'aligner.webp')
+chapter_still(with_box(A, MB, wear[WEAR_STEPS // 2]), 'wear.webp')
 top = max(0, min(H - W, (MB[1] + MB[3]) // 2 - W // 2 - 80))
 webp(hand[top:top + W, :], os.path.join(STILLS, 'result.webp'), 82, (900, 900))
 
@@ -338,6 +344,6 @@ anchors['l'] = [mx, int(round((lo_top + lo_bottom) / 2))]
 frac = lambda bx: [round(bx[0] / W, 4), round(bx[1] / H, 4), round((bx[2] - bx[0]) / W, 4), round((bx[3] - bx[1]) / H, 4)]
 print('\nFACE =', json.dumps({
     'w': W, 'h': H, 'mouth': frac(MB), 'jaw': frac(JB),
-    'plan': len(plan), 'tray': len(tray), 'gap': round(float(gap), 4),
+    'tray': len(tray), 'wear': len(wear), 'gap': round(float(gap), 4),
     'tags': {k: [round(x / W, 4), round(y / H, 4)] for k, (x, y) in anchors.items()},
 }))

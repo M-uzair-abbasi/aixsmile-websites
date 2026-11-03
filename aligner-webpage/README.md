@@ -14,26 +14,34 @@ crooked and crowded. Scrolling moves the view in to her mouth (a breath of fog b
 0. **Die Ausgangslage**: close up, small monospace labels on four crooked teeth (12, 22, 23, 41).
 1. **Der Scan**: the photo dims, a scan line crosses her teeth and leaves them as an ice-blue dot
    cloud with a wireframe.
-2. **Der Plan**: every tooth moves into place (the frames glide, they do not cross-fade); the labels
-   count down to "gerade", the corner counter runs Schiene 01 → 24.
-3. **Die Schienen** (the longest chapter): her bite opens; the upper aligner (pale clear plastic with
-   slate edges) comes in from the front, waits just under her upper teeth, is pushed on and clicks
-   (an ice-blue flash with a flick of rainbow), and the photo of it in place takes over; then the lower
-   one the same way. Tags follow each aligner ("Oben / Unten · Schiene wird eingesetzt → Schiene
-   sitzt"). The bite closes and a glint runs over the aligners.
+2. **Die Schienen** (the longest chapter): her bite opens; the upper aligner (pale clear plastic with
+   slate edges) comes in from the front, waits just under her crooked upper teeth, is pushed on and
+   clicks (an ice-blue flash with a flick of rainbow), and the photo of it in place takes over; then
+   the lower one the same way. Tags follow each aligner ("Oben / Unten · Schiene wird eingesetzt →
+   Schiene sitzt"). The bite closes; the corner counter shows Schiene 01.
+3. **Schiene für Schiene**: with the aligners on, every tooth moves into place (the frames glide,
+   they do not cross-fade); the labels count down to "gerade", the counter runs Schiene 01 → 24, and
+   a glint runs over the aligners.
 4. **Das Ergebnis**: white fog, then her straight smile with her aligner in her hand (a photo of its
    own, swapped in behind the fog), the last line and the booking button.
 
+The order is the treatment's (2026-11-03, the user: first the crooked teeth, then the aligner is
+placed on them, and under the aligner the teeth get straight); the first version straightened the
+teeth first and put the aligners on straight teeth.
+
 How: AI photos of the same woman, identical outside the mouth/jaw (tools/ai-src/face-A crooked,
--E straight, -Eo straight with the bite open, -EoT open with both aligners, -D closed with aligners,
--hand straight, holding an aligner: the end and the reduced-motion result picture).
+-Ao crooked with the bite open, -AoT open with both aligners, -AD closed with aligners on the crooked
+teeth, -D closed with aligners on straight teeth, -hand straight, holding an aligner: the end and the
+reduced-motion result picture; -E, -Eo, -EoT are the first version's straight ones, Ao/AoT were made
+from Eo).
 `tools/make-face-layers.py` cools the studio backdrop to the stage's lilac-grey and writes
-`assets/photos/face/`: the photo, the plan's 7 mouth frames (optical-flow morphs), the aligners' 9 jaw
-frames (bite opening, upper on, both on, bite closing; the jaw morphs are seeded with the jaw's own
-drop), the two aligners on their own (cut from the difference the real ones make), and the scan's
-points/wireframe and the glint mask. `js/site.js` moves and zooms the photo (its `FACE` numbers are
-what the script prints), blends neighbouring frames and moves the two aligners; `js/clear-timeline.js`
-holds the 3D version's timings.
+`assets/photos/face/`: the photo, the aligners' 9 jaw frames (bite opening, upper on, both on, bite
+closing; the jaw morphs are seeded with the jaw's own drop), the wear's 7 mouth frames (crooked →
+straight under the aligners, optical-flow morphs), the two aligners on their own (cut from the
+difference the real ones make), and the scan's points/wireframe and the glint mask. `js/site.js`
+moves and zooms the photo (its `FACE` numbers are what the script prints), blends neighbouring frames
+and moves the two aligners; `js/clear-timeline.js` holds the timings (the 3D version's steps, in the
+treatment's order).
 
 After the journey (sections and motion after bleaching-2 and the implant page, 2026-10-24):
 - **Welche Situation kennen Sie?** (`#situation`): five photo cards (the implant page's situation
@@ -66,8 +74,11 @@ impeccable detector lists Geist as an overused AI-site font.)
 - `tools/make-face-layers.py`: builds `assets/photos/face/*` and `assets/stills/*` from
   `tools/ai-src/face-*.png` (run `python3 tools/make-face-layers.py`; OpenCV, numpy, Pillow) and
   prints the `FACE` numbers for `js/site.js`. The woman: Higgsfield soul_2 (`face-source.png`); her
-  crooked teeth: GPT Image 2 edit; straight teeth, the open bite and the aligners: Nano Banana 2.1
-  edits; each edit was registered back onto the source and pasted in through the mouth (or jaw) mask.
+  crooked teeth: GPT Image 2 edit; straight teeth, the open bite and the aligners on straight teeth:
+  Nano Banana 2.1 edits; the crooked teeth with the bite open and the aligners on crooked teeth
+  (Ao, AoT, AD): GPT Image 2 edits with an aligner close-up as reference (Nano Banana straightens
+  teeth under aligners), their teeth tone matched to the straight ones; each edit was registered
+  back onto the source and pasted in through the mouth (or jaw) mask.
   The end photo (her hand holding an aligner, Nano Banana 2.1 from face-E) changes too much to paste
   in, so it was only registered onto the same frame and is shown whole (`end.webp`).
 - `assets/stills/`: the share picture and the chapter pictures for reduced motion, all from her photo.

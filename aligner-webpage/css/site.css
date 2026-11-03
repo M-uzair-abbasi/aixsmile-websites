@@ -189,7 +189,7 @@ html.is-lifting .intro { clip-path: inset(0 0 100% 0); }
   background: var(--stage);
   color: var(--ink);
   --stage: #d2d4dd;   /* her studio backdrop, cooled to the field's hue (tools/make-face-layers.py) */
-  --h: 0; --cap: 0; --scan: 0; --sweep: 0; --line: 0; --points: 0; --jaw: 0; --glint: 0; --dive: 0; --white: 0; --fin: 0; --labels: 0; --end: 0;
+  --h: 0; --cap: 0; --scan: 0; --sweep: 0; --line: 0; --points: 0; --jaw: 0; --wear: 0; --glint: 0; --dive: 0; --white: 0; --fin: 0; --labels: 0; --end: 0;
   --soft: #2c303d;   /* the field is darker than the page: soft text darkens with it */
 }
 /* her photo: a box at the photo's own size that js/site.js moves and scales;
@@ -212,13 +212,15 @@ html.no-js .face { left: auto; right: 0; width: auto; height: 100%; aspect-ratio
 .face__mouth { position: absolute; left: 30.08%; top: 49.71%; width: 34.38%; height: 10.06%; }
 .face__jaw { position: absolute; left: 26.82%; top: 45.41%; width: 45.31%; height: 27.83%; opacity: var(--jaw); }
 .face__mouth > i, .face__jaw > i { position: absolute; inset: 0; }
-/* frame strips: the plan's 7 (crooked → straight) on her mouth, the
-   aligners' 9 (bite opens, aligners on, bite closes) on her jaw; the second
-   layer of each is the next frame fading in */
-.face__plan { background: url(../assets/photos/face/plan.webp) 0 0 / 100% 700% no-repeat; }
+/* frame strips: the aligners' 9 (bite opens, aligners onto the crooked
+   teeth, bite closes) on her jaw, then the wear's 7 (crooked → straight under
+   the aligners) on her mouth, over the jaw; the second layer of each is the
+   next frame fading in */
 .face__trays { background: url(../assets/photos/face/tray.webp) 0 0 / 100% 900% no-repeat; }
-#planB, #trayB { opacity: var(--k, 0); }
-html:not(.scenes) .face__plan, html:not(.scenes) .face__jaw { display: none; }
+.face__wear { background: url(../assets/photos/face/wear.webp) 0 0 / 100% 700% no-repeat; }
+.face__mouth--wear { opacity: var(--wear); }
+#trayB, #wearB { opacity: var(--k, 0); }
+html:not(.scenes) .face__mouth--wear, html:not(.scenes) .face__jaw { display: none; }
 /* the two aligners on their own: pale clear plastic with slate edges. Each
    comes in from the front (bigger, blurred), waits just off its teeth and is
    pushed on (--y, --s, --b, --o from js/site.js); as it clicks it flashes ice
@@ -248,7 +250,7 @@ html:not(.scenes) .face__end { display: none; }
   mask: linear-gradient(180deg, transparent, #000 18% 82%, transparent);
   opacity: var(--line);
 }
-/* the glint over the aligners once the bite has closed */
+/* the glint over the aligners once the teeth are straight */
 .face__glint { --m: url(../assets/photos/face/teeth.webp); overflow: hidden; }
 .face__glint::after {
   content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 18%;
@@ -291,7 +293,7 @@ html.scenes .tag3d { display: block; }
 .hud__geo i { font-style: normal; margin: 0 4px; }
 .hud__tray b { font-weight: 700; color: var(--ink); }
 .hud__tray { opacity: 0; transition: opacity .5s var(--ease); }
-.klar.is-plan .hud__tray { opacity: 1; }
+.klar.is-count .hud__tray { opacity: 1; }
 
 .hero__copy {
   position: absolute; z-index: 3; left: var(--gutter); bottom: clamp(88px, 17vh, 170px);

@@ -1,15 +1,17 @@
 // The aligner journey as numbers. One pinned section, one scroll progress p
 // (0..1), and everything her photo and its captions do at that point. The
-// steps (and their timing) are the ones the 3D version had, now on her teeth:
+// steps are the 3D version's, in the order a treatment goes: the aligners go
+// onto her crooked teeth, then the teeth straighten under them:
 //
 //   hero     a woman smiles; her teeth are crooked. Scrolling moves the view
 //            in to her mouth; labels mark the crooked teeth
 //   scan     the photo dims, a scan line passes over her teeth and leaves them
 //            as a dot cloud with a wireframe
-//   plan     every tooth moves into place, tray 01 → 24, the labels count down
 //   aligner  the bite opens; the upper aligner comes in from the front, waits
-//            just under her upper teeth, is pushed on and clicks; then the
-//            lower one; the bite closes, a glint runs over the aligners
+//            just under her crooked upper teeth, is pushed on and clicks; then
+//            the lower one; the bite closes
+//   wear     with the aligners on, every tooth moves into place, tray 01 → 24,
+//            the labels count down; a glint runs over the aligners
 //   result   white fog, then her straight smile, her aligner in her hand, and
 //            the last line
 //
@@ -18,20 +20,20 @@
 
 export const TRAYS = 24;
 
-// [from, to] in scroll progress; the aligner gets the most room, it is the
-// moment the page is about
+// [from, to] in scroll progress; the aligners get the most room, they are
+// what the page is about
 export const CHAPTERS = [
   { id: 'hero', from: 0, to: 0.11 },
   { id: 'scan', from: 0.11, to: 0.3 },
-  { id: 'plan', from: 0.3, to: 0.5 },
-  { id: 'aligner', from: 0.5, to: 0.885 },
+  { id: 'aligner', from: 0.3, to: 0.64 },
+  { id: 'wear', from: 0.64, to: 0.885 },
   { id: 'result', from: 0.885, to: 1 },
 ];
 
-// the frame strips tools/make-face-layers.py writes: the plan's (crooked →
-// straight, 7 frames) and the aligners' (straight, opening ×2, open, upper
-// on, both on, closing ×2, closed with aligners: 9 frames)
-export const FILM = { plan: 7, tray: 9 };
+// the frame strips tools/make-face-layers.py writes: the aligners' (crooked,
+// opening ×2, open, upper on, both on, closing ×2, closed with aligners: 9
+// frames) and the wear's (crooked → straight under the aligners, 7 frames)
+export const FILM = { tray: 9, wear: 7 };
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smooth = (u) => { const t = clamp(u); return t * t * (3 - 2 * t); };
@@ -49,9 +51,9 @@ export function chapterAt(p) {
 }
 
 /** Where to scroll for chapter i (a point where it is fully on show; for the
- *  aligner, the moment the upper aligner comes in). */
+ *  aligners, the moment the upper one comes in). */
 export function chapterAnchor(i) {
-  return [0, 0.2, 0.41, 0.56, 0.97][i] ?? 0;
+  return [0, 0.2, 0.37, 0.75, 0.97][i] ?? 0;
 }
 
 /** Everything at progress p. Reuses `out` when given (no allocation per frame). */
@@ -71,35 +73,37 @@ export function sample(p, out = {}) {
   out.points = span(p, 0.138, 0.176, 0.264, 0.294);
   out.sweep = ramp(p, 0.176, 0.258);
   out.line = span(p, 0.17, 0.18, 0.25, 0.262);
-  // the plan: crooked → straight
-  out.straight = ramp(p, 0.325, 0.48);
-  out.tray = Math.max(1, Math.min(TRAYS, 1 + Math.floor(out.straight * TRAYS * 0.999)));
-  // the aligners, one arch at a time: the bite opens; each aligner comes in
-  // (upIn / loIn) to just off its teeth, then is pushed on (upSeat / loSeat,
-  // straight 0..1: site.js makes it speed up into the click); click flashes
-  // it as it seats. Then the bite closes and a glint runs over them.
-  out.trays3d = span(p, 0.515, 0.55, 0.9, 0.935);
-  const opening = ramp(p, 0.52, 0.565), closing = ramp(p, 0.775, 0.815);
-  out.upIn = ramp(p, 0.54, 0.6);
-  out.upSeat = lin(p, 0.612, 0.655);
-  out.loIn = ramp(p, 0.66, 0.712);
-  out.loSeat = lin(p, 0.722, 0.765);
+  // the aligners, one arch at a time, onto the crooked teeth: the bite opens;
+  // each aligner comes in (upIn / loIn) to just off its teeth, then is pushed
+  // on (upSeat / loSeat, straight 0..1: site.js makes it speed up into the
+  // click); click flashes it as it seats. Then the bite closes.
+  const opening = ramp(p, 0.32, 0.365), closing = ramp(p, 0.575, 0.615);
+  out.upIn = ramp(p, 0.34, 0.4);
+  out.upSeat = lin(p, 0.412, 0.455);
+  out.loIn = ramp(p, 0.46, 0.512);
+  out.loSeat = lin(p, 0.522, 0.565);
   // the photo of each aligner in place takes over as it seats
-  out.upOn = lin(p, 0.65, 0.662);
-  out.loOn = lin(p, 0.76, 0.772);
-  out.upClick = span(p, 0.651, 0.656, 0.659, 0.69);
-  out.loClick = span(p, 0.761, 0.766, 0.769, 0.8);
+  out.upOn = lin(p, 0.45, 0.462);
+  out.loOn = lin(p, 0.56, 0.572);
+  out.upClick = span(p, 0.451, 0.456, 0.459, 0.49);
+  out.loClick = span(p, 0.561, 0.566, 0.569, 0.6);
   out.trayFrame = closing > 0 ? 5 + 3 * closing : 3 * opening + out.upOn + out.loOn;
-  out.form = ramp(p, 0.81, 0.865);
   // the tags that name the aligners
-  out.trays = span(p, 0.545, 0.57, 0.8, 0.83);
+  out.trays = span(p, 0.345, 0.37, 0.6, 0.63);
+  // the wear: once the bite is closed, the wear frames take over from the
+  // jaw's (their first is the jaw's last); crooked → straight under the
+  // aligners, tray 01 → 24, then a glint runs over them
+  out.wear = p >= 0.62 ? 1 : 0;
+  out.straight = ramp(p, 0.665, 0.82);
+  out.tray = Math.max(1, Math.min(TRAYS, 1 + Math.floor(out.straight * TRAYS * 0.999)));
+  out.form = ramp(p, 0.822, 0.872);
   // dives between chapters: a breath of fog
-  out.dive = Math.max(bump(p, 0.05, 0.034), bump(p, 0.122, 0.026), bump(p, 0.305, 0.026), bump(p, 0.505, 0.03));
+  out.dive = Math.max(bump(p, 0.05, 0.034), bump(p, 0.122, 0.026), bump(p, 0.305, 0.026), bump(p, 0.645, 0.03));
   // the end: white fog, it clears onto her smile, the last line
   out.white = ramp(p, 0.878, 0.93) * (1 - ramp(p, 0.932, 0.968));
   out.finale = ramp(p, 0.94, 0.975);
   // labels on the crooked teeth: at the start, and while they straighten
-  out.labels = Math.max(span(p, 0.064, 0.082, 0.106, 0.122), span(p, 0.312, 0.335, 0.47, 0.495));
+  out.labels = Math.max(span(p, 0.064, 0.082, 0.106, 0.122), span(p, 0.652, 0.675, 0.81, 0.835));
   out.chapter = chapterAt(p);
   return out;
 }

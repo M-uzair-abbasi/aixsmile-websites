@@ -135,24 +135,24 @@
 
 <main id="main">
 
-<!-- ===== The journey, all on one photo, step by step as the 3D version
-     had it. One pinned screen while you scroll: a woman smiles with crooked
-     teeth; the view moves in to her mouth, a scan line turns her teeth into
-     points, the plan moves every tooth into place (tray 01 to 24), the bite
-     opens and the upper aligner comes in, waits and is pushed on, then the
-     lower one, the bite closes, and white fog clears onto her smile. Without
-     scenes (reduced motion, no JS) it is her photo and the four chapters as
-     a list. ===== -->
+<!-- ===== The journey, all on one photo, with the 3D version's steps in the
+     order a treatment goes. One pinned screen while you scroll: a woman
+     smiles with crooked teeth; the view moves in to her mouth, a scan line
+     turns her teeth into points, the bite opens and the upper aligner comes
+     in, waits and is pushed onto her crooked teeth, then the lower one, the
+     bite closes; under the aligners every tooth moves into place (tray 01 to
+     24), and white fog clears onto her smile. Without scenes (reduced motion,
+     no JS) it is her photo and the four chapters as a list. ===== -->
 <section class="klar" id="top" aria-labelledby="heroH">
   <div class="klar__stick">
     <!-- her photo; everything the 3D version did happens on it: js/site.js
          moves and zooms the whole stage, and the layers over her mouth and jaw
-         (frames from tools/make-face-layers.py) straighten the teeth, open the
-         bite and put the aligners on -->
+         (frames from tools/make-face-layers.py) open the bite, put the
+         aligners on and straighten the teeth under them -->
     <div class="face" id="face">
       <img class="face__img" id="facePhoto" src="assets/photos/face/face.webp" width="1536" height="2048" fetchpriority="high" decoding="async" data-i18n-alt="klar.faceAlt" alt="Eine junge Frau lächelt; ihre Zähne stehen schief und eng. Am Ende lächelt sie mit geraden Zähnen und hält ihre Schiene in der Hand (KI-generiertes Bild, die Veränderungen an den Zähnen sind eine Illustration)">
-      <div class="face__mouth" aria-hidden="true"><i class="face__plan" id="planA"></i><i class="face__plan" id="planB"></i></div>
-      <div class="face__jaw" id="faceJaw" aria-hidden="true"><i class="face__trays" id="trayA"></i><i class="face__trays" id="trayB"></i><i class="face__glint"></i><i class="face__al face__al--u" id="alU"></i><i class="face__al face__al--l" id="alL"></i></div>
+      <div class="face__jaw" id="faceJaw" aria-hidden="true"><i class="face__trays" id="trayA"></i><i class="face__trays" id="trayB"></i><i class="face__al face__al--u" id="alU"></i><i class="face__al face__al--l" id="alL"></i></div>
+      <div class="face__mouth face__mouth--wear" aria-hidden="true"><i class="face__wear" id="wearA"></i><i class="face__wear" id="wearB"></i><i class="face__glint"></i></div>
       <!-- the end, behind the white fog: her straight smile, her aligner in her hand -->
       <i class="face__img face__end" id="faceEnd" aria-hidden="true"></i>
       <i class="face__veil" aria-hidden="true"></i>
@@ -211,8 +211,8 @@
     <nav class="klar__rail" id="klarRail" data-i18n-aria="klar.railAria" aria-label="Die Kapitel">
       <button type="button" data-ch="0"><i></i><span data-i18n="klar.r0">Start</span></button>
       <button type="button" data-ch="1"><i></i><span data-i18n="klar.r1">Scan</span></button>
-      <button type="button" data-ch="2"><i></i><span data-i18n="klar.r2">Plan</span></button>
-      <button type="button" data-ch="3"><i></i><span data-i18n="klar.r3">Schienen</span></button>
+      <button type="button" data-ch="2"><i></i><span data-i18n="klar.r2">Schienen</span></button>
+      <button type="button" data-ch="3"><i></i><span data-i18n="klar.r3">Tragen</span></button>
       <button type="button" data-ch="4"><i></i><span data-i18n="klar.r4">Ergebnis</span></button>
     </nav>
 
@@ -231,9 +231,9 @@
   <div class="klar__steps" id="ablauf">
     <h2 class="h2 klar__stepsH" data-i18n="steps.h2">So läuft eine Aligner-Behandlung ab.</h2>
     <ol class="klar__list" id="klarList">
-      <li><img src="assets/stills/scan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s1t">Der Scan</h3><p data-i18n="steps.s1p">Statt Abdruckmasse ein digitaler 3D-Scan: In wenigen Minuten sind Ihre Zähne erfasst.</p></li>
-      <li><img src="assets/stills/plan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s2t">Der Plan</h3><p data-i18n="steps.s2p">Am Bildschirm planen wir jede Zahnbewegung. Sie sehen das Ziel, bevor die erste Schiene entsteht.</p></li>
-      <li><img src="assets/stills/aligner.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s3t">Die Schienen</h3><p data-i18n="steps.s3p">Maßgefertigt und transparent. Sie tragen jede etwa 22 Stunden am Tag, alle ein bis zwei Wochen kommt die nächste.</p></li>
+      <li><img src="assets/stills/scan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s1t">Der Scan</h3><p data-i18n="steps.s1p">Statt Abdruckmasse ein digitaler 3D-Scan: In wenigen Minuten sind Ihre Zähne erfasst. Daraus planen wir jede Zahnbewegung.</p></li>
+      <li><img src="assets/stills/aligner.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s2t">Die Schienen</h3><p data-i18n="steps.s2p">Maßgefertigt und transparent. Die erste Schiene setzen wir gemeinsam ein: Sie sitzt auf Ihren Zähnen, so wie sie jetzt stehen.</p></li>
+      <li><img src="assets/stills/wear.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s3t">Schiene für Schiene</h3><p data-i18n="steps.s3p">Sie tragen jede Schiene etwa 22 Stunden am Tag. Alle ein bis zwei Wochen kommt die nächste, und Ihre Zähne rücken Schritt für Schritt an ihren Platz.</p></li>
       <li><img src="assets/stills/result.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s4t">Das Ergebnis</h3><p data-i18n="steps.s4p">Kontrolltermine begleiten die Bewegung, ein Retainer hält das Ergebnis danach stabil.</p></li>
     </ol>
   </div>

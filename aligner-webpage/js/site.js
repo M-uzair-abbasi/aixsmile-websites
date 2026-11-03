@@ -1,12 +1,13 @@
 // ===== The page's motion and the things you can touch (aligners) =====
 // After igloo.inc. The opening (once per visit) straightens a row of teeth
 // while her photo loads; the journey is one pinned screen, all on one photo,
-// step by step as the 3D version had it: a woman smiles with crooked teeth;
-// scrolling moves the view in to her mouth, a scan line leaves her teeth as
-// points and a wireframe, the plan moves every tooth into place (tray 01 → 24,
-// the labels count down to straight), the bite opens and the upper aligner
-// comes in, waits and is pushed on, then the lower one, the bite closes, and
-// white fog clears onto her smile, her aligner in her hand. Then: the check
+// with the 3D version's steps in the order a treatment goes: a woman smiles
+// with crooked teeth; scrolling moves the view in to her mouth, a scan line
+// leaves her teeth as points and a wireframe, the bite opens and the upper
+// aligner comes in, waits and is pushed onto her crooked teeth, then the lower
+// one, the bite closes; under the aligners every tooth moves into place (tray
+// 01 → 24, the labels count down to straight), and white fog clears onto her
+// smile, her aligner in her hand. Then: the check
 // (three questions into the booking note), the day as a ring, a real case to
 // compare, panels that open from rounded corners, the footer wordmark.
 //
@@ -32,8 +33,8 @@ const klar = $('top');
 const stick = klar.querySelector('.klar__stick');
 const face = $('face');
 const photo = $('facePhoto');
-const planFilm = [$('planA'), $('planB')];
 const trayFilm = [$('trayA'), $('trayB')];
+const wearFilm = [$('wearA'), $('wearB')];
 const al = { u: $('alU'), l: $('alL') };
 const faceEnd = $('faceEnd');
 
@@ -47,10 +48,10 @@ const FACE = {
   w: 1536, h: 2048,
   mouth: [0.3008, 0.4971, 0.3438, 0.1006],
   jaw: [0.2682, 0.4541, 0.4531, 0.2783],
-  plan: 7, tray: 9, gap: 0.0839,
-  tags: { 12: [0.4199, 0.5332], 22: [0.5417, 0.5347], 23: [0.5729, 0.5298], 41: [0.4408, 0.5723], u: [0.4948, 0.5366], l: [0.4948, 0.5874] },
+  tray: 9, wear: 7, gap: 0.048,
+  tags: { 12: [0.4199, 0.5332], 22: [0.5417, 0.5347], 23: [0.5729, 0.5298], 41: [0.4408, 0.5723], u: [0.4948, 0.5371], l: [0.4948, 0.5815] },
 };
-// the photo and the strip of mouth frames, both decoded before the hero builds
+// the photo and the frame strips, all decoded before the hero builds
 const decoded = (src) => new Promise((r) => {
   const im = new Image();
   im.onload = im.onerror = () => r();
@@ -58,7 +59,7 @@ const decoded = (src) => new Promise((r) => {
 });
 const faceReady = Promise.all([
   photo.complete ? Promise.resolve() : new Promise((r) => { photo.addEventListener('load', r, { once: true }); photo.addEventListener('error', r, { once: true }); }),
-  ...(scenesOn ? ['plan', 'tray', 'tray-u', 'tray-l'].map((n) => decoded(`assets/photos/face/${n}.webp`)) : []),
+  ...(scenesOn ? ['tray', 'tray-u', 'tray-l', 'wear'].map((n) => decoded(`assets/photos/face/${n}.webp`)) : []),
 ]);
 let loadK = 0;                  // 0..1 while she loads (the opening shows it)
 faceReady.then(() => {
@@ -302,7 +303,7 @@ function strip(layers, n) {
     setVar(layers[1], '--k', clamp(f - i));
   };
 }
-const planFrame = strip(planFilm, FACE.plan), trayFrame = strip(trayFilm, FACE.tray);
+const trayFrame = strip(trayFilm, FACE.tray), wearFrame = strip(wearFilm, FACE.wear);
 
 // an aligner on its own: it comes in from the front (bigger, blurred, from
 // below or above), waits just off its teeth, then is pushed on, speeding up
@@ -323,13 +324,16 @@ function aligner(el, side, inK, seatK, onK, click) {
 function paint() {
   sample(have.p, st);
   aim(st, have.lx, have.ly);
-  planFrame(st.straight * (FACE.plan - 1));
-  // the jaw layers take over from the mouth's once the aligner chapter starts
-  // (their first frame is the plan's last); after the white-out the photo of
-  // her holding her aligner takes over
-  const jawOn = st.p > 0.51 && !st.end;
+  // the jaw layers play the aligner chapter (their first frame is her photo);
+  // once the bite is closed the wear's mouth frames take over (their first is
+  // the jaw's last); after the white-out the photo of her holding her aligner
+  // takes over
+  const wearOn = st.wear && !st.end;
+  const jawOn = st.p > 0.31 && !wearOn && !st.end;
   setVar(stick, '--jaw', jawOn ? 1 : 0);
+  setVar(stick, '--wear', wearOn ? 1 : 0);
   setVar(stick, '--end', st.end);
+  if (wearOn) wearFrame(st.straight * (FACE.wear - 1));
   if (jawOn) {
     trayFrame(st.trayFrame);
     aligner(al.u, 'u', st.upIn, st.upSeat, st.upOn, st.upClick);
@@ -483,7 +487,8 @@ setEnd(false);
 scene(klar, 'pin', (p) => {
   sample(p, st);
   klar.classList.toggle('is-playing', st.play > 0.5);
-  klar.classList.toggle('is-plan', st.chapter === 2);
+  // the tray counter, while the aligners go on and while she wears them
+  klar.classList.toggle('is-count', st.chapter === 2 || st.chapter === 3);
   setEnd(st.finale > 0.02);
   showChapter(st.chapter);
   trayNum.textContent = String(st.tray).padStart(2, '0');

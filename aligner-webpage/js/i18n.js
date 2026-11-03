@@ -33,7 +33,7 @@ export const EN = {
   klar: {
     faceAlt: 'A young woman smiles; her teeth are crooked and crowded. At the end she smiles with straight teeth, her aligner in her hand (AI-generated image, the changes to the teeth are an illustration)',
     railAria: 'The chapters',
-    r0: 'Start', r1: 'Scan', r2: 'Plan', r3: 'Aligners', r4: 'Result',
+    r0: 'Start', r1: 'Scan', r2: 'Aligners', r3: 'Wearing', r4: 'Result',
     trayU: 'Upper', trayL: 'Lower',
   },
   finale: {
@@ -44,9 +44,9 @@ export const EN = {
   steps: {
     h2: 'How aligner treatment works.',
     s0t: 'The starting point', s0p: 'Slight crowding, a few rotated teeth: a typical starting point for aligners.',
-    s1t: 'The scan', s1p: 'Instead of impression paste, a digital 3D scan: your teeth are captured in a few minutes.',
-    s2t: 'The plan', s2p: 'On screen we plan every tooth movement. You see the goal before the first aligner is made.',
-    s3t: 'The aligners', s3p: 'Custom-made and clear. You wear each one about 22 hours a day; every one to two weeks the next one follows.',
+    s1t: 'The scan', s1p: 'Instead of impression paste, a digital 3D scan: your teeth are captured in a few minutes. From it we plan every tooth movement.',
+    s2t: 'The aligners', s2p: 'Custom-made and clear. We put the first aligner in together: it sits on your teeth just as they are now.',
+    s3t: 'Aligner by aligner', s3p: 'You wear each aligner about 22 hours a day. Every one to two weeks the next one follows, and your teeth move into place step by step.',
     s4t: 'The result', s4p: 'Check-ups accompany the movement, and a retainer keeps the result stable afterwards.',
   },
   sit: {
