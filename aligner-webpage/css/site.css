@@ -42,7 +42,7 @@
   --hair-dark: rgba(238, 240, 245, .14);
   --ice: #3a46c9;           /* links and accents on light */
   --ice-hi: #b9c4ff;        /* the same on dark */
-  --prism: var(--ice);
+  --prism: linear-gradient(100deg, #7fc8ff 0%, #a99bff 35%, #ff9cc6 70%, #ffd58a 100%);
 
   --sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
@@ -296,6 +296,61 @@ html.scenes .tag3d { display: block; }
 .finale__line { font: 640 clamp(40px, 4.6vw, 76px)/1 var(--sans); font-stretch: 120%; letter-spacing: -.045em; text-wrap: balance; color: var(--ink); }
 .finale__tag { position: absolute; left: 0; top: calc(100% + 18px); font: 500 12px/1.3 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--soft); }
 .finale .btn--light { --bg: var(--ink); --fg: var(--on-dark); }
+
+.intro { display: none; }
+html.is-intro .intro {
+  display: grid; place-items: center; position: fixed; inset: 0; z-index: 90;
+  background: linear-gradient(180deg, #d9dbe4 0%, var(--field) 58%, var(--field-lo) 100%);
+  color: var(--ink);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s var(--ease-expo);
+}
+html.is-lifting .intro { clip-path: inset(0 0 100% 0); }
+.intro__stage { display: grid; justify-items: center; gap: 26px; }
+.intro__mark { font: 800 18px/1 var(--sans); font-stretch: 120%; letter-spacing: .01em; display: flex; gap: 10px; align-items: baseline; }
+.intro__mark > span + span { font: 500 12.5px/1 var(--mono); letter-spacing: .04em; color: var(--soft); text-transform: uppercase; }
+/* JS sets --k (0 → 1) on .intro while the page loads: each tooth loses its
+   own offset (--dy) and turn (--r), and the aligner draws itself above them */
+.intro { --k: 0; }
+.intro__row { position: relative; display: flex; gap: 5px; width: 260px; height: 44px; align-items: center; justify-content: center; }
+.intro__row i {
+  display: block; width: 15px; height: 24px;
+  border-radius: 46% 46% 40% 40% / 34% 34% 66% 66%;
+  background: linear-gradient(180deg, #fff, #e8ebf3);
+  box-shadow: 0 0 0 1px rgba(18, 20, 27, .08), 0 6px 14px rgba(40, 46, 70, .16);
+  transform: translateY(calc(var(--dy) * (1 - var(--k)))) rotate(calc(var(--r) * (1 - var(--k))));
+}
+/* each tooth starts crooked in its own way */
+.intro__row i:nth-child(1) { --dy: 6px; --r: -14deg; }
+.intro__row i:nth-child(2) { --dy: -9px; --r: 10deg; }
+.intro__row i:nth-child(3) { --dy: 3px; --r: 22deg; }
+.intro__row i:nth-child(4) { --dy: -4px; --r: -8deg; }
+.intro__row i:nth-child(5) { --dy: 11px; --r: 16deg; }
+.intro__row i:nth-child(6) { --dy: -7px; --r: -20deg; }
+.intro__row i:nth-child(7) { --dy: 2px; --r: 12deg; }
+.intro__row i:nth-child(8) { --dy: -12px; --r: -6deg; }
+.intro__row i:nth-child(9) { --dy: 8px; --r: 18deg; }
+.intro__row i:nth-child(10) { --dy: -3px; --r: -15deg; }
+.intro__row i:nth-child(11) { --dy: 5px; --r: 9deg; }
+.intro__row i:nth-child(12) { --dy: -10px; --r: -12deg; }
+/* the aligner: hovers 16px above the teeth while its outline draws (stroke
+   follows --k) and its clear body fills in; on the click it drops on, the
+   teeth brighten under it and a glint runs along the plastic */
+.intro__tray {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
+  translate: 0 -16px; filter: drop-shadow(0 8px 14px rgba(40, 46, 70, .14));
+  transition: translate .55s cubic-bezier(.5, 1.6, .4, 1);
+}
+.intro__trayLine { fill: none; stroke: var(--ice); stroke-width: 1.6; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--k)); opacity: .9; }
+.intro__trayFill { fill: rgba(255, 255, 255, .34); stroke: none; opacity: calc(var(--k) * var(--k)); }
+.intro__trayGlint { opacity: 0; }
+.intro.is-straight .intro__tray { translate: 0 0; filter: drop-shadow(0 2px 4px rgba(40, 46, 70, .18)); }
+.intro.is-straight .intro__trayLine { stroke: rgba(58, 70, 201, .55); transition: stroke .5s; }
+.intro.is-straight .intro__trayFill { fill: rgba(236, 240, 255, .5); transition: fill .5s; }
+.intro.is-straight .intro__trayGlint { opacity: 1; animation: introGlint .9s cubic-bezier(.4, 0, .2, 1) .3s both; }
+.intro.is-straight .intro__row i { background: linear-gradient(180deg, #fff, #f4f5ff); box-shadow: 0 0 0 1px rgba(18, 20, 27, .06), 0 10px 18px rgba(40, 46, 70, .22); transition: box-shadow .6s var(--ease), background .6s; }
+@keyframes introGlint { from { transform: translateX(0); } to { transform: translateX(400px); } }
+@media (prefers-reduced-motion: reduce) { .intro__tray { transition: none; } .intro.is-straight .intro__trayGlint { animation: none; opacity: 0; } }
 
 /* the hero builds itself: everything waits for html.is-ready */
 html.js:not(.is-calm):not(.is-ready) .hud--top > * { opacity: 0; transform: translateY(-10px); }
@@ -616,7 +671,7 @@ html.no-js .quiz__top, html.no-js .quiz__q { display: none; }
 .booking__facts a { color: var(--on-dark); font-weight: 650; text-decoration-color: rgba(185, 196, 255, .6); text-underline-offset: 3px; }
 .bk { padding: clamp(18px, 2.2vw, 28px); border-radius: 26px; background: var(--snow); color: var(--text); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); min-height: 460px; }
 .bkSteps { display: flex; gap: 6px; margin-bottom: 18px; counter-reset: s; }
-.bkSteps li { flex: 1; display: flex; }
+.bkSteps li { flex: 1; display: flex; min-width: 0; }
 .bkSteps [data-step] { counter-increment: s; flex: 1; display: flex; align-items: center; gap: 8px; text-align: left; padding: 10px 12px; border-radius: 12px; background: var(--frost); color: var(--soft); font-size: 14px; font-weight: 600; min-height: 44px; cursor: default; }
 .bkSteps [data-step]::before { content: counter(s); width: 22px; height: 22px; flex: none; border-radius: 50%; display: grid; place-items: center; font: 500 12px/1 var(--mono); background: rgba(18, 20, 27, .08); }
 .bkSteps .on { background: var(--ink); color: var(--on-dark); }
@@ -820,7 +875,7 @@ html.scenes .sit__img { scale: calc(1.12 + var(--hz)); translate: 0 calc((var(--
    the whole screen (JS sets the clip and the scale), then the line comes up */
 html.scenes .grow { height: 300vh; height: 300svh; }
 html.scenes .grow__stick { position: sticky; top: 0; height: 100vh; height: 100svh; padding-block: 0; }
-html.scenes html.scenes .grow__fill { position: absolute; inset: 0; z-index: 2; margin: 0; height: auto; pointer-events: none; clip-path: inset(50%); }
+html.scenes .grow__fill { position: absolute; inset: 0; z-index: 2; margin: 0; height: auto; pointer-events: none; clip-path: inset(50%); }
 html.scenes .grow__fill img { transform-origin: 50% 50%; will-change: transform; }
 html.scenes .grow__fill::after { opacity: 0; transition: opacity .8s var(--ease); }
 html.scenes .grow__band { opacity: 0; visibility: hidden; translate: 0 26px; transition: opacity .7s var(--ease), translate .9s var(--ease-out), visibility 0s .7s; }
@@ -889,6 +944,13 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
    Phones
    ========================================================================== */
 @media (max-width: 760px) {
+  /* the three booking steps share one narrow row: smaller type, no overflow */
+  .bkSteps { gap: 4px; }
+  .bkSteps [data-step] { display: block; min-width: 0; padding: 9px 8px; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bkSteps [data-step]::before { display: inline-grid; vertical-align: middle; margin-right: 6px; }
+  .bkSteps li:not(:has(.on)) { flex: 0 0 auto; }
+  .bkSteps [data-step]:not(.on) { font-size: 0; padding: 9px; }
+  .bkSteps [data-step]:not(.on)::before { margin-right: 0; }
   body { font-size: 16.5px; }
   .h2 { font-size: clamp(30px, 8.6vw, 40px); max-width: none; }
   .hud__mid { display: none; }

@@ -70,7 +70,33 @@ faceReady.then(() => {
 
 // ---------- the opening, then the hero builds itself ----------
 const ready = () => html.classList.add('is-ready');
-Promise.race([faceReady, new Promise((r) => setTimeout(r, 2600))]).then(() => requestAnimationFrame(ready));
+if (html.classList.contains('is-intro')) {
+  try { sessionStorage.setItem('aixsmileAlignerIntro', '1'); } catch { /* private mode: it plays again next time */ }
+  const intro = $('intro');
+  const t0 = performance.now();
+  let shown = 0, done = false;
+  // the teeth straighten and the aligner draws with the load, never faster
+  // than 1.4 s; if loading stalls they creep towards 90 % and the opening
+  // gives up after 9 s
+  const step = () => {
+    const el = (performance.now() - t0) / 1000;
+    const target = done ? 1 : Math.min(el / 1.4, Math.max(loadK, 0.9 * (1 - Math.exp(-el / 2.2))));
+    shown += (target - shown) * 0.12;
+    if (shown > 0.996) shown = 1;
+    intro.style.setProperty('--k', shown.toFixed(4));
+    if (shown < 1) { requestAnimationFrame(step); return; }
+    intro.classList.add('is-straight');                    // the aligner clicks on
+    setTimeout(() => {
+      html.classList.add('is-lifting');
+      ready();
+      setTimeout(() => { html.classList.remove('is-intro', 'is-lifting'); intro.remove(); }, 1050);
+    }, 1150);
+  };
+  requestAnimationFrame(step);
+  Promise.race([faceReady, new Promise((r) => setTimeout(r, 9000))]).then(() => { done = true; });
+} else {
+  Promise.race([faceReady, new Promise((r) => setTimeout(r, 2600))]).then(() => requestAnimationFrame(ready));
+}
 
 // ---------- smooth wheel on laptops ----------
 let lenis = null;
@@ -231,7 +257,8 @@ function pin(t, small, capEdge) {
   onScreen(t.id);
   const dx = t.dx * (small ? 0.5 : 1), dy = t.dy * (small ? 0.62 : 1);
   const w = t.el.offsetWidth, h = t.el.offsetHeight;
-  const x = clamp(pt.x + dx, (dx < 0 ? w : 0) + Math.max(8, capEdge), innerWidth - (dx < 0 ? 0 : w) - 8);
+  const vw = document.documentElement.clientWidth || innerWidth;
+  const x = clamp(pt.x + dx, (dx < 0 ? w : 0) + Math.max(8, capEdge), vw - (dx < 0 ? 0 : w) - 8);
   const y = clamp(pt.y + dy, h / 2 + 64, innerHeight - h / 2 - 8);
   const tx = dx < 0 ? x - w : x, ty = y - h / 2;
   t.el.style.setProperty('--x', `${tx.toFixed(1)}px`);
@@ -248,10 +275,11 @@ function placeTags(s) {
   const D = dyn();
   if (s.labels > 0.01) {
     for (const t of TAGS) {
-      pin(t, small, capEdge);
-      // what is left to go; "straight" once there
+      // what is left to go; "straight" once there (the label first, so the
+      // pin measures the tag at its new width)
       const left = t.from * (1 - s.straight);
       say(t, left < (t.d ? 0.05 : 0.5) ? D.tags.done : D.tags[t.key](D.num(left, t.d)));
+      pin(t, small, capEdge);
     }
   }
   for (const t of TRAY_TAGS) {
@@ -259,9 +287,9 @@ function placeTags(s) {
     const o = s.trays * clamp((up ? s.upIn : s.loIn) * 2.5);
     setVar(t.el, '--o', o); setVar(t.line, '--o', o); setVar(t.dot, '--o', o);
     if (o < 0.01) continue;
-    pin(t, small, capEdge);
     const seated = (up ? s.upSeat : s.loSeat) > 0.999;
     say(t, seated ? D.trays.seated : D.trays.going);
+    pin(t, small, capEdge);
     t.el.classList.toggle('is-done', seated);
   }
 }
@@ -284,14 +312,16 @@ const trayFrame = strip(trayFilm, FACE.tray), wearFrame = strip(wearFilm, FACE.w
 // into the click; the photo of it in place takes over as it seats
 function aligner(el, side, inK, seatK, onK, click) {
   const sign = side === 'u' ? 1 : -1;               // the upper waits below its teeth, the lower above
-  const wait = FACE.gap * 0.8 * sign;
+  const wait = FACE.gap * 0.55 * sign;
   const come = 1 - inK;
-  const y = wait * (1 - seatK * seatK * seatK) + come * 0.32 * sign;
+  // a short approach: the aligner stays near its own teeth instead of
+  // smearing across the other lip while it is still blurred
+  const y = wait * (1 - seatK * seatK * seatK) + come * 0.12 * sign;
   trayY[side] = y;
   setVar(el, '--y', y * 100);
-  setVar(el, '--s', 1 + come * 0.35);
-  setVar(el, '--b', come * 7);
-  setVar(el, '--o', clamp(inK * 1.6) * (1 - onK));
+  setVar(el, '--s', 1 + come * 0.16);
+  setVar(el, '--b', come * 3.5);
+  setVar(el, '--o', inK * inK * (1 - onK));
   setVar(el, '--c', click);
 }
 
