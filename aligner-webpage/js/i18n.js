@@ -17,7 +17,6 @@ const STORAGE_KEY = 'aixsmileLang';
 
 export const EN = {
   skip: 'Skip to content',
-  intro: { note: 'Loading straight teeth' },
   nav: {
     home: 'AIXSMILE, back to top', sections: 'Sections', book: 'Book now', call: 'Call us',
     ablauf: 'How it works', passt: 'Right for me?', alltag: 'Daily life', kosten: 'Costs', fragen: 'Questions',
@@ -46,18 +45,18 @@ export const EN = {
     s0t: 'The starting point', s0p: 'Slight crowding, a few rotated teeth: a typical starting point for aligners.',
     s1t: 'The scan', s1p: 'Instead of impression paste, a digital 3D scan: your teeth are captured in a few minutes. From it we plan every tooth movement.',
     s2t: 'The aligners', s2p: 'Custom-made and clear. We put the first aligner in together: it sits on your teeth just as they are now.',
-    s3t: 'Aligner by aligner', s3p: 'You wear each aligner about 22 hours a day. Every one to two weeks the next one follows, and your teeth move into place step by step.',
+    s3t: 'Aligner by aligner', s3p: 'You wear each aligner about 22 hours a day. Every one to two weeks the next one follows, and your teeth move into place.',
     s4t: 'The result', s4p: 'Check-ups accompany the movement, and a retainer keeps the result stable afterwards.',
   },
   sit: {
     h2: 'Which situation sounds like yours?',
     lead: 'Tap your situation. You will see what aligners can do there and how we go about it.',
     t1: 'My teeth are crowded and crooked.',
-    a1: 'Crowding is the most common reason for aligners. The trays make room step by step and line the teeth up. The plan after the scan shows how many aligners it takes.',
+    a1: 'Crowding is the most common reason for aligners. The trays make room and line the teeth up. The plan after the scan shows how many aligners it takes.',
     t2: 'I have gaps between my teeth.',
     a2: 'Small and medium gaps can often be closed well with aligners. The plan shows you beforehand how it will look.',
     t3: 'My bite is not quite right.',
-    a3: 'With an overbite, underbite or crossbite we check carefully whether aligners are enough or fixed braces suit you better. We will tell you honestly.',
+    a3: 'With an overbite, underbite or crossbite we check carefully whether aligners are enough or fixed braces suit you better.',
     t4: 'My teeth shifted again after braces.',
     a4: 'Then a few aligners are often enough. A retainer then keeps the result stable.',
     t5: 'I do not want fixed braces.',
@@ -79,17 +78,17 @@ export const EN = {
   ways: {
     h2: 'And in everyday life?',
     lead: 'The questions we are asked most often. Tap one.',
-    t1: 'Eating?', a1: 'You take the aligner out to eat. You eat everything as usual.',
+    t1: 'Can I eat with the aligner in?', a1: 'You take the aligner out to eat. You eat everything as usual.',
     m1: 'Afterwards brush your teeth and put the aligner back in. On the go it stays in its case.',
-    t2: 'Drinking?', a2: 'Water any time, with the aligner in.',
+    t2: 'And drink?', a2: 'Water any time, with the aligner in.',
     m2: 'Coffee, tea, juice and anything sweet are better without the aligner, or rinse your mouth afterwards: otherwise it stains, and sugar stays on the teeth.',
-    t3: 'Speaking?', a3: 'For the first few days some people lisp a little.',
+    t3: 'Does it change how I speak?', a3: 'For the first few days some people lisp a little.',
     m3: 'The tongue gets used to it quickly; usually it is gone after a few days. In conversation the aligner is barely noticeable.',
-    t4: 'Sport?', a4: 'Sport works with the aligner.',
+    t4: 'Can I do sport?', a4: 'Sport works with the aligner.',
     m4: 'You drink water with the aligner in. For contact sports we discuss suitable protection with you.',
-    t5: 'Does it press?', a5: 'Each new aligner presses for a day or two.',
+    t5: 'Does the aligner press?', a5: 'Each new aligner presses for a day or two.',
     m5: 'That shows it is working. After that it sits, and you hardly notice it.',
-    t6: 'Cleaning?', a6: 'A quick clean morning and evening.',
+    t6: 'How do I clean it?', a6: 'A quick clean morning and evening.',
     m6: 'Rinse with cold or lukewarm water and brush gently. Hot water deforms the aligner.',
     alt1: 'Hands put a clear aligner into its case at lunch (AI-generated image)',
     alt2: 'A woman in a knit sweater drinks a glass of water (AI-generated image)',
@@ -105,7 +104,7 @@ export const EN = {
     q1: 'What would you like to correct?',
     q1a: 'Crowded or crooked teeth', q1b: 'Gaps between the teeth', q1c: 'Overbite or underbite', q1d: 'Shifted again after braces',
     q2: 'What describes your everyday life best?',
-    q2a: 'Lots of contact with people', q2b: 'I often snack between meals', q2c: 'I forget things easily', q2d: 'Nothing special',
+    q2a: 'Lots of contact with people', q2b: 'I often snack between meals', q2c: 'Nothing special',
     q3: 'When would you like to start?',
     q3a: 'As soon as possible', q3b: 'In the next few months', q3c: 'I am just finding out for now',
     resH: 'What matters in your case:',
@@ -130,7 +129,7 @@ export const EN = {
   cost: {
     h2: 'What aligner treatment costs.',
     p1: 'The cost depends on the extent of the misalignment and the length of the treatment. For adults, aligner therapy is usually a private service.',
-    p2: 'After the scan and the planning you receive a written cost plan. You take it home and decide without time pressure.',
+    p2: 'After the scan and the planning you receive a written cost plan. You take it home.',
     sheet: 'Your cost plan',
     r1: 'Aligner therapy for adults', r1v: 'Usually a private service',
     r2: 'Paying', r2v: 'Instalments often possible',
@@ -140,15 +139,13 @@ export const EN = {
   },
   doctor: {
     h2: 'First the scan, then the plan.',
-    quote: '“A radiant smile is more than aesthetics – it is a piece of joy in life.”',
-    p1: 'After the scan we tell you openly whether aligners suit your teeth. And if fixed braces would be better, we tell you that too.',
+    p1: 'After the scan we tell you whether aligners suit your teeth. And if fixed braces would be better, we tell you that too.',
     role: 'Dentist · AIXSMILE dental practice, Aachen',
-    fact1: 'languages at the practice', fact2: 'wearing time a day', fact3: 'weeks per aligner',
     alt: 'Novin Molaie, dentist at the AIXSMILE dental practice in Aachen',
   },
   bk: {
     h2: 'Open consultation times.',
-    p: 'These times really are free right now. Pick a time, enter your name and phone number, done.',
+    p: 'Pick a time, enter your name and phone number, done.',
     fact1: 'Consultation with a digital 3D scan',
     fact2: 'A written cost plan before anything begins',
     fact3: 'If something comes up, one click in the appointment email is enough',
@@ -213,7 +210,7 @@ export const DYN = {
   de: {
     meta: {
       title: 'Aligner Aachen: unsichtbare Zahnschienen, digital geplant | AIXSMILE',
-      description: 'Aligner in Aachen bei AIXSMILE: transparente, herausnehmbare Zahnschienen korrigieren Fehlstellungen Schritt für Schritt. Digitaler 3D-Scan, Plan vorab, Termin online buchen.',
+      description: 'Aligner in Aachen bei AIXSMILE: transparente, herausnehmbare Zahnschienen korrigieren Fehlstellungen. Digitaler 3D-Scan, Plan vorab, Termin online buchen.',
     },
     plate: { label: 'Nächster freier Beratungstermin' },
     cost: { priceFrom: (n) => `Eine Aligner-Behandlung beginnt bei etwa ${n} €; den genauen Betrag nennt Ihr Kostenplan.` },
@@ -239,7 +236,6 @@ export const DYN = {
         [
           'Die Schienen sind transparent und fallen im Gespräch kaum auf.',
           'Zum Essen nehmen Sie die Schiene heraus, danach Zähne putzen und wieder einsetzen. Weniger Zwischenmahlzeiten machen das leichter.',
-          'Die Tragezeit von rund 22 Stunden ist der wichtigste Faktor. Eine feste Routine hilft: nach jedem Zähneputzen gleich wieder einsetzen.',
           'Dann passt die Tragezeit von rund 22 Stunden meist ohne große Umstellung.',
         ],
         [
@@ -275,7 +271,7 @@ export const DYN = {
   en: {
     meta: {
       title: 'Aligners Aachen: invisible braces, planned digitally | AIXSMILE',
-      description: 'Aligners in Aachen at AIXSMILE: clear, removable aligners correct misaligned teeth step by step. Digital 3D scan, plan in advance, book online.',
+      description: 'Aligners in Aachen at AIXSMILE: clear, removable aligners correct misaligned teeth. Digital 3D scan, plan in advance, book online.',
     },
     plate: { label: 'Next open consultation' },
     cost: { priceFrom: (n) => `Aligner treatment starts at around €${n}; your cost plan gives the exact amount.` },
@@ -299,7 +295,6 @@ export const DYN = {
         [
           'The aligners are clear and barely noticeable in conversation.',
           'You take the aligner out to eat, then brush and put it back in. Fewer snacks make that easier.',
-          'The wearing time of around 22 hours is the most important factor. A fixed routine helps: put it back in right after every brushing.',
           'Then the wearing time of around 22 hours usually fits without much change.',
         ],
         [

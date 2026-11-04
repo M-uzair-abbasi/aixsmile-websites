@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Aligner Aachen: unsichtbare Zahnschienen, digital geplant | AIXSMILE</title>
-<meta name="description" content="Aligner in Aachen bei AIXSMILE: transparente, herausnehmbare Zahnschienen korrigieren Fehlstellungen Schritt für Schritt. Digitaler 3D-Scan, Plan vorab, Termin online buchen.">
+<meta name="description" content="Aligner in Aachen bei AIXSMILE: transparente, herausnehmbare Zahnschienen korrigieren Fehlstellungen. Digitaler 3D-Scan, Plan vorab, Termin online buchen.">
 <link rel="canonical" href="https://aligneraachen.de/">
 <meta name="theme-color" content="#d2d4dd">
 <meta name="color-scheme" content="light">
@@ -31,12 +31,9 @@
     d.classList.remove('no-js');
     d.classList.add('js');
     var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var seen = false;
-    try { seen = sessionStorage.getItem('aixsmileAlignerIntro') === '1'; } catch (e) { /* private mode */ }
     if (calm) d.classList.add('is-calm');
     else {
       d.classList.add('scenes');
-      if (!seen) d.classList.add('is-intro');
     }
   })();
 </script>
@@ -104,20 +101,6 @@
 <body id="page">
 <a class="skip" href="#main" data-i18n="skip">Zum Inhalt springen</a>
 
-<!-- The opening (after igloo.inc's loader): on the misty field a row of teeth
-     stands crooked and straightens while her photo loads; the counter runs
-     to 100, then the field lifts away. Shown only while html.is-intro is set
-     (first visit). -->
-<div class="intro" id="intro" aria-hidden="true">
-  <div class="intro__stage">
-    <p class="intro__mark"><span translate="no">AIX<b>SMILE</b></span><span>/ Aligner</span></p>
-    <div class="intro__row">
-      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-    </div>
-    <p class="intro__count"><span id="introPct">000</span> %</p>
-  </div>
-  <p class="intro__note" data-i18n="intro.note">Gerade Zähne werden geladen</p>
-</div>
 
 <!-- The floating menu: appears once the opening scene is behind you. -->
 <header class="pill" id="pill">
@@ -174,7 +157,7 @@
 
     <div class="hud hud--top">
       <a class="brand" href="#top" data-i18n-aria="nav.home" aria-label="AIXSMILE, nach oben" translate="no">AIX<b>SMILE</b></a>
-      <p class="hud__mid" aria-hidden="true"><span data-i18n="hud.what">Aligner-Therapie</span> <i>//</i> <span>Aachen</span></p>
+      <p class="hud__mid" aria-hidden="true"><span data-i18n="hud.what">Aligner-Therapie</span> <i>·</i> <span>Aachen</span></p>
       <div class="hud__tools">
         <button type="button" class="lang" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language"><span data-l="de">DE</span><span data-l="en">EN</span></button>
         <a class="btn btn--sm" href="#termin" data-cta="book" data-i18n="nav.book">Termin buchen</a>
@@ -198,13 +181,11 @@
     <div hidden id="klarStart"><p data-i18n="steps.s0t">Die Ausgangslage</p><p data-i18n="steps.s0p">Ein leichter Engstand, ein paar gedrehte Zähne: eine typische Ausgangslage für Aligner.</p></div>
     <!-- the chapter that is playing; filled from the list below -->
     <div class="klar__cap" id="klarCap" aria-hidden="true">
-      <p class="klar__num"><b id="klarNum">01</b> / 04</p>
       <p class="klar__title" id="klarTitle"></p>
       <p class="klar__text" id="klarText"></p>
     </div>
 
     <div class="hud hud--bottom" aria-hidden="true">
-      <p class="hud__geo">50.7769° N <i>·</i> 6.0874° E</p>
       <p class="hud__tray" id="klarTray"><span data-i18n="hud.tray">Schiene</span> <b id="klarTrayNum">01</b> / 24</p>
     </div>
 
@@ -233,7 +214,7 @@
     <ol class="klar__list" id="klarList">
       <li><img src="assets/stills/scan.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s1t">Der Scan</h3><p data-i18n="steps.s1p">Statt Abdruckmasse ein digitaler 3D-Scan: In wenigen Minuten sind Ihre Zähne erfasst. Daraus planen wir jede Zahnbewegung.</p></li>
       <li><img src="assets/stills/aligner.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s2t">Die Schienen</h3><p data-i18n="steps.s2p">Maßgefertigt und transparent. Die erste Schiene setzen wir gemeinsam ein: Sie sitzt auf Ihren Zähnen, so wie sie jetzt stehen.</p></li>
-      <li><img src="assets/stills/wear.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s3t">Schiene für Schiene</h3><p data-i18n="steps.s3p">Sie tragen jede Schiene etwa 22 Stunden am Tag. Alle ein bis zwei Wochen kommt die nächste, und Ihre Zähne rücken Schritt für Schritt an ihren Platz.</p></li>
+      <li><img src="assets/stills/wear.webp" width="900" height="600" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s3t">Schiene für Schiene</h3><p data-i18n="steps.s3p">Sie tragen jede Schiene etwa 22 Stunden am Tag. Alle ein bis zwei Wochen kommt die nächste, und Ihre Zähne rücken an ihren Platz.</p></li>
       <li><img src="assets/stills/result.webp" width="900" height="900" loading="lazy" decoding="async" alt=""><h3 data-i18n="steps.s4t">Das Ergebnis</h3><p data-i18n="steps.s4p">Kontrolltermine begleiten die Bewegung, ein Retainer hält das Ergebnis danach stabil.</p></li>
     </ol>
   </div>
@@ -258,7 +239,7 @@
           <span class="sit__plus" aria-hidden="true"></span>
         </button>
         <div class="sit__a" id="sitA1">
-          <p data-i18n="sit.a1">Engstand ist der häufigste Grund für Aligner. Die Schienen schaffen Schritt für Schritt Platz und richten die Zähne aus. Wie viele Schienen es braucht, zeigt der Plan nach dem Scan.</p>
+          <p data-i18n="sit.a1">Engstand ist der häufigste Grund für Aligner. Die Schienen schaffen Platz und richten die Zähne aus. Wie viele Schienen es braucht, zeigt der Plan nach dem Scan.</p>
           <a class="textLink" href="#termin" data-note="sit.n1" data-i18n="sit.book">Termin zu diesem Anliegen</a>
         </div>
       </li>
@@ -282,7 +263,7 @@
           <span class="sit__plus" aria-hidden="true"></span>
         </button>
         <div class="sit__a" id="sitA3">
-          <p data-i18n="sit.a3">Bei Überbiss, Vorbiss oder Kreuzbiss prüfen wir genau, ob Aligner reichen oder eine feste Spange besser passt. Das sagen wir Ihnen ehrlich.</p>
+          <p data-i18n="sit.a3">Bei Überbiss, Vorbiss oder Kreuzbiss prüfen wir genau, ob Aligner reichen oder eine feste Spange besser passt.</p>
           <a class="textLink" href="#termin" data-note="sit.n3" data-i18n="sit.book">Termin zu diesem Anliegen</a>
         </div>
       </li>
@@ -320,7 +301,7 @@
      Without scenes it is a plain statement with the photo below. ===== -->
 <section class="grow" id="kaum" aria-label="Im Gespräch fällt die Schiene kaum auf." data-i18n-aria="grow.aria">
   <div class="grow__stick">
-    <p class="grow__text" aria-hidden="true"><span data-i18n="grow.a">Im Gespräch</span> <span class="grow__box"><img src="assets/photos/talk-960.webp" width="960" height="539" loading="lazy" decoding="async" alt=""></span> <span data-i18n="grow.b">fällt die Schiene kaum auf.</span></p>
+    <p class="grow__text" aria-hidden="true"><span data-i18n="grow.a">Im Gespräch</span> <span data-i18n="grow.b">fällt die Schiene kaum auf.</span></p>
     <figure class="grow__fill">
       <img src="assets/photos/talk.webp" srcset="assets/photos/talk-960.webp 960w, assets/photos/talk.webp 1600w" sizes="100vw" width="1600" height="899" loading="lazy" decoding="async" data-i18n-alt="grow.alt" alt="Zwei Freundinnen lachen zusammen im Café (KI-generiertes Bild)">
       <figcaption class="grow__band" id="growBand">
@@ -341,7 +322,7 @@
     </div>
     <ul class="ways__list" id="ways">
       <li class="way" data-img="0">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way1"><span class="way__no">01</span><span class="way__t" data-i18n="ways.t1">Essen?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way1"><span class="way__no">01</span><span class="way__t" data-i18n="ways.t1">Kann ich mit Schiene essen?</span><span class="way__plus" aria-hidden="true"></span></button>
         <div class="way__panel" id="way1">
           <div class="way__inner">
             <img class="way__img" src="assets/photos/day-lunch.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt1" alt="Hände legen beim Mittagessen eine transparente Schiene in ihre Aufbewahrungsdose (KI-generiertes Bild)">
@@ -351,7 +332,7 @@
         </div>
       </li>
       <li class="way" data-img="1">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way2"><span class="way__no">02</span><span class="way__t" data-i18n="ways.t2">Trinken?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way2"><span class="way__no">02</span><span class="way__t" data-i18n="ways.t2">Und trinken?</span><span class="way__plus" aria-hidden="true"></span></button>
         <div class="way__panel" id="way2">
           <div class="way__inner">
             <img class="way__img" src="assets/photos/ways-water.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="ways.alt2" alt="Eine Frau im Strickpullover trinkt ein Glas Wasser (KI-generiertes Bild)">
@@ -361,7 +342,7 @@
         </div>
       </li>
       <li class="way" data-img="2">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way3"><span class="way__no">03</span><span class="way__t" data-i18n="ways.t3">Sprechen?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way3"><span class="way__no">03</span><span class="way__t" data-i18n="ways.t3">Spricht man anders?</span><span class="way__plus" aria-hidden="true"></span></button>
         <div class="way__panel" id="way3">
           <div class="way__inner">
             <img class="way__img" src="assets/photos/day-office.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt3" alt="Ein Mann lacht in einer Besprechung im Büro (KI-generiertes Bild)">
@@ -371,7 +352,7 @@
         </div>
       </li>
       <li class="way" data-img="3">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way4"><span class="way__no">04</span><span class="way__t" data-i18n="ways.t4">Sport?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way4"><span class="way__no">04</span><span class="way__t" data-i18n="ways.t4">Geht Sport?</span><span class="way__plus" aria-hidden="true"></span></button>
         <div class="way__panel" id="way4">
           <div class="way__inner">
             <img class="way__img" src="assets/photos/ways-sport.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="ways.alt4" alt="Eine Frau in Laufkleidung lächelt nach dem Joggen im Park (KI-generiertes Bild)">
@@ -381,7 +362,7 @@
         </div>
       </li>
       <li class="way" data-img="4">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way5"><span class="way__no">05</span><span class="way__t" data-i18n="ways.t5">Drückt es?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way5"><span class="way__no">05</span><span class="way__t" data-i18n="ways.t5">Drückt die Schiene?</span><span class="way__plus" aria-hidden="true"></span></button>
         <div class="way__panel" id="way5">
           <div class="way__inner">
             <img class="way__img" src="assets/photos/wear.webp" width="900" height="1115" loading="lazy" decoding="async" data-i18n-alt="ways.alt5" alt="Eine Frau im Strickpullover drückt ihre transparente Schiene auf die Zähne (KI-generiertes Bild)">
@@ -391,7 +372,7 @@
         </div>
       </li>
       <li class="way" data-img="5">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way6"><span class="way__no">06</span><span class="way__t" data-i18n="ways.t6">Pflege?</span><span class="way__plus" aria-hidden="true"></span></button>
+        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way6"><span class="way__no">06</span><span class="way__t" data-i18n="ways.t6">Wie pflege ich sie?</span><span class="way__plus" aria-hidden="true"></span></button>
         <div class="way__panel" id="way6">
           <div class="way__inner">
             <img class="way__img" src="assets/photos/day-morning.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt6" alt="Eine Frau setzt vor dem Badezimmerspiegel ihre transparente Schiene ein (KI-generiertes Bild)">
@@ -419,9 +400,7 @@
     <div class="day__ring" id="dayRing" data-rv>
       <svg viewBox="0 0 400 400" aria-hidden="true">
         <defs>
-          <linearGradient id="prism" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#7fc8ff"/><stop offset=".35" stop-color="#a99bff"/><stop offset=".7" stop-color="#ff9cc6"/><stop offset="1" stop-color="#ffd58a"/>
-          </linearGradient>
+          <linearGradient id="prism" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a46c9"/><stop offset="1" stop-color="#3a46c9"/></linearGradient>
         </defs>
         <circle class="day__track" cx="200" cy="200" r="150"/>
         <g class="day__ticks" id="dayTicks"></g>
@@ -452,7 +431,6 @@
 <section class="sect sect--ink quiz opens" id="passt" aria-labelledby="quizH">
   <div class="wrap quiz__grid">
     <div class="quiz__head">
-      <p class="mono" aria-hidden="true">// 60 s</p>
       <h2 class="h2" id="quizH" data-rv="wipe"><span data-i18n="quiz.h2">Passt ein Aligner zu mir?</span></h2>
       <p class="sect__lead" data-rv data-i18n="quiz.lead">Drei kurze Fragen. Am Ende sehen Sie, worauf es bei Ihnen ankommt, und können die Antworten direkt in Ihre Terminbuchung übernehmen.</p>
     </div>
@@ -476,8 +454,7 @@
         <div class="quiz__opts">
           <button type="button" class="opt" data-a="0"><i>A</i><span data-i18n="quiz.q2a">Viel Kontakt mit Menschen</span></button>
           <button type="button" class="opt" data-a="1"><i>B</i><span data-i18n="quiz.q2b">Ich esse oft zwischendurch</span></button>
-          <button type="button" class="opt" data-a="2"><i>C</i><span data-i18n="quiz.q2c">Ich vergesse Dinge leicht</span></button>
-          <button type="button" class="opt" data-a="3"><i>D</i><span data-i18n="quiz.q2d">Nichts Besonderes</span></button>
+          <button type="button" class="opt" data-a="2"><i>C</i><span data-i18n="quiz.q2c">Nichts Besonderes</span></button>
         </div>
       </fieldset>
       <fieldset class="quiz__q" data-q="2">
@@ -528,11 +505,10 @@
       <div class="costs__text">
         <h2 class="h2" id="costH" data-i18n="cost.h2">Was eine Aligner-Behandlung kostet.</h2>
         <p data-i18n="cost.p1">Die Kosten hängen vom Umfang der Fehlstellung und von der Dauer der Behandlung ab. Für Erwachsene ist die Aligner-Therapie in der Regel eine Privatleistung.</p>
-        <p data-i18n="cost.p2">Nach Scan und Planung bekommen Sie einen schriftlichen Kostenplan. Den nehmen Sie mit nach Hause und entscheiden ohne Zeitdruck.</p>
+        <p data-i18n="cost.p2">Nach Scan und Planung bekommen Sie einen schriftlichen Kostenplan. Den nehmen Sie mit nach Hause.</p>
         <p class="costs__from" id="priceFrom" hidden></p>
       </div>
       <div class="sheet">
-        <p class="sheet__head" translate="no"><b>AIXSMILE</b><span>Großkölnstraße 22-28 · 52062 Aachen</span></p>
         <h3 data-i18n="cost.sheet">Ihr Kostenplan</h3>
         <dl class="sheet__rows">
           <div><dt data-i18n="cost.r1">Aligner-Therapie für Erwachsene</dt><dd data-i18n="cost.r1v">In der Regel Privatleistung</dd></div>
@@ -557,14 +533,8 @@
     </figure>
     <div class="doctor__text">
       <h2 class="h2" id="docH" data-rv="wipe"><span data-i18n="doctor.h2">Erst der Scan, dann der Plan.</span></h2>
-      <blockquote class="doctor__quote" data-rv><p data-i18n="doctor.quote">„Ein strahlendes Lächeln ist mehr als Ästhetik – es ist ein Stück Lebensfreude.“</p></blockquote>
-      <p data-rv data-i18n="doctor.p1">Ob Aligner zu Ihren Zähnen passen, sagen wir Ihnen nach dem Scan offen. Und wenn eine feste Spange besser wäre, auch das.</p>
+      <p data-rv data-i18n="doctor.p1">Ob Aligner zu Ihren Zähnen passen, sagen wir Ihnen nach dem Scan. Und wenn eine feste Spange besser wäre, auch das.</p>
       <p class="doctor__sign" data-rv><b>Novin Molaie</b><span data-i18n="doctor.role">Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen</span></p>
-      <ul class="doctor__facts" data-rv>
-        <li><b class="count" data-count="5">5</b><span data-i18n="doctor.fact1">Sprachen in der Praxis</span></li>
-        <li><b><span class="count" data-count="22">22</span> h</b><span data-i18n="doctor.fact2">Tragezeit am Tag</span></li>
-        <li><b>1–2</b><span data-i18n="doctor.fact3">Wochen pro Schiene</span></li>
-      </ul>
     </div>
   </div>
 </section>
@@ -573,7 +543,7 @@
   <div class="wrap booking__grid">
     <div class="booking__intro">
       <h2 class="h2" id="bkH" data-rv="wipe"><span data-i18n="bk.h2">Freie Termine für die Beratung.</span></h2>
-      <p class="sect__lead" data-rv data-i18n="bk.p">Diese Zeiten sind gerade wirklich frei. Zeit wählen, Namen und Telefonnummer eintragen, fertig.</p>
+      <p class="sect__lead" data-rv data-i18n="bk.p">Zeit wählen, Namen und Telefonnummer eintragen, fertig.</p>
       <ul class="booking__facts" data-rv>
         <li data-i18n="bk.fact1">Beratung mit digitalem 3D-Scan</li>
         <li data-i18n="bk.fact2">Schriftlicher Kostenplan, bevor es losgeht</li>

@@ -70,33 +70,7 @@ faceReady.then(() => {
 
 // ---------- the opening, then the hero builds itself ----------
 const ready = () => html.classList.add('is-ready');
-if (html.classList.contains('is-intro')) {
-  try { sessionStorage.setItem('aixsmileAlignerIntro', '1'); } catch { /* private mode: it plays again next time */ }
-  const intro = $('intro'), pct = $('introPct');
-  const t0 = performance.now();
-  let shown = 0, done = false;
-  // the teeth straighten with the load, never faster than 1.4 s; if loading
-  // stalls they creep towards 90 % and the opening gives up after 9 s
-  const step = () => {
-    const el = (performance.now() - t0) / 1000;
-    const target = done ? 1 : Math.min(el / 1.4, Math.max(loadK, 0.9 * (1 - Math.exp(-el / 2.2))));
-    shown += (target - shown) * 0.12;
-    if (shown > 0.996) shown = 1;
-    intro.style.setProperty('--k', shown.toFixed(4));
-    pct.textContent = String(Math.round(shown * 100)).padStart(3, '0');
-    if (shown < 1) { requestAnimationFrame(step); return; }
-    intro.classList.add('is-straight');
-    setTimeout(() => {
-      html.classList.add('is-lifting');
-      ready();
-      setTimeout(() => { html.classList.remove('is-intro', 'is-lifting'); intro.remove(); }, 1050);
-    }, 520);
-  };
-  requestAnimationFrame(step);
-  Promise.race([faceReady, new Promise((r) => setTimeout(r, 9000))]).then(() => { done = true; });
-} else {
-  Promise.race([faceReady, new Promise((r) => setTimeout(r, 2600))]).then(() => requestAnimationFrame(ready));
-}
+Promise.race([faceReady, new Promise((r) => setTimeout(r, 2600))]).then(() => requestAnimationFrame(ready));
 
 // ---------- smooth wheel on laptops ----------
 let lenis = null;
@@ -150,7 +124,7 @@ function showChapter(k, force) {
   const moved = k !== curCh;
   curCh = k;
   const li = k === 0 ? startCap : chapters[k - 1];
-  num.textContent = String(k).padStart(2, '0');
+  if (num) num.textContent = String(k).padStart(2, '0');
   // a chapter in the list is h3 + p; the starting point is two plain paragraphs
   const ps = li.querySelectorAll('p');
   title.textContent = (li.querySelector('h3') || ps[0]).textContent;
@@ -572,8 +546,11 @@ if (grow && scenesOn) {
   showBand(false);
   let R = null;
   const measure = () => {
-    const s = stickEl.getBoundingClientRect(), b = box.getBoundingClientRect();
-    R = { x: b.left - s.left, y: b.top - s.top, w: b.width, h: b.height, W: s.width, H: s.height };
+    const s = stickEl.getBoundingClientRect();
+    if (box) { const b = box.getBoundingClientRect(); R = { x: b.left - s.left, y: b.top - s.top, w: b.width, h: b.height, W: s.width, H: s.height }; return; }
+    // no inline box: the photo grows out of a small frame centred under the words
+    const w = Math.min(s.width * 0.26, 320), h = w * 0.56, t = textEl.getBoundingClientRect();
+    R = { x: (s.width - w) / 2, y: Math.min(t.bottom - s.top + 24, s.height - h - 24), w, h, W: s.width, H: s.height };
   };
   scene(grow, 'pin', (p) => {
     if (!R || !R.W) measure();
