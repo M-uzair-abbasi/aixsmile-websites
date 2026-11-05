@@ -531,39 +531,16 @@ sits.forEach((li) => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sits.some((li) => li.classList.contains('is-open'))) closeSits(); });
 
-// ---------- the big sentences: every word its own span, lit by its scene ----------
-const splitWords = (p) => {
-  all('[data-i18n]', p).forEach((span) => {
-    if (span.querySelector('.w')) return;
-    const parts = span.textContent.split(/(\s+)/);
-    span.textContent = '';
-    parts.forEach((w) => {
-      if (!w) return;
-      if (/^\s+$/.test(w)) { span.appendChild(document.createTextNode(w)); return; }
-      const s = document.createElement('span');
-      s.className = 'w';
-      s.textContent = w;
-      span.appendChild(s);
-    });
-  });
-  return all('.w', p);
-};
-const light = (words, k) => {
-  const n = words.length;
-  words.forEach((w, i) => {
-    const o = (0.14 + 0.86 * clamp(k * (n + 1.5) - i)).toFixed(3);
-    if (w.style.opacity !== o) w.style.opacity = o;
-  });
-};
-
-// ---------- "Im Gespräch [photo] fällt die Schiene kaum auf." ----------
-// the words light up, the little photo grows until it fills the screen (the
-// implant page's X-ray box), then the line and the button come up on it
+// ---------- "Im Gespräch fällt die Schiene kaum auf." ----------
+// In reverse: the photo starts full screen with the sentence low on it,
+// shrinks into a card between the sentence's two lines, the line and the
+// button come up on the card, then the sentence leaves the screen: its first
+// line to the left, the second to the right.
 const grow = $('kaum');
 if (grow && scenesOn) {
   const textEl = grow.querySelector('.grow__text');
-  let words = splitWords(textEl);
-  const stickEl = grow.querySelector('.grow__stick'), box = grow.querySelector('.grow__box');
+  const [lineA, lineB] = all('.grow__l', textEl);
+  const stickEl = grow.querySelector('.grow__stick');
   const fill = grow.querySelector('.grow__fill'), fimg = fill.querySelector('img');
   const bandLinks = all('a', $('growBand'));
   let banded = null;
@@ -575,73 +552,103 @@ if (grow && scenesOn) {
   };
   showBand(false);
   let R = null;
+  const px = (v) => `${v.toFixed(1)}px`;
   const measure = () => {
-    const s = stickEl.getBoundingClientRect();
-    if (box) { const b = box.getBoundingClientRect(); R = { x: b.left - s.left, y: b.top - s.top, w: b.width, h: b.height, W: s.width, H: s.height }; return; }
-    // no inline box: the photo grows out of a small frame centred under the words
-    const w = Math.min(s.width * 0.26, 320), h = w * 0.56, t = textEl.getBoundingClientRect();
-    R = { x: (s.width - w) / 2, y: Math.min(t.bottom - s.top + 24, s.height - h - 24), w, h, W: s.width, H: s.height };
+    const W = stickEl.clientWidth, H = stickEl.clientHeight, phone = phoneQ.matches;
+    // keep clear of the menu at the top and, on phones, the booking bar below
+    const top = phone ? 64 : 88, bottom = phone ? 100 : 28;
+    const gap = phone ? 16 : clamp(H * 0.035, 18, 34);
+    const hA = lineA.offsetHeight, hB = lineB.offsetHeight;
+    const room = H - top - bottom - hA - hB - 2 * gap;
+    let w = phone ? W - 40 : Math.min(W * (W < 1200 ? 0.62 : 0.5), 920), h = phone ? w * 1.1 : w * 0.5625;
+    if (h > room) { h = Math.max(140, room); if (!phone) w = h / 0.5625; }
+    const y0 = top + (H - top - bottom - (hA + hB + h + 2 * gap)) / 2;
+    const y = y0 + hA + gap, x = (W - w) / 2;
+    // the lines rest stacked in the middle; on the full photo they sit lower
+    const low = H * (phone ? 0.2 : 0.17);
+    R = { x, y, w, h, W, H, low, endA: y0 - lineA.offsetTop, endB: y + h + gap - lineB.offsetTop };
+    stickEl.style.setProperty('--cx', px(x));
+    stickEl.style.setProperty('--cy', px(y));
+    stickEl.style.setProperty('--cw', px(w));
+    stickEl.style.setProperty('--ch', px(h));
+    // a narrow card puts the button under the line
+    grow.classList.toggle('is-narrow', w < 680);
   };
   scene(grow, 'pin', (p) => {
     if (!R || !R.W) measure();
-    light(words, clamp(p / 0.3));
-    const e = ease(clamp((p - 0.32) / 0.42));
-    const t = R.y * (1 - e), l = R.x * (1 - e), r = (R.W - R.x - R.w) * (1 - e), b = (R.H - R.y - R.h) * (1 - e);
-    fill.style.clipPath = `inset(${t.toFixed(1)}px ${r.toFixed(1)}px ${b.toFixed(1)}px ${l.toFixed(1)}px round ${(R.h * 0.18 * (1 - e)).toFixed(1)}px)`;
-    const s0 = Math.max(R.w / R.W, R.h / R.H), sc = s0 + (1 - s0) * e;
-    const dx = (R.x + R.w / 2 - R.W / 2) * (1 - e), dy = (R.y + R.h / 2 - R.H / 2) * (1 - e);
-    fimg.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${sc.toFixed(4)})`;
-    textEl.style.opacity = (1 - clamp((p - 0.42) / 0.2)).toFixed(3);
-    showBand(p > 0.78);
+    const k = ease(clamp((p - 0.1) / 0.36));
+    const t = R.y * k, l = R.x * k, r = (R.W - R.x - R.w) * k, b = (R.H - R.y - R.h) * k;
+    fill.style.clipPath = `inset(${px(t)} ${px(r)} ${px(b)} ${px(l)} round ${px(Math.min(28, R.h * 0.07) * k)})`;
+    const s0 = Math.max(R.w / R.W, R.h / R.H), sc = 1 + (s0 - 1) * k;
+    const dx = (R.x + R.w / 2 - R.W / 2) * k, dy = (R.y + R.h / 2 - R.H / 2) * k;
+    fimg.style.transform = `translate(${px(dx)}, ${px(dy)}) scale(${sc.toFixed(4)})`;
+    setVar(stickEl, '--k', k);
+    const out = ease(clamp((p - 0.6) / 0.24)) * R.W * 1.05;
+    lineA.style.transform = `translate(${px(-out)}, ${px(R.low + (R.endA - R.low) * k)})`;
+    lineB.style.transform = `translate(${px(out)}, ${px(R.low + (R.endB - R.low) * k)})`;
+    showBand(p > 0.5);
   });
   addEventListener('resize', () => { R = null; });
-  onLangChange(() => { words = splitWords(textEl); R = null; rerun(); });
+  onLangChange(() => { R = null; rerun(); });
 }
 
-// ---------- everyday questions: giant words that open; a photo follows the mouse ----------
-// (the bleaching page's three ways) one open at a time; the words slide in
-// from alternate sides as they arrive
-const ways = $('alltag');
-if (ways) {
-  const items = all('.way', ways);
-  const float = $('waysFloat'), imgs = float ? all('img', float) : [];
-  const open = (li, on) => { li.classList.toggle('is-open', on); li.querySelector('.way__btn').setAttribute('aria-expanded', on ? 'true' : 'false'); };
-  items.forEach((li) => {
-    li.querySelector('.way__btn').addEventListener('click', () => {
-      const on = !li.classList.contains('is-open');
-      items.forEach((x) => open(x, false));
-      open(li, on);
-      if (on) ways.classList.remove('is-floating');
+// ---------- everyday questions on one photo ----------
+// The labels are tabs: one is always picked. Its thing stays lit (a soft hole
+// in a pale veil, which glides from thing to thing), its dot and line turn ice
+// blue, and its answer shows beside the photo. The dots on the photo pick too;
+// with a mouse, pointing is enough. With scenes a scan line crosses the photo
+// once as it comes into view, and the marks appear behind it.
+const desk = $('alltag');
+if (desk) {
+  const tabs = all('[role="tab"]', desk);
+  const panels = all('[role="tabpanel"]', desk);
+  const dots = all('.desk__dot', desk);
+  const lines = all('.desk__lines line', desk);
+  const veil = desk.querySelector('.desk__veil');
+  let cur = -1;
+  const pick = (i, focus) => {
+    if (i !== cur) {
+      cur = i;
+      tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i ? 'true' : 'false'); t.tabIndex = k === i ? 0 : -1; });
+      [panels, dots, lines].forEach((set) => set.forEach((el, k) => el.classList.toggle('is-on', k === i)));
+      const [sx, sy, sr] = tabs[i].dataset.spot.split(' ');
+      veil.style.setProperty('--sx', sx);
+      veil.style.setProperty('--sy', sy);
+      veil.style.setProperty('--sr', sr);
+    }
+    if (focus) tabs[i].focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => pick(i));
+    t.addEventListener('keydown', (e) => {
+      const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      const to = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : d ? (i + d + tabs.length) % tabs.length : -1;
+      if (to < 0) return;
+      e.preventDefault();
+      pick(to, true);
     });
-    scene(li, 'enter', (p) => setVar(li, '--e', ease(p)));
   });
-  if (fine && float) {
-    let fx = 0, fy = 0, tx0 = 0, ty0 = 0, rot = 0, fr = 0, frame = 0;
-    const follow = () => {
-      frame = 0;
-      fx += (tx0 - fx) * 0.2; fy += (ty0 - fy) * 0.2; rot += (fr - rot) * 0.15; fr *= 0.86;
-      float.style.setProperty('--fx', `${fx.toFixed(1)}px`);
-      float.style.setProperty('--fy', `${fy.toFixed(1)}px`);
-      float.style.setProperty('--fr', `${rot.toFixed(2)}deg`);
-      if (Math.abs(tx0 - fx) > 0.3 || Math.abs(ty0 - fy) > 0.3 || Math.abs(rot) > 0.05) frame = requestAnimationFrame(follow);
+  dots.forEach((dot, i) => dot.addEventListener('click', () => pick(i)));
+  if (fine) {
+    // a short wait, so crossing a label on the way to another does not pick it
+    let wait = 0;
+    const point = (el, i) => {
+      el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { clearTimeout(wait); wait = setTimeout(() => pick(i), 70); } });
+      el.addEventListener('pointerleave', () => clearTimeout(wait));
     };
-    ways.addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      const r = ways.getBoundingClientRect();
-      tx0 = e.clientX - r.left + 150; ty0 = e.clientY - r.top;
-      fr = clamp(e.movementX * 0.5, -9, 9);
-      // only over a closed question: an open one shows its photo in the panel
-      const btn = e.target.closest('.way__btn');
-      const over = btn && !btn.closest('.way').classList.contains('is-open') ? btn : null;
-      ways.classList.toggle('is-floating', !!over);
-      if (over) {
-        const k = +over.closest('.way').dataset.img;
-        imgs.forEach((im, i) => im.classList.toggle('is-on', i === k));
-        if (!ways.dataset.warm) { ways.dataset.warm = '1'; fx = tx0; fy = ty0; imgs.forEach((im) => { im.loading = 'eager'; }); }
-      }
-      if (!frame) frame = requestAnimationFrame(follow);
-    });
-    ways.addEventListener('pointerleave', () => ways.classList.remove('is-floating'));
+    tabs.forEach(point);
+    dots.forEach(point);
+  }
+  desk.classList.add('is-tabbed');
+  pick(0);
+  if (scenesOn) {
+    const fig = desk.querySelector('.desk__fig');
+    const lit = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      desk.classList.add('is-lit');
+      lit.disconnect();
+    }, { threshold: 0.45 });
+    lit.observe(fig);
   }
 }
 

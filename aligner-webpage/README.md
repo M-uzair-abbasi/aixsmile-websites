@@ -47,12 +47,24 @@ After the journey (sections and motion after bleaching-2 and the implant page, 2
 - **Welche Situation kennen Sie?** (`#situation`): five photo cards (the implant page's situation
   cards): crowded, gaps, bite, shifted after braces, no fixed braces wanted. A tap (or pointing with a
   mouse) opens what aligners do there; the card's link puts the concern into the booking note.
-- **"Im Gespräch [photo] fällt die Schiene kaum auf."** (`#kaum`): the words light up, the photo
-  grows from its box to the whole screen, then the line and the booking button (the implant
-  page's box).
-- **Und im Alltag?** (`#alltag`): six everyday questions as giant words that open (bleaching-2's
-  ways): Essen, Trinken, Sprechen, Sport, Drückt es, Pflege; each with a photo and a short answer, and
-  with a mouse a photo follows the pointer. The words slide in from alternate sides.
+- **"Im Gespräch fällt die Schiene kaum auf."** (`#kaum`, in reverse since 2026-11-05; it grew
+  like bleaching-2's box before, the user: "lets do it in reverse"): the photo fills the screen
+  with the sentence low on it (over a soft wash), shrinks into a card between the sentence's two
+  lines, the line "Lachen, ohne an die Schiene zu denken." and the booking button come up on the
+  card's lower edge, then the sentence leaves: the first line to the left, the second to the right.
+  The card is half the width on laptops (62 % under 1200 px, the full width on phones, taller
+  there); under 680 px wide the button sits under the line. Reduced motion: the sentence, then the
+  photo with the line on it.
+- **Und im Alltag?** (`#alltag`, since 2026-11-05; the giant words that opened were bleaching-2's
+  and the user found the two pages too alike): one photo from above of a normal day's things
+  (croissant, water, phone, running shoes, the aligner with its case, toothbrush), each marked like
+  the teeth in the journey (white dot, thin line, glass label: 01 Essen … 06 Pflege). The labels are
+  tabs: the picked thing stays lit in a soft hole of a pale veil that glides between things, and its
+  answer shows beside the photo (under it on tablets). A mouse only has to point. With scenes an
+  ice-blue scan line crosses the photo once and the marks appear behind it. Phones: dots on the
+  photo, the labels as a row of buttons under it. No JavaScript: all six answers listed. The spots
+  (`data-n` positions in `css/site.css`, `data-spot` = lit centre and radius) are fractions of the
+  photo, so a new photo needs new numbers.
 - "22 hours a day" as a ring (out 40 minutes for each meal), then a marquee (two giant lines,
   one each way), the 60-second check (three questions, the answers go into the booking note), a real
   case to compare (grows into place), costs, the doctor, booking, FAQ by
@@ -85,7 +97,11 @@ impeccable detector lists Geist as an overused AI-site font.)
 - **No longer used** (kept for now, never downloaded): the 3D journey `js/clear-stage.js`,
   `js/src/clear-*.js`, `tools/build-3d.mjs`, `assets/models/dentition.glb`, and the earlier hero
   photos `hero-wide/-tall.webp`, `finale*.webp`. The 3D source no longer matches the timeline
-  (its camera keys are gone), so it would need work before it builds again.
+  (its camera keys are gone), so it would need work before it builds again. Since 2026-11-05
+  also the old everyday-question photos `day-lunch/-office/-morning.webp`, `ways-water/-sport.webp`
+  and `assets/photos/wear.webp`.
+- `alltag.webp` (+ `-960`): the everyday table from above, AI (Higgsfield GPT Image 2, source
+  `tools/ai-src/alltag-flatlay.png`), cropped to 4:3, the warm grey stone cooled toward the page's frost.
 - `day.webp`: AI portrait (Higgsfield soul_2; source in `tools/ai-src/`). `talk.webp`, `day-morning/office/lunch.webp`, `wear.webp`: AI photos
   from Canva AI (sources `tools/ai-src/canva-*.jpg`, also kept in the Canva design "Aligner Seite
   Fotos"). `sit-*.webp`, `ways-*.webp`: Higgsfield soul_2 (sources `tools/ai-src/sit-*.png`,

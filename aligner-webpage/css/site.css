@@ -18,6 +18,10 @@
   inherits: true;
   initial-value: 50%;
 }
+/* the lit spot in the everyday photo glides from thing to thing */
+@property --sx { syntax: '<number>'; inherits: false; initial-value: .25; }
+@property --sy { syntax: '<number>'; inherits: false; initial-value: .245; }
+@property --sr { syntax: '<number>'; inherits: false; initial-value: .17; }
 /* the situation cards' hover zoom, kept separate from their scroll drift */
 @property --hz {
   syntax: '<number>';
@@ -522,7 +526,6 @@ html.no-js .quiz__top, html.no-js .quiz__q { display: none; }
   font: 640 clamp(40px, 6.4vw, 108px)/1.02 var(--sans); font-stretch: 118%;
   letter-spacing: -.045em; text-wrap: balance; max-width: 14ch; margin: 0 auto; position: relative; z-index: 1;
 }
-.w { display: inline-block; }
 /* the grown photo carries the line and the button, on its bright right side */
 .grow__fill { position: relative; justify-self: stretch; margin: clamp(48px, 8vh, 96px) calc(var(--gutter) * -1) 0; height: clamp(540px, 92svh, 920px); overflow: hidden; background: var(--mist); }
 .grow__fill img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
@@ -533,40 +536,105 @@ html.no-js .quiz__top, html.no-js .quiz__q { display: none; }
 }
 .grow__line { font: 640 clamp(34px, 4.2vw, 70px)/1.02 var(--sans); font-stretch: 116%; letter-spacing: -.04em; text-wrap: balance; }
 
-/* ---------- everyday questions as giant words that open ----------
-   Each opens on a tap; with a mouse a photo follows the pointer over the
-   closed ones (bleaching-2's ways). */
-.ways { background: var(--frost); overflow: hidden; }
-.ways__list { border-bottom: 1px solid var(--hair); }
-.way { border-top: 1px solid var(--hair); }
-.way__btn {
-  width: 100%; display: grid; grid-template-columns: clamp(36px, 4vw, 64px) minmax(0, 1fr) 52px; align-items: center; gap: 12px;
-  padding: clamp(12px, 2vh, 22px) 0; text-align: left; color: var(--text);
+/* ---------- everyday questions on one photo ----------
+   A normal day's things seen from above, marked the way the teeth are marked
+   at the top: a white dot, a thin line, a small glass label. The picked one
+   stays lit in a soft hole of a pale veil (the hole glides from thing to
+   thing); its answer shows beside the photo. On phones the labels sit in a
+   row under the photo. */
+.desk { background: var(--frost); }
+.desk__wrap {
+  display: grid; grid-template-columns: minmax(300px, 1fr) minmax(0, 2.3fr);
+  grid-template-rows: auto 1fr; grid-template-areas: "head stage" "panels stage";
+  column-gap: clamp(36px, 5vw, 80px);
 }
-.way__no { font: 500 12.5px/1 var(--mono); letter-spacing: .08em; color: var(--soft); align-self: start; padding-top: 1.2em; }
-.way__t {
-  display: block; width: fit-content; max-width: 100%;
-  font: 620 clamp(26px, 3vw, 44px)/1.08 var(--sans); font-stretch: 112%; letter-spacing: -.03em;
-  background: linear-gradient(var(--ice), var(--ice)) 0 92% / 0 .12em no-repeat;
-  transition: background-size .6s var(--ease-out);
+.desk__head { grid-area: head; margin-bottom: 0; align-content: start; }
+.desk__stage { grid-area: stage; position: relative; container-type: inline-size; }
+.desk__fig { position: relative; aspect-ratio: 4 / 3; border-radius: clamp(18px, 2vw, 28px); overflow: hidden; background: #d4d6de; }
+.desk__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.desk__veil {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: rgba(232, 234, 241, .5);
+  -webkit-mask: radial-gradient(calc(var(--sr) * 100%) calc(var(--sr) * 133.33%) at calc(var(--sx) * 100%) calc(var(--sy) * 100%), transparent 58%, #000 100%);
+  mask: radial-gradient(calc(var(--sr) * 100%) calc(var(--sr) * 133.33%) at calc(var(--sx) * 100%) calc(var(--sy) * 100%), transparent 58%, #000 100%);
+  transition: --sx .75s var(--ease-out), --sy .75s var(--ease-out), --sr .75s var(--ease-out), opacity .7s var(--ease);
 }
-.way__plus { position: relative; width: 52px; height: 52px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--hair); transition: transform .45s var(--ease), background-color .3s; }
-.way__plus::before, .way__plus::after { content: ''; position: absolute; left: 50%; top: 50%; width: 16px; height: 1.8px; margin: -.9px 0 0 -8px; background: currentColor; }
-.way__plus::after { transform: rotate(90deg); }
-.way.is-open .way__plus { transform: rotate(45deg); background: var(--ink); color: var(--on-dark); box-shadow: none; }
-.way.is-open .way__t { background-size: 100% .12em; }
-.way__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s var(--ease-out); }
-.way.is-open .way__panel { grid-template-rows: 1fr; }
-.way__inner {
-  min-height: 0; overflow: hidden;
-  display: grid; grid-template-columns: 168px minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px clamp(24px, 4vw, 64px); align-items: center;
-  padding-left: calc(clamp(36px, 4vw, 64px) + 12px);
+.desk.is-tabbed .desk__veil { opacity: 1; }
+/* where each thing is on the photo (fractions of its width and height): the dot
+   (--x, --y) and where its label sits (--lx, --ly); the lines are in the SVG */
+.desk [data-n="1"] { --x: .27; --y: .22; --lx: .40; --ly: .06; }
+.desk [data-n="2"] { --x: .555; --y: .25; --lx: .60; --ly: .45; }
+.desk [data-n="3"] { --x: .79; --y: .30; --lx: .80; --ly: .45; }
+.desk [data-n="4"] { --x: .285; --y: .60; --lx: .37; --ly: .47; }
+.desk [data-n="5"] { --x: .625; --y: .71; --lx: .62; --ly: .88; }
+.desk [data-n="6"] { --x: .77; --y: .70; --lx: .80; --ly: .93; }
+.desk__lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.desk__lines line { stroke: rgba(18, 20, 27, .5); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke .3s var(--ease), opacity .5s var(--ease); }
+.desk__lines line.is-on { stroke: var(--ice); stroke-width: 1.5; }
+.desk__dot {
+  position: absolute; left: calc(var(--x) * 100%); top: calc(var(--y) * 100%);
+  width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 0 1px rgba(18, 20, 27, .6), 0 2px 6px rgba(18, 20, 27, .18);
+  transition: background-color .3s var(--ease), box-shadow .3s var(--ease), opacity .5s var(--ease);
 }
-.way.is-open .way__inner { padding-bottom: clamp(20px, 3vh, 32px); }
-.way__img { width: 168px; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; }
-.way__fit { font: 620 clamp(19px, 1.6vw, 24px)/1.3 var(--sans); font-stretch: 106%; letter-spacing: -.015em; }
-.way__more { font-size: 16px; line-height: 1.55; color: var(--soft); }
-.ways__float { display: none; }
+/* a bigger target for a finger, and the ring around the picked one */
+.desk__dot::before { content: ''; position: absolute; inset: -14px; border-radius: 50%; }
+.desk__dot::after {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid rgba(58, 70, 201, .5);
+  opacity: 0; scale: .5; transition: opacity .3s var(--ease), scale .5s var(--ease-expo);
+}
+.desk.is-tabbed .desk__dot { cursor: pointer; }
+.desk__dot.is-on { background: var(--ice); box-shadow: 0 0 0 1px var(--ice), 0 2px 6px rgba(18, 20, 27, .18); }
+.desk__dot.is-on::after { opacity: 1; scale: 1; }
+/* the labels: on the photo, each joined to its dot by a line */
+.desk__tags { position: absolute; left: 0; top: 0; width: 100%; aspect-ratio: 4 / 3; pointer-events: none; }
+.dtag {
+  position: absolute; left: calc(var(--lx) * 100%); top: calc(var(--ly) * 100%); translate: 0 -50%;
+  display: inline-flex; align-items: baseline; gap: 6px; pointer-events: auto;
+  padding: 7px 11px; border-radius: 8px;
+  background: rgba(246, 247, 249, .92); border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: 0 4px 14px rgba(18, 20, 27, .1);
+  font: 500 12px/1.2 var(--mono); letter-spacing: .02em; white-space: nowrap; color: var(--ink);
+  transition: background-color .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease), opacity .5s var(--ease), translate .7s var(--ease-out);
+}
+.dtag b { font-weight: 700; }
+.dtag span { color: var(--soft); transition: color .3s var(--ease); }
+.dtag[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+.dtag[aria-selected="true"] b { color: var(--ice-hi); }
+.dtag[aria-selected="true"] span { color: var(--on-dark); }
+/* the answers: without JavaScript all six in a list; with it, the picked one */
+.desk__panels { grid-area: panels; align-self: end; display: grid; gap: 32px; }
+.desk__panel { display: grid; gap: 10px; align-content: start; padding-top: 20px; border-top: 1px solid var(--hair); }
+.desk__k { font: 500 12.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ice); }
+.desk__k b { font-weight: 700; margin-right: 4px; }
+.desk__q { margin-top: 4px; font: 640 clamp(26px, 2.2vw, 34px)/1.08 var(--sans); font-stretch: 112%; letter-spacing: -.03em; text-wrap: balance; }
+.desk__fit { font: 620 clamp(18px, 1.35vw, 21px)/1.35 var(--sans); font-stretch: 106%; letter-spacing: -.012em; }
+.desk__more { font-size: 16px; line-height: 1.55; color: var(--soft); }
+.desk.is-tabbed .desk__panels { gap: 0; }
+.desk.is-tabbed .desk__panel {
+  grid-area: 1 / 1; opacity: 0; visibility: hidden; translate: 0 14px;
+  transition: opacity .3s var(--ease), translate .5s var(--ease-out), visibility 0s .3s;
+}
+.desk.is-tabbed .desk__panel.is-on {
+  opacity: 1; visibility: visible; translate: 0 0;
+  transition: opacity .5s var(--ease) .08s, translate .7s var(--ease-out) .08s, visibility 0s;
+}
+/* the scan: once, as the photo comes into view; the marks appear behind the line */
+.desk__scan {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 28px; margin-left: -14px; pointer-events: none; opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(58, 70, 201, .16) 38%, var(--ice) 47% 53%, rgba(58, 70, 201, .16) 62%, transparent);
+}
+@keyframes deskScan {
+  0% { opacity: 0; transform: translateX(0); }
+  8%, 90% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(100cqw); }
+}
+html.scenes .desk.is-lit .desk__scan { animation: deskScan 1.5s cubic-bezier(.45, .05, .55, .95) .15s both; }
+html.scenes .desk:not(.is-lit) :is(.desk__dot, .desk__lines line, .dtag, .desk__veil) { opacity: 0; }
+html.scenes .desk.is-lit .desk__dot { transition-delay: 0s, 0s, calc(.2s + var(--x) * 1.35s); }
+html.scenes .desk.is-lit .desk__lines line { transition-delay: 0s, calc(.2s + var(--x) * 1.35s); }
+html.scenes .desk.is-lit .dtag { transition-delay: 0s, 0s, 0s, calc(.3s + var(--x) * 1.35s), calc(.3s + var(--x) * 1.35s); }
+html.scenes .desk.is-lit .desk__veil { transition-delay: 0s, 0s, 0s, 1.5s; }
 
 /* ---------- 22 hours: the day as a ring ---------- */
 .day__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 96px); align-items: center; }
@@ -871,21 +939,45 @@ html.scenes .doctor__fig img { scale: 1.12; translate: 0 calc((var(--p, .5) - .5
 /* the situation photos drift inside their cards */
 html.scenes .sit__img { scale: calc(1.12 + var(--hz)); translate: 0 calc((var(--p, .5) - .5) * -9%); }
 
-/* the big sentence: the words light up, then the photo grows from its box to
-   the whole screen (JS sets the clip and the scale), then the line comes up */
-html.scenes .grow { height: 300vh; height: 300svh; }
-html.scenes .grow__stick { position: sticky; top: 0; height: 100vh; height: 100svh; padding-block: 0; }
-html.scenes .grow__fill { position: absolute; inset: 0; z-index: 2; margin: 0; height: auto; pointer-events: none; clip-path: inset(50%); }
+/* the big sentence, in reverse: the photo fills the screen with the sentence
+   low on it (over a soft wash), shrinks into a card between the sentence's two
+   lines, the line and the button come up on the card's lower edge, then the
+   lines leave, the first to the left and the second to the right. JS sets the
+   clip, the photo's scale, each line's shift, --k (how far the photo has shrunk)
+   and the card's box (--cx, --cy, --cw, --ch), which the band and its shade use. */
+html.scenes .grow { height: 340vh; height: 340svh; }
+html.scenes .grow__stick { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0; }
+html.scenes .grow__fill { position: absolute; inset: 0; z-index: 1; margin: 0; height: auto; pointer-events: none; }
 html.scenes .grow__fill img { transform-origin: 50% 50%; will-change: transform; }
-html.scenes .grow__fill::after { opacity: 0; transition: opacity .8s var(--ease); }
-html.scenes .grow__band { opacity: 0; visibility: hidden; translate: 0 26px; transition: opacity .7s var(--ease), translate .9s var(--ease-out), visibility 0s .7s; }
+html.scenes .grow__fill::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(236, 238, 243, 0) 28%, rgba(236, 238, 243, .72) 64%, rgba(236, 238, 243, .9));
+  opacity: calc(1 - var(--k, 0));
+}
+html.scenes .grow__fill::after {
+  inset: auto; left: var(--cx, 0px); top: var(--cy, 0px); width: var(--cw, 100%); height: var(--ch, 100%);
+  background: linear-gradient(180deg, rgba(236, 238, 243, 0) 42%, rgba(236, 238, 243, .92) 88%);
+  opacity: 0; transition: opacity .8s var(--ease);
+}
+html.scenes .grow__text {
+  position: absolute; inset: 0; z-index: 3; display: grid; align-content: center; justify-items: center;
+  max-width: none; margin: 0; padding-inline: var(--gutter); font-size: clamp(34px, 4.8vw, 92px); pointer-events: none;
+}
+html.scenes .grow__l { display: block; will-change: transform; }
+html.scenes .grow__band {
+  --bp: clamp(18px, 2.2vw, 32px);
+  top: auto; right: auto; transform: none; z-index: 2;
+  left: calc(var(--cx, 0px) + var(--bp)); bottom: calc(100% - var(--cy, 0px) - var(--ch, 100%) + var(--bp)); width: calc(var(--cw, 100%) - 2 * var(--bp));
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 24px;
+  opacity: 0; visibility: hidden; translate: 0 26px; transition: opacity .7s var(--ease), translate .9s var(--ease-out), visibility 0s .7s;
+}
+html.scenes .grow__band .grow__line { font-size: clamp(24px, 2.2vw, 38px); max-width: 17ch; }
+html.scenes .grow__band .btn { flex: none; }
+html.scenes .grow.is-narrow .grow__band { flex-direction: column; align-items: flex-start; }
 html.scenes .grow.is-band .grow__fill { pointer-events: auto; }
 html.scenes .grow.is-band .grow__fill::after { opacity: 1; }
 html.scenes .grow.is-band .grow__band { opacity: 1; visibility: visible; translate: 0 0; transition: opacity .8s var(--ease), translate 1s var(--ease-out), visibility 0s; }
 html.scenes .grow.is-band .grow__band .btn { transition-delay: .12s; }
-
-/* the giant words slide in from alternate sides as they arrive */
-html.scenes .way__t { opacity: calc(.15 + var(--e, 1) * .85); }
 
 /* the real case grows into place */
 html.scenes .case__fig { scale: calc(.9 + .1 * var(--e, 1)); }
@@ -905,8 +997,11 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
    ========================================================================== */
 @media (max-width: 1100px) {
   .pill__nav a { padding: 0 9px; }
-  .way__inner { grid-template-columns: 140px minmax(0, 1fr); }
-  .way__img { width: 140px; grid-row: span 2; }
+  /* the everyday questions: words, photo and answer one under the other */
+  .desk__wrap { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-template-areas: "head" "stage" "panels"; }
+  .desk__head { margin-bottom: clamp(24px, 4vh, 40px); }
+  .desk__stage { width: min(100%, 860px); }
+  .desk__panels { align-self: start; margin-top: clamp(24px, 4vh, 36px); max-width: 640px; }
   .hero__copy { width: min(540px, 50vw); }
   .plate { display: none; }
   html.scenes .klar__rail { right: calc(var(--gutter) + 150px); left: calc(var(--gutter) + 190px); }
@@ -938,6 +1033,11 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .foot__info { margin-top: 0; }
   .sheet { justify-self: start; }
   html:not(.scenes) .klar__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* the everyday questions: only the dots on the photo, the labels in a row under it */
+  .desk__stage { width: 100%; }
+  .desk__lines { display: none; }
+  .desk__tags { position: static; width: auto; aspect-ratio: auto; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .dtag { position: static; translate: none; min-height: 44px; align-items: center; padding: 0 14px; background: #f6f7f9; border-color: var(--hair); box-shadow: none; font-size: 12.5px; }
 }
 
 /* ==========================================================================
@@ -1021,15 +1121,10 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .grow__fill::after { background: linear-gradient(180deg, rgba(236, 238, 243, 0) 40%, rgba(236, 238, 243, .92) 78%); }
   .grow__band { top: auto; bottom: calc(92px + env(safe-area-inset-bottom)); left: var(--gutter); right: var(--gutter); transform: none; width: auto; }
   .grow__line { font-size: clamp(30px, 8.8vw, 40px); }
-  /* the everyday questions: smaller words, the picture beside the answer */
-  .way__btn { grid-template-columns: minmax(0, 1fr) 44px; gap: 10px; padding: 14px 0; }
-  .way__no { display: none; }
-  .way__t { font-size: clamp(22px, 5.6vw, 30px); }
-  .way__plus { width: 44px; height: 44px; }
-  .way__inner { grid-template-columns: 96px minmax(0, 1fr); padding-left: 0; gap: 8px 16px; align-items: start; }
-  .way__img { width: 96px; grid-row: span 2; border-radius: 12px; }
-  .way__fit { font-size: 17px; }
-  .way__more { font-size: 14.5px; }
+  /* the big sentence: a smaller line and button on the narrow card */
+  html.scenes .grow__band { --bp: 14px; }
+  html.scenes .grow__band .btn { max-width: 100%; padding-inline: 16px; font-size: 14px; }
+  html.scenes .grow__band .grow__line { font-size: clamp(22px, 6.4vw, 28px); }
 }
 
 /* short phones: the headline alone above her, the lead would cover her face */
@@ -1043,7 +1138,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
 @media (hover: hover) and (pointer: fine) {
   .sit__btn:hover .sit__img, .sit.is-open .sit__img { --hz: .05; }
   .sit:not(.is-open) .sit__btn:hover .sit__plus { background: rgba(18, 20, 27, .6); }
-  .way__btn:hover .way__t { background-size: 100% .12em; }
   .btn:hover { box-shadow: 0 0 0 1px rgba(255, 255, 255, .2), 0 10px 28px rgba(18, 20, 27, .22); }
   .btn:hover .arrow { transform: translateX(4px); }
   .btn--light:hover { box-shadow: 0 10px 28px rgba(0, 0, 0, .3); }
@@ -1060,21 +1154,6 @@ html.scenes .foot__mark .ch { translate: 0 calc((1 - var(--k, 1)) * 100%); }
   .quickBtn:hover, .time:hover { border-color: rgba(18, 20, 27, .35); }
   .mapTile:hover img { transform: scale(1.03); }
   .foot__legal a:hover { background: rgba(255, 255, 255, .1); }
-}
-
-/* with a mouse on a wide screen, a photo follows the pointer over the closed questions */
-@media (hover: hover) and (pointer: fine) and (min-width: 901px) {
-  .ways__float {
-    display: block; position: absolute; z-index: 4; left: 0; top: 0; width: 240px; aspect-ratio: 4 / 5;
-    border-radius: 20px; overflow: hidden; pointer-events: none;
-    opacity: 0; scale: .7; rotate: var(--fr, 0deg);
-    translate: calc(var(--fx, 0px) - 50%) calc(var(--fy, 0px) - 50%);
-    transition: opacity .35s var(--ease), scale .5s var(--ease-expo);
-    box-shadow: 0 30px 60px rgba(18, 20, 27, .25);
-  }
-  .ways.is-floating .ways__float { opacity: 1; scale: 1; }
-  .ways__float img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s var(--ease); }
-  .ways__float img.is-on { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

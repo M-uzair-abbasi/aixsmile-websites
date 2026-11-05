@@ -322,13 +322,14 @@
   </div>
 </section>
 
-<!-- ===== The big sentence carries a small photo in its middle; while you
-     scroll, its words light up and the photo grows until it fills the screen,
-     then the line and the button come up on it (the implant page's box).
-     Without scenes it is a plain statement with the photo below. ===== -->
+<!-- ===== The big sentence, in reverse: the photo fills the screen with the
+     sentence on it; while you scroll it shrinks into a card between the
+     sentence's two lines, the line and the button come up on the card, then
+     the sentence leaves the screen, its first line to the left and the second
+     to the right. Without scenes it is a plain statement with the photo below. ===== -->
 <section class="grow" id="kaum" aria-label="Im Gespräch fällt die Schiene kaum auf." data-i18n-aria="grow.aria">
   <div class="grow__stick">
-    <p class="grow__text" aria-hidden="true"><span data-i18n="grow.a">Im Gespräch</span> <span data-i18n="grow.b">fällt die Schiene kaum auf.</span></p>
+    <p class="grow__text" aria-hidden="true"><span class="grow__l" data-i18n="grow.a">Im Gespräch</span> <span class="grow__l" data-i18n="grow.b">fällt die Schiene kaum auf.</span></p>
     <figure class="grow__fill">
       <img src="assets/photos/talk.webp" srcset="assets/photos/talk-960.webp 960w, assets/photos/talk.webp 1600w" sizes="100vw" width="1600" height="899" loading="lazy" decoding="async" data-i18n-alt="grow.alt" alt="Zwei Freundinnen lachen zusammen im Café (KI-generiertes Bild)">
       <figcaption class="grow__band" id="growBand">
@@ -339,85 +340,87 @@
   </div>
 </section>
 
-<!-- ===== Everyday questions as giant words (the bleaching page's three ways):
-     each opens on a tap; with a mouse a photo follows the pointer. ===== -->
-<section class="sect ways" id="alltag" aria-labelledby="waysH">
-  <div class="wrap">
-    <div class="sect__head">
+<!-- ===== Everyday questions on one photo: a normal day's things seen from
+     above, each marked the way the teeth are marked at the top (a dot, a thin
+     line, a small label). A label (or its dot) picks a question: its thing
+     stays lit, the rest of the table goes pale, and the answer shows beside
+     the photo. On phones the labels sit in a row under the photo and only the
+     dots stay on it. With scenes a scan line crosses the photo once and the
+     marks appear behind it. Without JavaScript all six answers are listed. ===== -->
+<section class="sect desk" id="alltag" aria-labelledby="waysH">
+  <div class="wrap desk__wrap">
+    <div class="sect__head desk__head">
       <h2 class="h2" id="waysH" data-rv="wipe"><span data-i18n="ways.h2">Und im Alltag?</span></h2>
-      <p class="sect__lead" data-rv data-i18n="ways.lead">Die Fragen, die uns am häufigsten gestellt werden. Tippen Sie auf eine.</p>
+      <p class="sect__lead" data-rv data-i18n="ways.lead">Sechs Dinge aus einem ganz normalen Tag, sechs Fragen dazu. Tippen Sie auf eine Markierung.</p>
     </div>
-    <ul class="ways__list" id="ways">
-      <li class="way" data-img="0">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way1"><span class="way__no">01</span><span class="way__t" data-i18n="ways.t1">Kann ich mit Schiene essen?</span><span class="way__plus" aria-hidden="true"></span></button>
-        <div class="way__panel" id="way1">
-          <div class="way__inner">
-            <img class="way__img" src="assets/photos/day-lunch.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt1" alt="Hände legen beim Mittagessen eine transparente Schiene in ihre Aufbewahrungsdose (KI-generiertes Bild)">
-            <p class="way__fit" data-i18n="ways.a1">Zum Essen nehmen Sie die Schiene heraus. Sie essen alles wie gewohnt.</p>
-            <p class="way__more" data-i18n="ways.m1">Danach Zähne putzen und die Schiene wieder einsetzen. Unterwegs liegt sie in ihrer Dose.</p>
-          </div>
-        </div>
-      </li>
-      <li class="way" data-img="1">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way2"><span class="way__no">02</span><span class="way__t" data-i18n="ways.t2">Und trinken?</span><span class="way__plus" aria-hidden="true"></span></button>
-        <div class="way__panel" id="way2">
-          <div class="way__inner">
-            <img class="way__img" src="assets/photos/ways-water.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="ways.alt2" alt="Eine Frau im Strickpullover trinkt ein Glas Wasser (KI-generiertes Bild)">
-            <p class="way__fit" data-i18n="ways.a2">Wasser jederzeit, auch mit Schiene.</p>
-            <p class="way__more" data-i18n="ways.m2">Kaffee, Tee, Saft und Süßes besser ohne Schiene, oder danach den Mund ausspülen: sonst verfärbt sie sich, und Zucker bleibt an den Zähnen.</p>
-          </div>
-        </div>
-      </li>
-      <li class="way" data-img="2">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way3"><span class="way__no">03</span><span class="way__t" data-i18n="ways.t3">Spricht man anders?</span><span class="way__plus" aria-hidden="true"></span></button>
-        <div class="way__panel" id="way3">
-          <div class="way__inner">
-            <img class="way__img" src="assets/photos/day-office.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt3" alt="Ein Mann lacht in einer Besprechung im Büro (KI-generiertes Bild)">
-            <p class="way__fit" data-i18n="ways.a3">Die ersten Tage lispeln manche ein wenig.</p>
-            <p class="way__more" data-i18n="ways.m3">Die Zunge gewöhnt sich schnell daran, meist ist es nach wenigen Tagen vorbei. Im Gespräch fällt die Schiene kaum auf.</p>
-          </div>
-        </div>
-      </li>
-      <li class="way" data-img="3">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way4"><span class="way__no">04</span><span class="way__t" data-i18n="ways.t4">Geht Sport?</span><span class="way__plus" aria-hidden="true"></span></button>
-        <div class="way__panel" id="way4">
-          <div class="way__inner">
-            <img class="way__img" src="assets/photos/ways-sport.webp" width="900" height="1125" loading="lazy" decoding="async" data-i18n-alt="ways.alt4" alt="Eine Frau in Laufkleidung lächelt nach dem Joggen im Park (KI-generiertes Bild)">
-            <p class="way__fit" data-i18n="ways.a4">Sport geht mit Schiene.</p>
-            <p class="way__more" data-i18n="ways.m4">Wasser trinken Sie mit Schiene. Für Kontaktsport besprechen wir mit Ihnen einen passenden Schutz.</p>
-          </div>
-        </div>
-      </li>
-      <li class="way" data-img="4">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way5"><span class="way__no">05</span><span class="way__t" data-i18n="ways.t5">Drückt die Schiene?</span><span class="way__plus" aria-hidden="true"></span></button>
-        <div class="way__panel" id="way5">
-          <div class="way__inner">
-            <img class="way__img" src="assets/photos/wear.webp" width="900" height="1115" loading="lazy" decoding="async" data-i18n-alt="ways.alt5" alt="Eine Frau im Strickpullover drückt ihre transparente Schiene auf die Zähne (KI-generiertes Bild)">
-            <p class="way__fit" data-i18n="ways.a5">Jede neue Schiene drückt ein, zwei Tage lang.</p>
-            <p class="way__more" data-i18n="ways.m5">Das zeigt, dass sie arbeitet. Danach sitzt sie, und Sie merken sie kaum noch.</p>
-          </div>
-        </div>
-      </li>
-      <li class="way" data-img="5">
-        <button type="button" class="way__btn" aria-expanded="false" aria-controls="way6"><span class="way__no">06</span><span class="way__t" data-i18n="ways.t6">Wie pflege ich sie?</span><span class="way__plus" aria-hidden="true"></span></button>
-        <div class="way__panel" id="way6">
-          <div class="way__inner">
-            <img class="way__img" src="assets/photos/day-morning.webp" width="900" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt6" alt="Eine Frau setzt vor dem Badezimmerspiegel ihre transparente Schiene ein (KI-generiertes Bild)">
-            <p class="way__fit" data-i18n="ways.a6">Morgens und abends kurz reinigen.</p>
-            <p class="way__more" data-i18n="ways.m6">Mit kaltem oder lauwarmem Wasser abspülen und sanft bürsten. Heißes Wasser verformt die Schiene.</p>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <div class="desk__stage">
+      <figure class="desk__fig">
+        <img class="desk__img" src="assets/photos/alltag.webp" srcset="assets/photos/alltag-960.webp 960w, assets/photos/alltag.webp 1600w" sizes="(max-width: 1100px) 100vw, 62vw" width="1600" height="1200" loading="lazy" decoding="async" data-i18n-alt="ways.alt" alt="Von oben auf einem hellen Steintisch: ein Croissant, ein Glas Wasser, ein Handy, Laufschuhe, eine transparente Schiene mit ihrer Dose, Zahnbürste und Zahnpasta (KI-generiertes Bild)">
+        <span class="desk__veil" aria-hidden="true"></span>
+        <svg class="desk__lines" viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden="true">
+          <line data-n="1" x1="27" y1="16.5" x2="40" y2="4.5"/>
+          <line data-n="2" x1="55.5" y1="18.75" x2="60" y2="33.75"/>
+          <line data-n="3" x1="79" y1="22.5" x2="80" y2="33.75"/>
+          <line data-n="4" x1="28.5" y1="45" x2="37" y2="35.25"/>
+          <line data-n="5" x1="62.5" y1="53.25" x2="62" y2="66"/>
+          <line data-n="6" x1="77" y1="52.5" x2="80" y2="69.75"/>
+        </svg>
+        <span class="desk__dot" data-n="1" aria-hidden="true"></span>
+        <span class="desk__dot" data-n="2" aria-hidden="true"></span>
+        <span class="desk__dot" data-n="3" aria-hidden="true"></span>
+        <span class="desk__dot" data-n="4" aria-hidden="true"></span>
+        <span class="desk__dot" data-n="5" aria-hidden="true"></span>
+        <span class="desk__dot" data-n="6" aria-hidden="true"></span>
+        <span class="desk__scan" aria-hidden="true"></span>
+      </figure>
+      <div class="desk__tags" role="tablist" aria-label="Alltagsfragen" data-i18n-aria="ways.tabs">
+        <button type="button" role="tab" class="dtag" id="wayTab1" data-n="1" aria-controls="way1" aria-selected="true" data-spot=".25 .245 .17"><b>01</b> <span data-i18n="ways.k1">Essen</span></button>
+        <button type="button" role="tab" class="dtag" id="wayTab2" data-n="2" aria-controls="way2" aria-selected="false" tabindex="-1" data-spot=".555 .23 .11"><b>02</b> <span data-i18n="ways.k2">Trinken</span></button>
+        <button type="button" role="tab" class="dtag" id="wayTab3" data-n="3" aria-controls="way3" aria-selected="false" tabindex="-1" data-spot=".79 .265 .11"><b>03</b> <span data-i18n="ways.k3">Sprechen</span></button>
+        <button type="button" role="tab" class="dtag" id="wayTab4" data-n="4" aria-controls="way4" aria-selected="false" tabindex="-1" data-spot=".21 .65 .2"><b>04</b> <span data-i18n="ways.k4">Sport</span></button>
+        <button type="button" role="tab" class="dtag" id="wayTab5" data-n="5" aria-controls="way5" aria-selected="false" tabindex="-1" data-spot=".555 .67 .16"><b>05</b> <span data-i18n="ways.k5">Druck</span></button>
+        <button type="button" role="tab" class="dtag" id="wayTab6" data-n="6" aria-controls="way6" aria-selected="false" tabindex="-1" data-spot=".82 .665 .12"><b>06</b> <span data-i18n="ways.k6">Pflege</span></button>
+      </div>
+    </div>
+    <div class="desk__panels" id="ways">
+      <div class="desk__panel" id="way1" role="tabpanel" aria-labelledby="wayTab1">
+        <p class="desk__k"><b>01</b> <span data-i18n="ways.k1">Essen</span></p>
+        <h3 class="desk__q" data-i18n="ways.t1">Kann ich mit Schiene essen?</h3>
+        <p class="desk__fit" data-i18n="ways.a1">Zum Essen nehmen Sie die Schiene heraus. Sie essen alles wie gewohnt.</p>
+        <p class="desk__more" data-i18n="ways.m1">Danach Zähne putzen und die Schiene wieder einsetzen. Unterwegs liegt sie in ihrer Dose.</p>
+      </div>
+      <div class="desk__panel" id="way2" role="tabpanel" aria-labelledby="wayTab2">
+        <p class="desk__k"><b>02</b> <span data-i18n="ways.k2">Trinken</span></p>
+        <h3 class="desk__q" data-i18n="ways.t2">Und trinken?</h3>
+        <p class="desk__fit" data-i18n="ways.a2">Wasser jederzeit, auch mit Schiene.</p>
+        <p class="desk__more" data-i18n="ways.m2">Kaffee, Tee, Saft und Süßes besser ohne Schiene, oder danach den Mund ausspülen: sonst verfärbt sie sich, und Zucker bleibt an den Zähnen.</p>
+      </div>
+      <div class="desk__panel" id="way3" role="tabpanel" aria-labelledby="wayTab3">
+        <p class="desk__k"><b>03</b> <span data-i18n="ways.k3">Sprechen</span></p>
+        <h3 class="desk__q" data-i18n="ways.t3">Spricht man anders?</h3>
+        <p class="desk__fit" data-i18n="ways.a3">Die ersten Tage lispeln manche ein wenig.</p>
+        <p class="desk__more" data-i18n="ways.m3">Die Zunge gewöhnt sich schnell daran, meist ist es nach wenigen Tagen vorbei. Im Gespräch fällt die Schiene kaum auf.</p>
+      </div>
+      <div class="desk__panel" id="way4" role="tabpanel" aria-labelledby="wayTab4">
+        <p class="desk__k"><b>04</b> <span data-i18n="ways.k4">Sport</span></p>
+        <h3 class="desk__q" data-i18n="ways.t4">Geht Sport?</h3>
+        <p class="desk__fit" data-i18n="ways.a4">Sport geht mit Schiene.</p>
+        <p class="desk__more" data-i18n="ways.m4">Wasser trinken Sie mit Schiene. Für Kontaktsport besprechen wir mit Ihnen einen passenden Schutz.</p>
+      </div>
+      <div class="desk__panel" id="way5" role="tabpanel" aria-labelledby="wayTab5">
+        <p class="desk__k"><b>05</b> <span data-i18n="ways.k5">Druck</span></p>
+        <h3 class="desk__q" data-i18n="ways.t5">Drückt die Schiene?</h3>
+        <p class="desk__fit" data-i18n="ways.a5">Jede neue Schiene drückt ein, zwei Tage lang.</p>
+        <p class="desk__more" data-i18n="ways.m5">Das zeigt, dass sie arbeitet. Danach sitzt sie, und Sie merken sie kaum noch.</p>
+      </div>
+      <div class="desk__panel" id="way6" role="tabpanel" aria-labelledby="wayTab6">
+        <p class="desk__k"><b>06</b> <span data-i18n="ways.k6">Pflege</span></p>
+        <h3 class="desk__q" data-i18n="ways.t6">Wie pflege ich sie?</h3>
+        <p class="desk__fit" data-i18n="ways.a6">Morgens und abends kurz reinigen.</p>
+        <p class="desk__more" data-i18n="ways.m6">Mit kaltem oder lauwarmem Wasser abspülen und sanft bürsten. Heißes Wasser verformt die Schiene.</p>
+      </div>
+    </div>
   </div>
-  <figure class="ways__float" id="waysFloat" aria-hidden="true">
-    <img src="assets/photos/day-lunch.webp" width="900" height="1200" loading="lazy" decoding="async" alt="">
-    <img src="assets/photos/ways-water.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
-    <img src="assets/photos/day-office.webp" width="900" height="1200" loading="lazy" decoding="async" alt="">
-    <img src="assets/photos/ways-sport.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
-    <img src="assets/photos/wear.webp" width="900" height="1115" loading="lazy" decoding="async" alt="">
-    <img src="assets/photos/day-morning.webp" width="900" height="1200" loading="lazy" decoding="async" alt="">
-  </figure>
 </section>
 
 <!-- ===== 22 hours: the day as a ring (Igloo's glowing portal). The ring
