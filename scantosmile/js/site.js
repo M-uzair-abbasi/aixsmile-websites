@@ -76,6 +76,13 @@ const ready = { fonts: false, stage: !gl || calm };
 let stage = null;
 let lowPowerSet = false, frames = 0, slow = 0, lastNow = 0;
 let mx = 0, my = 0;
+// the hero's product box (where it sits with the page at the top): the 3D fills it
+const heroStage = document.getElementById('heroStage');
+const placeHero = () => {
+  if (!stage || !heroStage) return;
+  const r = heroStage.getBoundingClientRect();
+  stage.place({ left: r.left, top: r.top + window.scrollY, width: r.width, height: r.height }, heroStage.closest('.hero').offsetHeight);
+};
 
 if (gl && !calm) {
   load3d()
@@ -83,6 +90,8 @@ if (gl && !calm) {
     .then((st) => {
       stage = st;
       stage.resize(window.innerWidth, window.innerHeight);
+      placeHero();
+      if (document.fonts) document.fonts.ready.then(placeHero);
       stage.warm();
       d.classList.add('has-gl');
       if (heroShown) stage.heroIn();
@@ -108,6 +117,7 @@ window.addEventListener('resize', () => {
   if (window.innerWidth !== lastW || Math.abs(window.innerHeight - lastH) > 140) {
     lastW = window.innerWidth; lastH = window.innerHeight;
     stage?.resize(lastW, lastH);
+    placeHero();
   }
 });
 

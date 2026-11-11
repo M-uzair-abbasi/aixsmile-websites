@@ -6,11 +6,14 @@
 //
 // One story, every move with a reason, and three big moments (the user's
 // choice after "no wow moment"):
-//   0  hero      GLASS: the giant words SCAN TO SMILE live in the 3D scene
-//                (a texture plane behind the tray); the tray's front surface
-//                looks the words up along a refracted ray (three IORs = a
-//                little dispersion), so they bend inside every tooth like a
-//                lens; a glint follows the mouse
+//   0  hero      the PRODUCT SHOT: the tray, seen from the front looking
+//                into it, in a soft pool of light with a faint measuring grid
+//                (a texture plane behind it). Its front surface looks the
+//                plane up along a refracted ray (three IORs = a little
+//                dispersion), so the grid bends inside every tooth, and it
+//                reflects a dark studio with strip lights (crisp streaks,
+//                not milk). The page hands over the box it fills (place());
+//                the whole shot scrolls away with the page
 //   1  methode   the scan streams in as points → a plaster model (a scan
 //                line passes: the dentist's check) → the tray is
 //                thermoformed over it → the model goes
@@ -24,11 +27,11 @@
 //                to the whole face
 //
 // Pieces in millimetres (tools/make_aligner.py, split_aligner.py,
-// export_scan.py). heroIn() plays the words' arrival.
+// export_scan.py). heroIn() turns the hero's light on.
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Points, Color, Vector2, Vector3, Euler, Quaternion, MathUtils, Box3,
   MeshStandardMaterial, MeshBasicMaterial, ShaderMaterial, BufferGeometry, BufferAttribute, PMREMGenerator, DirectionalLight,
-  HemisphereLight, BackSide, FrontSide, PlaneGeometry, BoxGeometry, ExtrudeGeometry, Shape, Path,
+  HemisphereLight, BackSide, FrontSide, DoubleSide, PlaneGeometry, BoxGeometry, ExtrudeGeometry, Shape, Path,
   CanvasTexture, TextureLoader, SRGBColorSpace, ACESFilmicToneMapping, RepeatWrapping,
 } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -43,7 +46,8 @@ const CREAM = new Color(0xebe5d9);
 const BOX = { w: 96, d: 70, h: 24, wall: 1.6 };
 const SLOT = { w: 230, h: 32 };             // DIN EN 13724: at least 230 × 30 mm
 const DOOR = { w: 1100, h: 820, depth: 40 };
-const WORDS_Z = -70;                        // the words' plane behind the hero tray (world mm)
+const HERO_TURN = { rx: 0.8, ry: -0.32, rz: 0.14 };   // the hero's view: from the front, looking into the tray
+const BACK_Z = -70;                        // the backdrop plane behind the hero tray (world mm)
 // where the upper teeth are in assets/photos/smile.webp (image fractions, measured)
 const SMILE = { u: 0.5, v: 0.53, span: 0.191, aspect: 1152 / 1536 };
 
@@ -69,7 +73,7 @@ function track(p, keys) {
 // Clear PETG. Reads by its rim and a faint film where the surface turns away;
 // the inside pass (BackSide) is a faint dark tint, so what is behind dims a
 // little. Extras:
-//   uGlass          front pass only: refracts the words plane (hero)
+//   uGlass          front pass only: refracts the backdrop plane (hero)
 //   uGlintX/On      a band of light that follows the mouse (hero)
 //   uFormOn/uFormY  formed up to a level (thermoforming), a hot line leads
 //   uBoost          denser body + darker edges, to read on plaster / teeth
@@ -92,7 +96,7 @@ function clearMaterial(side, uniforms) {
         uniform float uFade, uFormOn, uFormY, uGlow, uInner, uBoost, uClick, uGlass, uPlaneZ, uGlintX, uGlintOn;
         uniform vec2 uPlaneSize, uPlaneOff, uRes;
         uniform vec3 uSignal, uWarm, uInk, uCream;
-        uniform sampler2D uWords;`)
+        uniform sampler2D uBack;`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
         float lead = 0.0;
         if (uFormOn > 0.5) {
@@ -105,26 +109,29 @@ function clearMaterial(side, uniforms) {
         float rim = fres * mix(0.62, 0.3, uInner);
         diffuseColor.rgb = mix(diffuseColor.rgb, mix(vec3(0.78, 0.86, 1.0), vec3(0.1, 0.14, 0.28), fres), uBoost);
         float alpha = diffuseColor.a + rim + lead * 0.7 + uBoost * (0.2 + fres * 0.5) + uClick * fres * 0.4;
-        // the lens: what the words plane looks like through this bit of plastic
         vec3 seen = vec3(0.0);
         if (uGlass > 0.001) {
+          // the backdrop (the light behind the product) seen through the plastic:
+          // bent by the surface, three IORs for a little dispersion
           vec3 nW = normalize(inverseTransformDirection(normal, viewMatrix));
           vec3 vd = normalize(vWorld - cameraPosition);
           for (int i = 0; i < 3; i++) {
-            vec3 r = refract(vd, nW, 1.0 / (1.16 + float(i) * 0.03));
+            vec3 r = refract(vd, nW, 1.0 / (1.1 + float(i) * 0.02));
             float t = (uPlaneZ - vWorld.z) / min(r.z, -0.08);
             vec2 uv = (vWorld.xy + r.xy * t - uPlaneOff) / uPlaneSize + 0.5;
-            float a = texture2D(uWords, uv).a;
-            seen[i] = mix(uInk[i], uCream[i], a);
+            vec4 c = texture2D(uBack, uv);
+            seen[i] = mix(uInk[i], c[i], c.a);
           }
-          vec2 sp = gl_FragCoord.xy / uRes;
-          seen += vec3(1.0, 0.36, 0.12) * 0.16 * (1.0 - smoothstep(0.0, 0.8, length((sp - vec2(0.08, -0.04)) * vec2(1.0, 1.3))));
-          diffuseColor.rgb *= 1.0 - uGlass * 0.85;
-          alpha = mix(alpha, 0.97, uGlass);
+          // thin plastic: a little light is lost, and where the surface turns
+          // away it reflects the room, so the edges and folds read light
+          seen = seen * vec3(0.9, 0.94, 0.98) + vec3(0.82, 0.88, 1.0) * pow(fres, 1.6) * 0.3;
+          diffuseColor.rgb *= 1.0 - uGlass * 0.985;
+          alpha = mix(alpha, 0.95, uGlass);
         }
         float glint = exp(-pow((vObj.x - uGlintX) / 3.2, 2.0)) * (0.25 + fres) * uGlintOn;
         diffuseColor.a = clamp(alpha, 0.0, 0.97) * uFade;
-        totalEmissiveRadiance += (seen * uGlass * (1.0 - fres * 0.35) + film * fres * 0.16 + uWarm * fres * uGlow * 0.55
+        float plain = 1.0 - uGlass;
+        totalEmissiveRadiance += (seen * uGlass + film * fres * 0.16 * plain + uWarm * fres * uGlow * 0.55 * plain
           + vec3(1.0, 0.96, 0.9) * glint * 0.5 + uSignal * (lead * 3.2 + uClick * fres * 2.2)) * uFade;`);
   };
   m.customProgramCacheKey = () => `sts-clear-${side}`;
@@ -215,6 +222,22 @@ function photoMaterial(map) {
   return m;
 }
 
+// A dark studio with a few soft strip lights: what the clear plastic reflects
+// (crisp streaks instead of a bright room, so it reads as glass, not milk).
+function studioScene() {
+  const s = new Scene();
+  s.background = new Color(0x020202);
+  const strip = (w, h, x, y, z, k, col = 0xffffff) => {
+    const m = new Mesh(new PlaneGeometry(w, h), new MeshBasicMaterial({ color: new Color(col).multiplyScalar(k), side: DoubleSide }));
+    m.position.set(x, y, z); m.lookAt(0, 0, 0); s.add(m);
+  };
+  strip(10, 2.4, -2, 8, 6, 5);                  // overhead softbox, in front, a little left
+  strip(1.4, 11, -8, 0.5, 3, 3.2);              // tall strip, left
+  strip(1.0, 11, 8, 0.5, -3, 4.2, 0xffe6cf);    // rim strip, right and behind (warm)
+  strip(14, 1.2, 0, -7, 5, 0.7, 0xff8a4a);      // a low ember bounce
+  return s;
+}
+
 // ---------- printed parts ----------
 function canvasTexture(draw, w, h) {
   const c = document.createElement('canvas');
@@ -288,7 +311,9 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
 
   const scene = new Scene();
   const pmrem = new PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.035).texture;
+  const room = pmrem.fromScene(new RoomEnvironment(), 0.035).texture;
+  scene.environment = room;
+  const studio = pmrem.fromScene(studioScene(), 0.01).texture;   // the hero's tray only (same size: no new shader)
   pmrem.dispose();
   const key = new DirectionalLight(0xffc29a, 2.2); key.position.set(-120, -60, 140); scene.add(key);
   const rim = new DirectionalLight(0xdfe8ff, 1.6); rim.position.set(140, 160, -60); scene.add(rim);
@@ -325,18 +350,32 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
   const center = trayBox.getCenter(new Vector3());
   const yMin = trayBox.min.y, yMax = trayBox.max.y, zMax = trayBox.max.z;
   const geoL = bake(meshes(gL)[0]);
+  // the tray's outline seen at the hero's turn (mm, about its centre), so it fits its box exactly
+  const heroFit = (() => {
+    const q = new Quaternion().setFromEuler(new Euler(HERO_TURN.rx, HERO_TURN.ry, HERO_TURN.rz, 'XYZ'));
+    const v = new Vector3();
+    let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (const g of capGeos) {
+      const a = g.attributes.position;
+      for (let i = 0; i < a.count; i += 5) {
+        v.fromBufferAttribute(a, i).sub(center).applyQuaternion(q);
+        x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y);
+      }
+    }
+    return { w: x1 - x0, h: y1 - y0, cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+  })();
 
-  // ---- the words (hero): drawn into a texture the tray also looks through
-  const wordsCanvas = document.createElement('canvas');
-  const wordsTex = new CanvasTexture(wordsCanvas);
-  wordsTex.colorSpace = SRGBColorSpace;
-  const words = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: wordsTex, transparent: true, depthWrite: false, toneMapped: false, opacity: 0 }));
-  words.position.z = WORDS_Z;
-  words.renderOrder = 0;
-  scene.add(words);
+  // ---- the hero's backdrop: drawn into a texture the tray also looks through
+  const backCanvas = document.createElement('canvas');
+  const backTex = new CanvasTexture(backCanvas);
+  backTex.colorSpace = SRGBColorSpace;
+  const backdrop = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: backTex, transparent: true, depthWrite: false, toneMapped: false, opacity: 0 }));
+  backdrop.position.z = BACK_Z;
+  backdrop.renderOrder = 0;
+  scene.add(backdrop);
 
   const shared = {
-    uWords: { value: wordsTex }, uPlaneZ: { value: WORDS_Z }, uPlaneSize: { value: new Vector2(1, 1) }, uPlaneOff: { value: new Vector2() },
+    uBack: { value: backTex }, uPlaneZ: { value: BACK_Z }, uPlaneSize: { value: new Vector2(1, 1) }, uPlaneOff: { value: new Vector2() },
     uRes: { value: new Vector2(1, 1) }, uInk: { value: INK }, uCream: { value: CREAM }, uGlintX: { value: 0 }, uGlintOn: { value: 0 },
   };
   const trayUniforms = (glass) => ({
@@ -496,28 +535,57 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
 
   // ---------- layout ----------
   let W = 1, H = 1, frameH = 150, frameW = 240, portrait = false, camZ = 1;
-  let wordsIn = 0, wordsStart = null;
-  function drawWords() {
+  let backIn = 0, backStart = null;
+  // where the product rests in the hero (frame units: -1..1 across the view,
+  // and its scale): it fills the box the page hands over (place()), by its
+  // real outline at the hero's turn (heroFit).
+  let heroBox = null, heroScroll = 0;                            // heroScroll: the hero's height (px; 0 = the view's), P 0 → 1 over it
+  function heroAt(n) {
+    if (!heroBox) return n ? { x: 0, y: -0.07, s: 1.5 } : { x: 0.4, y: -0.02, s: 1.7 };
+    const { left, top, width, height } = heroBox;
+    const mm = H / frameH;                                       // px per mm at the product's depth
+    const s = Math.max(0.3, Math.min(width / (heroFit.w * 1.14 * mm), height / (heroFit.h * 1.14 * mm)));
+    return {
+      x: ((left + width / 2) / W) * 2 - 1 - heroFit.cx * s / (frameW / 2),
+      y: 1 - ((top + height / 2) / H) * 2 - heroFit.cy * s / (frameH / 2),
+      s,
+    };
+  }
+  // the light behind the product: a soft pool on the back wall with a faint
+  // measuring grid in it. Drawn where the tray rests (HERO); the tray bends it.
+  function drawBackdrop() {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const cw = Math.min(2048, Math.round(W * dpr)), ch = Math.round(cw * H / W);
-    wordsCanvas.width = cw; wordsCanvas.height = ch;
-    const ctx = wordsCanvas.getContext('2d');
+    backCanvas.width = cw; backCanvas.height = ch;
+    const ctx = backCanvas.getContext('2d');
     const k = cw / W;
-    const narrow = W <= 700;
-    const fs = narrow ? 0.225 * W : Math.min(320, Math.max(88, 0.166 * W));
+    const at = heroAt(W / H < 0.85);
+    const cx = heroBox && !centred ? (heroBox.left + heroBox.width / 2) * k : (0.5 + (centred ? 0 : at.x) / 2) * W * k;
+    const cy = heroBox ? (heroBox.top + heroBox.height / 2) * k : (0.5 - at.y / 2) * H * k;
+    const R = (heroBox ? Math.max(heroBox.width * 0.66, heroBox.height * 0.8) : W / H < 0.85 ? 0.75 * W : 0.5 * H) * k;
     ctx.clearRect(0, 0, cw, ch);
-    ctx.fillStyle = '#ebe5d9';
-    ctx.font = `800 ${fs * k}px "Host Grotesk", Arial, sans-serif`;
-    if ('letterSpacing' in ctx) ctx.letterSpacing = `${-0.055 * fs * k}px`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'alphabetic';
-    const L = 0.86 * fs, cap = 0.72 * fs;
-    let y1;
-    if (narrow) y1 = 64 + 0.13 * H + cap;
-    else y1 = H * 0.39 - L / 2 + cap / 2;
-    ctx.fillText('SCAN TO', cw / 2, y1 * k);
-    ctx.fillText('SMILE', cw / 2, (y1 + L) * k);
-    wordsTex.needsUpdate = true;
+    // the grid, then masked by the pool
+    const cell = Math.max(18, Math.round(H * 0.034)) * k;
+    ctx.lineWidth = Math.max(1, k);
+    for (let i = -40; i <= 40; i++) {
+      const major = i % 5 === 0;
+      ctx.strokeStyle = major ? 'rgba(235,229,217,0.4)' : 'rgba(235,229,217,0.2)';
+      const x = Math.round(cx + i * cell) + 0.5, y = Math.round(cy + i * cell) + 0.5;
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, ch); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cw, y); ctx.stroke();
+    }
+    ctx.globalCompositeOperation = 'destination-in';
+    let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+    g.addColorStop(0, 'rgba(0,0,0,0.55)'); g.addColorStop(0.55, 'rgba(0,0,0,0.25)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+    // the light itself, under the grid
+    ctx.globalCompositeOperation = 'destination-over';
+    g = ctx.createRadialGradient(cx, cy + R * 0.08, 0, cx, cy + R * 0.08, R);
+    g.addColorStop(0, 'rgba(244,238,228,0.36)'); g.addColorStop(0.32, 'rgba(232,222,206,0.2)');
+    g.addColorStop(0.66, 'rgba(210,190,170,0.07)'); g.addColorStop(1, 'rgba(200,180,160,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+    ctx.globalCompositeOperation = 'source-over';
+    backTex.needsUpdate = true;
   }
   function resize(width, height) {
     W = width; H = height;
@@ -532,12 +600,12 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
     camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
     pts.material.uniforms.uScale.value = H / (2 * Math.tan(MathUtils.degToRad(camera.fov / 2))) * pixelRatio;
-    // the words fill the view at their depth
-    const sc = (camZ - WORDS_Z) / camZ;
-    words.scale.set(frameW * sc, frameH * sc, 1);
+    // the backdrop fills the view at its depth
+    const sc = (camZ - BACK_Z) / camZ;
+    backdrop.scale.set(frameW * sc, frameH * sc, 1);
     shared.uPlaneSize.value.set(frameW * sc, frameH * sc);
     shared.uRes.value.set(W * pixelRatio, H * pixelRatio);
-    drawWords();
+    drawBackdrop();
   }
   const fx = (k) => k * frameW / 2;
   const fy = (k) => k * frameH / 2;
@@ -593,34 +661,45 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
   function apply(time) {
     smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
     const t = time;
+    if (backStart !== null) backIn = easeOut(clamp01((t - backStart) / 1.2));
     const n = portrait;
-    const hero = 1 - seg(P, 0.3, 1);
 
     // ---- product pose (frame units, scale, euler 'XYZ'), keyed on P
-    let px = track(P, [[0, n ? 0 : 0.05], [1, 0], [1.12, n ? 0 : 0.22], [1.86, n ? 0 : 0.22], [2, n ? 0 : 0.2]]);
-    let py = track(P, [[0, n ? 0.02 : -0.4], [0.6, n ? 0 : -0.2], [1, 0], [1.12, n ? -0.12 : -0.04], [1.86, n ? -0.12 : -0.04], [2, n ? -0.02 : 0.36]]);
-    const s = track(P, [[0, n ? 1.05 : 1.12], [1, n ? 1.05 : 1.3], [1.12, n ? 1.12 : 1.42], [1.86, n ? 1.12 : 1.42], [2, 0.82]]);
-    const rz = track(P, [[0, 0], [1, 0], [1.12, Math.PI], [1.86, Math.PI], [1.99, 0]]);
-    let rx = track(P, [[0, -0.62], [1, -0.62], [1.12, 0.38], [1.86, 0.38], [1.99, -1.0], [2.1, -1.25]]);
-    let ry = track(P, [[0, 0], [1, 0.1], [1.12, -0.35], [1.86, 0.35], [1.99, 0]]);
-    ry += hero * (Math.sin(t * 0.42) * 0.14 + smx * 0.3);
-    rx += hero * (smy * 0.14 + Math.sin(t * 0.6) * 0.03);
-    py += hero * Math.sin(t * 0.9) * 0.01;
-    if (centred) px = 0;
+    // hero (P < 1): the product shot sits in its box and scrolls away with the page;
+    // from P = 1 the method's tracks take over (the tray is gone by then, the scan arrives)
+    const scrolled = Math.min(P, 1) * (heroScroll || H) / H * 2;          // frame units the page has moved up
+    let px, py, s, rx, ry, rz;
+    if (P < 1) {
+      const at = heroAt(n);
+      px = centred ? 0 : at.x; py = at.y + scrolled; s = at.s;
+      rx = HERO_TURN.rx; ry = HERO_TURN.ry; rz = HERO_TURN.rz;
+      ry += Math.sin(t * 0.42) * 0.1 + smx * 0.26;
+      rx += smy * 0.12 + Math.sin(t * 0.6) * 0.03;
+      py += Math.sin(t * 0.9) * 0.008;
+    } else {
+      px = track(P, [[1, 0], [1.12, n ? 0 : 0.22], [1.86, n ? 0 : 0.22], [2, n ? 0 : 0.2]]);
+      py = track(P, [[1, 0], [1.12, n ? -0.12 : -0.04], [1.86, n ? -0.12 : -0.04], [2, n ? -0.02 : 0.36]]);
+      s = track(P, [[1, n ? 1.05 : 1.3], [1.12, n ? 1.12 : 1.42], [1.86, n ? 1.12 : 1.42], [2, 0.82]]);
+      rz = track(P, [[1, 0], [1.12, Math.PI], [1.86, Math.PI], [1.99, 0]]);
+      rx = track(P, [[1, -0.62], [1.12, 0.38], [1.86, 0.38], [1.99, -1.0], [2.1, -1.25]]);
+      ry = track(P, [[1, 0.1], [1.12, -0.35], [1.86, 0.35], [1.99, 0]]);
+      if (centred) px = 0;
+    }
     tmpE.set(rx, ry, rz, 'XYZ');
     prod.quaternion.setFromEuler(tmpE);
     prod.scale.setScalar(s);
-    prod.position.set(fx(px), fy(py), 0);
+    prod.position.set(fx(px), fy(py) - (1 - backIn) * 6, 0);
 
-    // ---- 0: the glass hero
-    if (wordsStart !== null) wordsIn = easeOut(clamp01((t - wordsStart) / 1.2));
-    const heroVis = 1 - seg(P, 0.35, 0.8);
-    words.visible = heroVis > 0.002;
-    words.material.opacity = wordsIn * heroVis;
-    words.position.set(-smx * 5, smy * 3 - (1 - wordsIn) * 8, WORDS_Z);
-    shared.uPlaneOff.value.set(words.position.x, words.position.y);
-    glass.value = heroVis * wordsIn;
-    shared.uGlintOn.value = heroVis;
+    // ---- 0: the product shot: the light behind it scrolls away with it
+    const inHero = P < 1;
+    backdrop.visible = inHero;
+    backdrop.material.opacity = backIn;
+    backdrop.position.set(-smx * 5, smy * 3 - (1 - backIn) * 8 + fy(scrolled) * (camZ - BACK_Z) / camZ, BACK_Z);
+    shared.uPlaneOff.value.set(backdrop.position.x, backdrop.position.y);
+    glass.value = inHero ? 1 : 0;
+    const env = inHero ? studio : room;
+    for (const o of alignerU.children) if (o.material.envMap !== env) o.material.envMap = env;
+    shared.uGlintOn.value = inHero ? 1 - seg(P, 0.3, 0.8) : 0;
     shared.uGlintX.value = center.x + smx * 36 + Math.sin(t * 0.35) * 6;
 
     // ---- 1: the method: points → plaster → formed tray → model away
@@ -636,9 +715,10 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
     if (solidOut > 0) { plasterU.uCutDir.value = -1; plasterU.uCut.value = lerp(zF, zB, ease(solidOut)); plasterU.uOn.value = solidOut < 1 ? 1 : 0; }
     else { plasterU.uCutDir.value = 1; plasterU.uCut.value = lerp(zF, zB, ease(solidIn)); plasterU.uOn.value = solidIn > 0 && solidIn < 1 ? 1 : 0; }
     model.visible = inMethod && solidIn > 0.001 && solidOut < 0.999;
-    const fadeOut = seg(P, 0.98, 1.08), formK = seg(m, 0.5, 0.74);
+    const formK = seg(m, 0.5, 0.74);
     let fade = 1;
-    if (P >= 1 && P <= 1.75) { fade = m < 0.5 ? 1 - fadeOut : 1; uU.uFormOn.value = m < 0.5 ? 0 : 1; } else uU.uFormOn.value = 0;
+    // the hero's tray has scrolled away: the method's tray only exists once it is formed
+    if (P >= 1 && P <= 1.75) { fade = m < 0.5 ? 0 : 1; uU.uFormOn.value = m < 0.5 ? 0 : 1; } else uU.uFormOn.value = 0;
     uU.uFormY.value = lerp(yMin - 0.5, yMax + 1, easeOut(formK));
     const boostMethod = inMethod ? seg(m, 0.48, 0.55) * (1 - seg(m, 0.8, 0.9)) : 0;
     plasterU.uDim.value = boostMethod;
@@ -723,7 +803,7 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
     uU.uBoost.value = inMethod ? boostMethod : arrive ? 0.55 * snap : 0;
     // as the portrait takes over, the 3D teeth and tray fade
     const take = arrive ? Math.min(1, smile * 1.6) : 0;
-    uU.uFade.value = fade * (1 - take);
+    uU.uFade.value = fade * (1 - take) * backIn;
     enamelMat.opacity = 1 - take;
 
     // the portrait: its teeth on the 3D teeth, then the view pulls back to the face
@@ -753,7 +833,7 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
   }
 
   function render(time) {
-    if (wordsStart === null && heroRequested) wordsStart = time;
+    if (backStart === null && heroRequested) backStart = time;
     apply(time);
     renderer.render(scene, camera);
   }
@@ -762,7 +842,7 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
   /** compile every shader once (everything visible), so scrolling never stalls */
   function warm() {
     box.visible = true; model.visible = true; pts.visible = true; lowerPivot.visible = true; enamel.visible = true; door.visible = true;
-    photoPlane.visible = !!photoMat; words.visible = true;
+    photoPlane.visible = !!photoMat; backdrop.visible = true;
     renderer.compile(scene, camera);
   }
 
@@ -772,11 +852,13 @@ export async function createStage(canvas, { base = 'assets/models/', photo = 'as
     pointer(x, y) { mx = x; my = y; },
     render,
     warm,
-    /** the giant words come up (call once the opening is out of the way) */
+    /** the light comes on and the product comes up (call once the opening is out of the way) */
     heroIn() { heroRequested = true; },
+    /** the box (viewport px, page at the top) the hero product should fill, and the hero's height; null = defaults */
+    place(rect, scroll) { heroBox = rect && rect.width > 40 && rect.height > 40 ? rect : null; heroScroll = scroll || 0; drawBackdrop(); },
     labels: () => out,
-    /** for still pictures: the object in the middle of the frame, words shown */
-    centre(on) { centred = on; heroRequested = true; wordsStart = -100; },
+    /** for still pictures: the object in the middle of the frame, the light on */
+    centre(on) { centred = on; heroRequested = true; backStart = -100; drawBackdrop(); },
     setLowPower(on) { pixelRatio = Math.min(window.devicePixelRatio || 1, on ? 1 : 1.6); resize(W, H); },
     renderer,
   };

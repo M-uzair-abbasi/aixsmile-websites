@@ -39,15 +39,16 @@ After editing `js/src/*.js`:
 
 The chapters and what the stage does at each `P`:
 
-One story from top to bottom, every move with a reason, and three big moments
+One story from top to bottom, every move with a reason, and big moments
 (history, 2026-11-11: plain rotating looked the same from every side; then a
 version where each chapter did its own trick "looked random"; then the stack
 "felt off" and there was "no wow moment" → the user picked glass hero,
-letterbox and smile reveal):
+letterbox and smile reveal; then the glass words hid the text, and the tray
+under them "looked cheap" in a "scattered" layout → the product-shot hero):
 
 | P | Chapter | 3D |
 | --- | --- | --- |
-| 0–1 | hero, "Scan to Smile" | **glass**: the giant words are drawn in the 3D (a texture plane behind the tray); the tray's front surface looks them up along a refracted ray (three IORs, a little dispersion), so they bend inside every tooth; a glint follows the mouse. The HTML h1 stays for readers and fallbacks |
+| 0–1 | hero, "Scan to Smile" | **product shot** (since the user found the floating tray "cheap" and the layout "scattered"): all copy in one left column (headline, claim, buttons, the dentist's line); the tray on the right, seen from the front looking into it, in a soft pool of light with a faint measuring grid. The tray reflects a dark studio with strip lights (`studioScene()`, hero only) and looks the backdrop up along a refracted ray (three IORs), so the grid bends inside every tooth. `site.js` hands the 3D the box of `#heroStage` (`stage.place(rect, heroHeight)`); the tray fills it by its real outline and the whole shot scrolls away with the page |
 | 1–2 | `#methode` "Daten rein. Schiene raus." | the scan streams in as points → plaster model revealed behind a scan line (the dentist's check) → the aligner is thermoformed over it → the model goes |
 | 2–3 | `#post` "Passt in jeden Briefkasten." | the mailer rises, both aligners go in, lid, label; then **through the letterbox**: a bottle-green front door slides in, the box pushes through the brass flap (slot 230 × 32 mm, the DIN minimum; the 24 mm box just fits), the flap swings shut with a bounce, the box drops |
 | 3–4 | `#ankunft` "Auspacken. Einsetzen. Lächeln." | the box lands and opens, aligner 01 lifts out and clicks onto white teeth; then **the smile**: the portrait (assets/photos/smile.webp) grows out from its mouth, aligned with the 3D teeth (the photo's upper teeth: centre u 0.5 / v 0.53, span 0.191 of its width), and the view pulls back to the face; "Lächeln." arrives in orange; the copy steps aside while the face passes |
