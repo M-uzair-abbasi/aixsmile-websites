@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="de" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scan to Smile: Aligner aus Ihrem Scan, gefertigt in Aachen | AIXSMILE</title>
+<meta name="description" content="Scan to Smile von AIXSMILE: Sie oder Ihre Zahnarztpraxis senden den 3D-Scan, wir fertigen die Aligner in Aachen und schicken sie per Post. Für Praxen und Privatpersonen.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#12100e">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Zahnarztpraxis AIXSMILE, Aachen">
+<meta property="og:title" content="Scan to Smile: Aligner aus Ihrem Scan | AIXSMILE">
+<meta property="og:description" content="Sie senden den Scan. Wir fertigen die Aligner. Die Post bringt sie.">
+<meta property="og:image" content="assets/stills/hero.webp">
+<link rel="icon" type="image/png" href="assets/tooth-mark.png?v=1" sizes="any">
+<link rel="preload" href="assets/fonts/host-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/martian-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="css/site.css">
+<script>
+  // Before the first paint. "js" switches the arrivals on; "scenes" lays out
+  // the tall chapters with their sticky screens (not for people who asked
+  // their system for less motion, they get still pictures); the blueprint
+  // opening plays once per visit.
+  (function () {
+    var d = document.documentElement;
+    d.classList.remove('no-js');
+    d.classList.add('js');
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = false;
+    try { seen = sessionStorage.getItem('aixsmileScanIntro') === '1'; } catch (e) { /* private mode */ }
+    if (calm) d.classList.add('is-calm');
+    else {
+      d.classList.add('scenes');
+      if (!seen) d.classList.add('is-intro');
+    }
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dentist",
+      "@id": "https://aixsmile.de/#praxis",
+      "name": "Zahnarztpraxis AIXSMILE",
+      "url": "https://aixsmile.de/",
+      "telephone": "+49 241 31202",
+      "email": "info@aixsmile.de",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Großkölnstraße 22-28",
+        "postalCode": "52062",
+        "addressLocality": "Aachen",
+        "addressCountry": "DE"
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Scan to Smile: Aligner-Fertigung aus digitalem Scan",
+      "serviceType": "Herstellung transparenter Zahnschienen (Aligner) aus Intraoralscans",
+      "provider": { "@id": "https://aixsmile.de/#praxis" },
+      "audience": [
+        { "@type": "Audience", "audienceType": "Zahnarztpraxen" },
+        { "@type": "PeopleAudience", "audienceType": "Privatpersonen mit vorhandenem 3D-Scan" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to content">Zum Inhalt springen</a>
+
+<!-- The opening: the tray drawn as a blueprint while the 3D loads -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__grid"></div>
+  <div class="intro__sheet">
+    <svg class="bp" viewBox="-49.9 -58.9 99.9 87.3" aria-hidden="true" focusable="false">
+<g class="bp-guides"><path d="M0 -58.9V28.4M-49.9 -15.3H49.9"/>
+<circle cx="0" cy="2.4" r="9"/><circle cx="0" cy="-15.3" r="33.9"/></g>
+<path class="bp-outline" d="M33.9 -36.3L33.4 -37.4L32.2 -38.4L31.6 -38.5L31.5 -38.7L31.1 -38.7L30.9 -38.8L29.4 -38.8L29.3 -38.9L27.6 -38.9L27.4 -38.8L26 -38.8L25.9 -38.7L25.4 -38.7L24.1 -38.1L22.8 -36.8L22.1 -35.4L22.1 -34.5L22 -34.4L21.8 -32.6L22 -32.4L22 -31.8L22.1 -31.6L22.1 -31.4L22.4 -30.9L22.9 -30.3L23 -29.7L22.9 -29.4L21.3 -27.9L21.2 -27.5L20.8 -27L20.8 -26.7L20.5 -26.2L20.5 -25.8L20.3 -25.1L20.3 -24.6L20.2 -24.5L20.2 -21.9L20.8 -20.7L20.8 -20.3L19.9 -19.6L19.1 -18L19 -16.6L19.4 -15.5L19.2 -14.9L18.6 -14.5L18.1 -14.4L17 -13.3L16.5 -12.5L16.5 -12.3L16.4 -12.1L16.4 -11.4L16.3 -11.2L16.4 -9.9L16.6 -9.4L16.5 -9L16.1 -8.8L15.5 -8.8L15.3 -8.6L15 -8.6L14.3 -8.4L13 -7.1L12.6 -6.3L12.5 -5.5L12.4 -5.4L12.4 -4L11.8 -3.4L10.5 -3.4L9.2 -2.8L8.3 -1.9L7.9 -0.6L7.5 -0.1L7.2 0.1L6.6 -0.2L6.2 -0.6L6 -0.6L5.6 -0.8L5.2 -0.8L5.1 -1L4 -1L3.9 -0.8L2.9 -0.7L1.8 -0.2L0.7 1.1L0.1 1.4L-0.4 1.2L-0.9 0.7L-0.9 0.6L-1.9 -0.3L-2.7 -0.7L-3.5 -0.8L-3.6 -1L-5.5 -1L-6.2 -0.6L-6.9 -0.1L-7.5 -0.2L-8.1 -1L-8.3 -1.9L-9.1 -2.8L-10.3 -3.4L-10.7 -3.4L-10.8 -3.6L-11.4 -3.6L-11.6 -3.4L-11.8 -3.4L-12.2 -3.7L-12.3 -4L-12.3 -5.1L-12.5 -5.3L-12.5 -5.6L-12.6 -5.8L-12.7 -6.4L-13.3 -7.3L-14 -8.1L-14.9 -8.6L-16.1 -8.8L-16.5 -9L-16.6 -9.3L-16.5 -9.9L-16.4 -10.1L-16.4 -11.9L-16.5 -12L-16.5 -12.3L-17.2 -13.4L-18.1 -14.4L-18.5 -14.6L-19 -14.7L-19.2 -15L-19.4 -15.5L-19 -16.3L-19 -18L-19.2 -18.4L-19.5 -19.3L-20.1 -19.9L-20.5 -20.1L-20.8 -20.5L-20.8 -21.1L-20.3 -22L-20.3 -24.8L-20.4 -24.9L-20.5 -26.1L-21.3 -27.9L-23 -29.6L-23 -30.1L-22.5 -30.7L-22 -31.9L-22 -33.9L-22.1 -34L-22.1 -34.9L-22.2 -35L-22.2 -35.4L-22.4 -35.5L-22.5 -36.2L-22.9 -36.8L-24 -38L-25.7 -38.7L-26.4 -38.7L-26.5 -38.8L-30.8 -38.8L-30.9 -38.7L-31.8 -38.5L-32.4 -38.1L-32.8 -38L-33.5 -37.1L-33.7 -36.5L-33.8 -36.3L-33.8 -35.7L-33.9 -35.5L-33.9 -34.5L-33.8 -34.4L-33.7 -32.4L-33 -30.9L-32 -29.8L-31.2 -29.3L-31.3 -28.7L-31.7 -28.3L-31.8 -27.9L-32.2 -27.4L-32.2 -26.6L-32.4 -26.4L-32.4 -25.3L-32.2 -25.1L-32.2 -24.5L-32.1 -24.4L-32 -23.2L-31.8 -23.1L-31.6 -22L-30.5 -20.3L-29.8 -19.7L-28.2 -19L-27.9 -18.6L-28.7 -17.1L-28.7 -15.4L-27.8 -13.6L-26.9 -12.8L-26 -12.5L-25.5 -12.1L-25.5 -11.6L-25.9 -11L-25.9 -10.6L-26 -10.5L-26 -9.4L-25.9 -9.3L-25.7 -8.5L-25.1 -7.3L-23.8 -6L-23.1 -5.8L-22.7 -5.8L-22.6 -5.6L-21.6 -5.6L-21.4 -5.8L-20.9 -5.3L-20.9 -4.9L-21.1 -4.7L-21.1 -3.7L-20.9 -3.6L-20.9 -3L-20 -1.5L-18.6 -0.1L-18.3 0.1L-17.8 0.1L-17.4 0.3L-15.5 0.3L-15.2 0.5L-14.8 1L-14.8 1.6L-14.6 2.3L-13.6 3.2L-12.6 4L-12.1 4.1L-11.7 4.4L-11.3 4.4L-10.9 4.6L-10.1 4.8L-10 4.9L-9.2 4.9L-8.7 5.3L-8.3 6.1L-7.1 7.1L-5.1 7.9L-4 8L-3.9 8.1L-2.9 8.1L-2.7 8.3L-0.8 8.3L-0.6 8.1L0 8L0.8 8.4L2.7 8.4L3.3 8.1L4.3 8.1L4.4 8L5.3 7.9L6.4 7.4L6.8 7.4L7.4 7L8.5 5.9L8.8 5.1L9.5 5L9.6 4.9L10.4 4.9L12.9 3.8L14.6 2.3L14.8 1.8L14.8 1L15.2 0.5L15.5 0.3L17.3 0.5L18.1 0.1L18.7 -0.1L20.2 -1.5L21.1 -3L21.1 -4.9L20.9 -5L21.1 -5.5L21.3 -5.8L23.1 -5.8L23.3 -5.9L23.5 -5.9L24.6 -6.6L25.2 -7.3L26 -8.9L26 -10.5L25.9 -10.6L25.7 -11.2L25.4 -11.9L25.9 -12.5L26.1 -12.5L27 -12.9L28 -13.8L28.6 -15.3L28.6 -15.8L28.7 -15.9L28.7 -17L28.6 -17.1L28.6 -17.5L28.1 -18.3L28.1 -18.5L28.5 -19L29.1 -19.2L29.8 -19.6L31.2 -21L31.7 -22L31.9 -22.9L32 -23.1L32.2 -24.4L32.4 -24.5L32.5 -26.1L32.4 -26.2L32.4 -27.1L32.2 -27.2L32.2 -27.5L31.5 -28.5L31.3 -29.2L31.6 -29.6L32.6 -30.3L33.4 -31.5L33.4 -31.8L33.8 -32.7L33.8 -33.3L33.9 -33.5Z" pathLength="1"/>
+<g class="bp-teeth"><path class="bp-tooth" d="M-6.5 0.1L-7.3 1.1L-8.3 3.7L-8.3 5.1L-7.9 5.9L-6.8 6.8L-4.4 7.6L-2.7 7.7L-2.6 7.9L-0.9 7.9L-0.4 7.6L0 7.1L0 6.4L0.1 6.3L0 4.4L-0.5 2.3L-1.4 0.6L-2.1 0.1L-3.8 -0.6L-5.7 -0.4Z" style="--i:11"/><path class="bp-tooth" d="M-12.1 -3L-13.3 -2L-14.3 -0.2L-14.4 0.3L-14.3 1.9L-13.5 2.8L-12.5 3.6L-10.4 4.4L-9.1 4.5L-8.4 4L-8.2 2.8L-8.2 -0.1L-8.6 -1.5L-9.1 -2.3L-10.4 -3L-10.9 -3.2Z" style="--i:12"/><path class="bp-tooth" d="M-16.6 -8.4L-18.5 -7.6L-19.6 -6.6L-20.5 -5.1L-20.7 -3.8L-20.1 -2.4L-19.6 -1.6L-18.5 -0.4L-17.7 -0.3L-17.3 -0.1L-15.7 -0.1L-14.6 -0.6L-13.5 -1.6L-12.9 -2.9L-12.7 -4.9L-13.1 -6.3L-14 -7.6L-15.1 -8.2Z" style="--i:13"/><path class="bp-tooth" d="M-18.6 -14.2L-19 -14.4L-20.8 -14.4L-21.7 -14.1L-23.7 -13.1L-25.1 -11.6L-25.6 -10.3L-25.5 -9L-24.7 -7.5L-23.7 -6.4L-22.5 -6L-21.8 -6L-20.4 -6.4L-18.6 -7.5L-17.3 -8.9L-16.8 -10.2L-16.8 -11.8L-17.5 -13.3Z" style="--i:14"/><path class="bp-tooth" d="M-20 -19.3L-21.3 -20.1L-23 -20.2L-25.1 -19.7L-26.8 -18.9L-27.8 -18L-28.3 -17L-28.3 -15.5L-27.7 -14.1L-27.3 -13.6L-26.5 -13.1L-25.5 -12.8L-24.6 -12.8L-23 -13.2L-21.1 -14.1L-19.9 -15.3L-19.4 -16.4L-19.4 -17.7Z" style="--i:15"/><path class="bp-tooth" d="M-31.1 -28.4L-31.8 -27.1L-32 -25.5L-31.8 -25.4L-31.6 -23.3L-31.2 -22.2L-30 -20.3L-28.1 -19.4L-26.1 -19.3L-26 -19.4L-24.4 -19.4L-23.4 -19.7L-22.1 -20.2L-21.4 -20.9L-20.7 -22.2L-20.7 -24.5L-21.3 -27L-21.8 -27.9L-22.7 -28.8L-23.5 -29.2L-24.6 -29.4L-27.7 -29.4L-27.8 -29.3L-29.5 -29.2Z" style="--i:16"/><path class="bp-tooth" d="M-33.3 -36.7L-33.5 -35.4L-33.3 -32.6L-32.5 -30.9L-31.5 -30L-30.8 -29.6L-29.8 -29.3L-26.1 -29.2L-24.4 -29.6L-23.1 -30.5L-22.4 -32.2L-22.5 -34.8L-23 -36.3L-24.2 -37.6L-25.9 -38.3L-26.5 -38.3L-26.6 -38.4L-30.7 -38.4L-32.4 -37.8Z" style="--i:17"/><path class="bp-tooth" d="M6.1 -0.2L4.9 -0.6L3.5 -0.4L2.2 0.1L1.3 0.9L0.7 2L0 4.4L-0.1 6.2L0 6.3L0 7.2L0.3 7.6L0.9 8L2.6 8L3.1 7.7L4.2 7.7L6.9 6.8L7.9 5.9L8.3 5.1L8.3 3.7L7.7 1.9L6.9 0.6Z" style="--i:21"/><path class="bp-tooth" d="M12.2 -2.9L11.8 -3L10.3 -2.9L9.4 -2.4L8.6 -1.5L8.2 -0.1L8.2 2.8L8.5 4L8.8 4.5L10.3 4.5L12.7 3.5L14.2 2.2L14.4 1.6L14.3 -0.2L13.1 -2.1Z" style="--i:22"/><path class="bp-tooth" d="M15.6 -8.4L14.3 -7.9L13.3 -6.7L12.7 -5.1L12.7 -3.2L13.3 -1.9L14.6 -0.6L15.6 -0.1L17.2 0.1L18.6 -0.4L19.8 -1.6L20.7 -3.3L20.7 -4.7L19.8 -6.4L18.6 -7.5L17 -8.2Z" style="--i:23"/><path class="bp-tooth" d="M18.2 -14L17.3 -13.1L16.9 -12.4L16.6 -11.1L16.8 -11L16.9 -9.7L17.6 -8.5L19.2 -7.1L20.9 -6.3L23 -6.2L23.9 -6.6L25 -7.7L25.6 -9.2L25.6 -10.3L25.4 -11.1L24.7 -12L23.1 -13.2L21.3 -14.1L19.6 -14.4Z" style="--i:24"/><path class="bp-tooth" d="M20.3 -19.4L19.6 -18.3L19.4 -16.8L19.8 -15.4L20.7 -14.4L22.5 -13.3L23.9 -12.9L26 -12.9L26.9 -13.3L27.6 -14L28.2 -15.4L28.3 -16.8L27.8 -18L26.8 -18.9L25.7 -19.4L23.5 -20.1L21.7 -20.1Z" style="--i:25"/><path class="bp-tooth" d="M22.6 -28.7L21.7 -27.7L21.2 -26.8L20.5 -24.4L20.5 -22L21.3 -20.7L22 -20.2L23.9 -19.4L26 -19.3L26.1 -19.2L28.2 -19.3L29.6 -19.9L30.8 -21.1L31.3 -22.2L31.5 -23.1L31.7 -23.6L32.1 -25.8L32 -25.9L32 -27L31.6 -27.7L30.8 -28.5L29.8 -29L27.7 -29.4L25 -29.6L23.8 -29.3Z" style="--i:26"/><path class="bp-tooth" d="M33 -37.2L32.5 -37.8L31.5 -38.3L29.3 -38.4L29.1 -38.5L26.1 -38.4L24.2 -37.8L23.1 -36.7L22.5 -35.2L22.2 -32.8L22.6 -31.3L23.3 -30.3L23.8 -30L25.1 -29.4L25.7 -29.4L25.9 -29.3L29.5 -29.3L30.7 -29.6L31.7 -30.1L32.8 -31.1L33.4 -32.8L33.5 -36.2Z" style="--i:27"/></g>
+<g class="bp-dims"><path d="M-33.9 -46.9H33.9M-33.9 -49.9v6M33.9 -49.9v6"/>
+<path d="M41.9 -38.9V8.4M38.9 -38.9h6M38.9 8.4h6"/>
+<text x="0" y="-48.9" text-anchor="middle">67,9 mm</text>
+<text x="43.9" y="-15.3" transform="rotate(90 43.9 -15.3)" text-anchor="middle">47,3 mm</text></g>
+</svg>
+    <p class="intro__meta"><span>AIXSMILE · SCAN TO SMILE</span><span>BLATT 01 / OBERKIEFER</span><span>M 2:1</span></p>
+  </div>
+  <p class="intro__count"><span id="introCount">000</span> %</p>
+</div>
+
+<header class="bar" id="bar">
+  <a class="brand" href="#top" aria-label="Scan to Smile von AIXSMILE, nach oben" data-en-label="Scan to Smile by AIXSMILE, back to top">
+    <span class="brand__mark" aria-hidden="true"></span>
+    <span class="brand__name" translate="no">Scan to Smile</span>
+    <span class="brand__by" translate="no">AIXSMILE</span>
+  </a>
+  <nav class="bar__nav" aria-label="Abschnitte" data-en-label="Sections">
+    <a href="#methode" data-en="Method">Methode</a>
+    <a href="#fuer-wen" data-en="Who it's for">Für wen</a>
+    <a href="#ablauf" data-en="Steps">Ablauf</a>
+    <a href="#fragen" data-en="Questions">Fragen</a>
+  </nav>
+  <button type="button" class="lang" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language"><span data-l="de">DE</span><span data-l="en">EN</span></button>
+  <a class="btn btn--signal bar__cta" href="#bestellen" data-en="Send scan">Scan senden</a>
+</header>
+
+<canvas class="stage" id="stage" aria-hidden="true"></canvas>
+<div class="glow" aria-hidden="true"><i class="glow__warm"></i><i class="glow__ember"></i><i class="glow__scan"></i><i class="glow__cream"></i></div>
+
+<main id="main">
+
+  <!-- 0 · hero -->
+  <section class="hero" id="top" data-scene="0" aria-labelledby="heroTitle">
+    <h1 class="hero__word" id="heroTitle">
+      <span class="sr" data-en="Scan to Smile: aligners made from your scan">Scan to Smile: Aligner aus Ihrem Scan</span>
+      <span class="hero__line" aria-hidden="true"><span>Scan</span> <span>to</span></span>
+      <span class="hero__line" aria-hidden="true"><span>Smile</span></span>
+    </h1>
+    <p class="hero__tag mono" data-en="The method · aligners made to measure">Die Methode · Aligner nach Maß</p>
+    <div class="hero__lead">
+      <p class="hero__claim" data-en="You send the scan.&lt;br&gt;We make the aligners.&lt;br&gt;The post brings them.">Sie senden den Scan.<br>Wir fertigen die Aligner.<br>Die Post bringt sie.</p>
+      <div class="hero__cta">
+        <a class="btn btn--signal" href="#bestellen" data-en="Upload a scan">Scan hochladen</a>
+        <a class="btn btn--line" href="#methode" data-en="How it works">So funktioniert's</a>
+      </div>
+    </div>
+    <aside class="card hero__card" aria-label="Wer fertigt" data-en-label="Who makes them">
+      <img src="assets/photos/doctor-molaie-720.webp" alt="Zahnarzt Novin Molaie" data-en-alt="Dentist Novin Molaie" width="72" height="72" loading="eager">
+      <p data-en="Made at the &lt;b&gt;AIXSMILE&lt;/b&gt; dental practice in Aachen. Every scan is checked by dentist &lt;b&gt;Novin Molaie&lt;/b&gt;.">Gefertigt in der Zahnarztpraxis <b>AIXSMILE</b> in Aachen. Jeder Scan wird von Zahnarzt <b>Novin Molaie</b> geprüft.</p>
+    </aside>
+    <p class="hero__scroll mono" aria-hidden="true" data-en="Scroll">Scrollen</p>
+    <img class="still still--hero" src="assets/stills/hero.webp" alt="" width="623" height="409">
+  </section>
+
+  <!-- 1 · the method: scan → model → the aligner is formed -->
+  <section class="scene method" id="methode" data-scene="1" aria-labelledby="methodTitle">
+    <div class="scene__screen">
+      <div class="method__copy">
+        <h2 class="method__title" id="methodTitle" data-en="Data in.&lt;br&gt;Aligner out.">Daten rein.<br>Schiene raus.</h2>
+        <ol class="method__steps" id="methodSteps">
+          <li data-step="0">
+            <span class="mono">01</span>
+            <h3 data-en="Your scan arrives.">Ihr Scan kommt an.</h3>
+            <p data-en="As an STL, PLY or OBJ file from any common intraoral scanner.">Als STL-, PLY- oder OBJ-Datei aus jedem gängigen Intraoralscanner.</p>
+          </li>
+          <li data-step="1">
+            <span class="mono">02</span>
+            <h3 data-en="A dentist checks it.">Ein Zahnarzt prüft ihn.</h3>
+            <p data-en="Is the scan complete, are aligners the right choice? Dentist Novin Molaie looks at every case before anything is made.">Ist der Scan vollständig, passt ein Aligner? Zahnarzt Novin Molaie sieht sich jeden Fall an, bevor gefertigt wird.</p>
+          </li>
+          <li data-step="2">
+            <span class="mono">03</span>
+            <h3 data-en="The aligner is formed.">Die Schiene wird geformt.</h3>
+            <p data-en="Thermoformed over an exact model of your teeth, about 0.5 mm thin, thinner than a credit card. Then trimmed and polished.">Über ein exaktes Modell Ihrer Zähne tiefgezogen, etwa 0,5 mm dünn, dünner als eine Kreditkarte. Dann beschnitten und poliert.</p>
+          </li>
+          <li data-step="3">
+            <span class="mono">04</span>
+            <h3 data-en="Done. And only yours.">Fertig. Und nur für Sie.</h3>
+            <p data-en="One piece for 14 teeth, each in its own shape: an aligner that fits your teeth and nobody else's.">Ein Stück für 14 Zähne, jeder in seiner eigenen Form: eine Schiene, die nur auf Ihre Zähne passt.</p>
+          </li>
+        </ol>
+      </div>
+      <p class="hud mono" id="methodHud" aria-hidden="true"><img class="hud__doc" src="assets/photos/doctor-molaie-720.webp" alt="" width="28" height="28"><i></i><span id="methodHudText">oberkiefer.stl · 38.621 △ · 1,9 MB</span></p>
+      <img class="still" src="assets/stills/method.webp" alt="" width="684" height="490" loading="lazy">
+    </div>
+  </section>
+
+  <!-- 2 · into the box, through the letterbox -->
+  <section class="scene post" id="post" data-scene="2" aria-labelledby="postTitle">
+    <div class="scene__screen">
+      <div class="post__copy">
+        <h2 id="postTitle" data-en="Fits through&lt;br&gt;any letterbox.">Passt in jeden<br>Briefkasten.</h2>
+        <p data-en="Your aligners arrive numbered, packed and labelled, in a box flat enough for the letterbox. To your practice, or straight to your home.">Ihre Schienen kommen nummeriert, verpackt und beschriftet, in einer Box, die flach genug für den Briefkasten ist. In Ihre Praxis oder direkt zu Ihnen nach Hause.</p>
+        <a class="btn btn--signal" href="#bestellen" data-en="Upload a scan now">Jetzt Scan hochladen</a>
+      </div>
+      <img class="still" src="assets/stills/post.webp" alt="" width="1080" height="520" loading="lazy">
+    </div>
+  </section>
+
+  <!-- 3 · arrival: the box opens, aligner 01 clicks onto real teeth, the smile -->
+  <section class="scene arrive" id="ankunft" data-scene="3" aria-labelledby="arriveTitle">
+    <div class="scene__screen">
+      <div class="arrive__copy">
+        <h2 id="arriveTitle" data-en="Unpack.&lt;br&gt;Click in.&lt;br&gt;&lt;span class=&quot;arrive__smile&quot;&gt;Smile.&lt;/span&gt;">Auspacken.<br>Einsetzen.<br><span class="arrive__smile">Lächeln.</span></h2>
+        <p data-en="Aligner 01 clicks onto your teeth. Clear plastic, no wires, no brackets: what's behind it stays visible, your teeth.">Schiene 01 klickt auf Ihre Zähne. Klarer Kunststoff, ohne Draht und Bracket: Was dahinter liegt, bleibt zu sehen, Ihre Zähne.</p>
+      </div>
+      <p class="hud mono arrive__hud" aria-hidden="true"><i></i><span data-en="Aligner 01 · in place">Schiene 01 · sitzt</span></p>
+      <img class="still still--photo" src="assets/photos/smile.webp" alt="Eine lächelnde Frau mit geraden Zähnen (KI-generiertes Bild)" data-en-alt="A smiling woman with straight teeth (AI-generated image)" width="1152" height="1536" loading="lazy">
+    </div>
+  </section>
+
+  <!-- the light part: who, steps, order, questions -->
+  <div class="paper" id="paper">
+
+    <section class="who" id="fuer-wen" aria-labelledby="whoTitle">
+      <header class="head">
+        <h2 id="whoTitle" data-en="For practices.&lt;br&gt;For you.">Für Praxen.<br>Für Sie.</h2>
+      </header>
+      <div class="who__grid">
+        <article class="who__card" data-role="praxis">
+          <p class="mono who__tag" data-en="Dental practices">Zahnarztpraxen</p>
+          <h3 data-en="You scan as usual. We make the aligners.">Sie scannen wie gewohnt. Wir fertigen die Schienen.</h3>
+          <p data-en="No new device needed. Your patient stays your patient, and you talk to a dentist, not a call centre.">Ohne neues Gerät. Ihre Patientin, Ihr Patient bleibt bei Ihnen, und Sie sprechen mit einem Zahnarzt statt mit einer Hotline.</p>
+          <dl class="spec">
+            <div><dt data-en="Files">Dateien</dt><dd>STL · PLY · OBJ</dd></div>
+            <div><dt data-en="Scanners">Scanner</dt><dd data-en="iTero, 3Shape TRIOS, Medit, Primescan and others">iTero, 3Shape TRIOS, Medit, Primescan u. a.</dd></div>
+            <div><dt data-en="Delivery">Lieferung</dt><dd data-en="to your practice">an Ihre Praxis</dd></div>
+            <div><dt data-en="Questions">Rückfragen</dt><dd data-en="directly with dentist Novin Molaie">direkt mit Zahnarzt Novin Molaie</dd></div>
+          </dl>
+          <a class="btn btn--ink" href="#bestellen" data-pick-role="praxis" data-en="Send as a practice">Als Praxis senden</a>
+        </article>
+        <article class="who__card" data-role="privat">
+          <p class="mono who__tag" data-en="Private individuals">Privatpersonen</p>
+          <h3 data-en="You already have a scan of your teeth.">Sie haben schon einen Scan Ihrer Zähne.</h3>
+          <p data-en="From your dental practice or a scan appointment? Upload the files. If something doesn't fit, we'll tell you before anything is made.">Von Ihrer Zahnarztpraxis oder einem Scan-Termin? Laden Sie die Dateien hoch. Passt etwas nicht, sagen wir es Ihnen, bevor gefertigt wird.</p>
+          <dl class="spec">
+            <div><dt data-en="You need">Sie brauchen</dt><dd data-en="a recent 3D scan of your teeth">einen aktuellen 3D-Scan Ihrer Zähne</dd></div>
+            <div><dt data-en="No scan yet?">Noch kein Scan?</dt><dd><a href="https://aixsmile.de/termin/?service=kfo" data-en="Book a scan in Aachen">Scan-Termin in Aachen buchen</a></dd></div>
+            <div><dt data-en="Delivery">Lieferung</dt><dd data-en="to your home">zu Ihnen nach Hause</dd></div>
+          </dl>
+          <a class="btn btn--ink" href="#bestellen" data-pick-role="privat" data-en="Send as a private person">Als Privatperson senden</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="doc" id="zahnarzt" aria-labelledby="docTitle">
+      <div class="doc__grid">
+        <figure class="doc__fig rise">
+          <img src="assets/photos/doctor-molaie.webp" srcset="assets/photos/doctor-molaie-720.webp 720w, assets/photos/doctor-molaie.webp 1120w" sizes="(max-width: 820px) 88vw, 40vw" width="1120" height="1400" loading="lazy" decoding="async" alt="Novin Molaie, Zahnarzt der Zahnarztpraxis AIXSMILE in Aachen" data-en-alt="Novin Molaie, dentist at the AIXSMILE dental practice in Aachen">
+          <figcaption class="mono"><span translate="no">Novin Molaie</span> · <span data-en="Dentist, Aachen">Zahnarzt, Aachen</span></figcaption>
+        </figure>
+        <div class="doc__copy">
+          <header class="head doc__head">
+            <h2 id="docTitle" data-en="Novin Molaie checks every scan.">Novin Molaie prüft jeden Scan.</h2>
+          </header>
+          <p class="doc__lead" data-en="Before an aligner is made, dentist Novin Molaie looks at your scan himself: is it complete, are aligners the right choice, is there anything that should be examined first?">Bevor eine Schiene gefertigt wird, sieht sich Zahnarzt Novin Molaie Ihren Scan selbst an: Ist er vollständig, passt ein Aligner, gibt es etwas, das zuerst untersucht werden sollte?</p>
+          <p class="doc__text" data-en="If something is unclear, you talk to him directly, as a practice or as a private person. No call centre in between.">Ist etwas unklar, sprechen Sie direkt mit ihm, als Praxis wie als Privatperson. Ohne Hotline dazwischen.</p>
+          <dl class="spec">
+            <div><dt data-en="Practice">Praxis</dt><dd><span translate="no">Zahnarztpraxis AIXSMILE</span>, Großkölnstraße 22-28, Aachen</dd></div>
+            <div><dt data-en="Phone">Telefon</dt><dd><a href="tel:+4924131202">0241&nbsp;31202</a></dd></div>
+            <div><dt data-en="Email">E-Mail</dt><dd><a href="mailto:info@aixsmile.de">info@aixsmile.de</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps" id="ablauf" aria-labelledby="stepsTitle">
+      <header class="head">
+        <h2 id="stepsTitle" data-en="Three steps to your door.">Drei Schritte bis zur Haustür.</h2>
+      </header>
+      <ol class="steps__list">
+        <li class="rise">
+          <span class="steps__n" aria-hidden="true">1</span>
+          <h3 data-en="Upload">Hochladen</h3>
+          <p data-en="Upload the scan files here on the page and give us the delivery address.">Scan-Dateien hier auf der Seite hochladen und die Lieferadresse angeben.</p>
+        </li>
+        <li class="rise">
+          <span class="steps__n" aria-hidden="true">2</span>
+          <h3 data-en="Check &amp;amp; make">Prüfen &amp; fertigen</h3>
+          <p data-en="The dentist checks the scan, then the aligners are made in Aachen.">Der Zahnarzt prüft den Scan, dann werden die Schienen in Aachen gefertigt.</p>
+        </li>
+        <li class="rise">
+          <span class="steps__n" aria-hidden="true">3</span>
+          <h3 data-en="Arrive">Ankommen</h3>
+          <p data-en="The aligners come by post, numbered and with short instructions.">Die Schienen kommen per Post, nummeriert und mit kurzer Anleitung.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="order" id="bestellen" aria-labelledby="orderTitle">
+      <header class="head">
+        <h2 id="orderTitle" data-en="Send your scan.">Scan senden.</h2>
+      </header>
+      <form class="order__form" id="orderForm" novalidate>
+        <div class="order__files">
+          <div class="drop" id="drop">
+            <input type="file" id="fileInput" name="scans" multiple accept=".stl,.ply,.obj,model/stl,application/sla" class="sr">
+            <label for="fileInput" class="drop__zone" id="dropZone">
+              <span class="drop__icon" aria-hidden="true"></span>
+              <span class="drop__title" data-en="Drop scan files here or &lt;u&gt;choose them&lt;/u&gt;">Scan-Dateien hierher ziehen oder <u>auswählen</u></span>
+              <span class="drop__hint mono" data-en="STL · PLY · OBJ · up to 100 MB per file">STL · PLY · OBJ · bis 100 MB pro Datei</span>
+            </label>
+            <div class="viewer" id="viewer" hidden>
+              <canvas id="viewerCanvas" role="img" aria-label="3D-Vorschau Ihres Scans" data-en-label="3D preview of your scan"></canvas>
+              <p class="viewer__stats mono" id="viewerStats" aria-live="polite"></p>
+              <p class="viewer__hint mono" aria-hidden="true" data-en="Drag to turn">Ziehen zum Drehen</p>
+            </div>
+            <ul class="files" id="fileList" aria-live="polite"></ul>
+            <button type="button" class="link mono" id="sampleBtn" data-en="No scan to hand? See an example scan">Kein Scan zur Hand? Beispiel-Scan ansehen</button>
+          </div>
+        </div>
+        <div class="order__fields">
+          <fieldset class="role">
+            <legend data-en="I am">Ich bin</legend>
+            <label><input type="radio" name="role" value="praxis"> <span data-en="a dental practice">eine Zahnarztpraxis</span></label>
+            <label><input type="radio" name="role" value="privat" checked> <span data-en="a private person">eine Privatperson</span></label>
+          </fieldset>
+          <div class="field" data-for="praxis" hidden>
+            <label for="fPractice" data-en="Practice name">Name der Praxis</label>
+            <input id="fPractice" type="text" name="practice" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="fName"><span data-en="Name">Name</span> <i aria-hidden="true">*</i></label>
+            <input id="fName" type="text" name="name" autocomplete="name" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fEmail"><span data-en="Email">E-Mail</span> <i aria-hidden="true">*</i></label>
+              <input id="fEmail" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="fPhone" data-en="Phone">Telefon</label>
+              <input id="fPhone" name="phone" type="tel" autocomplete="tel">
+            </div>
+          </div>
+          <div class="field">
+            <label for="fStreet"><span data-en="Street and number">Straße und Hausnummer</span> <i aria-hidden="true">*</i></label>
+            <input id="fStreet" type="text" name="street" autocomplete="address-line1" required>
+          </div>
+          <div class="field-row field-row--zip">
+            <div class="field">
+              <label for="fZip"><span data-en="Postcode">PLZ</span> <i aria-hidden="true">*</i></label>
+              <input id="fZip" type="text" name="zip" autocomplete="postal-code" inputmode="numeric" required>
+            </div>
+            <div class="field">
+              <label for="fCity"><span data-en="Town">Ort</span> <i aria-hidden="true">*</i></label>
+              <input id="fCity" type="text" name="city" autocomplete="address-level2" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fCountry" data-en="Country">Land</label>
+            <select id="fCountry" name="country" autocomplete="country-name">
+              <option value="DE" data-en="Germany">Deutschland</option>
+              <option value="AT" data-en="Austria">Österreich</option>
+              <option value="CH" data-en="Switzerland">Schweiz</option>
+              <option value="NL" data-en="Netherlands">Niederlande</option>
+              <option value="BE" data-en="Belgium">Belgien</option>
+              <option value="LU" data-en="Luxembourg">Luxemburg</option>
+              <option value="XX" data-en="Other (please write below)">Anderes Land (bitte unten angeben)</option>
+            </select>
+          </div>
+          <fieldset class="arches">
+            <legend data-en="Aligners for">Schienen für</legend>
+            <label><input type="checkbox" name="arch[]" value="oben" checked> <span data-en="upper jaw">Oberkiefer</span></label>
+            <label><input type="checkbox" name="arch[]" value="unten" checked> <span data-en="lower jaw">Unterkiefer</span></label>
+          </fieldset>
+          <div class="field">
+            <label for="fNote" data-en="Anything we should know?">Was sollen wir wissen?</label>
+            <textarea id="fNote" name="note" rows="3"></textarea>
+          </div>
+          <label class="consent">
+            <input type="checkbox" name="consent" id="fConsent" required>
+            <span data-en="I agree that AIXSMILE may process my scan data (health data) to check it and make my aligners. Details in the &lt;a href=&quot;datenschutz/&quot;&gt;privacy policy&lt;/a&gt;. &lt;i aria-hidden=&quot;true&quot;&gt;*&lt;/i&gt;">Ich willige ein, dass AIXSMILE meine Scan-Daten (Gesundheitsdaten) zur Prüfung und Herstellung meiner Aligner verarbeitet. Details in der <a href="datenschutz/">Datenschutzerklärung</a>. <i aria-hidden="true">*</i></span>
+          </label>
+          <button type="submit" class="btn btn--signal order__send" id="sendBtn" data-en="Send scan">Scan senden</button>
+          <p class="order__status" id="orderStatus" role="status" aria-live="polite"></p>
+          <p class="order__note" data-en="No online payment. You'll hear the price from us before anything is made.">Keine Zahlung online. Den Preis erfahren Sie von uns, bevor gefertigt wird.</p>
+        </div>
+      </form>
+    </section>
+
+    <section class="faq" id="fragen" aria-labelledby="faqTitle">
+      <header class="head">
+        <h2 id="faqTitle" data-en="Asked often.">Oft gefragt.</h2>
+      </header>
+      <div class="faq__list">
+        <details>
+          <summary data-en="Which files do you need?">Welche Dateien brauchen Sie?</summary>
+          <p data-en="The digital impression of your teeth as an STL, PLY or OBJ file, ideally upper and lower jaw. Photos are not enough.">Den digitalen Abdruck Ihrer Zähne als STL-, PLY- oder OBJ-Datei, am besten Ober- und Unterkiefer. Fotos reichen dafür nicht.</p>
+        </details>
+        <details>
+          <summary data-en="I don't have a scan yet. What now?">Ich habe noch keinen Scan. Was nun?</summary>
+          <p data-en="Ask your dental practice for an intraoral scan, or come to us in Aachen: the scan takes a few minutes and needs no impression paste. &lt;a href=&quot;https://aixsmile.de/termin/?service=kfo&quot;&gt;Book a scan&lt;/a&gt;">Fragen Sie Ihre Zahnarztpraxis nach einem Intraoralscan, oder kommen Sie zu uns nach Aachen: Der Scan dauert wenige Minuten und kommt ohne Abdruckmasse aus. <a href="https://aixsmile.de/termin/?service=kfo">Scan-Termin buchen</a></p>
+        </details>
+        <details>
+          <summary data-en="Do I have to come to the practice?">Muss ich in die Praxis kommen?</summary>
+          <p data-en="Not if your scan is recent and complete. If the dentist sees something while checking it that should be examined, we'll tell you honestly.">Nicht, wenn Ihr Scan aktuell und vollständig ist. Fällt dem Zahnarzt beim Prüfen etwas auf, das untersucht werden sollte, sagen wir es Ihnen ehrlich.</p>
+        </details>
+        <details>
+          <summary data-en="What does it cost?">Was kostet das?</summary>
+          <p data-en="That depends on how many aligners your case needs. You'll know the price before anything is made.">Das hängt davon ab, wie viele Schienen Ihr Fall braucht. Den Preis erfahren Sie, bevor gefertigt wird.</p>
+        </details>
+        <details>
+          <summary data-en="How long does it take?">Wie lange dauert es?</summary>
+          <p data-en="We'll give you the delivery date as soon as the scan has been checked.">Den Liefertermin nennen wir Ihnen, sobald der Scan geprüft ist.</p>
+        </details>
+        <details>
+          <summary data-en="What happens to my data?">Was passiert mit meinen Daten?</summary>
+          <p data-en="Your scan is health data. We use it only to check it and make your aligners, transfer it encrypted and keep it no longer than the law requires. &lt;a href=&quot;datenschutz/&quot;&gt;Privacy policy&lt;/a&gt;">Ihr Scan ist ein Gesundheitsdatum. Wir nutzen ihn nur, um ihn zu prüfen und Ihre Schienen zu fertigen, übertragen ihn verschlüsselt und bewahren ihn nicht länger auf, als das Gesetz es verlangt. <a href="datenschutz/">Datenschutz</a></p>
+        </details>
+        <details>
+          <summary data-en="Do you deliver abroad?">Liefern Sie auch ins Ausland?</summary>
+          <p data-en="Tell us where the aligners should go. We'll let you know whether and how we can deliver.">Schreiben Sie uns, wohin die Schienen gehen sollen. Wir sagen Ihnen, ob und wie wir liefern können.</p>
+        </details>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot" id="kontakt">
+  <p class="foot__word" aria-hidden="true" translate="no"><span>AIX</span><span>SMILE</span></p>
+  <div class="foot__cols">
+    <p><span data-en="An offer of the">Ein Angebot der</span> <span translate="no">Zahnarztpraxis AIXSMILE</span><br>Großkölnstraße 22-28<br>52062 Aachen</p>
+    <p><a href="tel:+4924131202">0241&nbsp;31202</a><br><a href="mailto:info@aixsmile.de">info@aixsmile.de</a><br><a href="https://aixsmile.de/" translate="no">aixsmile.de</a></p>
+    <p><a href="impressum/" data-en="Legal notice">Impressum</a><br><a href="datenschutz/" data-en="Privacy">Datenschutz</a><br><span>© 2026 AIXSMILE</span></p>
+  </div>
+</footer>
+
+<script src="js/vendor/lenis.min.js" defer></script>
+<script type="module" src="js/site.js"></script>
+</body>
+</html>
