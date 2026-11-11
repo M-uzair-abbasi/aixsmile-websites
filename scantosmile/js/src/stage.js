@@ -259,10 +259,12 @@ function lidPrint(ctx, w, h) {
   ctx.moveTo(w * 0.78, h * 0.06); ctx.lineTo(w * 0.78, h * 0.62); ctx.stroke();
   ctx.fillStyle = '#12100e';
   ctx.font = `800 ${Math.round(h * 0.2)}px "Host Grotesk", Arial, sans-serif`;
-  ctx.fillText('SCAN TO', w * 0.07, h * 0.42);
+  ctx.fillText('AIX', w * 0.07, h * 0.42);
+  ctx.fillStyle = '#ff5a1f';
   ctx.fillText('SMILE', w * 0.07, h * 0.64);
+  ctx.fillStyle = '#12100e';
   ctx.font = `500 ${Math.round(h * 0.045)}px "Martian Mono", monospace`;
-  ctx.fillText('AIXSMILE · AACHEN', w * 0.07, h * 0.86);
+  ctx.fillText('ALIGNER · AACHEN', w * 0.07, h * 0.86);
 }
 function labelPrint(ctx, w, h) {
   ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
