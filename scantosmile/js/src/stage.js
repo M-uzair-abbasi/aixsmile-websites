@@ -49,7 +49,7 @@ const DOOR = { w: 1100, h: 820, depth: 40 };
 const HERO_TURN = { rx: 0.8, ry: -0.32, rz: 0.14 };   // the hero's view: from the front, looking into the tray
 const BACK_Z = -70;                        // the backdrop plane behind the hero tray (world mm)
 // where the upper teeth are in assets/photos/smile.webp (image fractions, measured)
-const SMILE = { u: 0.5, v: 0.53, span: 0.191, aspect: 1152 / 1536 };
+const SMILE = { u: 0.492, v: 0.575, span: 0.195, aspect: 1152 / 1536 };
 
 // ---------- small maths ----------
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
