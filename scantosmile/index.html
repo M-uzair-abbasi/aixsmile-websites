@@ -104,6 +104,7 @@
     <a href="#fuer-wen" data-en="Who it's for">Für wen</a>
     <a href="#ablauf" data-en="Steps">Ablauf</a>
     <a href="#fragen" data-en="Questions">Fragen</a>
+    <a href="#kontakt" data-en="Contact">Kontakt</a>
   </nav>
   <button type="button" class="lang" id="langToggle" data-active="de" aria-label="Sprache wechseln / Switch language"><span data-l="de">DE</span><span data-l="en">EN</span></button>
   <a class="btn btn--signal bar__cta" href="#bestellen" data-en="Send scan">Scan senden</a>
@@ -277,11 +278,12 @@
     </section>
 
     <section class="order" id="bestellen" aria-labelledby="orderTitle">
-      <header class="head">
+      <header class="head order__head">
         <h2 id="orderTitle" data-en="Send your scan.">Scan senden.</h2>
+        <p class="order__stepper mono" id="orderStepper" aria-live="polite" tabindex="-1"><span id="orderStepText"></span><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i></p>
       </header>
       <form class="order__form" id="orderForm" novalidate>
-        <div class="order__files">
+        <div class="order__files" data-ostep="1">
           <div class="drop" id="drop">
             <input type="file" id="fileInput" name="scans" multiple accept=".stl,.ply,.obj,model/stl,application/sla" class="sr">
             <label for="fileInput" class="drop__zone" id="dropZone">
@@ -299,20 +301,62 @@
           </div>
         </div>
         <div class="order__fields">
-          <fieldset class="role">
+          <fieldset class="photos" data-ostep="2">
+            <legend><span data-en="Photos of your face">Fotos vom Gesicht</span> <i aria-hidden="true">*</i></legend>
+            <p class="photos__hint" data-en="Front and side, each smiling and with the mouth open. Good light, camera at eye level.">Von vorne und von der Seite, jeweils lächelnd und mit geöffnetem Mund. Gutes Licht, Kamera auf Augenhöhe.</p>
+            <div class="photos__grid">
+              <div class="shot" data-slot="front-smile">
+                <input type="file" id="photo-front-smile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" class="sr">
+                <label for="photo-front-smile" class="shot__zone">
+                  <span class="shot__icon"><svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="24" rx="13" ry="17"/><path d="M18 20h.01M30 20h.01"/><path d="M17 31q7 6 14 0"/></svg></span>
+                  <img class="shot__img" alt="" hidden>
+                  <span class="shot__label" data-en="Front · smiling">Vorne · lächelnd</span>
+                </label>
+                <button type="button" class="shot__x" hidden data-en-label="Remove photo" aria-label="Foto entfernen">×</button>
+              </div>
+              <div class="shot" data-slot="front-open">
+                <input type="file" id="photo-front-open" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" class="sr">
+                <label for="photo-front-open" class="shot__zone">
+                  <span class="shot__icon"><svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="24" rx="13" ry="17"/><path d="M18 20h.01M30 20h.01"/><ellipse cx="24" cy="33" rx="5" ry="3.4"/></svg></span>
+                  <img class="shot__img" alt="" hidden>
+                  <span class="shot__label" data-en="Front · mouth open">Vorne · Mund offen</span>
+                </label>
+                <button type="button" class="shot__x" hidden data-en-label="Remove photo" aria-label="Foto entfernen">×</button>
+              </div>
+              <div class="shot" data-slot="side-smile">
+                <input type="file" id="photo-side-smile" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" class="sr">
+                <label for="photo-side-smile" class="shot__zone">
+                  <span class="shot__icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M19 8q13 0 15 13l3 6-3 1v4q0 4-5 4h-2v5"/><path d="M19 8q-8 2-8 14 0 9 6 14v6"/><path d="M30 20h.01"/><path d="M27 32.5q3 1.6 5.5 0"/></svg></span>
+                  <img class="shot__img" alt="" hidden>
+                  <span class="shot__label" data-en="Side · smiling">Seite · lächelnd</span>
+                </label>
+                <button type="button" class="shot__x" hidden data-en-label="Remove photo" aria-label="Foto entfernen">×</button>
+              </div>
+              <div class="shot" data-slot="side-open">
+                <input type="file" id="photo-side-open" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" class="sr">
+                <label for="photo-side-open" class="shot__zone">
+                  <span class="shot__icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M19 8q13 0 15 13l3 6-3 1v4q0 4-5 4h-2v5"/><path d="M19 8q-8 2-8 14 0 9 6 14v6"/><path d="M30 20h.01"/><path d="M27 31.5h5.5M27.5 34.5h5"/></svg></span>
+                  <img class="shot__img" alt="" hidden>
+                  <span class="shot__label" data-en="Side · mouth open">Seite · Mund offen</span>
+                </label>
+                <button type="button" class="shot__x" hidden data-en-label="Remove photo" aria-label="Foto entfernen">×</button>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="role" data-ostep="3">
             <legend data-en="I am">Ich bin</legend>
             <label><input type="radio" name="role" value="praxis"> <span data-en="a dental practice">eine Zahnarztpraxis</span></label>
             <label><input type="radio" name="role" value="privat" checked> <span data-en="a private person">eine Privatperson</span></label>
           </fieldset>
-          <div class="field" data-for="praxis" hidden>
+          <div class="field" data-for="praxis" data-ostep="3" hidden>
             <label for="fPractice" data-en="Practice name">Name der Praxis</label>
             <input id="fPractice" type="text" name="practice" autocomplete="organization">
           </div>
-          <div class="field">
+          <div class="field" data-ostep="3">
             <label for="fName"><span data-en="Name">Name</span> <i aria-hidden="true">*</i></label>
             <input id="fName" type="text" name="name" autocomplete="name" required>
           </div>
-          <div class="field-row">
+          <div class="field-row" data-ostep="3">
             <div class="field">
               <label for="fEmail"><span data-en="Email">E-Mail</span> <i aria-hidden="true">*</i></label>
               <input id="fEmail" name="email" type="email" autocomplete="email" required>
@@ -322,11 +366,11 @@
               <input id="fPhone" name="phone" type="tel" autocomplete="tel">
             </div>
           </div>
-          <div class="field">
+          <div class="field" data-ostep="4">
             <label for="fStreet"><span data-en="Street and number">Straße und Hausnummer</span> <i aria-hidden="true">*</i></label>
             <input id="fStreet" type="text" name="street" autocomplete="address-line1" required>
           </div>
-          <div class="field-row field-row--zip">
+          <div class="field-row field-row--zip" data-ostep="4">
             <div class="field">
               <label for="fZip"><span data-en="Postcode">PLZ</span> <i aria-hidden="true">*</i></label>
               <input id="fZip" type="text" name="zip" autocomplete="postal-code" inputmode="numeric" required>
@@ -336,7 +380,7 @@
               <input id="fCity" type="text" name="city" autocomplete="address-level2" required>
             </div>
           </div>
-          <div class="field">
+          <div class="field" data-ostep="4">
             <label for="fCountry" data-en="Country">Land</label>
             <select id="fCountry" name="country" autocomplete="country-name">
               <option value="DE" data-en="Germany">Deutschland</option>
@@ -348,22 +392,26 @@
               <option value="XX" data-en="Other (please write below)">Anderes Land (bitte unten angeben)</option>
             </select>
           </div>
-          <fieldset class="arches">
+          <fieldset class="arches" data-ostep="1">
             <legend data-en="Aligners for">Schienen für</legend>
             <label><input type="checkbox" name="arch[]" value="oben" checked> <span data-en="upper jaw">Oberkiefer</span></label>
             <label><input type="checkbox" name="arch[]" value="unten" checked> <span data-en="lower jaw">Unterkiefer</span></label>
           </fieldset>
-          <div class="field">
+          <div class="field" data-ostep="3">
             <label for="fNote" data-en="Anything we should know?">Was sollen wir wissen?</label>
             <textarea id="fNote" name="note" rows="3"></textarea>
           </div>
-          <label class="consent">
+          <label class="consent" data-ostep="4">
             <input type="checkbox" name="consent" id="fConsent" required>
             <span data-en="I agree that AIXSMILE may process my scan data (health data) to check it and make my aligners. Details in the &lt;a href=&quot;datenschutz/&quot;&gt;privacy policy&lt;/a&gt;. &lt;i aria-hidden=&quot;true&quot;&gt;*&lt;/i&gt;">Ich willige ein, dass AIXSMILE meine Scan-Daten (Gesundheitsdaten) zur Prüfung und Herstellung meiner Aligner verarbeitet. Details in der <a href="datenschutz/">Datenschutzerklärung</a>. <i aria-hidden="true">*</i></span>
           </label>
-          <button type="submit" class="btn btn--signal order__send" id="sendBtn" data-en="Send scan">Scan senden</button>
+          <div class="order__nav" id="orderNav">
+            <button type="button" class="btn btn--line order__back" id="orderBack" data-en="Back">Zurück</button>
+            <button type="submit" class="btn btn--signal order__send" id="sendBtn" data-en="Send scan">Scan senden</button>
+            <button type="button" class="btn btn--signal order__next" id="orderNext" data-en="Next">Weiter</button>
+          </div>
           <p class="order__status" id="orderStatus" role="status" aria-live="polite"></p>
-          <p class="order__note" data-en="No online payment. You'll hear the price from us before anything is made.">Keine Zahlung online. Den Preis erfahren Sie von uns, bevor gefertigt wird.</p>
+          <p class="order__note" data-ostep="4" data-en="No online payment. You'll hear the price from us before anything is made.">Keine Zahlung online. Den Preis erfahren Sie von uns, bevor gefertigt wird.</p>
         </div>
       </form>
     </section>
@@ -399,15 +447,50 @@
         </details>
         <details>
           <summary data-en="Do you deliver abroad?">Liefern Sie auch ins Ausland?</summary>
-          <p data-en="Tell us where the aligners should go. We'll let you know whether and how we can deliver.">Schreiben Sie uns, wohin die Schienen gehen sollen. Wir sagen Ihnen, ob und wie wir liefern können.</p>
+          <p data-en="&lt;a href=&quot;#kontakt&quot;&gt;Tell us&lt;/a&gt; where the aligners should go. We'll let you know whether and how we can deliver."><a href="#kontakt">Schreiben Sie uns</a>, wohin die Schienen gehen sollen. Wir sagen Ihnen, ob und wie wir liefern können.</p>
         </details>
+      </div>
+    </section>
+
+    <section class="ask" id="kontakt" aria-labelledby="askTitle">
+      <header class="head">
+        <h2 id="askTitle" data-en="Ask us.">Fragen Sie uns.</h2>
+      </header>
+      <div class="ask__grid">
+        <div class="ask__lead">
+          <p data-en="Not sure yet whether aligners suit you, or a question about your scan? Write to us. We'll answer you personally by email.">Noch unsicher, ob Aligner zu Ihnen passen, oder eine Frage zu Ihrem Scan? Schreiben Sie uns. Wir antworten Ihnen persönlich per E-Mail.</p>
+          <p class="ask__alt mono"><a href="tel:+4924131202">0241&nbsp;31202</a> · <a href="mailto:info@aixsmile.de">info@aixsmile.de</a></p>
+        </div>
+        <form class="ask__form" id="askForm" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="aName"><span data-en="Name">Name</span> <i aria-hidden="true">*</i></label>
+              <input id="aName" type="text" name="name" autocomplete="name" maxlength="120" required>
+            </div>
+            <div class="field">
+              <label for="aEmail"><span data-en="Email">E-Mail</span> <i aria-hidden="true">*</i></label>
+              <input id="aEmail" type="email" name="email" autocomplete="email" maxlength="254" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="aMessage"><span data-en="Your message">Ihre Nachricht</span> <i aria-hidden="true">*</i></label>
+            <textarea id="aMessage" name="message" rows="4" maxlength="4000" required></textarea>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="aWebsite">Website</label><input id="aWebsite" type="text" name="website" tabindex="-1" autocomplete="off"></div>
+          <label class="consent">
+            <input type="checkbox" name="consent" id="aConsent" required>
+            <span data-en="I agree that AIXSMILE may process my details to answer my question. Details in the &lt;a href=&quot;datenschutz/&quot;&gt;privacy policy&lt;/a&gt;. &lt;i aria-hidden=&quot;true&quot;&gt;*&lt;/i&gt;">Ich willige ein, dass AIXSMILE meine Angaben zur Beantwortung meiner Anfrage verarbeitet. Details in der <a href="datenschutz/">Datenschutzerklärung</a>. <i aria-hidden="true">*</i></span>
+          </label>
+          <button type="submit" class="btn btn--ink ask__send" id="askSend" data-en="Send message">Nachricht senden</button>
+          <p class="order__status" id="askStatus" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
 
   </div>
 </main>
 
-<footer class="foot" id="kontakt">
+<footer class="foot">
   <p class="foot__word" aria-hidden="true" translate="no"><span>AIX</span><span>SMILE</span></p>
   <div class="foot__cols">
     <p><span data-en="An offer of the">Ein Angebot der</span> <span translate="no">Zahnarztpraxis AIXSMILE</span><br>Großkölnstraße 22-28<br>52062 Aachen</p>

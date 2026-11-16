@@ -10,6 +10,7 @@
 // chapters as plain sections with still pictures.
 import { initLang, onLang, t } from './i18n.js';
 import { initOrder } from './order.js';
+import { initAsk } from './ask.js';
 
 const d = document.documentElement;
 const $ = (s) => document.querySelector(s);
@@ -28,6 +29,7 @@ if (!gl) { d.classList.add('no-gl'); d.classList.remove('scenes'); }
 let stageModule = null;
 const load3d = () => (stageModule ||= import('./stage.js'));
 initOrder({ load3d });
+initAsk();
 
 // ---------- elements ----------
 const bar = $('#bar'), paper = $('#paper'), canvas = $('#stage');
@@ -191,6 +193,13 @@ if (d.classList.contains('is-intro') && intro) {
 } else {
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(heroIn));
 }
+
+// ---------- questions: on phones one answer at a time, so the list stays one screen ----------
+const narrow = window.matchMedia('(max-width: 700px)');
+const faqs = [...document.querySelectorAll('.faq details')];
+faqs.forEach((el) => el.addEventListener('toggle', () => {
+  if (el.open && narrow.matches) faqs.forEach((o) => { if (o !== el) o.open = false; });
+}));
 
 // ---------- one-time arrivals in the light part ----------
 const io = new IntersectionObserver((entries) => {
