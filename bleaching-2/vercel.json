@@ -1,5 +1,13 @@
 {
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.bleachingaachen.de" }],
+      "destination": "https://bleachingaachen.de/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
