@@ -31,9 +31,22 @@
         { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
     },
+    { "source": "/js/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] },
     {
-      "source": "/js/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+      "source": "/(.*)\\.md",
+      "headers": [{ "key": "Content-Type", "value": "text/markdown; charset=utf-8" }]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</about.md>; rel=\"alternate\"; type=\"text/markdown\", </llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+        }
+      ]
     }
+  ],
+  "rewrites": [
+    { "source": "/termine.md", "destination": "https://aixsmile.de/termin.md?service=bleaching" }
   ]
 }

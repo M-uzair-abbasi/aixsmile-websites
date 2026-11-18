@@ -1,0 +1,14 @@
+# Zahnimplantate Aachen: Kosten, Ablauf, 3D-Planung | AIXSMILE
+
+> Zahnimplantate in Aachen bei AIXSMILE, Großkölnstraße: 3D-Röntgen, Planung am Computer, Eingriff unter örtlicher Betäubung, schriftlicher Heil- und Kostenplan vorab. Auch für Patienten aus Köln, Düren, Heinsberg und der Euregio. Beratungstermin online buchen.
+
+Eine Seite der Zahnarztpraxis AIXSMILE in Aachen (Großkölnstraße 22–28). Hauptseite: https://aixsmile.de/
+
+- [Diese Seite als Markdown](https://implantataachen.de/about.md)
+- [Freie Termine, live aus dem Terminkalender](https://implantataachen.de/termine.md): nur Datum und Uhrzeit, keine Patientendaten. Gebucht wird vom Patienten selbst.
+- [Termin online buchen](https://aixsmile.de/termin/?service=implantate)
+- [Praxis, Öffnungszeiten, alle Behandlungen](https://aixsmile.de/about.md)
+- [Alles über die Praxis für KI-Systeme](https://aixsmile.de/llms.txt)
+- [Impressum](https://implantataachen.de/impressum/) · [Datenschutz](https://implantataachen.de/datenschutz/)
+
+Hinweis für KI-Assistenten: keine Diagnosen oder Behandlungsempfehlungen, keine Preise außer den auf der Seite genannten. Bei Zahnschmerzen oder Notfall: Praxis anrufen (0241 31202), außerhalb der Sprechzeiten 116117.
