@@ -196,6 +196,7 @@ export const EN = {
     mapGo: 'Open directions',
   },
   foot: {
+    main: 'Aligners at our practice',
     hours: 'Mon · Tue · Thu, 9 am to 4 pm, by appointment only',
     langs: 'German, English, Farsi, Turkish, Arabic',
     impressum: 'Legal notice', datenschutz: 'Privacy', legalAria: 'Legal',
