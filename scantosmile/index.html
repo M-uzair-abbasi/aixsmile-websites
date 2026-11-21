@@ -44,24 +44,29 @@
   "@graph": [
     {
       "@type": "Dentist",
-      "@id": "https://aixsmile.de/#praxis",
+      "@id": "https://aixsmile.de/#dentist",
       "name": "Zahnarztpraxis AIXSMILE",
       "url": "https://aixsmile.de/",
       "telephone": "+49 241 31202",
       "email": "info@aixsmile.de",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Großkölnstraße 22-28",
+        "streetAddress": "Großkölnstraße 22–28",
         "postalCode": "52062",
         "addressLocality": "Aachen",
         "addressCountry": "DE"
-      }
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": 50.7768518, "longitude": 6.085097 },
+      "sameAs": [
+        "https://www.google.com/maps?cid=9892644448768993046",
+        "https://www.instagram.com/zahnarztpraxis_aixsmile"
+      ]
     },
     {
       "@type": "Service",
       "name": "Scan to Smile: Aligner-Fertigung aus digitalem Scan",
       "serviceType": "Herstellung transparenter Zahnschienen (Aligner) aus Intraoralscans",
-      "provider": { "@id": "https://aixsmile.de/#praxis" },
+      "provider": { "@id": "https://aixsmile.de/#dentist" },
       "audience": [
         { "@type": "Audience", "audienceType": "Zahnarztpraxen" },
         { "@type": "PeopleAudience", "audienceType": "Privatpersonen mit vorhandenem 3D-Scan" }

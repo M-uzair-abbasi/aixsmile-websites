@@ -1,5 +1,8 @@
 {
   "trailingSlash": true,
+  "redirects": [
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.aligneraachen.de" }], "destination": "https://aligneraachen.de/$1", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

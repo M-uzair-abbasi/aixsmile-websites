@@ -114,8 +114,8 @@ Phones: the same journey, framed upright (the words at the top with a soft wash 
 mouth below). Reduced motion: her photo and the chapters as a list.
 
 ## Before going live
-- **Domain**: assumed `aligneraachen.de` (canonical, sitemap, robots, structured data). Confirm.
-- `vercel.json` sends `noindex` until the domain is settled.
+- **Domain**: `aligneraachen.de` (live; canonical, sitemap, robots, structured data, llms.txt).
+- Indexable since 2026-11-15 (the `noindex` header was removed for Search Console); `www.` redirects to the bare domain.
 - Booking: the main app must allow this origin (`SATELLITE_ORIGINS`) and the `aligner-aachen` via slug.
 - **Real case**: the before/after is the main site's tiny 242×145 picture; we need the original
   (or more cases), and confirmation it is a patient of the practice.

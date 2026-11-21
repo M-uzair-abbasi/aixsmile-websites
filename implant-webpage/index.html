@@ -50,7 +50,7 @@
   "@graph": [
     {
       "@type": "Dentist",
-      "@id": "https://aixsmile.de/#praxis",
+      "@id": "https://aixsmile.de/#dentist",
       "name": "Zahnarztpraxis AIXSMILE",
       "url": "https://aixsmile.de/",
       "telephone": "+49 241 31202",
@@ -58,11 +58,14 @@
       "image": "https://implantataachen.de/assets/photos/doctor-molaie.jpg",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Großkölnstraße 22-28",
+        "streetAddress": "Großkölnstraße 22–28",
         "postalCode": "52062",
         "addressLocality": "Aachen",
         "addressCountry": "DE"
       },
+      "geo": { "@type": "GeoCoordinates", "latitude": 50.7768518, "longitude": 6.085097 },
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen",
+      "employee": { "@id": "https://aixsmile.de/#owner" },
       "openingHoursSpecification": [{
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Thursday"],
@@ -70,7 +73,7 @@
         "closes": "16:00"
       }],
       "sameAs": [
-        "https://g.page/zahnarztpraxis-aixsmile",
+        "https://www.google.com/maps?cid=9892644448768993046",
         "https://www.instagram.com/zahnarztpraxis_aixsmile"
       ],
       "areaServed": [
@@ -93,14 +96,25 @@
       }
     },
     {
+      "@type": "Person",
+      "@id": "https://aixsmile.de/#owner",
+      "name": "Novin Molaie",
+      "jobTitle": "Zahnarzt",
+      "url": "https://aixsmile.de/praxis/team/",
+      "image": "https://implantataachen.de/assets/photos/doctor-molaie.jpg",
+      "worksFor": { "@id": "https://aixsmile.de/#dentist" },
+      "knowsAbout": ["Zahnimplantate", "Implantologie", "3D-Planung (DVT)"],
+      "knowsLanguage": ["de", "en", "fa", "tr", "ar"]
+    },
+    {
       "@type": "WebPage",
       "@id": "https://implantataachen.de/#webpage",
       "url": "https://implantataachen.de/",
       "name": "Zahnimplantate Aachen: Kosten, Ablauf, 3D-Planung | AIXSMILE",
       "description": "Zahnimplantate in Aachen bei AIXSMILE, Großkölnstraße: 3D-Röntgen, Planung am Computer, Eingriff unter örtlicher Betäubung, schriftlicher Heil- und Kostenplan vorab. Auch für Patienten aus Köln, Düren, Heinsberg und der Euregio. Beratungstermin online buchen.",
       "inLanguage": "de",
-      "about": { "@id": "https://aixsmile.de/#praxis" },
-      "provider": { "@id": "https://aixsmile.de/#praxis" }
+      "about": { "@id": "https://aixsmile.de/#dentist" },
+      "provider": { "@id": "https://aixsmile.de/#dentist" }
     },
     {
       "@type": "FAQPage",
@@ -682,7 +696,7 @@
         <div><dt data-i18n="place.hoursH">Sprechzeiten</dt><dd><span data-i18n="place.hours">Mo · Di · Do, 9 bis 16 Uhr</span><br><span class="soft" data-i18n="place.hoursNote">Nur mit Termin</span></dd></div>
         <div><dt data-i18n="place.addrH">Anschrift</dt><dd>Zahnarztpraxis AIXSMILE<br>Großkölnstraße 22-28, 52062 Aachen</dd></div>
         <div><dt data-i18n="place.telH">Telefon</dt><dd><a href="tel:+4924131202" data-cta="call">0241&nbsp;31202</a></dd></div>
-        <div><dt data-i18n="place.revH">Bewertungen</dt><dd><a href="https://g.page/zahnarztpraxis-aixsmile" target="_blank" rel="noopener" data-i18n="place.rev">Bei Google, ungekürzt</a></dd></div>
+        <div><dt data-i18n="place.revH">Bewertungen</dt><dd><a href="https://www.google.com/maps?cid=9892644448768993046" target="_blank" rel="noopener" data-i18n="place.rev">Bei Google, ungekürzt</a></dd></div>
       </dl>
     </div>
     <a class="mapTile" id="mapTile" href="https://www.google.com/maps/search/?api=1&amp;query=Zahnarztpraxis+AIXSMILE%2C+Gro%C3%9Fk%C3%B6lnstra%C3%9Fe+22-28%2C+52062+Aachen" target="_blank" rel="noopener" data-i18n-aria="place.mapAria" aria-label="Karte: Großkölnstraße 22-28, 52062 Aachen. Öffnet die Route in Ihrer Karten-App" data-rv>
