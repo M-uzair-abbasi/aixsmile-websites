@@ -2,15 +2,25 @@
 
 > Veneers in Aachen beim Zahnarzt AIXSMILE, Großkölnstraße: Keramik- und Composite-Veneers, Kosten vorab schriftlich, Vorher-nachher-Fälle aus der Praxis. Auch für Köln, Düren, Heinsberg und die Euregio. Termin online buchen.
 
+## Ihr wichtigstes Lächeln
+
+verdient, zu bleiben.
+
 Keramikschalen von 0,4 Millimetern, am Scan geplant und von Zahnarzt Novin Molaie gesetzt. Wenn Veneers nicht das Richtige für Sie sind, sagen wir das.
 
 - 0,4 mm Keramik
 - Digitaler 3D-Scan
 - Echte Praxisfälle
-- Großkölnstraße 22–28, Aachen
-- Wir sprechen DE · EN · FA · TR · AR
-- Auf Wunsch an einem Tag
-- [Bewertungen bei Google](https://g.page/zahnarztpraxis-aixsmile)
+
+## Wo Planung auf Handwerk trifft.
+
+Vom Lächeln, zum Scan, zur Keramik.
+
+Fotos, Gespräch und Farbwahl bei Tageslicht: Wir sehen uns Ihr Lächeln an, bevor wir etwas planen.
+
+Der Scanner erfasst Ihre Zähne ohne Abdruckmasse. Die neue Form entsteht am Bildschirm, und Sie sehen sie vorher.
+
+Keramik, etwa 0,4 mm dünn, Schale für Schale angepasst und mit Licht fest verklebt.
 
 ## So entstehen Ihre Veneers.
 
@@ -26,22 +36,6 @@ Verfärbungen, eine abgebrochene Ecke, eine kleine Lücke: typische Gründe für
 - 04**Anprobe**: Die fertigen Keramikschalen werden anprobiert und einzeln auf die Zähne gesetzt.
 - 05**Befestigung**: Ein spezieller Kleber und blaues Licht verbinden Schale und Zahn dauerhaft.
 - 06**Ergebnis**: Strahlend weiß, lückenlos und gleichmäßig, oben wie unten.
-
-## Keramik, Composite oder No-prep.
-
-Welche Schale zu Ihnen passt, hängt vom Zahn ab, vom Budget und davon, wie lange sie halten soll.
-
-### Keramik-Veneers
-
-Im Labor gebrannt. Lässt Licht durch wie Schmelz, verfärbt sich nicht, hält meist 15 Jahre und länger.
-
-### Composite-Veneers
-
-In einer Sitzung direkt am Zahn aufgebaut. Günstiger, dafür kürzer haltbar, und bei einem Chip in der Praxis repariert.
-
-### No-prep / minimalinvasiv
-
-Ohne Beschleifen, wenn der Zahn Platz dafür lässt. Ob das bei Ihnen geht, zeigt der Scan.
 
 ## Eine Schale auf dem eigenen Zahn, kein Ersatzzahn.
 
@@ -62,9 +56,23 @@ Eine Krone ummantelt den ganzen Zahn. Ein Veneer bedeckt nur Vorderseite und Kan
 - Knirschen vorher abgeklärt, bei Bedarf mit Schiene.
 - Erst aufhellen, dann die Farbe wählen. Veneers lassen sich nicht bleichen.
 
-Ein Lächeln, das zu Ihrem Gesicht passt.
+## Keramik, Composite oder No-prep.
 
-## Keramik oder Composite.
+Welche Schale zu Ihnen passt, hängt vom Zahn ab, vom Budget und davon, wie lange sie halten soll.
+
+### Keramik-Veneers
+
+Im Labor gebrannt. Lässt Licht durch wie Schmelz, verfärbt sich nicht, hält meist 15 Jahre und länger.
+
+### Composite-Veneers
+
+In einer Sitzung direkt am Zahn aufgebaut. Günstiger, dafür kürzer haltbar, und bei einem Chip in der Praxis repariert.
+
+### No-prep / minimalinvasiv
+
+Ohne Beschleifen, wenn der Zahn Platz dafür lässt. Ob das bei Ihnen geht, zeigt der Scan.
+
+### Keramik oder Composite.
 
 Was passt, hängt von Zahn, Anspruch und Budget ab. Wir besprechen es offen.
 
@@ -74,17 +82,9 @@ Ohne Beschleifen? In geeigneten Fällen geht es auch minimalinvasiv („no-prep�
 
 Verfärbungen, Lücken und abgenutzte Kanten. Bei schiefen Zähnen prüfen wir zuerst, ob eine Spange nicht das bessere Mittel ist.
 
-### Verfärbung
-
-Flecken und tiefe Verfärbungen, die kein Bleaching mehr aufhellt.
-
-### Kleine Lücken
-
-Kleine Lücken zwischen den Schneidezähnen, ohne Zahnspange.
-
-### Kanten und Form
-
-Abgeplatzte Ecken und Kanten, die vom Knirschen kürzer geworden sind.
+- 01**Verfärbung**: Flecken und tiefe Verfärbungen, die kein Bleaching mehr aufhellt.
+- 02**Kleine Lücken**: Kleine Lücken zwischen den Schneidezähnen, ohne Zahnspange.
+- 03**Kanten und Form**: Abgeplatzte Ecken und Kanten, die vom Knirschen kürzer geworden sind.
 
 ## Vier Patienten aus unserer Praxis in Aachen, vorher und nachher.
 
@@ -122,8 +122,6 @@ Sechs Schalen von Eckzahn zu Eckzahn, damit das Lächeln als Ganzes stimmt.
 
 Warum sechs und nicht zwei? Weil das Auge das Lächeln als Fläche liest. Werden nur die beiden mittleren Zähne versorgt, fallen die Nachbarn danach auf. Von Eckzahn zu Eckzahn entsteht eine durchgehende Linie; welche Zähne dazugehören, entscheidet die Lachlinie im Gespräch.
 
-[Alle sieben Fälle ansehen →](https://veneers-aachen.de/#)
-
 ## So läuft die Behandlung ab.
 
 Auf Wunsch alles an einem Tag, sonst in zwei bis drei Terminen innerhalb einer Woche. Geschliffen wird erst, wenn Sie den Entwurf gesehen haben und einverstanden sind.
@@ -134,23 +132,23 @@ Auf Wunsch alles an einem Tag, sonst in zwei bis drei Terminen innerhalb einer W
 - 04**Einprobe und Verklebung**: Sitz und Farbe prüfen, dann Schale für Schale verkleben und mit Licht aushärten.
 - 05**Kontrolle**: Nach ein bis zwei Wochen: Biss prüfen, Ränder polieren, Pflege besprechen. Wer knirscht, bekommt eine Schiene.
 
-Hell und gleichmäßig, und trotzdem natürlich.
+> „Ein Veneer soll zu Ihrem Gesicht passen, nicht zu einer Schablone.“
 
-## Beratungstermin buchen.
+Novin Molaie · Zahnarzt · Zahnarztpraxis AIXSMILE, Aachen
 
-Etwa eine Stunde in der Praxis. Wir schauen uns Ihre Zähne an, machen Fotos und den Scan und besprechen, was möglich ist. Geschliffen wird an diesem Tag nichts.
+## Ihr Zahnarzt in Aachen.
+
+Novin Molaie plant jede Schale am Scan, bevor er einen Zahn anfasst. Sie sehen den Entwurf vorher. Und wenn ein Bleaching oder eine Spange Ihr Ziel besser erreicht, hören Sie das von ihm zuerst.
 
 ## Was Veneers kosten.
 
 Veneers sind eine Privatleistung. Composite kostet pro Zahn deutlich weniger als Keramik, und sechs Schalen kosten mehr als zwei. Den genauen Betrag bekommen Sie nach dem Scan schriftlich, Position für Position.
 
-## Ihr Zahnarzt in Aachen.
+Der erste Schritt ist ein Gespräch. [Beratung buchen](https://veneers-aachen.de/#buchen)
 
-> „Ein Veneer soll zu Ihrem Gesicht passen, nicht zu einer Schablone.“ Novin MolaieZahnarzt · Zahnarztpraxis AIXSMILE, Aachen
+## Beratungstermin buchen.
 
-Novin Molaie plant jede Schale am Scan, bevor er einen Zahn anfasst. Sie sehen den Entwurf vorher. Und wenn ein Bleaching oder eine Spange Ihr Ziel besser erreicht, hören Sie das von ihm zuerst.
-
-Lachen, ohne an die Zähne zu denken.
+Etwa eine Stunde in der Praxis. Wir schauen uns Ihre Zähne an, machen Fotos und den Scan und besprechen, was möglich ist. Geschliffen wird an diesem Tag nichts.
 
 ## Fragen vor dem ersten Termin.
 
@@ -197,8 +195,6 @@ Ja, gerade bei Veneers: Auf Wunsch machen wir alles an einem Tag, dann reicht ei
 **Wie sehe ich zwischen den Terminen aus?**
 
 Nach der Vorbereitung bekommen Sie Provisorien aus Kunststoff, die Form und Farbe der späteren Schalen schon zeigen. Damit essen, sprechen und lächeln Sie normal, bis die Keramik aus dem Labor kommt.
-
-Der erste Schritt ist ein Gespräch. [Beratung buchen](https://veneers-aachen.de/#buchen)
 
 ## Großkölnstraße 22, mitten in Aachen.
 

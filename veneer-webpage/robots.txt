@@ -1,4 +1,6 @@
+# Content Signals (contentsignals.org): search and AI answers may use this site; no model training.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 Disallow: /viewer.html
 
